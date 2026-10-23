@@ -1,5 +1,6 @@
 "use server";
 
+import * as Sentry from "@sentry/nextjs";
 import { refresh } from "next/cache";
 import { z } from "zod";
 import { adminData } from "@/data/server";
@@ -13,6 +14,9 @@ import {
 import { requireAdmin } from "./guard";
 
 /** Toutes les actions vérifient elles-mêmes les droits : une page n'est pas une barrière. */
+
+/** Attente maximale de l'envoi d'une erreur à Sentry, en millisecondes. */
+const FLUSH_TIMEOUT_MS = 3000;
 
 const playerIdSchema = z.uuid();
 
@@ -73,4 +77,20 @@ export async function resetUsernameAction(formData: FormData): Promise<void> {
   if (!playerId.success) return;
   await adminData.resetUsername(playerId.data);
   refresh();
+}
+
+/**
+ * Envoie une erreur de test à Sentry, pour vérifier le suivi des erreurs sur
+ * la version déployée. Réservé à l'administration.
+ */
+export async function sendTestErrorAction(): Promise<AdminFormState> {
+  await requireAdmin();
+  const eventId = Sentry.captureException(
+    new Error("Erreur de test envoyée depuis l'administration"),
+  );
+  // Sur un hébergement sans serveur, l'envoi doit partir avant la réponse.
+  const delivered = await Sentry.flush(FLUSH_TIMEOUT_MS);
+  return delivered
+    ? { success: `Erreur de test envoyée (${eventId}).` }
+    : { error: "Sentry n'a pas répondu : DSN configuré ?" };
 }

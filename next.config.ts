@@ -1,3 +1,4 @@
+import { withSentryConfig } from "@sentry/nextjs/config";
 import type { NextConfig } from "next";
 import {
   securityContextFrom,
@@ -45,4 +46,18 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+/**
+ * Sentry : les erreurs du navigateur passent par `/monitoring`, une route du
+ * site qui les relaie (pas de domaine tiers dans la CSP, pas de blocage par
+ * les bloqueurs de publicité). Les source maps ne sont envoyées que si
+ * `SENTRY_AUTH_TOKEN` est défini, puis supprimées du build.
+ */
+export default withSentryConfig(nextConfig, {
+  org: process.env["SENTRY_ORG"],
+  project: process.env["SENTRY_PROJECT"],
+  authToken: process.env["SENTRY_AUTH_TOKEN"],
+  silent: !process.env["CI"],
+  tunnelRoute: "/monitoring",
+  widenClientFileUpload: true,
+  sourcemaps: { deleteSourcemapsAfterUpload: true },
+});
