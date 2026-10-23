@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+build
+coverage
+pnpm-lock.yaml
+public
+src/generated
+prisma/migrations
+.claude/skills/supabase
+.claude/skills/supabase-postgres-best-practices
+skills-lock.json
+src/data/catalog/clubs.wikipedia.json
