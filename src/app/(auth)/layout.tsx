@@ -22,7 +22,7 @@ export default function AuthLayout({ children }: LayoutProps<"/">) {
           {children}
         </Suspense>
       </main>
-      <p className="text-chalk-faint text-center text-xs">
+      <p className="text-chalk-muted text-center text-xs">
         <Link href={PRIVACY_PATH} className="underline underline-offset-2">
           Confidentialité
         </Link>

@@ -1,6 +1,14 @@
 import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV === "development";
+/**
+ * Site servi en HTTPS (production) : on peut exiger HTTPS pour toute
+ * ressource. Pas sur un serveur local en HTTP (tests de bout en bout), où
+ * cette règle ferait échouer les requêtes.
+ */
+const isHttpsSite = (process.env["NEXT_PUBLIC_SITE_URL"] ?? "").startsWith(
+  "https://",
+);
 
 /**
  * Politique de sécurité du contenu, sans nonce : un nonce rendrait chaque page
@@ -23,7 +31,7 @@ const CONTENT_SECURITY_POLICY = [
   "base-uri 'self'",
   "form-action 'self'",
   "frame-ancestors 'none'",
-  ...(isDev ? [] : ["upgrade-insecure-requests"]),
+  ...(isHttpsSite ? ["upgrade-insecure-requests"] : []),
 ].join("; ");
 
 const SECURITY_HEADERS = [
