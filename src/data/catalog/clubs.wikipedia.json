@@ -1,0 +1,6607 @@
+{
+  "season": "2026-2027",
+  "source": "Wikipédia en français (CC BY-SA 4.0) et Wikidata (CC0)",
+  "generatedAt": "2026-10-13",
+  "clubs": [
+    {
+      "id": "stade-toulousain",
+      "name": "Stade toulousain",
+      "city": "Toulouse",
+      "department": "31",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q431412"
+    },
+    {
+      "id": "section-paloise",
+      "name": "Section paloise",
+      "city": "Pau",
+      "department": "64",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q15055309"
+    },
+    {
+      "id": "union-bordeaux-begles",
+      "name": "Union Bordeaux Bègles",
+      "city": "Bègles",
+      "department": "33",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1865460"
+    },
+    {
+      "id": "stade-rochelais",
+      "name": "Stade rochelais",
+      "city": "La Rochelle",
+      "department": "17",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q756594"
+    },
+    {
+      "id": "aviron-bayonnais",
+      "name": "Aviron bayonnais",
+      "city": "Bayonne",
+      "department": "64",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q630112"
+    },
+    {
+      "id": "stade-francais-paris",
+      "name": "Stade français Paris",
+      "city": "Paris",
+      "department": "75",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#e6007e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1361000"
+    },
+    {
+      "id": "montpellier-hr",
+      "name": "Montpellier HR",
+      "city": "Montpellier",
+      "department": "34",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q596985"
+    },
+    {
+      "id": "lyon-ou",
+      "name": "Lyon OU",
+      "city": "Lyon",
+      "department": "69",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q4075"
+    },
+    {
+      "id": "usa-perpignan",
+      "name": "USA Perpignan",
+      "city": "Perpignan",
+      "department": "66",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1471265"
+    },
+    {
+      "id": "rc-toulon",
+      "name": "RC Toulon",
+      "city": "Toulon",
+      "department": "83",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1857064"
+    },
+    {
+      "id": "asm-clermont",
+      "name": "ASM Clermont",
+      "city": "Clermont-Ferrand",
+      "department": "63",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q297901"
+    },
+    {
+      "id": "racing-92",
+      "name": "Racing 92",
+      "city": "Le Plessis-Robinson",
+      "department": "92",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q118498"
+    },
+    {
+      "id": "castres-olympique",
+      "name": "Castres olympique",
+      "city": "Labruguière",
+      "department": "81",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q964957"
+    },
+    {
+      "id": "rc-vannes",
+      "name": "RC Vannes",
+      "city": "Vannes",
+      "department": "56",
+      "division": "top14",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3452866"
+    },
+    {
+      "id": "oyonnax-rugby",
+      "name": "Oyonnax Rugby",
+      "city": "Oyonnax",
+      "department": "01",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q636019"
+    },
+    {
+      "id": "provence-rugby",
+      "name": "Provence Rugby",
+      "city": "Aix-en-Provence",
+      "department": "13",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q951242"
+    },
+    {
+      "id": "ca-brive",
+      "name": "CA Brive",
+      "city": "Brive-la-Gaillarde",
+      "department": "19",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q1022912"
+    },
+    {
+      "id": "fc-grenoble",
+      "name": "FC Grenoble",
+      "city": "Grenoble",
+      "department": "38",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1387142"
+    },
+    {
+      "id": "biarritz-olympique",
+      "name": "Biarritz olympique",
+      "city": "Biarritz",
+      "department": "64",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q855496"
+    },
+    {
+      "id": "us-montauban",
+      "name": "US Montauban",
+      "city": "Montauban",
+      "department": "82",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q2002695"
+    },
+    {
+      "id": "soyaux-angouleme-xv",
+      "name": "Soyaux Angoulême XV",
+      "city": "Angoulême",
+      "department": "16",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3492488"
+    },
+    {
+      "id": "us-dax",
+      "name": "US Dax",
+      "city": "Dax",
+      "department": "40",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1319827"
+    },
+    {
+      "id": "valence-romans-dr",
+      "name": "Valence Romans DR",
+      "city": "Romans-sur-Isère",
+      "department": "26",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q28843742"
+    },
+    {
+      "id": "stade-aurillacois",
+      "name": "Stade aurillacois",
+      "city": "Aurillac",
+      "department": "15",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q753618"
+    },
+    {
+      "id": "nissa-rugby",
+      "name": "Nissa Rugby",
+      "city": "Nice",
+      "department": "06",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q48835514"
+    },
+    {
+      "id": "su-agen",
+      "name": "SU Agen",
+      "city": "Agen",
+      "department": "47",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1422627"
+    },
+    {
+      "id": "rc-narbonne",
+      "name": "RC Narbonne",
+      "city": "Narbonne",
+      "department": "11",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1115439"
+    },
+    {
+      "id": "as-beziers",
+      "name": "AS Béziers",
+      "city": "Béziers",
+      "department": "34",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1781643"
+    },
+    {
+      "id": "colomiers-rugby",
+      "name": "Colomiers Rugby",
+      "city": "Colomiers",
+      "department": "31",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1407380"
+    },
+    {
+      "id": "uso-nevers",
+      "name": "USO Nevers",
+      "city": "Nevers",
+      "department": "58",
+      "division": "prod2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3550588"
+    },
+    {
+      "id": "rc-massy",
+      "name": "RC Massy",
+      "city": "Massy",
+      "department": "91",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q46387"
+    },
+    {
+      "id": "sc-albi",
+      "name": "SC Albi",
+      "city": "Albi",
+      "department": "81",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q1473503"
+    },
+    {
+      "id": "so-chambery",
+      "name": "SO Chambéry",
+      "city": "Chambéry",
+      "department": "73",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "D",
+        "L"
+      ],
+      "wikidata": "Q3496206"
+    },
+    {
+      "id": "us-carcassonne",
+      "name": "US Carcassonne",
+      "city": "Carcassonne",
+      "department": "11",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3550526"
+    },
+    {
+      "id": "rouen-nr",
+      "name": "Rouen NR",
+      "city": "Rouen",
+      "department": "76",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3496238"
+    },
+    {
+      "id": "stade-montois",
+      "name": "Stade montois",
+      "city": "Mont-de-Marsan",
+      "department": "40",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1782908"
+    },
+    {
+      "id": "rc-orleans",
+      "name": "RC Orléans",
+      "city": "Orléans",
+      "department": "45",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3452853"
+    },
+    {
+      "id": "cs-bourgoin-jallieu",
+      "name": "CS Bourgoin-Jallieu",
+      "city": "Bourgoin-Jallieu",
+      "department": "38",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#7a1f3d"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "D",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1024459"
+    },
+    {
+      "id": "ca-perigueux",
+      "name": "CA Périgueux",
+      "city": "Périgueux",
+      "department": "24",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q952709"
+    },
+    {
+      "id": "rennes-ec",
+      "name": "Rennes EC",
+      "city": "Rennes",
+      "department": "35",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "D",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q56306976"
+    },
+    {
+      "id": "rc-suresnes",
+      "name": "RC Suresnes",
+      "city": "Suresnes",
+      "department": "92",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3452865"
+    },
+    {
+      "id": "cs-vienne",
+      "name": "CS Vienne",
+      "city": "Vienne",
+      "department": "38",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q2980279"
+    },
+    {
+      "id": "us-bressane",
+      "name": "US bressane",
+      "city": "Bourg-en-Bresse",
+      "department": "01",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "D",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1333931"
+    },
+    {
+      "id": "olympique-marcquois",
+      "name": "Olympique marcquois",
+      "city": "Marcq-en-Barœul",
+      "department": "59",
+      "division": "nationale",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q7089195"
+    },
+    {
+      "id": "stade-nantais",
+      "name": "Stade nantais",
+      "city": "Nantes",
+      "department": "44",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#00843d"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q3496194"
+    },
+    {
+      "id": "stade-langonnais",
+      "name": "Stade langonnais",
+      "city": "Langon",
+      "department": "33",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3496125"
+    },
+    {
+      "id": "cs-annonay",
+      "name": "CS Annonay",
+      "city": "Annonay",
+      "department": "07",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-drancy",
+      "name": "RC Drancy",
+      "city": "Drancy",
+      "department": "93",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "D",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q65719214"
+    },
+    {
+      "id": "cm-floirac",
+      "name": "CM Floirac",
+      "city": "Floirac",
+      "department": "33",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rcs-rumilly",
+      "name": "RCS Rumilly",
+      "city": "Rumilly",
+      "department": "74",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q516893"
+    },
+    {
+      "id": "us-marmande",
+      "name": "US Marmande",
+      "city": "Marmande",
+      "department": "47",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3550490"
+    },
+    {
+      "id": "as-macon",
+      "name": "AS Mâcon",
+      "city": "Mâcon",
+      "department": "71",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "D",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q2868153"
+    },
+    {
+      "id": "us-salles",
+      "name": "US Salles",
+      "city": "Salles",
+      "department": "33",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q107349465"
+    },
+    {
+      "id": "stade-metropolitain",
+      "name": "Stade métropolitain",
+      "city": "Villeurbanne",
+      "department": "69",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "D",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q102192821"
+    },
+    {
+      "id": "saint-medard-rc",
+      "name": "Saint-Médard RC",
+      "city": "Saint-Médard-en-Jalles",
+      "department": "33",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3463991"
+    },
+    {
+      "id": "saint-jean-de-luz-olympique",
+      "name": "Saint-Jean-de-Luz olympique",
+      "city": "Saint-Jean-de-Luz",
+      "department": "64",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3462531"
+    },
+    {
+      "id": "rc-aubenas",
+      "name": "RC Aubenas",
+      "city": "Aubenas",
+      "department": "07",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3452846"
+    },
+    {
+      "id": "rc-nimes",
+      "name": "RC Nîmes",
+      "city": "Nîmes",
+      "department": "30",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#00843d"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3452852"
+    },
+    {
+      "id": "sa-mauleon",
+      "name": "SA Mauléon",
+      "city": "Mauléon",
+      "department": "79",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3493865"
+    },
+    {
+      "id": "avenir-valencien",
+      "name": "Avenir valencien",
+      "city": "Valence",
+      "department": "82",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q2756879"
+    },
+    {
+      "id": "rc-auch",
+      "name": "RC Auch",
+      "city": "Auch",
+      "department": "32",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "D",
+        "L"
+      ],
+      "wikidata": "Q89426327"
+    },
+    {
+      "id": "sc-graulhet",
+      "name": "SC Graulhet",
+      "city": "Graulhet",
+      "department": "81",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q2756860"
+    },
+    {
+      "id": "as-fleurance",
+      "name": "AS Fleurance",
+      "city": "Fleurance",
+      "department": "32",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "D",
+        "L"
+      ],
+      "wikidata": "Q2868124"
+    },
+    {
+      "id": "us-tyrosse",
+      "name": "US Tyrosse",
+      "city": "Saint-Vincent-de-Tyrosse",
+      "department": "40",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3550516"
+    },
+    {
+      "id": "peyrehorade-sr",
+      "name": "Peyrehorade SR",
+      "city": "Peyrehorade",
+      "department": "40",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q11775372"
+    },
+    {
+      "id": "rc-tricastin",
+      "name": "RC Tricastin",
+      "city": "Saint-Paul-Trois-Châteaux",
+      "department": "26",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q21055563"
+    },
+    {
+      "id": "us-seynoise",
+      "name": "US seynoise",
+      "city": "La Seyne-sur-Mer",
+      "department": "83",
+      "division": "nationale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3550596"
+    },
+    {
+      "id": "sc-royannais",
+      "name": "SC royannais",
+      "city": "Saint-Jean-en-Royans",
+      "department": "26",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "us-tours",
+      "name": "US Tours",
+      "city": "Tours",
+      "department": "37",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q3550509"
+    },
+    {
+      "id": "cs-nuiton",
+      "name": "CS nuiton",
+      "city": "Nuits-Saint-Georges",
+      "department": "21",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "us-montmelian",
+      "name": "US Montmélian",
+      "city": "Montmélian",
+      "department": "73",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3550494"
+    },
+    {
+      "id": "us-issoire",
+      "name": "US Issoire",
+      "city": "Issoire",
+      "department": "63",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#9b6bc9",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q64816584"
+    },
+    {
+      "id": "rc-courbevoie",
+      "name": "RC Courbevoie",
+      "city": "Courbevoie",
+      "department": "92",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "beauvais-rc",
+      "name": "Beauvais RC",
+      "city": "Beauvais",
+      "department": "60",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "paris-uc",
+      "name": "Paris UC",
+      "city": "Paris",
+      "department": "75",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3365354"
+    },
+    {
+      "id": "rc-auxerre",
+      "name": "RC Auxerre",
+      "city": "Auxerre",
+      "department": "89",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "D",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "xv-corsaire-saint-malo",
+      "name": "XV Corsaire Saint-Malo",
+      "city": "Saint-Malo",
+      "department": "35",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "bievre-saint-geoirs-rc",
+      "name": "Bièvre Saint-Geoirs RC",
+      "city": "Saint-Étienne-de-Saint-Geoirs",
+      "department": "38",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "D",
+        "L",
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "us-annecy",
+      "name": "US Annecy",
+      "city": "Annecy",
+      "department": "74",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3550478"
+    },
+    {
+      "id": "ro-agde",
+      "name": "RO Agde",
+      "city": "Agde",
+      "department": "34",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q16382410"
+    },
+    {
+      "id": "as-monaco",
+      "name": "AS Monaco",
+      "city": "Monaco",
+      "department": "06",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "sc-leucate",
+      "name": "SC Leucate",
+      "city": "Leucate",
+      "department": "11",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "sc-mazamet",
+      "name": "SC Mazamet",
+      "city": "Mazamet",
+      "department": "81",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "D",
+        "L"
+      ],
+      "wikidata": "Q2817228"
+    },
+    {
+      "id": "ceret-sportif",
+      "name": "Céret sportif",
+      "city": "Céret",
+      "department": "66",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3010323"
+    },
+    {
+      "id": "rcm-palavas",
+      "name": "RCM Palavas",
+      "city": "Palavas-les-Flots",
+      "department": "34",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "xv-du-coudon",
+      "name": "XV du Coudon",
+      "city": "La Valette-du-Var",
+      "department": "83",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q97491457"
+    },
+    {
+      "id": "avenir-gruissanais",
+      "name": "Avenir gruissanais",
+      "city": "Gruissan",
+      "department": "11",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "D",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "co-berre-xv",
+      "name": "CO Berre XV",
+      "city": "Berre-l'Étang",
+      "department": "13",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "sor-agout-xv",
+      "name": "Sor Agout XV",
+      "city": "Saïx",
+      "department": "81",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "as-bedarrides-chateauneuf-du-pape",
+      "name": "AS Bédarrides Châteauneuf-du-Pape",
+      "city": "Bédarrides",
+      "department": "84",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q2873456"
+    },
+    {
+      "id": "rc-chateaurenard",
+      "name": "RC Châteaurenard",
+      "city": "Châteaurenard",
+      "department": "13",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3452849"
+    },
+    {
+      "id": "blagnac-scr",
+      "name": "Blagnac SCR",
+      "city": "Blagnac",
+      "department": "31",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q881070"
+    },
+    {
+      "id": "ca-sarlat",
+      "name": "CA Sarlat",
+      "city": "Sarlat-la-Canéda",
+      "department": "24",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q2980068"
+    },
+    {
+      "id": "us-saint-sulpice",
+      "name": "US Saint-Sulpice",
+      "city": "Saint-Sulpice-sur-Lèze",
+      "department": "31",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#00843d"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q63257354"
+    },
+    {
+      "id": "cahors-rugby",
+      "name": "Cahors Rugby",
+      "city": "Cahors",
+      "department": "46",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1628212"
+    },
+    {
+      "id": "rugby-grenade",
+      "name": "Rugby Grenade",
+      "city": "Grenade",
+      "department": "31",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "usa-limoges",
+      "name": "USA Limoges",
+      "city": "Limoges",
+      "department": "87",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1638171"
+    },
+    {
+      "id": "toec-toac-fct",
+      "name": "TOEC TOAC FCT",
+      "city": "Toulouse",
+      "department": "31",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3532922"
+    },
+    {
+      "id": "ua-gaillac",
+      "name": "UA Gaillac",
+      "city": "Gaillac",
+      "department": "81",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q1225303"
+    },
+    {
+      "id": "us-l-isle-jourdain",
+      "name": "US L'Isle-Jourdain",
+      "city": "L'Isle-Jourdain",
+      "department": "32",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f2c14e"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3550573"
+    },
+    {
+      "id": "ro-castelnaudary-xv",
+      "name": "RO Castelnaudary XV",
+      "city": "Castelnaudary",
+      "department": "11",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "saint-girons-sc",
+      "name": "Saint-Girons SC",
+      "city": "Saint-Girons",
+      "department": "09",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3462337"
+    },
+    {
+      "id": "sc-tulle",
+      "name": "SC Tulle",
+      "city": "Tulle",
+      "department": "19",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3494126"
+    },
+    {
+      "id": "anglet-orc",
+      "name": "Anglet ORC",
+      "city": "Anglet",
+      "department": "64",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "D"
+      ],
+      "wikidata": "Q21007935"
+    },
+    {
+      "id": "ua-gujan-mestras",
+      "name": "UA Gujan-Mestras",
+      "city": "Gujan-Mestras",
+      "department": "33",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q106731048"
+    },
+    {
+      "id": "stade-bagnerais",
+      "name": "Stade bagnérais",
+      "city": "Bagnères-de-Bigorre",
+      "department": "65",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "D"
+      ],
+      "wikidata": "Q3495929"
+    },
+    {
+      "id": "fc-oloron",
+      "name": "FC Oloron",
+      "city": "Oloron-Sainte-Marie",
+      "department": "64",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3076671"
+    },
+    {
+      "id": "as-soustons",
+      "name": "AS Soustons",
+      "city": "Soustons",
+      "department": "40",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q2868156"
+    },
+    {
+      "id": "us-nafarroa",
+      "name": "US Nafarroa",
+      "city": "Saint-Jean-Pied-de-Port",
+      "department": "64",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3550500"
+    },
+    {
+      "id": "4-cantons-bhap",
+      "name": "4 Cantons BHAP",
+      "city": "Monflanquin",
+      "department": "47",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q16305308"
+    },
+    {
+      "id": "as-pont-long",
+      "name": "AS Pont-Long",
+      "city": "Serres-Castet",
+      "department": "64",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "fc-lourdes",
+      "name": "FC Lourdes",
+      "city": "Lourdes",
+      "department": "65",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q254209"
+    },
+    {
+      "id": "union-barbezieux-jonzac",
+      "name": "Union Barbezieux Jonzac",
+      "city": "Barbezieux-Saint-Hilaire",
+      "department": "16",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "as-layrac",
+      "name": "AS Layrac",
+      "city": "Layrac",
+      "department": "47",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "ca-lannemezan",
+      "name": "CA Lannemezan",
+      "city": "Lannemezan",
+      "department": "65",
+      "division": "federale1",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q2946443"
+    },
+    {
+      "id": "csm-gennevilliers",
+      "name": "CSM Gennevilliers",
+      "city": "Gennevilliers",
+      "department": "92",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q2980297"
+    },
+    {
+      "id": "rc-pays-de-meaux",
+      "name": "RC Pays de Meaux",
+      "city": "Meaux",
+      "department": "77",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-clermont-cournon",
+      "name": "RC Clermont Cournon",
+      "city": "Cournon-d'Auvergne",
+      "department": "63",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "bourges-xv",
+      "name": "Bourges XV",
+      "city": "Bourges",
+      "department": "18",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "scuf-rugby",
+      "name": "SCUF rugby",
+      "city": "Paris",
+      "department": "75",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3494127"
+    },
+    {
+      "id": "us-ris-orangis",
+      "name": "US Ris-Orangis",
+      "city": "Ris-Orangis",
+      "department": "91",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-vichy",
+      "name": "RC Vichy",
+      "city": "Vichy",
+      "department": "03",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3416293"
+    },
+    {
+      "id": "rc-riom",
+      "name": "RC Riom",
+      "city": "Riom",
+      "department": "63",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "cs-clichy",
+      "name": "CS Clichy",
+      "city": "Clichy",
+      "department": "92",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "antony-metro-92",
+      "name": "Antony Métro 92",
+      "city": "Antony",
+      "department": "92",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-vincennes",
+      "name": "RC Vincennes",
+      "city": "Vincennes",
+      "department": "94",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-paris-15",
+      "name": "RC Paris 15",
+      "city": "Paris",
+      "department": "75",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-rillieux",
+      "name": "RC Rillieux",
+      "city": "Rillieux-la-Pape",
+      "department": "69",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "saint-priest-rugby",
+      "name": "Saint-Priest Rugby",
+      "city": "Saint-Priest",
+      "department": "69",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "cs-lons",
+      "name": "CS Lons",
+      "city": "Lons-le-Saunier",
+      "department": "39",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f2c14e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q2980257"
+    },
+    {
+      "id": "cs-villefranche-sur-saone",
+      "name": "CS Villefranche-sur-Saône",
+      "city": "Villefranche-sur-Saône",
+      "department": "69",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q30737461"
+    },
+    {
+      "id": "fc-saint-claude",
+      "name": "FC Saint-Claude",
+      "city": "Saint-Claude",
+      "department": "39",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3076663"
+    },
+    {
+      "id": "us-meyzieu",
+      "name": "US Meyzieu",
+      "city": "Meyzieu",
+      "department": "69",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rcp-saint-jeannais",
+      "name": "RCP Saint-Jeannais",
+      "city": "Saint-Jean-de-Bournay",
+      "department": "38",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "xv-de-la-dombes",
+      "name": "XV de la Dombes",
+      "city": "Villars-les-Dombes",
+      "department": "01",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rugby-tango-chalonnais",
+      "name": "Rugby Tango chalonnais",
+      "city": "Chalon-sur-Saône",
+      "department": "71",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "us-nantua-hbr",
+      "name": "US Nantua HBR",
+      "city": "Nantua",
+      "department": "01",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-andrezieux-boutheon",
+      "name": "RC Andrézieux-Bouthéon",
+      "city": "Andrézieux-Bouthéon",
+      "department": "42",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "cr-illkirch-graffenstaden",
+      "name": "CR Illkirch-Graffenstaden",
+      "city": "Illkirch-Graffenstaden",
+      "department": "67",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "us-vinay",
+      "name": "US Vinay",
+      "city": "Vinay",
+      "department": "38",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q86661679"
+    },
+    {
+      "id": "ro-grasse",
+      "name": "RO Grasse",
+      "city": "Grasse",
+      "department": "06",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "D"
+      ],
+      "wikidata": "Q3452868"
+    },
+    {
+      "id": "rc-aubagne",
+      "name": "RC Aubagne",
+      "city": "Aubagne",
+      "department": "13",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "D"
+      ]
+    },
+    {
+      "id": "servian-boujan-rugby",
+      "name": "Servian Boujan Rugby",
+      "city": "Servian",
+      "department": "34",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "su-cavaillon",
+      "name": "SU Cavaillon",
+      "city": "Cavaillon",
+      "department": "84",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q16677846"
+    },
+    {
+      "id": "avignon-le-pontet-rugby",
+      "name": "Avignon Le Pontet Rugby",
+      "city": "Avignon",
+      "department": "84",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "so-voiron",
+      "name": "SO Voiron",
+      "city": "Coublevie",
+      "department": "38",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q7392164"
+    },
+    {
+      "id": "rc-les-angles",
+      "name": "RC Les Angles",
+      "city": "Les Angles",
+      "department": "30",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "stade-piscenois",
+      "name": "Stade piscénois",
+      "city": "Pézenas",
+      "department": "34",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "ca-saint-raphael-frejus",
+      "name": "CA Saint-Raphaël Fréjus",
+      "city": "Saint-Raphaël",
+      "department": "83",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "us-montelimar",
+      "name": "US Montélimar",
+      "city": "Montélimar",
+      "department": "26",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q86674018"
+    },
+    {
+      "id": "stade-marseillais-uc",
+      "name": "Stade marseillais UC",
+      "city": "Marseille",
+      "department": "13",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#8a9aa6"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3495743"
+    },
+    {
+      "id": "us-quillan-limoux",
+      "name": "US Quillan Limoux",
+      "city": "Quillan",
+      "department": "11",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q3550510"
+    },
+    {
+      "id": "stade-beaumontois",
+      "name": "Stade beaumontois",
+      "city": "Beaumont-de-Lomagne",
+      "department": "82",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3495932"
+    },
+    {
+      "id": "corbieres-xv",
+      "name": "Corbières XV",
+      "city": "Saint-André-de-Roquelongue",
+      "department": "11",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "ua-saverdun",
+      "name": "UA Saverdun",
+      "city": "Saverdun",
+      "department": "09",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q88288356"
+    },
+    {
+      "id": "jo-prades",
+      "name": "JO Prades",
+      "city": "Prades",
+      "department": "66",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q106427613"
+    },
+    {
+      "id": "avenir-castaneen",
+      "name": "Avenir castanéen",
+      "city": "Castanet-Tolosan",
+      "department": "31",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q2873447"
+    },
+    {
+      "id": "fc-villefranche",
+      "name": "FC Villefranche",
+      "city": "Villefranche-de-Lauragais",
+      "department": "31",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3076673"
+    },
+    {
+      "id": "as-vaureenne",
+      "name": "AS vauréenne",
+      "city": "Lavaur",
+      "department": "81",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q2868158"
+    },
+    {
+      "id": "ca-castelsarrasin",
+      "name": "CA Castelsarrasin",
+      "city": "Castelsarrasin",
+      "department": "82",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q18214295"
+    },
+    {
+      "id": "rc-de-la-saudrune",
+      "name": "RC de la Saudrune",
+      "city": "Cugnaux",
+      "department": "31",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "us-caussade",
+      "name": "US Caussade",
+      "city": "Caussade",
+      "department": "82",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "salanque-cote-radieuse",
+      "name": "Salanque Côte Radieuse",
+      "city": "Torreilles",
+      "department": "66",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "sc-rieumes",
+      "name": "SC Rieumes",
+      "city": "Rieumes",
+      "department": "31",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "us-morlaas",
+      "name": "US Morlaàs",
+      "city": "Morlaàs",
+      "department": "64",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3550496"
+    },
+    {
+      "id": "oursbelille-borderes-rc",
+      "name": "Oursbelille Bordères RC",
+      "city": "Oursbelille",
+      "department": "65",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "D"
+      ]
+    },
+    {
+      "id": "coq-leguevinois",
+      "name": "Coq léguevinois",
+      "city": "Léguevin",
+      "department": "31",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "us-argeles",
+      "name": "US Argelès",
+      "city": "Argelès-Gazost",
+      "department": "65",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "us-coarraze-nay",
+      "name": "US Coarraze Nay",
+      "city": "Nay",
+      "department": "64",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q98462471"
+    },
+    {
+      "id": "lombez-samatan-club",
+      "name": "Lombez Samatan club",
+      "city": "Samatan",
+      "department": "32",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q17487822"
+    },
+    {
+      "id": "es-gimont",
+      "name": "ES Gimont",
+      "city": "Gimont",
+      "department": "32",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q96283181"
+    },
+    {
+      "id": "stade-navarrais",
+      "name": "Stade navarrais",
+      "city": "Navarrenx",
+      "department": "64",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "entente-aramits-asasp",
+      "name": "Entente Aramits Asasp",
+      "city": "Aramits",
+      "department": "64",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "usep-ger-seron-bedeille",
+      "name": "USEP Ger Séron Bédeille",
+      "city": "Ger",
+      "department": "64",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "gan-olympique",
+      "name": "Gan Olympique",
+      "city": "Gan",
+      "department": "64",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "D",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "hasparren-ac",
+      "name": "Hasparren AC",
+      "city": "Hasparren",
+      "department": "64",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "us-bazas",
+      "name": "US Bazas",
+      "city": "Bazas",
+      "department": "33",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "as-merignac",
+      "name": "AS Mérignac",
+      "city": "Mérignac",
+      "department": "33",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q2868057"
+    },
+    {
+      "id": "us-mouguerre",
+      "name": "US Mouguerre",
+      "city": "Mouguerre",
+      "department": "64",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "boucau-tarnos-stade",
+      "name": "Boucau Tarnos stade",
+      "city": "Tarnos",
+      "department": "40",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q2921331"
+    },
+    {
+      "id": "rion-morcenx-cr",
+      "name": "Rion Morcenx CR",
+      "city": "Rion-des-Landes",
+      "department": "40",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "us-casteljaloux",
+      "name": "US Casteljaloux",
+      "city": "Casteljaloux",
+      "department": "47",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "ca-lormont",
+      "name": "CA Lormont",
+      "city": "Lormont",
+      "department": "33",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q16540514"
+    },
+    {
+      "id": "emak-hor-rugby",
+      "name": "Emak Hor Rugby",
+      "city": "Bassussarry",
+      "department": "64",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "stade-bordelais",
+      "name": "Stade bordelais",
+      "city": "Le Bouscat",
+      "department": "33",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3495934"
+    },
+    {
+      "id": "us-mugron",
+      "name": "US Mugron",
+      "city": "Mugron",
+      "department": "40",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "us-castillon",
+      "name": "US Castillon",
+      "city": "Castillon-la-Bataille",
+      "department": "33",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "so-millau",
+      "name": "SO Millau",
+      "city": "Millau",
+      "department": "12",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q3496217"
+    },
+    {
+      "id": "rodez-rugby",
+      "name": "Rodez Rugby",
+      "city": "Rodez",
+      "department": "12",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f2c14e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q3495842"
+    },
+    {
+      "id": "ua-vergt",
+      "name": "UA Vergt",
+      "city": "Vergt",
+      "department": "24",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "D"
+      ]
+    },
+    {
+      "id": "us-bergerac",
+      "name": "US Bergerac",
+      "city": "Bergerac",
+      "department": "24",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3550481"
+    },
+    {
+      "id": "usc-alban",
+      "name": "USC Alban",
+      "city": "Alban",
+      "department": "81",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-arpajon-veinazes",
+      "name": "RC Arpajon Veinazès",
+      "city": "Arpajon-sur-Cère",
+      "department": "15",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "stade-belvesois",
+      "name": "Stade belvesois",
+      "city": "Belvès",
+      "department": "24",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "gs-figeac",
+      "name": "GS Figeac",
+      "city": "Figeac",
+      "department": "46",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3117931"
+    },
+    {
+      "id": "sc-decazeville",
+      "name": "SC Decazeville",
+      "city": "Decazeville",
+      "department": "12",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "D",
+        "D",
+        "L"
+      ],
+      "wikidata": "Q39072160"
+    },
+    {
+      "id": "correze-rc",
+      "name": "Corrèze RC",
+      "city": "Malemort-sur-Corrèze",
+      "department": "19",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "cs-nontron",
+      "name": "CS Nontron",
+      "city": "Nontron",
+      "department": "24",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "D",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "levezou-segala-aveyron-xv",
+      "name": "Lévézou Ségala Aveyron XV",
+      "city": "Cassagnes-Bégonhès",
+      "department": "12",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-roubaix",
+      "name": "RC Roubaix",
+      "city": "Roubaix",
+      "department": "59",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "sc-le-rheu",
+      "name": "SC Le Rheu",
+      "city": "Le Rheu",
+      "department": "35",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q3494066"
+    },
+    {
+      "id": "fc-yonnais",
+      "name": "FC yonnais",
+      "city": "La Roche-sur-Yon",
+      "department": "85",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "plaisir-rc",
+      "name": "Plaisir RC",
+      "city": "Plaisir",
+      "department": "78",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "mlsgp-rugby",
+      "name": "MLSGP Rugby",
+      "city": "Maisons-Laffitte",
+      "department": "78",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-amiens",
+      "name": "RC Amiens",
+      "city": "Amiens",
+      "department": "80",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-sablais",
+      "name": "RC sablais",
+      "city": "Les Sables-d'Olonne",
+      "department": "85",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-versailles",
+      "name": "RC Versailles",
+      "city": "Versailles",
+      "department": "78",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "evreux-ac",
+      "name": "Évreux AC",
+      "city": "Évreux",
+      "department": "27",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3592910"
+    },
+    {
+      "id": "aas-sarcelles",
+      "name": "AAS Sarcelles",
+      "city": "Sarcelles",
+      "department": "95",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-montesson-chatou",
+      "name": "RC Montesson Chatou",
+      "city": "Montesson",
+      "department": "78",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "stade-caennais-rc",
+      "name": "Stade caennais RC",
+      "city": "Caen",
+      "department": "14",
+      "division": "federale2",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "paris-xo",
+      "name": "Paris XO",
+      "city": "Paris",
+      "department": "75",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "rugby-aulnay-club",
+      "name": "Rugby Aulnay club",
+      "city": "Aulnay-sous-Bois",
+      "department": "93",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "lille-rc-iris",
+      "name": "Lille RC Iris",
+      "city": "Lille",
+      "department": "59",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f2c14e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q1672729"
+    },
+    {
+      "id": "rc-arras",
+      "name": "RC Arras",
+      "city": "Arras",
+      "department": "62",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3452858"
+    },
+    {
+      "id": "ac-boulogne-billancourt",
+      "name": "AC Boulogne-Billancourt",
+      "city": "Boulogne-Billancourt",
+      "department": "92",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#8a9aa6"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q2869064"
+    },
+    {
+      "id": "le-havre-ac",
+      "name": "Le Havre AC",
+      "city": "Le Havre",
+      "department": "76",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#0b2a5b"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3223482"
+    },
+    {
+      "id": "rca-cergy-pontoise",
+      "name": "RCA Cergy-Pontoise",
+      "city": "Pontoise",
+      "department": "95",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3416304"
+    },
+    {
+      "id": "ru-dunkerque-littoral",
+      "name": "RU Dunkerque Littoral",
+      "city": "Grande-Synthe",
+      "department": "59",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "sc-bernay",
+      "name": "SC Bernay",
+      "city": "Bernay",
+      "department": "27",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-yvetot",
+      "name": "RC Yvetot",
+      "city": "Yvetot",
+      "department": "76",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "gretz-tournan-ozoir-rc-77",
+      "name": "Gretz Tournan Ozoir RC 77",
+      "city": "Gretz-Armainvilliers",
+      "department": "77",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "rc-metz",
+      "name": "RC Metz",
+      "city": "Metz",
+      "department": "57",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q3452861"
+    },
+    {
+      "id": "rc-sucy-en-brie",
+      "name": "RC Sucy-en-Brie",
+      "city": "Sucy-en-Brie",
+      "department": "94",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "D"
+      ]
+    },
+    {
+      "id": "stade-pontellois",
+      "name": "Stade pontellois",
+      "city": "Pontault-Combault",
+      "department": "77",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "nancy-seichamps-rugby",
+      "name": "Nancy Seichamps Rugby",
+      "city": "Nancy",
+      "department": "54",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rugby-epernay-champagne",
+      "name": "Rugby Épernay Champagne",
+      "city": "Épernay",
+      "department": "51",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3452875"
+    },
+    {
+      "id": "fc-haguenau",
+      "name": "FC Haguenau",
+      "city": "Haguenau",
+      "department": "67",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-pont-a-mousson",
+      "name": "RC Pont-à-Mousson",
+      "city": "Pont-à-Mousson",
+      "department": "54",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rugby-melun-combs-senart-77",
+      "name": "Rugby Melun Combs Sénart 77",
+      "city": "Melun",
+      "department": "77",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-strasbourg",
+      "name": "RC Strasbourg",
+      "city": "Strasbourg",
+      "department": "67",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "D",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3452854"
+    },
+    {
+      "id": "grand-dole-rugby",
+      "name": "Grand Dole Rugby",
+      "city": "Dole",
+      "department": "39",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "stade-dijonnais",
+      "name": "Stade dijonnais",
+      "city": "Longvic",
+      "department": "21",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "D"
+      ],
+      "wikidata": "Q3496060"
+    },
+    {
+      "id": "co-le-creusot",
+      "name": "CO Le Creusot",
+      "city": "Le Creusot",
+      "department": "71",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q2980223"
+    },
+    {
+      "id": "us-bellegarde-coupy",
+      "name": "US Bellegarde Coupy",
+      "city": "Bellegarde-sur-Valserine",
+      "department": "01",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "cs-beaune",
+      "name": "CS Beaune",
+      "city": "Beaune",
+      "department": "21",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q63341740"
+    },
+    {
+      "id": "ca-pontarlier",
+      "name": "CA Pontarlier",
+      "city": "Pontarlier",
+      "department": "25",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-montceau-bourgogne",
+      "name": "RC Montceau Bourgogne",
+      "city": "Montceau-les-Mines",
+      "department": "71",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-louhans",
+      "name": "RC Louhans",
+      "city": "Louhans-Châteaurenaud",
+      "department": "71",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-viriat",
+      "name": "RC Viriat",
+      "city": "Viriat",
+      "department": "01",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "D",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "stade-montchaninois-bourgogne",
+      "name": "Stade montchaninois Bourgogne",
+      "city": "Montchanin",
+      "department": "71",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q2817319"
+    },
+    {
+      "id": "as-ampuis-cote-rotie",
+      "name": "AS Ampuis Côte-rôtie",
+      "city": "Ampuis",
+      "department": "69",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "as-saint-marcel-isle-d-abeau",
+      "name": "AS Saint-Marcel-Isle d'Abeau",
+      "city": "Saint-Marcel-Bel-Accueil",
+      "department": "38",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "us-beaurepaire",
+      "name": "US Beaurepaire",
+      "city": "Beaurepaire",
+      "department": "38",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3550519"
+    },
+    {
+      "id": "sc-tarare",
+      "name": "SC Tarare",
+      "city": "Tarare",
+      "department": "69",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-belleville-beaujolais",
+      "name": "RC Belleville Beaujolais",
+      "city": "Belleville-en-Beaujolais",
+      "department": "69",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "saint-savin-sportif",
+      "name": "Saint-Savin sportif",
+      "city": "Saint-Savin",
+      "department": "38",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "D",
+        "L"
+      ]
+    },
+    {
+      "id": "fc-aix-les-bains",
+      "name": "FC Aix-les-Bains",
+      "city": "Aix-les-Bains",
+      "department": "73",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3076661"
+    },
+    {
+      "id": "rc-des-vallons-de-la-tour",
+      "name": "RC des Vallons-de-la-Tour",
+      "city": "La Tour-du-Pin",
+      "department": "38",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "co-le-puy",
+      "name": "CO Le Puy",
+      "city": "Le Puy-en-Velay",
+      "department": "43",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "D",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-motterain",
+      "name": "RC motterain",
+      "city": "La Motte-Servolex",
+      "department": "73",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "ent-chateauneuf-st-marcel-xv",
+      "name": "Ent. Chateauneuf St-Marcel XV",
+      "city": "Châteauneuf-de-Galaure",
+      "department": "26",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "us-veore-xv",
+      "name": "US Véore XV",
+      "city": "Beaumont-lès-Valence",
+      "department": "26",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q1678891"
+    },
+    {
+      "id": "ent-vaulnaveys-vizille",
+      "name": "Ent. Vaulnaveys Vizille",
+      "city": "Vaulnaveys-le-Haut",
+      "department": "38",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "bassin-de-crussol-rugby",
+      "name": "Bassin de Crussol Rugby",
+      "city": "Guilherand-Granges",
+      "department": "07",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-teillois",
+      "name": "RC teillois",
+      "city": "Le Teil",
+      "department": "07",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "saint-marcellin-sports",
+      "name": "Saint-Marcellin sports",
+      "city": "Saint-Marcellin",
+      "department": "38",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "D",
+        "L"
+      ]
+    },
+    {
+      "id": "fc-tournon-tain",
+      "name": "FC Tournon Tain",
+      "city": "Tournon-sur-Rhône",
+      "department": "07",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "ua-tullins-fures",
+      "name": "UA Tullins Fures",
+      "city": "Tullins",
+      "department": "38",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "D",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-seyssins",
+      "name": "RC Seyssins",
+      "city": "Seyssins",
+      "department": "38",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "us-renage-rives",
+      "name": "US Renage Rives",
+      "city": "Renage",
+      "department": "38",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-draguignan",
+      "name": "RC Draguignan",
+      "city": "Draguignan",
+      "department": "83",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "us-valreas",
+      "name": "US Valréas",
+      "city": "Valréas",
+      "department": "84",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "es-saint-saturnin",
+      "name": "ES Saint-Saturnin",
+      "city": "Saint-Saturnin-lès-Avignon",
+      "department": "84",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-lucciana",
+      "name": "RC Lucciana",
+      "city": "Lucciana",
+      "department": "2B",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-jacou",
+      "name": "RC Jacou",
+      "city": "Jacou",
+      "department": "34",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "marseille-rm",
+      "name": "Marseille RM",
+      "city": "Marseille",
+      "department": "13",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3452825"
+    },
+    {
+      "id": "sc-salon",
+      "name": "SC Salon",
+      "city": "Salon-de-Provence",
+      "department": "13",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-vallee-du-gapeau",
+      "name": "RC Vallée du Gapeau",
+      "city": "Solliès-Pont",
+      "department": "83",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "ca-bedarieux-gor",
+      "name": "CA Bédarieux GOR",
+      "city": "Bédarieux",
+      "department": "34",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-dignois",
+      "name": "RC dignois",
+      "city": "Digne-les-Bains",
+      "department": "04",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "ent-vendres-lespignan",
+      "name": "Ent. Vendres Lespignan",
+      "city": "Vendres",
+      "department": "34",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "us-thuir",
+      "name": "US Thuir",
+      "city": "Thuir",
+      "department": "66",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3550598"
+    },
+    {
+      "id": "rivesaltes-baixas-espira-agly-xv",
+      "name": "Rivesaltes Baixas Espira Agly XV",
+      "city": "Rivesaltes",
+      "department": "66",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "ent-vallee-du-girou",
+      "name": "Ent. Vallée du Girou",
+      "city": "Pechbonnieu",
+      "department": "31",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3055011"
+    },
+    {
+      "id": "etoile-sportive-catalane",
+      "name": "Étoile sportive catalane",
+      "city": "Argelès-sur-Mer",
+      "department": "66",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3592514"
+    },
+    {
+      "id": "rc-sete",
+      "name": "RC Sète",
+      "city": "Sète",
+      "department": "34",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "balma-orc",
+      "name": "Balma ORC",
+      "city": "Balma",
+      "department": "31",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "js-illiberienne",
+      "name": "JS illibérienne",
+      "city": "Elne",
+      "department": "66",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "saint-juery-aoxv",
+      "name": "Saint-Juéry AOXV",
+      "city": "Saint-Juéry",
+      "department": "81",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "as-olonzac-minervois",
+      "name": "AS Olonzac Minervois",
+      "city": "Olonzac",
+      "department": "34",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "us-tarascon-xv",
+      "name": "US Tarascon XV",
+      "city": "Tarascon-sur-Ariège",
+      "department": "09",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "magnoac-fc",
+      "name": "Magnoac FC",
+      "city": "Castelnau-Magnoac",
+      "department": "65",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "D"
+      ],
+      "wikidata": "Q3277175"
+    },
+    {
+      "id": "sc-pamiers",
+      "name": "SC Pamiers",
+      "city": "Pamiers",
+      "department": "09",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3494120"
+    },
+    {
+      "id": "union-cazeres-le-fousseret",
+      "name": "Union Cazères Le Fousseret",
+      "city": "Cazères",
+      "department": "31",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "D",
+        "L"
+      ]
+    },
+    {
+      "id": "us-coteaux-pouyastruc",
+      "name": "US Coteaux Pouyastruc",
+      "city": "Pouyastruc",
+      "department": "65",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-salvetat-plaisance",
+      "name": "RC Salvetat Plaisance",
+      "city": "La Salvetat-Saint-Gilles",
+      "department": "31",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "as-tournefeuille",
+      "name": "AS Tournefeuille",
+      "city": "Tournefeuille",
+      "department": "31",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3534154"
+    },
+    {
+      "id": "us-vicquoise",
+      "name": "US vicquoise",
+      "city": "Vic-en-Bigorre",
+      "department": "65",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "us-l-isle-en-dodon",
+      "name": "US L'Isle-en-Dodon",
+      "city": "L'Isle-en-Dodon",
+      "department": "31",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "ent-astarac-bigorre",
+      "name": "Ent. Astarac Bigorre",
+      "city": "Miélan",
+      "department": "32",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "stade-hendayais",
+      "name": "Stade hendayais",
+      "city": "Hendaye",
+      "department": "64",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q3496123"
+    },
+    {
+      "id": "barcus-menditte-xiberoa",
+      "name": "Barcus Menditte Xiberoa",
+      "city": "Barcus",
+      "department": "64",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "avenir-bizanos",
+      "name": "Avenir Bizanos",
+      "city": "Bizanos",
+      "department": "64",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ],
+      "wikidata": "Q106956542"
+    },
+    {
+      "id": "stado-tarbes-pr",
+      "name": "Stado Tarbes PR",
+      "city": "Tarbes",
+      "department": "65",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q634843"
+    },
+    {
+      "id": "oo-laruns",
+      "name": "OO Laruns",
+      "city": "Laruns",
+      "department": "64",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "us-josbaig",
+      "name": "US Josbaig",
+      "city": "Saint-Goin",
+      "department": "64",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "es-arudy",
+      "name": "ES Arudy",
+      "city": "Arudy",
+      "department": "64",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "as-bayonne",
+      "name": "AS Bayonne",
+      "city": "Bayonne",
+      "department": "64",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "us-saint-palais",
+      "name": "US Saint-Palais",
+      "city": "Saint-Palais",
+      "department": "64",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "inthalatz-rugby-larressore",
+      "name": "Inthalatz rugby Larressore",
+      "city": "Larressore",
+      "department": "64",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "asso-cote-landes",
+      "name": "Asso. Côte Landes",
+      "city": "Léon",
+      "department": "40",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "ua-mimizan",
+      "name": "UA Mimizan",
+      "city": "Mimizan",
+      "department": "40",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q67200317"
+    },
+    {
+      "id": "avenir-aturin",
+      "name": "Avenir aturin",
+      "city": "Aire-sur-l'Adour",
+      "department": "40",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W"
+      ],
+      "wikidata": "Q2873446"
+    },
+    {
+      "id": "sa-hagetmau",
+      "name": "SA Hagetmau",
+      "city": "Hagetmau",
+      "department": "40",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [
+        "W",
+        "W"
+      ],
+      "wikidata": "Q3493859"
+    },
+    {
+      "id": "saint-paul-sr",
+      "name": "Saint-Paul SR",
+      "city": "Saint-Paul-lès-Dax",
+      "department": "40",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3463122"
+    },
+    {
+      "id": "aa-nogaro",
+      "name": "AA Nogaro",
+      "city": "Nogaro",
+      "department": "32",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "capbreton-hossegor-rugby",
+      "name": "Capbreton Hossegor Rugby",
+      "city": "Capbreton",
+      "department": "40",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "sa-saint-sever",
+      "name": "SA Saint-Sever",
+      "city": "Saint-Sever",
+      "department": "40",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3493863"
+    },
+    {
+      "id": "ua-vicoise",
+      "name": "UA Vicoise",
+      "city": "Vic-Fezensac",
+      "department": "32",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-bassin-d-arcachon",
+      "name": "RC bassin d'Arcachon",
+      "city": "La Teste-de-Buch",
+      "department": "33",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#0055a4"
+      },
+      "recentResults": [],
+      "wikidata": "Q3452855"
+    },
+    {
+      "id": "coquelicots-montechois-rugby",
+      "name": "Coquelicots Montechois Rugby",
+      "city": "Montech",
+      "department": "82",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "leognan-rugby",
+      "name": "Léognan Rugby",
+      "city": "Léognan",
+      "department": "33",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "co-pont-du-casse",
+      "name": "CO Pont-du-Casse",
+      "city": "Pont-du-Casse",
+      "department": "47",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "us-nerac",
+      "name": "US Nérac",
+      "city": "Nérac",
+      "department": "47",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "D"
+      ]
+    },
+    {
+      "id": "avenir-moissagais",
+      "name": "Avenir moissagais",
+      "city": "Moissac",
+      "department": "82",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "D",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-bon-encontre-boe",
+      "name": "RC Bon-Encontre Boé",
+      "city": "Bon-Encontre",
+      "department": "47",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-villeneuve",
+      "name": "RC Villeneuve",
+      "city": "Villeneuve-sur-Lot",
+      "department": "47",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "pessac-rugby",
+      "name": "Pessac Rugby",
+      "city": "Pessac",
+      "department": "33",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "D",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-gradignan",
+      "name": "RC Gradignan",
+      "city": "Gradignan",
+      "department": "33",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "us-vallee-du-lot",
+      "name": "US Vallée du Lot",
+      "city": "Fumel",
+      "department": "47",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "D",
+        "L",
+        "L"
+      ],
+      "wikidata": "Q3550488"
+    },
+    {
+      "id": "us-juillac-objat",
+      "name": "US Juillac Objat",
+      "city": "Objat",
+      "department": "19",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "rc-saint-cernin",
+      "name": "RC Saint-Cernin",
+      "city": "Saint-Cernin",
+      "department": "15",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "st-cere-rugby",
+      "name": "St-Céré Rugby",
+      "city": "Saint-Céré",
+      "department": "46",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f2c14e"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ],
+      "wikidata": "Q21427935"
+    },
+    {
+      "id": "us-argentat",
+      "name": "US Argentat",
+      "city": "Argentat",
+      "department": "19",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-bretenoux-biars-vayrac",
+      "name": "RC Bretenoux Biars Vayrac",
+      "city": "Bretenoux",
+      "department": "46",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-buguois",
+      "name": "RC buguois",
+      "city": "Le Bugue",
+      "department": "24",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3220658"
+    },
+    {
+      "id": "us-lalinde",
+      "name": "US Lalinde",
+      "city": "Lalinde",
+      "department": "24",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-saint-flour",
+      "name": "RC Saint-Flour",
+      "city": "Saint-Flour",
+      "department": "15",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "union-saint-astier-neuvic",
+      "name": "Union Saint-Astier Neuvic",
+      "city": "Saint-Astier",
+      "department": "24",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-mussidan",
+      "name": "RC Mussidan",
+      "city": "Mussidan",
+      "department": "24",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-orleans-la-source",
+      "name": "RC Orléans-La Source",
+      "city": "Orléans",
+      "department": "45",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W"
+      ],
+      "wikidata": "Q3356493"
+    },
+    {
+      "id": "rc-gueret",
+      "name": "RC Guéret",
+      "city": "Guéret",
+      "department": "23",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "ja-isle",
+      "name": "JA Isle",
+      "city": "Isle",
+      "department": "87",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "oc-montlucon",
+      "name": "OC Montluçon",
+      "city": "Saint-Victor",
+      "department": "03",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3322823"
+    },
+    {
+      "id": "rc-issoudun",
+      "name": "RC Issoudun",
+      "city": "Issoudun",
+      "department": "36",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "asf-commentry",
+      "name": "ASF Commentry",
+      "city": "Commentry",
+      "department": "03",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "cr-ancizes-comps",
+      "name": "CR Ancizes Comps",
+      "city": "Les Ancizes-Comps",
+      "department": "63",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "D",
+        "L"
+      ]
+    },
+    {
+      "id": "us-pithiviers",
+      "name": "US Pithiviers",
+      "city": "Pithiviers",
+      "department": "45",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "D",
+        "L"
+      ]
+    },
+    {
+      "id": "clermont-uc-aubiere",
+      "name": "Clermont UC Aubière",
+      "city": "Aubière",
+      "department": "63",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "L"
+      ]
+    },
+    {
+      "id": "rugby-sancerrois",
+      "name": "Rugby sancerrois",
+      "city": "Sancerre",
+      "department": "18",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "L"
+      ]
+    },
+    {
+      "id": "niort-rc",
+      "name": "Niort RC",
+      "city": "Niort",
+      "department": "79",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W"
+      ],
+      "wikidata": "Q7596188"
+    },
+    {
+      "id": "stade-poitevin",
+      "name": "Stade poitevin",
+      "city": "Poitiers",
+      "department": "86",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ],
+      "wikidata": "Q3496225"
+    },
+    {
+      "id": "sc-surgeres",
+      "name": "SC Surgères",
+      "city": "Surgères",
+      "department": "17",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-puilboreau",
+      "name": "RC Puilboreau",
+      "city": "Puilboreau",
+      "department": "17",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "sa-rochefort",
+      "name": "SA Rochefort",
+      "city": "Rochefort",
+      "department": "17",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ],
+      "wikidata": "Q136339917"
+    },
+    {
+      "id": "stade-blayais",
+      "name": "Stade blayais",
+      "city": "Blaye",
+      "department": "33",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "us-saintes",
+      "name": "US Saintes",
+      "city": "Saintes",
+      "department": "17",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#ffd100"
+      },
+      "recentResults": [
+        "W"
+      ]
+    },
+    {
+      "id": "sa-parthenay",
+      "name": "SA Parthenay",
+      "city": "Parthenay",
+      "department": "79",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "sc-chinon",
+      "name": "SC Chinon",
+      "city": "Chinon",
+      "department": "37",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "L"
+      ]
+    },
+    {
+      "id": "stade-foyen",
+      "name": "Stade Foyen",
+      "city": "Sainte-Foy-la-Grande",
+      "department": "33",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "plouzane-ac",
+      "name": "Plouzané AC",
+      "city": "Plouzané",
+      "department": "29",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "pays-auray-rc",
+      "name": "Pays Auray RC",
+      "city": "Auray",
+      "department": "56",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "rc-quimper",
+      "name": "RC Quimper",
+      "city": "Quimper",
+      "department": "29",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "saint-nazaire-ovalie",
+      "name": "Saint-Nazaire ovalie",
+      "city": "Saint-Nazaire",
+      "department": "44",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W"
+      ]
+    },
+    {
+      "id": "xv-de-l-erdre",
+      "name": "XV de l'Erdre",
+      "city": "La Chapelle-sur-Erdre",
+      "department": "44",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rup-lorient",
+      "name": "RUP Lorient",
+      "city": "Lorient",
+      "department": "56",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "sac-clisson-rugby",
+      "name": "SAC Clisson Rugby",
+      "city": "Clisson",
+      "department": "44",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-concarneau",
+      "name": "RC Concarneau",
+      "city": "Concarneau",
+      "department": "29",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "rc-saint-sebastien",
+      "name": "RC Saint-Sébastien",
+      "city": "Saint-Sébastien-sur-Loire",
+      "department": "44",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L"
+      ]
+    },
+    {
+      "id": "rc-trignac",
+      "name": "RC Trignac",
+      "city": "Trignac",
+      "department": "44",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "recentResults": [
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "clamart-rugby-92",
+      "name": "Clamart Rugby 92",
+      "city": "Clamart",
+      "department": "92",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W"
+      ],
+      "wikidata": "Q89480381"
+    },
+    {
+      "id": "scorc-angers",
+      "name": "SCORC Angers",
+      "city": "Angers",
+      "department": "49",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#111111"
+      },
+      "recentResults": [
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "us-olympiades-massif-central",
+      "name": "US Olympiades Massif central",
+      "city": "Paris",
+      "department": "75",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0b2a5b",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "rcs-bretigny",
+      "name": "RCS Brétigny",
+      "city": "Brétigny-sur-Orge",
+      "department": "91",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "W"
+      ]
+    },
+    {
+      "id": "ca-orsay-rc",
+      "name": "CA Orsay RC",
+      "city": "Orsay",
+      "department": "91",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#6cace4"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "roc-giffois",
+      "name": "ROC Giffois",
+      "city": "Gif-sur-Yvette",
+      "department": "91",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "W",
+        "L"
+      ]
+    },
+    {
+      "id": "us-vendome",
+      "name": "US Vendôme",
+      "city": "Vendôme",
+      "department": "41",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "com-bagneux",
+      "name": "COM Bagneux",
+      "city": "Bagneux",
+      "department": "92",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L"
+      ]
+    },
+    {
+      "id": "c-chartres-rugby",
+      "name": "C' Chartres Rugby",
+      "city": "Chartres",
+      "department": "28",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L"
+      ],
+      "wikidata": "Q107958563"
+    },
+    {
+      "id": "rc-le-mans",
+      "name": "RC Le Mans",
+      "city": "Le Mans",
+      "department": "72",
+      "division": "federale3",
+      "category": "senior-men",
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "recentResults": [
+        "L",
+        "L"
+      ]
+    }
+  ]
+}
