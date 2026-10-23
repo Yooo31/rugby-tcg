@@ -18,7 +18,7 @@ export const MAX_REWARDED_REFERRALS = 10;
 
 /** Sans 0/O ni 1/I/L : un code se lit et se dicte sans erreur. */
 const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
-export const REFERRAL_CODE_LENGTH = 6;
+const REFERRAL_CODE_LENGTH = 6;
 
 export function generateReferralCode(rng: Rng): string {
   return Array.from(

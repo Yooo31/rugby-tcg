@@ -2,7 +2,7 @@ import type { Reward } from "@/domain";
 import { cn } from "@/lib/utils";
 
 /** Pictogramme du lingot, la monnaie du jeu. */
-export function IngotIcon({ className }: { readonly className?: string }) {
+function IngotIcon({ className }: { readonly className?: string }) {
   return (
     <svg
       viewBox="0 0 24 16"

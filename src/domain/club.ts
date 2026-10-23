@@ -25,7 +25,7 @@ const divisionIds = DIVISIONS.map((division) => division.id) as [
   DivisionId,
   ...DivisionId[],
 ];
-export const divisionIdSchema = z.enum(divisionIds);
+const divisionIdSchema = z.enum(divisionIds);
 
 const divisionsById = new Map<DivisionId, Division>(
   DIVISIONS.map((division) => [division.id, division]),
@@ -40,8 +40,7 @@ export function getDivision(id: DivisionId): Division {
  * Catégorie d'équipe. Seuls les seniors masculins existent pour l'instant ;
  * féminines et jeunes s'ajouteront ici sans toucher au reste du modèle.
  */
-export const categorySchema = z.enum(["senior-men"]);
-export type Category = z.infer<typeof categorySchema>;
+const categorySchema = z.enum(["senior-men"]);
 
 export const matchResultSchema = z.enum(["W", "D", "L"]);
 export type MatchResult = z.infer<typeof matchResultSchema>;

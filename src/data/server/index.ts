@@ -93,17 +93,6 @@ export async function isUsernameAvailable(username: string): Promise<boolean> {
 
 // Administration : chaque appelant doit d'abord vérifier les droits
 // (`requireAdmin` dans @/features/admin/server).
-export {
-  ADMIN_PAGE_SIZE,
-  type ActivityData,
-  type AdminAdjustmentRow,
-  type AdminGiveaway,
-  type AdminPlayerDetail,
-  type AdminPlayerRow,
-  type CatalogStatus,
-  type GameStats,
-  type NewGiveaway,
-} from "./admin";
 import * as admin from "./admin";
 
 export const adminData = {
@@ -139,7 +128,6 @@ export const referralData = {
   codeExists: (code: string) => referral.referralCodeExists(prisma, code),
   settle: (playerId: string) => referral.settleReferral(prisma, playerId),
 };
-export type { ReferralSummary } from "./referral";
 import * as referral from "./referral";
 
 /** Notifications : abonnements du joueur (`playerId` de la session) et envoi planifié. */

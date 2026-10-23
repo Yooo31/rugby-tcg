@@ -21,7 +21,7 @@ import { createPrismaPlayerStore } from "./prisma-store";
  */
 
 /** Joueurs affichés par page de recherche. */
-export const ADMIN_PAGE_SIZE = 50;
+const ADMIN_PAGE_SIZE = 50;
 
 export interface AdminPlayerRow {
   readonly id: string;

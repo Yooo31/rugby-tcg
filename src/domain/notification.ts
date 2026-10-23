@@ -10,10 +10,10 @@ import type { Streak } from "./streak";
  */
 
 /** Pas de notification de 22 h à 8 h, heure de Paris. */
-export const QUIET_HOURS_START = 22;
-export const QUIET_HOURS_END = 8;
+const QUIET_HOURS_START = 22;
+const QUIET_HOURS_END = 8;
 /** Heure du rappel de série (jusqu'au début des heures calmes). */
-export const STREAK_REMINDER_HOUR = 19;
+const STREAK_REMINDER_HOUR = 19;
 
 export type NotificationKind = "reserve-full" | "streak-reminder";
 
@@ -37,7 +37,7 @@ export function reserveFullAt(
   return reserve.since + Math.max(0, max - reserve.count) * BOOSTER_REFILL_MS;
 }
 
-export function isQuietHour(now: Date): boolean {
+function isQuietHour(now: Date): boolean {
   const hour = parisHour(now);
   return hour >= QUIET_HOURS_START || hour < QUIET_HOURS_END;
 }

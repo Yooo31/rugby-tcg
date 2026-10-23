@@ -42,6 +42,54 @@ function Section({
   );
 }
 
+/**
+ * Tableau de chiffres : première colonne à gauche, les autres alignées à
+ * droite ; la dernière, secondaire, en gris.
+ */
+function DataTable({
+  columns,
+  rows,
+}: {
+  readonly columns: readonly string[];
+  readonly rows: readonly {
+    readonly key: string;
+    readonly cells: readonly ReactNode[];
+  }[];
+}) {
+  const align = (index: number) => (index === 0 ? "" : "text-right");
+  return (
+    <table className="w-full text-left text-sm tabular-nums">
+      <thead className="text-chalk-muted">
+        <tr>
+          {columns.map((column, index) => (
+            <th key={column} className={cn("py-2 font-medium", align(index))}>
+              {column}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr key={row.key} className="border-line border-t">
+            {row.cells.map((cell, index) => (
+              <td
+                key={columns[index]}
+                className={cn(
+                  "py-2",
+                  align(index),
+                  index === columns.length - 1 && "text-chalk-muted",
+                )}
+              >
+                {cell}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
 function Stat({
   label,
   value,
@@ -117,32 +165,20 @@ export async function AdminHomePage() {
       </Section>
 
       <Section title={`Activité (${ACTIVITY_DAYS_SHOWN} derniers jours)`}>
-        <table className="w-full text-left text-sm tabular-nums">
-          <thead className="text-chalk-muted">
-            <tr>
-              <th className="py-2 font-medium">Jour</th>
-              <th className="py-2 text-right font-medium">Joueurs actifs</th>
-              <th className="py-2 text-right font-medium">Boosters</th>
-              <th className="py-2 text-right font-medium">Par joueur</th>
-            </tr>
-          </thead>
-          <tbody>
-            {daily.map((entry) => (
-              <tr key={entry.day} className="border-line border-t">
-                <td className="py-2">{formatDay(entry.day)}</td>
-                <td className="py-2 text-right">{entry.players}</td>
-                <td className="py-2 text-right">{entry.openings}</td>
-                <td className="text-chalk-muted py-2 text-right">
-                  {entry.players === 0
-                    ? "–"
-                    : (entry.openings / entry.players)
-                        .toFixed(1)
-                        .replace(".", ",")}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <DataTable
+          columns={["Jour", "Joueurs actifs", "Boosters", "Par joueur"]}
+          rows={daily.map((entry) => ({
+            key: entry.day,
+            cells: [
+              formatDay(entry.day),
+              entry.players,
+              entry.openings,
+              entry.players === 0
+                ? "–"
+                : (entry.openings / entry.players).toFixed(1).replace(".", ","),
+            ],
+          }))}
+        />
       </Section>
 
       <Section title="Raretés tirées">
@@ -150,30 +186,18 @@ export async function AdminHomePage() {
           {drawn} cartes tirées depuis le début. L&apos;écart avec les
           probabilités prévues se réduit avec le nombre de tirages.
         </p>
-        <table className="w-full text-left text-sm tabular-nums">
-          <thead className="text-chalk-muted">
-            <tr>
-              <th className="py-2 font-medium">Rareté</th>
-              <th className="py-2 text-right font-medium">Cartes</th>
-              <th className="py-2 text-right font-medium">Observé</th>
-              <th className="py-2 text-right font-medium">Prévu</th>
-            </tr>
-          </thead>
-          <tbody>
-            {RARITIES.map(({ id, label }) => (
-              <tr key={id} className="border-line border-t">
-                <td className="py-2">{label}</td>
-                <td className="py-2 text-right">{stats.drawnByRarity[id]}</td>
-                <td className="py-2 text-right">
-                  {formatPercent(stats.drawnByRarity[id], drawn)}
-                </td>
-                <td className="text-chalk-muted py-2 text-right">
-                  {formatPercent(RARITY_ODDS[id], 1)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <DataTable
+          columns={["Rareté", "Cartes", "Observé", "Prévu"]}
+          rows={RARITIES.map(({ id, label }) => ({
+            key: id,
+            cells: [
+              label,
+              stats.drawnByRarity[id],
+              formatPercent(stats.drawnByRarity[id], drawn),
+              formatPercent(RARITY_ODDS[id], 1),
+            ],
+          }))}
+        />
       </Section>
 
       <Section title="Catalogue des clubs">

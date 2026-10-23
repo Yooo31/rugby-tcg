@@ -8,7 +8,7 @@ const LOWEST_TIER = 10;
 
 const FORM_POINTS: Record<MatchResult, number> = { W: 1, D: 0, L: -1 };
 
-export const MIN_POWER = 1;
+const MIN_POWER = 1;
 export const MAX_POWER = 99;
 
 /** Bonus ou malus de forme : +1 par victoire, −1 par défaite sur les derniers matchs. */
