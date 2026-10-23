@@ -94,7 +94,7 @@ export default function AccountPage() {
         <DeleteAccountForm />
       </section>
 
-      <p className="text-chalk-faint text-center text-xs text-pretty">
+      <p className="text-chalk-muted text-center text-xs text-pretty">
         Données des clubs, saison {CATALOG_SEASON} :{" "}
         <a
           href="https://fr.wikipedia.org/wiki/Championnat_de_France_de_rugby_%C3%A0_XV"

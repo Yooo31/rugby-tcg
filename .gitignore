@@ -49,3 +49,12 @@ next-env.d.ts
 
 # Réglages personnels de Claude Code (les skills du projet, eux, sont partagés)
 .claude/settings.local.json
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+# Supabase local
+supabase/.temp/
+supabase/.branches/
