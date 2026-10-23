@@ -85,6 +85,9 @@ export async function resetUsernameAction(formData: FormData): Promise<void> {
  */
 export async function sendTestErrorAction(): Promise<AdminFormState> {
   await requireAdmin();
+  // Sans DSN, Sentry est éteint : ne pas annoncer un envoi qui n'a pas lieu.
+  if (!Sentry.getClient()?.getOptions().enabled)
+    return { error: "Sentry est désactivé : aucun DSN configuré." };
   const eventId = Sentry.captureException(
     new Error("Erreur de test envoyée depuis l'administration"),
   );
