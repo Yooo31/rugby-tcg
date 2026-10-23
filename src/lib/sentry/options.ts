@@ -30,10 +30,13 @@ export function sentryOptions({ dsn, environment }: SentryEnv) {
 /** Retire de l'événement tout ce qui pourrait identifier un joueur. */
 export function scrubEvent(event: ErrorEvent): ErrorEvent {
   const scrubbed: ErrorEvent = { ...event };
-  if (scrubbed.user) {
-    // L'identifiant technique suffit pour regrouper les erreurs d'un joueur.
-    scrubbed.user = scrubbed.user.id ? { id: scrubbed.user.id } : undefined;
-  }
+  // L'identifiant technique suffit pour regrouper les erreurs d'un joueur.
+  // `ip_address: null` interdit à Sentry de déduire l'adresse IP (et la
+  // localisation) à la réception : sans lui, il le fait pour le navigateur.
+  scrubbed.user = {
+    ...(scrubbed.user?.id ? { id: scrubbed.user.id } : {}),
+    ip_address: null,
+  };
   if (scrubbed.request) {
     const request = { ...scrubbed.request };
     delete request.cookies;

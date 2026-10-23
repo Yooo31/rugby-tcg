@@ -34,7 +34,7 @@ describe("réglages Sentry", () => {
       },
     } as ErrorEvent;
     expect(scrubEvent(event)).toMatchObject({
-      user: { id: "joueur-1" },
+      user: { id: "joueur-1", ip_address: null },
       request: { url: "https://rugby-tcg.fr/boosters" },
     });
     const scrubbed = scrubEvent(event);
@@ -44,10 +44,13 @@ describe("réglages Sentry", () => {
     expect(scrubbed.request).not.toHaveProperty("data");
   });
 
-  it("efface un utilisateur sans identifiant", () => {
+  it("interdit toujours la déduction de l'adresse IP, même sans utilisateur", () => {
+    expect(scrubEvent({ type: undefined } as ErrorEvent).user).toEqual({
+      ip_address: null,
+    });
     expect(
       scrubEvent({ type: undefined, user: { email: "a@b.fr" } } as ErrorEvent)
         .user,
-    ).toBeUndefined();
+    ).toEqual({ ip_address: null });
   });
 });
