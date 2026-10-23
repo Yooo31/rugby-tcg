@@ -1,0 +1,117 @@
+import "server-only";
+import {
+  dueNotifications,
+  MAX_FREE_BOOSTERS,
+  notificationMessage,
+  reserveFullAt,
+  type NotificationMessage,
+  type NotificationState,
+} from "@/domain";
+import type { PrismaClient } from "@/generated/prisma/client";
+import { toDayKey } from "@/lib/dates";
+
+export interface PushTarget {
+  readonly endpoint: string;
+  readonly p256dh: string;
+  readonly auth: string;
+}
+
+/** Résultat d'un envoi : `gone` si l'appareil s'est désabonné (on l'oublie). */
+export type PushResult = "sent" | "gone" | "failed";
+
+/** Envoi réel par Web Push en production, doublure dans les tests. */
+export type PushSender = (
+  target: PushTarget,
+  message: NotificationMessage,
+) => Promise<PushResult>;
+
+/** Enregistre l'appareil du joueur (le même appareil passe au dernier joueur connecté). */
+export async function saveSubscription(
+  prisma: PrismaClient,
+  playerId: string,
+  target: PushTarget,
+): Promise<void> {
+  await prisma.pushSubscription.upsert({
+    where: { endpoint: target.endpoint },
+    create: { playerId, ...target },
+    update: { playerId, p256dh: target.p256dh, auth: target.auth },
+  });
+}
+
+export async function deleteSubscription(
+  prisma: PrismaClient,
+  playerId: string,
+  endpoint: string,
+): Promise<void> {
+  await prisma.pushSubscription.deleteMany({ where: { playerId, endpoint } });
+}
+
+export interface NotificationRun {
+  readonly players: number;
+  readonly sent: number;
+  readonly removed: number;
+}
+
+/**
+ * Envoie les notifications dues à tous les joueurs abonnés et note ce qui a
+ * été envoyé. À lancer régulièrement (tâche planifiée, toutes les 15 minutes).
+ */
+export async function sendDueNotifications(
+  prisma: PrismaClient,
+  send: PushSender,
+  now: Date,
+): Promise<NotificationRun> {
+  const players = await prisma.player.findMany({
+    where: { pushSubscriptions: { some: {} } },
+    include: { pushSubscriptions: true },
+  });
+
+  let sent = 0;
+  let removed = 0;
+  for (const player of players) {
+    const state: NotificationState = {
+      reserve:
+        player.reserveCount === null || player.reserveSince === null
+          ? null
+          : {
+              count: player.reserveCount,
+              since: player.reserveSince.getTime(),
+            },
+      maxFreeBoosters: MAX_FREE_BOOSTERS,
+      streak: { count: player.streakCount, lastDay: player.streakLastDay },
+      notifiedFullAt: player.notifiedFullAt?.getTime() ?? null,
+      notifiedStreakDay: player.notifiedStreakDay,
+    };
+    const due = dueNotifications(state, now);
+    if (due.length === 0) continue;
+
+    for (const kind of due) {
+      const message = notificationMessage(kind, state);
+      for (const subscription of player.pushSubscriptions) {
+        const result = await send(subscription, message);
+        if (result === "sent") sent += 1;
+        if (result === "gone") {
+          await prisma.pushSubscription.delete({
+            where: { id: subscription.id },
+          });
+          removed += 1;
+        }
+      }
+    }
+
+    // Noté même si un appareil a échoué : on ne harcèle pas les autres.
+    const fullAt = reserveFullAt(state.reserve, state.maxFreeBoosters);
+    await prisma.player.update({
+      where: { id: player.id },
+      data: {
+        ...(due.includes("reserve-full") && fullAt !== null
+          ? { notifiedFullAt: new Date(fullAt) }
+          : {}),
+        ...(due.includes("streak-reminder")
+          ? { notifiedStreakDay: toDayKey(now) }
+          : {}),
+      },
+    });
+  }
+  return { players: players.length, sent, removed };
+}

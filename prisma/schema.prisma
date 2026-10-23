@@ -1,0 +1,215 @@
+// Schéma Prisma — source de vérité de la base.
+// Les URLs de connexion vivent dans `prisma.config.ts` (voir CLAUDE.md).
+//
+// Les valeurs métier (division, rareté, département…) sont des `String` et non
+// des enums Postgres : leur liste fait foi dans `src/domain`, où Zod les valide
+// à chaque lecture. Ajouter une division ne demande ainsi aucune migration.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Un club = une carte de base. Catalogue commun à tous les joueurs.
+model Club {
+  id             String   @id
+  name           String
+  city           String
+  /// Code INSEE du département ("31", "2B"…). La région s'en déduit dans le domaine.
+  department     String
+  division       String
+  category       String   @default("senior-men")
+  colorPrimary   String   @map("color_primary")
+  colorSecondary String   @map("color_secondary")
+  /// Du plus ancien au plus récent : "W", "D" ou "L".
+  recentResults  String[] @map("recent_results")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  ownedCards OwnedCard[]
+
+  @@map("clubs")
+}
+
+/// État d'un joueur hors cartes. `id` est celui de l'utilisateur Supabase
+/// (auth.users) ; la clé étrangère est ajoutée en SQL dans la migration, Prisma
+/// ne gérant pas le schéma `auth`.
+model Player {
+  id                 String    @id @db.Uuid
+  /// Pseudo public (classements). Nul tant que le joueur ne l'a pas choisi.
+  /// Unique sans tenir compte de la casse (index sur lower(username), en SQL).
+  username           String?
+  ingots             Int       @default(0)
+  bonusBoosters      Int       @default(0) @map("bonus_boosters")
+  /// Réserve de boosters gratuits : `reserveCount` boosters à l'instant
+  /// `reserveSince`. Les deux sont nuls tant que la réserve n'a jamais été entamée.
+  reserveCount       Int?      @map("reserve_count")
+  reserveSince       DateTime? @map("reserve_since") @db.Timestamptz
+  /// Série de connexion : jours consécutifs récupérés, et dernier jour (AAAA-MM-JJ, Paris).
+  streakCount        Int       @default(0) @map("streak_count")
+  streakLastDay      String?   @map("streak_last_day")
+  /// Code à partager pour parrainer ; créé à la première demande.
+  referralCode       String?   @unique @map("referral_code")
+  /// Parrain, choisi à l'inscription.
+  referredBy         String?   @map("referred_by") @db.Uuid
+  /// Moment où le parrain a été récompensé pour ce filleul (une seule fois).
+  referralRewardedAt DateTime? @map("referral_rewarded_at") @db.Timestamptz
+  /// Dernières notifications envoyées, pour ne pas les répéter.
+  notifiedFullAt     DateTime? @map("notified_full_at") @db.Timestamptz
+  notifiedStreakDay  String?   @map("notified_streak_day")
+  createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  ownedCards        OwnedCard[]
+  missionLog        MissionLog?
+  claimedAlbums     ClaimedAlbum[]
+  boosterOpenings   BoosterOpening[]
+  adjustments       AdminAdjustment[]
+  claimedGiveaways  ClaimedGiveaway[]
+  pushSubscriptions PushSubscription[]
+  referrer          Player?            @relation("Referral", fields: [referredBy], references: [id], onDelete: SetNull)
+  referrals         Player[]           @relation("Referral")
+
+  @@index([referredBy])
+  @@map("players")
+}
+
+/// Une carte possédée : un club dans une rareté, avec son nombre d'exemplaires.
+model OwnedCard {
+  playerId        String   @map("player_id") @db.Uuid
+  clubId          String   @map("club_id")
+  rarity          String
+  count           Int      @default(1)
+  firstObtainedAt DateTime @default(now()) @map("first_obtained_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  club   Club   @relation(fields: [clubId], references: [id], onDelete: Restrict)
+
+  @@id([playerId, clubId, rarity])
+  @@index([clubId])
+  @@map("owned_cards")
+}
+
+/// Avancement du joueur sur les missions du jour `day`. Une seule ligne par
+/// joueur : elle est réécrite quand le jour change.
+model MissionLog {
+  playerId String   @id @map("player_id") @db.Uuid
+  /// Jour au format AAAA-MM-JJ, heure de Paris.
+  day      String
+  /// Avancement par identifiant de mission : { "open-3": 2 }.
+  progress Json     @default("{}")
+  claimed  String[]
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@map("mission_logs")
+}
+
+/// Album dont la récompense a été récupérée. Les albums eux-mêmes sont des
+/// règles du domaine, pas des lignes en base.
+model ClaimedAlbum {
+  playerId  String   @map("player_id") @db.Uuid
+  albumId   String   @map("album_id")
+  claimedAt DateTime @default(now()) @map("claimed_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@id([playerId, albumId])
+  @@map("claimed_albums")
+}
+
+/// Journal des boosters ouverts : statistiques (raretés réellement tirées) et
+/// historique d'un joueur. N'intervient pas dans l'état du joueur.
+model BoosterOpening {
+  id       BigInt   @id @default(autoincrement())
+  playerId String   @map("player_id") @db.Uuid
+  openedAt DateTime @default(now()) @map("opened_at") @db.Timestamptz
+  /// "free" ou "bonus" : quelle réserve a payé l'ouverture.
+  source   String
+  /// Cartes tirées : [{ "clubId": "…", "rarity": "…" }].
+  cards    Json
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@index([playerId])
+  @@index([openedAt])
+  @@map("booster_openings")
+}
+
+/// Correction manuelle d'un joueur par l'administration, gardée pour mémoire.
+model AdminAdjustment {
+  id            BigInt   @id @default(autoincrement())
+  playerId      String   @map("player_id") @db.Uuid
+  /// Adresse de l'administrateur, au moment de la correction.
+  adminEmail    String   @map("admin_email")
+  ingotsDelta   Int      @map("ingots_delta")
+  boostersDelta Int      @map("boosters_delta")
+  reason        String
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@index([playerId])
+  @@map("admin_adjustments")
+}
+
+/// Cadeau pour tous les joueurs pendant une période : chacun le récupère une fois.
+model Giveaway {
+  id        String   @id @default(uuid()) @db.Uuid
+  title     String
+  ingots    Int      @default(0)
+  boosters  Int      @default(0)
+  startsAt  DateTime @map("starts_at") @db.Timestamptz
+  endsAt    DateTime @map("ends_at") @db.Timestamptz
+  createdBy String   @map("created_by")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  claims ClaimedGiveaway[]
+
+  @@index([startsAt, endsAt])
+  @@map("giveaways")
+}
+
+model ClaimedGiveaway {
+  playerId   String   @map("player_id") @db.Uuid
+  giveawayId String   @map("giveaway_id") @db.Uuid
+  claimedAt  DateTime @default(now()) @map("claimed_at") @db.Timestamptz
+
+  player   Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  giveaway Giveaway @relation(fields: [giveawayId], references: [id], onDelete: Cascade)
+
+  @@id([playerId, giveawayId])
+  @@index([giveawayId])
+  @@map("claimed_giveaways")
+}
+
+/// Compteurs de la limite de débit, par clé et par fenêtre de temps.
+/// Partagés par toutes les instances du serveur ; les vieilles fenêtres sont purgées.
+model RateLimit {
+  key         String
+  windowStart DateTime @map("window_start") @db.Timestamptz
+  hits        Int      @default(1)
+
+  @@id([key, windowStart])
+  @@index([windowStart])
+  @@map("rate_limits")
+}
+
+/// Abonnement aux notifications d'un appareil (Web Push).
+model PushSubscription {
+  id        BigInt   @id @default(autoincrement())
+  playerId  String   @map("player_id") @db.Uuid
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@index([playerId])
+  @@map("push_subscriptions")
+}
