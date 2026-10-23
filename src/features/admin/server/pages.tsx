@@ -16,6 +16,7 @@ import { toDayKey } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import { AdjustmentForm } from "../components/AdjustmentForm";
 import { GiveawayForm } from "../components/GiveawayForm";
+import { SentryTestButton } from "../components/SentryTestButton";
 import { formatDateTime, formatDay, formatPercent } from "../lib/format";
 import { lastDays, retention, RETENTION_DAYS } from "../lib/retention";
 import { endGiveawayAction, resetUsernameAction } from "./actions";
@@ -198,6 +199,14 @@ export async function AdminHomePage() {
             ],
           }))}
         />
+      </Section>
+
+      <Section title="Suivi des erreurs">
+        <p className="text-chalk-muted text-sm text-pretty">
+          Les erreurs du jeu sont envoyées à Sentry, sans donnée personnelle. Ce
+          bouton en envoie une fausse pour vérifier que tout arrive.
+        </p>
+        <SentryTestButton />
       </Section>
 
       <Section title="Catalogue des clubs">
