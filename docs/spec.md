@@ -1,6 +1,6 @@
 # Rugby TCG — cahier des charges
 
-**Concept.** Un jeu de cartes à collectionner numérique, inspiré du TCG Wikipédia, consacré aux clubs de rugby français, du Top 14 aux divisions régionales.
+**Concept.** Un jeu de cartes à collectionner numérique, inspiré du TCG Wikipédia, consacré aux clubs de rugby français, du Top 14 aux divisions régionales (aujourd'hui jusqu'à la Fédérale 3 : les régionales sont masquées en attendant une source officielle).
 
 **Objectif.** Un jeu gratuit, addictif et communautaire, avec une monétisation progressive.
 
@@ -17,7 +17,7 @@ Chaque club de rugby français possède une carte de base, avec :
 - score de puissance ;
 - statistiques et résultats récents.
 
-Toutes les divisions du rugby français sont couvertes.
+Toutes les divisions du rugby français sont prévues. Les Régionales 1 à 3 sont masquées tant que leurs données ne viennent pas d'une source officielle.
 
 ### Raretés
 
@@ -28,7 +28,7 @@ Toutes les divisions du rugby français sont couvertes.
 | Épique     | Effet holographique |
 | Légendaire | Animation spéciale  |
 
-**La puissance et la rareté sont indépendantes.** Un club de Régionale 3 peut avoir une carte légendaire, même si sa puissance reste inférieure à celle d'un club de Top 14. La puissance évolue selon les résultats sportifs ; la rareté d'une carte reste fixe.
+**La puissance et la rareté sont indépendantes.** Un club de Fédérale 3 peut avoir une carte légendaire, même si sa puissance reste inférieure à celle d'un club de Top 14. La puissance évolue selon les résultats sportifs ; la rareté d'une carte reste fixe.
 
 Les données sportives seraient récupérées via l'API FFR Compétitions, sous réserve de vérifier les accès et les droits d'utilisation.
 
@@ -46,7 +46,7 @@ Les doublons pourront servir à améliorer l'apparence des cartes ou être propo
 
 Plusieurs albums à compléter. Une carte peut appartenir à plusieurs collections à la fois.
 
-**Permanentes.** Tous les clubs d'un département (Haute-Garonne…), d'une région (Occitanie…), d'une division (Régionale 3, Fédérale 1, Top 14…), tous les clubs de France.
+**Permanentes.** Tous les clubs d'un département (Haute-Garonne…), d'une région (Occitanie…), d'une division (Fédérale 3, Fédérale 1, Top 14…), tous les clubs de France.
 
 **Saisonnières.** Top 14 — Saison 2026-2027, clubs promus en Fédérale 1, champions régionaux, clubs qualifiés pour les phases finales. Renouvelées chaque saison ; les joueurs gardent leurs anciennes cartes.
 
