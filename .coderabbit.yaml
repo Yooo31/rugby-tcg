@@ -75,8 +75,10 @@ reviews:
         Dépôt public : aucun secret en clair, permissions minimales par job,
         aucun service payant.
   tools:
+    # ESLint tourne déjà dans la CI (vérification obligatoire) ; son
+    # installation dépasse le temps alloué dans le bac à sable de CodeRabbit.
     eslint:
-      enabled: true
+      enabled: false
     gitleaks:
       enabled: true
     actionlint:
