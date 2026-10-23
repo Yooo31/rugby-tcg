@@ -36,7 +36,8 @@ Jeu de cartes à collectionner (PWA mobile d'abord) sur les clubs de rugby fran�
 | Commande                      | Rôle                                                          |
 | ----------------------------- | ------------------------------------------------------------- |
 | `pnpm dev`                    | serveur de développement                                      |
-| `pnpm check`                  | typecheck + lint + tests + build : à lancer avant de conclure |
+| `pnpm check`                  | typecheck + lint + fallow + tests + build : avant de conclure |
+| `pnpm fallow`                 | code mort, duplication, santé (régression = échec)            |
 | `pnpm test` / `pnpm test:cov` | tests, avec ou sans couverture                                |
 | `pnpm test:db`                | tests d'intégration contre un Postgres jetable (Docker)       |
 | `pnpm typecheck`              | régénère les types de routes puis `tsc`                       |
@@ -86,7 +87,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 
 ### Conventions
 
-- Une feature : `components/`, éventuellement `hooks/` et `lib/`, et un `index.ts` qui liste ses seuls exports publics.
+- Une feature : `components/`, éventuellement `hooks/` et `lib/`, et un `index.ts` qui liste ses seuls exports publics. Une feature entièrement serveur (admin, referral) n'a que `server/index.ts`. N'exporter que ce qui est importé ailleurs : fallow signale tout export inutilisé.
 - Un écran s'appelle `XxxScreen`, est un composant client et s'enveloppe dans `<GameGate>` (chargement et erreur y sont gérés une fois).
 - Composants en PascalCase, hooks en `useXxx`, schémas Zod en `xxxSchema`, constantes en `SCREAMING_SNAKE_CASE`.
 - Pas de nombre magique : une constante nommée et commentée.

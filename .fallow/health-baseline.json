@@ -1,0 +1,117 @@
+{
+  "kind": "health",
+  "finding_counts": {
+    "public/sw.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "scripts/import-clubs/http.ts": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "scripts/import-clubs/index.ts": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "scripts/import-clubs/wikidata.ts": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/app/auth/confirm/route.ts": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/data/server/notifications.ts": {
+      "complexity_high": {
+        "count": 1
+      }
+    },
+    "src/features/admin/components/AdjustmentForm.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/features/admin/components/GiveawayForm.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/features/admin/server/actions.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/features/admin/server/pages.tsx": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/features/albums/components/AlbumRewardPanel.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/features/auth/components/AuthScreens.tsx": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/features/auth/server/actions.ts": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/features/boosters/components/BoosterScreen.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/features/cards/server/shareImage.tsx": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/features/collection/components/CollectionFilters.tsx": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/features/home/components/HomeScreen.tsx": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/features/home/components/MissionsSummary.tsx": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/lib/supabase/proxy.ts": {
+      "crap_moderate": {
+        "count": 1
+      }
+    }
+  },
+  "runtime_coverage_findings": [],
+  "target_keys": ["scripts/import-clubs/index.ts:complexity"]
+}
