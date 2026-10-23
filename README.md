@@ -1,6 +1,6 @@
 # Rugby TCG
 
-Jeu de cartes à collectionner sur les clubs de rugby français, du Top 14 à la Régionale 3. Application web installable (PWA), pensée pour le mobile.
+Jeu de cartes à collectionner sur les clubs de rugby français, du Top 14 à la Fédérale 3. Application web installable (PWA), pensée pour le mobile.
 
 ```bash
 pnpm install

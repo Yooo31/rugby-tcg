@@ -47,6 +47,28 @@ describe("classement en base", () => {
     ]);
     expect(france.me).toMatchObject({ username: "Alice", rank: 2, isMe: true });
 
+    // Une carte d'une division masquée ne compte pas au classement.
+    const hidden = await prisma.club.upsert({
+      where: { id: "club-masque-test" },
+      create: {
+        id: "club-masque-test",
+        name: "Club masqué",
+        city: "Albi",
+        department: "81",
+        division: "regionale3",
+        colorPrimary: "#000000",
+        colorSecondary: "#ffffff",
+        recentResults: [],
+      },
+      update: {},
+    });
+    await prisma.ownedCard.create({
+      data: { playerId: alice, clubId: hidden.id, rarity: "common" },
+    });
+    expect(
+      (await createPrismaLeaderboard(prisma, alice).get(null)).me?.clubs,
+    ).toBe(3);
+
     const region = await createPrismaLeaderboard(prisma, alice).get("occ");
     expect(region.entries.map((e) => [e.username, e.clubs])).toEqual([
       ["Alice", 3],

@@ -71,7 +71,7 @@ Objectif : vérifier que les passionnés de rugby aiment collectionner les clubs
 ## Décisions prises
 
 - Première étape : socle et boucle jouable sur données fictives ; Supabase ensuite.
-- Divisions seniors masculines pour commencer (Top 14, Pro D2, Nationale, Nationale 2, Fédérale 1 à 3, Régionale 1 à 3) ; le modèle prévoit féminines et jeunes.
+- Divisions seniors masculines pour commencer (Top 14, Pro D2, Nationale, Nationale 2, Fédérale 1 à 3) ; le modèle prévoit féminines et jeunes. Les Régionales 1 à 3 sont prévues mais masquées tant qu'il n'y a pas de source officielle.
 - Direction visuelle « Stade de nuit » (`docs/design-system.md`).
 - Probabilités de départ : Commune 70 %, Rare 22 %, Épique 7 %, Légendaire 1 %.
 - Blasons générés à la place des logos officiels, faute de droits.

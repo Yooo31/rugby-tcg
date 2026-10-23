@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
 import {
-  DIVISIONS,
+  PLAYABLE_DIVISIONS,
   getDivision,
   RARITIES,
   rarityLabel,
@@ -212,7 +212,7 @@ function FilterSheet({
         <fieldset className="flex flex-col gap-3">
           <legend className="eyebrow mb-3">Division</legend>
           <div className="flex flex-wrap gap-2">
-            {DIVISIONS.map(({ id, label }) => (
+            {PLAYABLE_DIVISIONS.map(({ id, label }) => (
               <Chip
                 key={id}
                 selected={filters.division === id}

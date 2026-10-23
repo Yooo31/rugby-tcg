@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Rugby TCG",
     short_name: "Rugby TCG",
     description:
-      "Collectionnez les clubs de rugby français, du Top 14 à la Régionale 3.",
+      "Collectionnez les clubs de rugby français, du Top 14 à la Fédérale 3.",
     lang: "fr",
     start_url: "/",
     display: "standalone",

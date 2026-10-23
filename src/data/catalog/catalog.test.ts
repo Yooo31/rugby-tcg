@@ -1,5 +1,5 @@
-import { clubSchema, DIVISIONS } from "@/domain";
-import { CATALOG_SEASON, CLUB_CATALOG } from "./index";
+import { clubSchema, HIDDEN_DIVISIONS, PLAYABLE_DIVISIONS } from "@/domain";
+import { CATALOG_SEASON, CLUB_CATALOG, FULL_CLUB_CATALOG } from "./index";
 
 const inDivision = (division: string) =>
   CLUB_CATALOG.filter((club) => club.division === division);
@@ -13,10 +13,20 @@ describe("catalogue des clubs", () => {
     );
   });
 
-  it("couvre toutes les divisions", () => {
+  it("couvre toutes les divisions jouables, et elles seules", () => {
     expect(new Set(CLUB_CATALOG.map((club) => club.division)).size).toBe(
-      DIVISIONS.length,
+      PLAYABLE_DIVISIONS.length,
     );
+    for (const club of CLUB_CATALOG)
+      expect(HIDDEN_DIVISIONS).not.toContain(club.division);
+  });
+
+  it("garde les clubs des divisions masquées pour pouvoir les réactiver", () => {
+    expect(
+      FULL_CLUB_CATALOG.some((club) =>
+        HIDDEN_DIVISIONS.includes(club.division),
+      ),
+    ).toBe(true);
   });
 
   it("a les effectifs réglementaires des divisions professionnelles", () => {
@@ -26,11 +36,11 @@ describe("catalogue des clubs", () => {
 
   it("n'a jamais deux clubs du catalogue dans la même ville pour une saisie régionale", () => {
     const importedTowns = new Set(
-      CLUB_CATALOG.filter((club) => !club.division.startsWith("regionale")).map(
-        (club) => `${club.department}:${club.city.toLowerCase()}`,
-      ),
+      FULL_CLUB_CATALOG.filter(
+        (club) => !club.division.startsWith("regionale"),
+      ).map((club) => `${club.department}:${club.city.toLowerCase()}`),
     );
-    const regional = CLUB_CATALOG.filter((club) =>
+    const regional = FULL_CLUB_CATALOG.filter((club) =>
       club.division.startsWith("regionale"),
     );
     expect(regional.length).toBeGreaterThan(0);
