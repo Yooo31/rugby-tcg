@@ -1,26 +1,171 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Design system « Stade de nuit » — voir docs/design-system.md.
+ * Toute couleur, typo, rayon ou durée utilisée dans l'app vient d'un token ci-dessous.
+ */
+@theme {
+  /* Surfaces : la nuit autour du stade, du plus profond au plus proche. */
+  --color-night: #05090d;
+  --color-surface: #0b131a;
+  --color-surface-raised: #121d27;
+  --color-surface-hover: #1a2834;
+  --color-line: #ffffff14;
+  --color-line-strong: #ffffff29;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Texte : craie des lignes de touche. */
+  --color-chalk: #eef4f0;
+  --color-chalk-muted: #93a4ad;
+  --color-chalk-faint: #5f707a;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Accents : la pelouse sous les projecteurs, l'or du Bouclier. */
+  --color-pitch: #37d67f;
+  --color-pitch-strong: #1fae5f;
+  --color-pitch-deep: #0c3b24;
+  --color-gold: #f2c14e;
+  --color-gold-deep: #a9781f;
+  --color-danger: #ff6b6b;
+
+  /* Raretés. */
+  --color-rarity-common: #9fb0bb;
+  --color-rarity-rare: #58b4ff;
+  --color-rarity-epic: #c084ff;
+  --color-rarity-legendary: #f2c14e;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-barlow-condensed), "Arial Narrow", sans-serif;
+
+  --radius-panel: 1.25rem;
+  --radius-control: 0.875rem;
+
+  --shadow-panel: 0 1px 0 0 #ffffff0f inset, 0 18px 40px -24px #000000;
+  --shadow-glow-pitch: 0 0 0 1px #37d67f40, 0 10px 40px -10px #37d67f80;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(-2deg);
+    }
+    50% {
+      transform: translateY(-10px) rotate(2deg);
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--color-night);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    min-height: 100dvh;
+    color: var(--color-chalk);
+    font-family: var(--font-sans);
+    overscroll-behavior-y: none;
+  }
+
+  /* Halo des projecteurs en haut, tontes de pelouse en bas : le décor fixe du jeu. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(60% 40% at 0% 0%, #cfe9ff1f, transparent 70%),
+      radial-gradient(60% 40% at 100% 0%, #cfe9ff1a, transparent 70%),
+      radial-gradient(90% 45% at 50% 115%, #1fae5f33, transparent 70%),
+      repeating-linear-gradient(90deg, #37d67f05 0 72px, transparent 72px 144px);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-pitch);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: var(--color-pitch);
+    color: var(--color-night);
+  }
+}
+
+@utility panel {
+  border-radius: var(--radius-panel);
+  border: 1px solid var(--color-line);
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-raised),
+    var(--color-surface)
+  );
+  box-shadow: var(--shadow-panel);
+}
+
+/* Petite étiquette en capitales espacées (sur-titres, légendes de chiffres). */
+@utility eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-chalk-muted);
+}
+
+@utility skeleton {
+  border-radius: var(--radius-control);
+  background: linear-gradient(
+    90deg,
+    #ffffff0a 25%,
+    #ffffff17 50%,
+    #ffffff0a 75%
+  );
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+/* Marge basse qui dégage la barre d'onglets et l'encoche des téléphones. */
+@utility pb-safe-nav {
+  padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
 }
