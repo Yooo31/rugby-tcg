@@ -2,6 +2,7 @@ import { z } from "zod";
 import {
   buildPermanentAlbums,
   clubSchema,
+  isPlayableDivision,
   matchResultSchema,
   RECENT_RESULTS_WINDOW,
   type Album,
@@ -62,10 +63,19 @@ const regionalClubs: Club[] = Object.entries(REGIONAL_CLUB_SEEDS).flatMap(
       .filter((club) => !importedTowns.has(townKey(club))),
 );
 
-export const CLUB_CATALOG: readonly Club[] = [
+/** Tous les clubs connus, divisions masquées comprises (pour les réactiver). */
+export const FULL_CLUB_CATALOG: readonly Club[] = [
   ...importedClubs,
   ...regionalClubs,
 ];
+
+/**
+ * Clubs du jeu : ceux des divisions jouables. C'est la seule liste que voient
+ * le tirage, les albums, la collection, le classement et `pnpm db:seed`.
+ */
+export const CLUB_CATALOG: readonly Club[] = FULL_CLUB_CATALOG.filter((club) =>
+  isPlayableDivision(club.division),
+);
 
 /** Albums permanents du catalogue : des règles, calculées une fois pour toutes. */
 export const CATALOG_ALBUMS: readonly Album[] =

@@ -3,7 +3,7 @@ import {
   BOOSTER_SIZE,
   BoosterQuotaExceededError,
   clubSchema,
-  DIVISIONS,
+  PLAYABLE_DIVISIONS,
   MAX_FREE_BOOSTERS,
   InsufficientIngotsError,
   RewardNotClaimableError,
@@ -46,9 +46,9 @@ describe("catalogue des clubs", () => {
       expect(clubSchema.safeParse(club).success).toBe(true);
   });
 
-  it("couvre toutes les divisions", () => {
+  it("couvre toutes les divisions jouables", () => {
     expect(new Set(CLUB_CATALOG.map((club) => club.division)).size).toBe(
-      DIVISIONS.length,
+      PLAYABLE_DIVISIONS.length,
     );
   });
 });
@@ -252,5 +252,31 @@ describe("série de connexion", () => {
 
     setNow("2026-10-14T09:00:00");
     expect((await player.claimStreak()).ingots).toBe(30);
+  });
+});
+
+describe("divisions masquées", () => {
+  it("garde une carte régionale possédée mais ne la montre plus", async () => {
+    const regional = makeClubs(1, "regionale3")[0];
+    const store = createMemoryStore();
+    store.setItem(
+      "rugby-tcg:collection",
+      JSON.stringify([
+        {
+          clubId: regional.id,
+          rarity: "common",
+          count: 1,
+          firstObtainedAt: "2026-10-01",
+        },
+      ]),
+    );
+    const { player } = createMockRepositories({ store });
+    expect((await player.get()).collection).toEqual([]);
+
+    await player.openBooster();
+    const stored = JSON.parse(
+      store.getItem("rugby-tcg:collection") ?? "[]",
+    ) as { clubId: string }[];
+    expect(stored.some((card) => card.clubId === regional.id)).toBe(true);
   });
 });

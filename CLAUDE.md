@@ -7,7 +7,7 @@
 
 ## Le produit en une phrase
 
-Jeu de cartes à collectionner (PWA mobile d'abord) sur les clubs de rugby français, du Top 14 à la Régionale 3 : on ouvre des boosters, on collectionne des clubs, on complète des albums, et les missions du jour rapportent des lingots à échanger contre d'autres boosters.
+Jeu de cartes à collectionner (PWA mobile d'abord) sur les clubs de rugby français, du Top 14 à la Fédérale 3 : on ouvre des boosters, on collectionne des clubs, on complète des albums, et les missions du jour rapportent des lingots à échanger contre d'autres boosters.
 
 ## Règles non négociables
 
@@ -102,7 +102,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 
 - **Catalogue des clubs** (`src/data/catalog`) : source unique du mock et de la base.
   - Du Top 14 à la Fédérale 3 : import de la saison depuis Wikipédia (composition des divisions, couleurs) et Wikidata (commune, département), par leurs API officielles. `pnpm clubs:import` régénère `clubs.wikipedia.json` ; changer `SEASON` dans `scripts/import-clubs/sources.ts` chaque été.
-  - Divisions régionales : `clubs.regional.ts`, saisi à la main et **indicatif**, faute de source ouverte.
+  - Divisions régionales : `clubs.regional.ts`, saisi à la main et **indicatif**, faute de source ouverte. **Masquées pour l'instant** (`HIDDEN_DIVISIONS`, `domain/club.ts`) : `CLUB_CATALOG` ne garde que les divisions jouables (tirage, albums, filtres, classement, seed) ; `FULL_CLUB_CATALOG` les contient toutes. Une carte régionale déjà possédée reste en base mais n'est plus affichée ni comptée.
   - Détails, limites et mentions à respecter : `docs/data-sources.md`.
 - **Ne pas aspirer les sites de la FFR** (`monclubhouse.ffr.fr` et son API) : leurs `robots.txt` l'interdisent. Les données officielles passent par un accord avec la FFR ou les ligues.
 - **Base** : Postgres chez Supabase, pilotée par Prisma (`prisma/schema.prisma`, migrations dans `prisma/migrations`). Le client généré (`src/generated`) n'est pas versionné.

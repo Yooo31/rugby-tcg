@@ -20,7 +20,7 @@ const APP_NAME = "Rugby TCG";
 export const metadata: Metadata = {
   title: { default: APP_NAME, template: `%s · ${APP_NAME}` },
   description:
-    "Collectionnez les clubs de rugby français, du Top 14 à la Régionale 3.",
+    "Collectionnez les clubs de rugby français, du Top 14 à la Fédérale 3.",
   applicationName: APP_NAME,
   icons: { apple: "/icons/apple-touch-icon.png" },
   appleWebApp: {

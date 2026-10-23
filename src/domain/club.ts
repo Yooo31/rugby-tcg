@@ -31,6 +31,26 @@ const divisionsById = new Map<DivisionId, Division>(
   DIVISIONS.map((division) => [division.id, division]),
 );
 
+/**
+ * Divisions présentes dans le modèle mais retirées du jeu pour l'instant :
+ * les régionales sont saisies à la main, faute de source officielle
+ * (issue #18). Les réactiver revient à vider cette liste.
+ */
+export const HIDDEN_DIVISIONS: readonly DivisionId[] = [
+  "regionale1",
+  "regionale2",
+  "regionale3",
+];
+
+/** Divisions jouables, dans l'ordre hiérarchique. */
+export const PLAYABLE_DIVISIONS: readonly Division[] = DIVISIONS.filter(
+  (division) => !HIDDEN_DIVISIONS.includes(division.id),
+);
+
+export function isPlayableDivision(id: DivisionId): boolean {
+  return !HIDDEN_DIVISIONS.includes(id);
+}
+
 export function getDivision(id: DivisionId): Division {
   // La Map est construite depuis DIVISIONS : tout DivisionId y figure.
   return divisionsById.get(id) as Division;

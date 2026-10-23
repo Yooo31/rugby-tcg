@@ -1,6 +1,7 @@
 import "server-only";
 import {
   departmentsOfRegion,
+  HIDDEN_DIVISIONS,
   LEADERBOARD_SIZE,
   type Leaderboard,
   type LeaderboardEntry,
@@ -38,7 +39,9 @@ export function createPrismaLeaderboard(
           FROM players p
           JOIN owned_cards oc ON oc.player_id = p.id
           JOIN clubs c ON c.id = oc.club_id
-          WHERE p.username IS NOT NULL ${regionFilter}
+          WHERE p.username IS NOT NULL
+            AND NOT (c.division = ANY(${[...HIDDEN_DIVISIONS]}::text[]))
+            ${regionFilter}
           GROUP BY p.id, p.username
         ),
         ranked AS (
