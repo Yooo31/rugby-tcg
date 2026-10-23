@@ -1,0 +1,105 @@
+# Non-régression : à chaque push et pull request vers main et develop.
+# Les noms des jobs servent de vérifications obligatoires (protection des branches).
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+# Valeurs factices : la CI ne parle à aucun service réel. La base des tests
+# d'intégration est un Postgres jetable lancé par `pnpm test:db`.
+env:
+  NEXT_PUBLIC_SUPABASE_URL: https://ci.supabase.co
+  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_ci
+  NEXT_PUBLIC_SITE_URL: http://localhost:3000
+  DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+  DIRECT_URL: postgresql://ci:ci@localhost:5432/ci
+  NEXT_TELEMETRY_DISABLED: "1"
+
+jobs:
+  quality:
+    name: Qualité
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Types
+        run: pnpm typecheck
+      - name: Lint
+        run: pnpm lint
+      - name: Formatage
+        run: pnpm format:check
+      - name: Maintenabilité (fallow)
+        run: |
+          pnpm exec fallow --health-baseline .fallow/health-baseline.json --format github-summary >> "$GITHUB_STEP_SUMMARY" || true
+          pnpm fallow
+      - name: Tests et couverture
+        run: pnpm test:cov
+
+  database:
+    name: Base de données
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Migrations et tests d'intégration (Postgres jetable)
+        run: pnpm test:db
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+  commits:
+    name: Commits
+    # Les messages de Dependabot ont des lignes trop longues pour commitlint ;
+    # leur titre est contrôlé par la configuration de Dependabot.
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Messages conventionnels
+        run: >
+          pnpm exec commitlint
+          --from ${{ github.event.pull_request.base.sha }}
+          --to ${{ github.event.pull_request.head.sha }}
+          --verbose

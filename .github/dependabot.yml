@@ -1,0 +1,48 @@
+# Mises à jour des dépendances, proposées chaque semaine sur develop.
+# Les mineures et correctives sont fusionnées seules si la CI passe
+# (workflow dependabot-auto-merge) ; les majeures attendent une relecture.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    target-branch: develop
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Paris
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: build
+      include: scope
+    labels: [dependances]
+    groups:
+      # Next.js, React et leurs outils évoluent ensemble.
+      next-react:
+        patterns:
+          ["next", "eslint-config-next", "react", "react-dom", "@types/react*"]
+      prisma:
+        patterns: ["prisma", "@prisma/*"]
+      mineures-et-correctives:
+        update-types: [minor, patch]
+        exclude-patterns:
+          [
+            "next",
+            "eslint-config-next",
+            "react",
+            "react-dom",
+            "prisma",
+            "@prisma/*",
+          ]
+
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: develop
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Paris
+    commit-message:
+      prefix: ci
+    labels: [dependances]

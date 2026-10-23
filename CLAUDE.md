@@ -188,6 +188,15 @@ Fait aussi : classement des collectionneurs (général et par région), pseudo, 
 
 Hors périmètre V1 : paiement réel, marché d'échange, usage des doublons, collections saisonnières et événementielles, féminines et jeunes (le champ `category` les prévoit).
 
+## Git, CI et versions
+
+- Dépôt public `github.com/Yooo31/rugby-tcg`. **`main` = production, `develop` = développement.** On travaille sur `develop` (ou une branche qui y fusionne) ; `main` ne reçoit que des fusions depuis `develop`.
+- **CI** (`.github/workflows/ci.yml`), sur chaque push et PR vers `main` et `develop` : Qualité (types, lint, formatage, fallow, tests et couverture), Base de données (`pnpm test:db`), Build, Commits (commitlint sur la PR). Ces quatre noms sont les vérifications obligatoires des deux branches.
+- **Versions** : semantic-release (`.releaserc.json`, `release.yml`) après une CI verte sur `main`. Le numéro vient des commits conventionnels (`feat` → mineure, `fix` → corrective, `BREAKING CHANGE` → majeure) ; il est porté par le tag git et la release GitHub, dont les notes font office de changelog. Rien n'est commité sur les branches : `package.json` garde `0.0.0-development`. Avant la V1, les versions restent en 0.x (tag de départ `v0.1.0`).
+- **Dépendances** : Dependabot (`.github/dependabot.yml`) propose chaque lundi ses mises à jour sur `develop`. Mineures et correctives sont fusionnées seules si la CI passe (`dependabot-auto-merge.yml`) ; les majeures attendent une relecture.
+- **Revue** : CodeRabbit (`.coderabbit.yaml`, gratuit en dépôt public) relit chaque PR vers `develop` et `main`, en français, avec les règles de ce fichier.
+- Coût : zéro. GitHub Actions est illimité pour un dépôt public ; ne pas ajouter de service payant.
+
 ## Méthode de travail
 
 1. Lire ce fichier, puis `docs/spec.md` pour toute question produit.
