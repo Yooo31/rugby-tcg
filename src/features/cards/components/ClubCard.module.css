@@ -1,0 +1,541 @@
+/*
+ * Carte de club. Toutes les dimensions internes sont en `cqw` (pourcentage de
+ * la largeur de la carte) : la carte reste identique de 90 px à 400 px de large.
+ *
+ * Variables pilotées par useCardTilt : --tilt-x, --tilt-y, --pointer-x,
+ * --pointer-y, --active. Variables pilotées par le composant : --club-primary,
+ * --club-secondary.
+ */
+
+@property --frame-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/*
+ * Tout est déclaré dans la couche `components` : les utilitaires Tailwind de
+ * l'appelant (largeur, position…) gardent ainsi la priorité sur ces styles.
+ */
+@layer components {
+  .card {
+    --rarity: var(--color-rarity-common);
+    --frame: linear-gradient(160deg, #4a5a68, #1b252f 55%, #3c4b58);
+    --frame-glow: transparent;
+
+    position: relative;
+    aspect-ratio: 5 / 7;
+    width: 100%;
+    container-type: inline-size;
+    perspective: 900px;
+    color: var(--color-chalk);
+  }
+
+  .interactive {
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .tilt {
+    position: absolute;
+    inset: 0;
+    border-radius: 7cqw;
+    transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transform-style: preserve-3d;
+    transition: transform 600ms var(--ease-out-expo);
+    will-change: transform;
+  }
+
+  .card[data-active] .tilt {
+    transition-duration: 80ms;
+  }
+
+  .frame {
+    position: absolute;
+    inset: 0;
+    padding: 2.4cqw;
+    border-radius: 7cqw;
+    background: var(--frame);
+    box-shadow:
+      0 0 0 1px #00000080,
+      0 6cqw 12cqw -6cqw #000000cc,
+      0 0 14cqw -4cqw var(--frame-glow);
+  }
+
+  .face {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 5cqw 5cqw 4.4cqw;
+    overflow: hidden;
+    border-radius: 5cqw;
+    background:
+      radial-gradient(
+        120% 70% at 50% -5%,
+        color-mix(in oklab, var(--club-primary) 62%, transparent),
+        transparent 72%
+      ),
+      linear-gradient(180deg, #101a23, #070c11);
+  }
+
+  /* Les anneaux du maillot : bandes horizontales aux couleurs du club, fondues vers le bas. */
+  .face::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: repeating-linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--club-secondary) 16%, transparent) 0 5.5cqw,
+      transparent 5.5cqw 11cqw
+    );
+    mask-image: linear-gradient(180deg, #000 0%, transparent 58%);
+  }
+
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2cqw;
+  }
+
+  .division {
+    padding: 1.2cqw 3cqw;
+    border-radius: 99cqw;
+    background: #00000073;
+    border: 1px solid #ffffff26;
+    font-size: 3.8cqw;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    backdrop-filter: blur(6px);
+  }
+
+  .power {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-family: var(--font-display);
+    line-height: 0.82;
+    text-shadow: 0 1cqw 3cqw #000000b3;
+  }
+
+  .powerValue {
+    font-size: 17cqw;
+    font-weight: 800;
+    font-style: italic;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .powerLabel {
+    margin-top: 1cqw;
+    font-family: var(--font-sans);
+    font-size: 2.8cqw;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  .crest {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    filter: drop-shadow(0 3cqw 5cqw #000000a6);
+  }
+
+  .crest > svg {
+    width: 54cqw;
+    height: auto;
+    transform: translateZ(0);
+  }
+
+  .name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-family: var(--font-display);
+    font-size: 8.6cqw;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .locality {
+    margin-top: 1.6cqw;
+    overflow: hidden;
+    font-size: 4cqw;
+    color: var(--color-chalk-muted);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2cqw;
+    margin-top: 3.4cqw;
+    padding-top: 3.2cqw;
+    border-top: 1px solid #ffffff1f;
+  }
+
+  .form {
+    display: flex;
+    gap: 1.2cqw;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .result {
+    display: grid;
+    place-items: center;
+    width: 5.4cqw;
+    height: 5.4cqw;
+    border-radius: 1.4cqw;
+    font-size: 3.2cqw;
+    font-weight: 700;
+    line-height: 1;
+    color: #05090d;
+  }
+
+  .result[data-result="W"] {
+    background: var(--color-pitch);
+  }
+
+  .result[data-result="D"] {
+    background: var(--color-chalk-faint);
+    color: var(--color-chalk);
+  }
+
+  .result[data-result="L"] {
+    background: var(--color-danger);
+  }
+
+  .rarity {
+    display: flex;
+    align-items: center;
+    gap: 1.4cqw;
+    font-size: 3.6cqw;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rarity);
+  }
+
+  .rarity::before {
+    content: "";
+    width: 2.4cqw;
+    height: 2.4cqw;
+    background: currentColor;
+    transform: rotate(45deg);
+    box-shadow: 0 0 2.4cqw currentColor;
+  }
+
+  /* Reflet de lumière qui suit le pointeur — présent sur toutes les raretés. */
+  .glare {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+      #ffffff66,
+      transparent 48%
+    );
+    mix-blend-mode: overlay;
+    opacity: calc(var(--active, 0) * 0.9);
+    transition: opacity 300ms;
+  }
+
+  /* Feuille métallisée : simple reflet pour les rares, arc-en-ciel au-delà. */
+  .foil {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background-size: 260% 260%;
+    background-position: var(--pointer-x, 50%) var(--pointer-y, 50%);
+    mix-blend-mode: color-dodge;
+    transition: opacity 300ms;
+  }
+
+  /* ——— Rare : bordure brillante ——— */
+
+  .card[data-rarity="rare"] {
+    --rarity: var(--color-rarity-rare);
+    --frame: linear-gradient(
+      135deg,
+      #c9e9ff,
+      #2f7fe0 28%,
+      #0c3470 52%,
+      #8ccdff 78%,
+      #1d5fc0
+    );
+    --frame-glow: #58b4ff80;
+  }
+
+  .card[data-rarity="rare"] .foil {
+    background-image: linear-gradient(
+      115deg,
+      transparent 38%,
+      #bfe4ff59 50%,
+      transparent 62%
+    );
+    opacity: calc(0.35 + var(--active, 0) * 0.65);
+  }
+
+  /* ——— Épique : effet holographique ——— */
+
+  .card[data-rarity="epic"] {
+    --rarity: var(--color-rarity-epic);
+    --frame: linear-gradient(
+      135deg,
+      #f3d1ff,
+      #9b4dff 28%,
+      #35176e 52%,
+      #ff86dc 78%,
+      #7a3cff
+    );
+    --frame-glow: #c084ff8c;
+  }
+
+  .card[data-rarity="epic"] .foil,
+  .card[data-rarity="legendary"] .foil {
+    background-image: repeating-linear-gradient(
+      110deg,
+      #ff5f6d 0%,
+      #ffc371 8%,
+      #7cffcb 16%,
+      #5fa8ff 24%,
+      #c084ff 32%,
+      #ff5f6d 40%
+    );
+    filter: saturate(1.3) brightness(0.72);
+    opacity: calc(0.2 + var(--active, 0) * 0.4);
+  }
+
+  /* ——— Légendaire : animation permanente ——— */
+
+  .card[data-rarity="legendary"] {
+    --rarity: var(--color-rarity-legendary);
+    --frame: conic-gradient(
+      from var(--frame-angle),
+      #fff4c9,
+      #f2c14e,
+      #7d520d,
+      #ffe9a3,
+      #f2c14e,
+      #a9781f,
+      #fff4c9
+    );
+    --frame-glow: #f2c14eb3;
+  }
+
+  .card[data-rarity="legendary"] .frame {
+    animation: spin-frame 6s linear infinite;
+  }
+
+  .card[data-rarity="legendary"]:not([data-active]) .foil {
+    animation: drift-foil 7s ease-in-out infinite alternate;
+  }
+
+  .card[data-rarity="legendary"] .name {
+    background: linear-gradient(180deg, #fff4c9, #f2c14e 60%, #c9962f);
+    background-clip: text;
+    color: transparent;
+  }
+
+  .sparkles {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  .sparkles > span {
+    position: absolute;
+    width: 5cqw;
+    height: 5cqw;
+    background: #fff7d6;
+    clip-path: polygon(
+      50% 0,
+      60% 40%,
+      100% 50%,
+      60% 60%,
+      50% 100%,
+      40% 60%,
+      0 50%,
+      40% 40%
+    );
+    opacity: 0;
+    animation: twinkle 3.2s ease-in-out infinite;
+  }
+
+  .sparkles > span:nth-child(1) {
+    top: 14%;
+    left: 12%;
+  }
+
+  .sparkles > span:nth-child(2) {
+    top: 30%;
+    right: 10%;
+    animation-delay: 0.8s;
+  }
+
+  .sparkles > span:nth-child(3) {
+    top: 56%;
+    left: 18%;
+    animation-delay: 1.6s;
+  }
+
+  .sparkles > span:nth-child(4) {
+    top: 68%;
+    right: 20%;
+    animation-delay: 2.3s;
+  }
+
+  @keyframes spin-frame {
+    to {
+      --frame-angle: 360deg;
+    }
+  }
+
+  @keyframes drift-foil {
+    from {
+      background-position: 0% 20%;
+    }
+    to {
+      background-position: 100% 80%;
+    }
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0;
+      transform: scale(0.3) rotate(0deg);
+    }
+    50% {
+      opacity: 0.95;
+      transform: scale(1) rotate(45deg);
+    }
+  }
+
+  /* ——— Dos de carte ——— */
+
+  .back {
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(80% 60% at 50% 50%, #1fae5f40, transparent 70%),
+      repeating-linear-gradient(
+        90deg,
+        #37d67f12 0 9cqw,
+        transparent 9cqw 18cqw
+      ),
+      linear-gradient(180deg, #0c1f17, #060d0a);
+  }
+
+  .backMark {
+    display: grid;
+    place-items: center;
+    width: 46cqw;
+    aspect-ratio: 3 / 4;
+    border: 1.2cqw solid #37d67f8c;
+    border-radius: 50%;
+    font-family: var(--font-display);
+    font-size: 9cqw;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: 0.06em;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--color-pitch);
+    transform: rotate(-18deg);
+  }
+
+  /* ——— Emplacement vide (carte manquante d'un album) ——— */
+
+  .slot {
+    --frame: transparent;
+  }
+
+  .slot .frame {
+    border: 1px dashed #ffffff2e;
+    box-shadow: none;
+  }
+
+  .slot .face {
+    background: #ffffff05;
+  }
+
+  .slot .face::before {
+    display: none;
+  }
+
+  .slot .crest {
+    margin-top: 0;
+    filter: grayscale(1) brightness(0.55);
+    opacity: 0.4;
+  }
+
+  .slot .name,
+  .slot .locality {
+    text-align: center;
+    color: var(--color-chalk-faint);
+  }
+
+  .slot .name {
+    font-size: 7.4cqw;
+  }
+
+  /*
+   * Carte miniature (grilles serrées sur téléphone) : sous 140 px, les petites
+   * lignes deviennent illisibles. On ne garde que l'essentiel, en plus gros.
+   */
+  @container (width < 140px) {
+    .locality,
+    .footer,
+    .powerLabel {
+      display: none;
+    }
+
+    .division {
+      font-size: 5.6cqw;
+    }
+
+    .powerValue {
+      font-size: 21cqw;
+    }
+
+    .name {
+      font-size: 11cqw;
+    }
+
+    .slot .name {
+      font-size: 10cqw;
+    }
+
+    .crest > svg {
+      width: 50cqw;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tilt {
+      transform: none;
+    }
+
+    .sparkles {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,1 @@
+export { shareImageResponse } from "./shareImage";

@@ -1,0 +1,142 @@
+/* Sachet de booster en aluminium : soudures crantées en haut et en bas, reflet qui balaie. */
+
+/*
+ * Tout est déclaré dans la couche `components` : les utilitaires Tailwind de
+ * l'appelant (largeur, position…) gardent ainsi la priorité sur ces styles.
+ */
+@layer components {
+  .pack {
+    position: relative;
+    aspect-ratio: 5 / 7.6;
+    width: 100%;
+    container-type: inline-size;
+    filter: drop-shadow(0 10cqw 14cqw #000000b3);
+  }
+
+  .foil {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4cqw;
+    overflow: hidden;
+    border-radius: 3cqw;
+    background:
+      linear-gradient(
+        100deg,
+        transparent 20%,
+        #ffffff40 38%,
+        transparent 46%,
+        transparent 60%,
+        #ffffff26 72%,
+        transparent 82%
+      ),
+      radial-gradient(90% 60% at 50% 40%, #37d67f, #0f6b3d 60%, #062c1a);
+    /* Soudures crantées. */
+    clip-path: polygon(
+      0 3%,
+      5% 0,
+      10% 3%,
+      15% 0,
+      20% 3%,
+      25% 0,
+      30% 3%,
+      35% 0,
+      40% 3%,
+      45% 0,
+      50% 3%,
+      55% 0,
+      60% 3%,
+      65% 0,
+      70% 3%,
+      75% 0,
+      80% 3%,
+      85% 0,
+      90% 3%,
+      95% 0,
+      100% 3%,
+      100% 97%,
+      95% 100%,
+      90% 97%,
+      85% 100%,
+      80% 97%,
+      75% 100%,
+      70% 97%,
+      65% 100%,
+      60% 97%,
+      55% 100%,
+      50% 97%,
+      45% 100%,
+      40% 97%,
+      35% 100%,
+      30% 97%,
+      25% 100%,
+      20% 97%,
+      15% 100%,
+      10% 97%,
+      5% 100%,
+      0 97%
+    );
+  }
+
+  .foil::before,
+  .foil::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    height: 9%;
+    background: repeating-linear-gradient(
+      90deg,
+      #00000026 0 1.2cqw,
+      transparent 1.2cqw 2.4cqw
+    );
+  }
+
+  .foil::before {
+    top: 0;
+    border-bottom: 1px solid #ffffff40;
+  }
+
+  .foil::after {
+    bottom: 0;
+    border-top: 1px solid #ffffff40;
+  }
+
+  .ball {
+    width: 38cqw;
+    aspect-ratio: 3 / 4;
+    border: 1.6cqw solid #05090d;
+    border-radius: 50%;
+    transform: rotate(-24deg);
+    background:
+      linear-gradient(#05090d, #05090d) center / 1.6cqw 62% no-repeat,
+      #eef4f0;
+  }
+
+  .title {
+    font-family: var(--font-display);
+    font-size: 15cqw;
+    font-weight: 800;
+    line-height: 0.85;
+    text-align: center;
+    text-transform: uppercase;
+    color: #05090d;
+  }
+
+  .caption {
+    padding: 1cqw 4cqw;
+    border-radius: 99cqw;
+    background: #05090d;
+    font-size: 4.6cqw;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-pitch);
+  }
+
+  .spent {
+    filter: grayscale(0.9) brightness(0.5) drop-shadow(0 10cqw 14cqw #000000b3);
+  }
+}
