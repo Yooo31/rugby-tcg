@@ -1,0 +1,95 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# Revue automatique des pull requests par CodeRabbit (gratuit pour un dépôt public).
+# Les règles du projet vivent dans CLAUDE.md : CodeRabbit les lit comme consignes.
+language: fr-FR
+tone_instructions: >-
+  Relecteur exigeant mais bref. Signale d'abord ce qui casse (sécurité, triche,
+  données perdues, régression), puis le reste. Pas de compliments ni de résumé
+  de ce que la PR fait déjà bien.
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  review_status: true
+  collapse_walkthrough: true
+  sequence_diagrams: false
+  poem: false
+  in_progress_fortune: false
+  suggested_labels: false
+  suggested_reviewers: false
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches: [develop, main]
+    # Les mises à jour de dépendances sont vérifiées par la CI.
+    ignore_usernames: ["dependabot[bot]"]
+  path_filters:
+    - "!pnpm-lock.yaml"
+    - "!src/generated/**"
+    - "!src/data/catalog/clubs.wikipedia.json"
+    - "!.fallow/**"
+    - "!.claude/skills/supabase/**"
+    - "!.claude/skills/supabase-postgres-best-practices/**"
+  path_instructions:
+    - path: "src/domain/**"
+      instructions: >-
+        Domaine pur : aucune dépendance à React, Next, Prisma ou aux données ;
+        hasard (Rng) et dates injectés. Vérifier que la rareté ne dépend jamais
+        de la puissance, ni l'inverse. Tout montant d'économie est une constante
+        nommée et commentée. Chaque règle a son test.
+    - path: "src/data/server/**"
+      instructions: >-
+        Code serveur Prisma. L'identifiant du joueur doit venir de la session
+        vérifiée, jamais du navigateur. Une action qui modifie l'état du joueur
+        passe par une transaction qui verrouille sa ligne (FOR UPDATE) ; pas de
+        Promise.all dans une transaction. Attention aux injections dans
+        $queryRaw (seulement des gabarits paramétrés, jamais $queryRawUnsafe).
+    - path: "src/features/**/server/**"
+      instructions: >-
+        Actions serveur et code réservé au serveur : chaque action est un point
+        d'entrée public. Vérifier l'authentification (requireAuthUser,
+        requireAdmin dans chaque page et action d'admin), la validation Zod de
+        chaque paramètre reçu, et qu'aucune donnée d'un autre joueur ne fuit.
+        Les refus prévus reviennent en codes (ActionResult), pas en exceptions.
+    - path: "src/features/**/*.tsx"
+      instructions: >-
+        Mobile d'abord : cibles tactiles d'au moins 44 px, pas de défilement
+        horizontal, prefers-reduced-motion respecté. Couleurs, typos et durées
+        viennent des tokens de globals.css. Textes en français, vouvoiement.
+        L'interface ne recalcule jamais un solde : elle affiche le PlayerSnapshot.
+        Une feature n'importe une autre que par son index.ts.
+    - path: "prisma/migrations/**"
+      instructions: >-
+        Toute nouvelle table : ENABLE ROW LEVEL SECURITY et REVOKE ALL ... FROM
+        anon, authenticated (séquences comprises). Index sur chaque clé
+        étrangère. Contraintes CHECK pour les invariants (soldes >= 0). Le
+        schéma Prisma doit rester aligné.
+    - path: "**/*.test.{ts,tsx}"
+      instructions: >-
+        Tests co-localisés, noms de cas en français. Préférer des assertions
+        sur le comportement observable ; pas de test qui ne fait que recopier
+        l'implémentation.
+    - path: ".github/**"
+      instructions: >-
+        Dépôt public : aucun secret en clair, permissions minimales par job,
+        aucun service payant.
+  tools:
+    eslint:
+      enabled: true
+    gitleaks:
+      enabled: true
+    actionlint:
+      enabled: true
+    markdownlint:
+      enabled: false
+    languagetool:
+      enabled: false
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  code_guidelines:
+    enabled: true
+    filePatterns: ["CLAUDE.md", "AGENTS.md", "docs/design-system.md"]

@@ -6,9 +6,7 @@ import type { Repositories } from "./repositories";
 
 export { CATALOG_SEASON } from "./catalog";
 export type {
-  AlbumRepository,
   BoosterOpening,
-  ClubRepository,
   LeaderboardRepository,
   PlayerRepository,
   Repositories,

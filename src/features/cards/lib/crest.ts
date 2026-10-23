@@ -29,8 +29,8 @@ const PATTERNS = {
   halves: "M50 0H100V116H50Z",
 } as const;
 
-export type CrestShape = keyof typeof SHIELDS;
-export type CrestPattern = keyof typeof PATTERNS;
+type CrestShape = keyof typeof SHIELDS;
+type CrestPattern = keyof typeof PATTERNS;
 
 const SHAPE_IDS = Object.keys(SHIELDS) as CrestShape[];
 const PATTERN_IDS = Object.keys(PATTERNS) as CrestPattern[];

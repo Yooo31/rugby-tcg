@@ -3,11 +3,11 @@ import { daysBetween } from "@/lib/dates";
 import { RewardNotClaimableError, type Reward } from "./reward";
 
 /** Lingots gagnés par jour de série : 10 le premier jour, 20 le deuxième… */
-export const STREAK_INGOTS_PER_DAY = 10;
+const STREAK_INGOTS_PER_DAY = 10;
 /** Plafond de lingots par jour, atteint au dixième jour. */
-export const MAX_STREAK_INGOTS = 100;
+const MAX_STREAK_INGOTS = 100;
 /** Un booster en plus tous les 7 jours de série. */
-export const STREAK_BOOSTER_EVERY = 7;
+const STREAK_BOOSTER_EVERY = 7;
 
 /**
  * Série de connexion : `count` jours d'affilée récupérés, le dernier étant

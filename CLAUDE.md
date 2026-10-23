@@ -36,7 +36,8 @@ Jeu de cartes à collectionner (PWA mobile d'abord) sur les clubs de rugby fran�
 | Commande                      | Rôle                                                          |
 | ----------------------------- | ------------------------------------------------------------- |
 | `pnpm dev`                    | serveur de développement                                      |
-| `pnpm check`                  | typecheck + lint + tests + build : à lancer avant de conclure |
+| `pnpm check`                  | typecheck + lint + fallow + tests + build : avant de conclure |
+| `pnpm fallow`                 | code mort, duplication, santé (régression = échec)            |
 | `pnpm test` / `pnpm test:cov` | tests, avec ou sans couverture                                |
 | `pnpm test:db`                | tests d'intégration contre un Postgres jetable (Docker)       |
 | `pnpm typecheck`              | régénère les types de routes puis `tsc`                       |
@@ -86,7 +87,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 
 ### Conventions
 
-- Une feature : `components/`, éventuellement `hooks/` et `lib/`, et un `index.ts` qui liste ses seuls exports publics.
+- Une feature : `components/`, éventuellement `hooks/` et `lib/`, et un `index.ts` qui liste ses seuls exports publics. Une feature entièrement serveur (admin, referral) n'a que `server/index.ts`. N'exporter que ce qui est importé ailleurs : fallow signale tout export inutilisé.
 - Un écran s'appelle `XxxScreen`, est un composant client et s'enveloppe dans `<GameGate>` (chargement et erreur y sont gérés une fois).
 - Composants en PascalCase, hooks en `useXxx`, schémas Zod en `xxxSchema`, constantes en `SCREAMING_SNAKE_CASE`.
 - Pas de nombre magique : une constante nommée et commentée.
@@ -186,6 +187,15 @@ Fait aussi : classement des collectionneurs (général et par région), pseudo, 
 À faire : divisions régionales, bloquées tant qu'il n'y a pas d'accord avec la FFR ou les ligues pour une source officielle. Avant la mise en ligne : relancer la base, premier commit, déploiement.
 
 Hors périmètre V1 : paiement réel, marché d'échange, usage des doublons, collections saisonnières et événementielles, féminines et jeunes (le champ `category` les prévoit).
+
+## Git, CI et versions
+
+- Dépôt public `github.com/Yooo31/rugby-tcg`. **`main` = production, `develop` = développement.** On travaille sur `develop` (ou une branche qui y fusionne) ; `main` ne reçoit que des fusions depuis `develop`.
+- **CI** (`.github/workflows/ci.yml`), sur chaque push et PR vers `main` et `develop` : Qualité (types, lint, formatage, fallow, tests et couverture), Base de données (`pnpm test:db`), Build, Commits (commitlint sur la PR). Ces quatre noms sont les vérifications obligatoires des deux branches.
+- **Versions** : semantic-release (`.releaserc.json`, `release.yml`) après une CI verte sur `main`. Le numéro vient des commits conventionnels (`feat` → mineure, `fix` → corrective, `BREAKING CHANGE` → majeure) ; il est porté par le tag git et la release GitHub, dont les notes font office de changelog. Rien n'est commité sur les branches : `package.json` garde `0.0.0-development`. Avant la V1, les versions restent en 0.x (tag de départ `v0.1.0`).
+- **Dépendances** : Dependabot (`.github/dependabot.yml`) propose chaque lundi ses mises à jour sur `develop`. Mineures et correctives sont fusionnées seules si la CI passe (`dependabot-auto-merge.yml`) ; les majeures attendent une relecture.
+- **Revue** : CodeRabbit (`.coderabbit.yaml`, gratuit en dépôt public) relit chaque PR vers `develop` et `main`, en français, avec les règles de ce fichier.
+- Coût : zéro. GitHub Actions est illimité pour un dépôt public ; ne pas ajouter de service payant.
 
 ## Méthode de travail
 

@@ -26,8 +26,8 @@ export const adjustmentFormSchema = z
   .pipe(adjustmentSchema);
 
 /** Plus grand cadeau admis : garde-fou contre une faute de frappe. */
-export const MAX_GIVEAWAY_INGOTS = 10_000;
-export const MAX_GIVEAWAY_BOOSTERS = 50;
+const MAX_GIVEAWAY_INGOTS = 10_000;
+const MAX_GIVEAWAY_BOOSTERS = 50;
 
 const dayKey = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Choisissez une date.");
 

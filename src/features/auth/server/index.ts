@@ -1,7 +1,2 @@
-export {
-  ensurePlayer,
-  getAuthUser,
-  requireAuthUser,
-  type AuthUser,
-} from "./session";
+export { ensurePlayer, getAuthUser, requireAuthUser } from "./session";
 export { accountExportResponse } from "./export";

@@ -89,24 +89,37 @@ function finalTitles(
   );
 }
 
+/**
+ * Pages demandées par lots (limite de l'API), suivies à travers les
+ * redirections : chaque titre demandé avec sa page finale.
+ */
+async function* pagesByTitle(
+  titles: readonly string[],
+  params: Readonly<Record<string, string>>,
+): AsyncGenerator<[string, PageQuery["query"]["pages"][number] | undefined]> {
+  for (const batch of chunk(titles, TITLES_PER_CALL)) {
+    const { query } = await call<PageQuery>({
+      action: "query",
+      titles: batch.join("|"),
+      redirects: "1",
+      ...params,
+    });
+    const byTitle = new Map(query.pages.map((page) => [page.title, page]));
+    for (const [title, final] of finalTitles(query, batch)) {
+      yield [title, byTitle.get(final)];
+    }
+  }
+}
+
 /** Identifiant Wikidata de chaque article. */
 export async function fetchWikidataIds(
   titles: readonly string[],
 ): Promise<Map<string, string>> {
   const ids = new Map<string, string>();
-  for (const batch of chunk(titles, TITLES_PER_CALL)) {
-    const { query } = await call<PageQuery>({
-      action: "query",
-      titles: batch.join("|"),
-      prop: "pageprops",
-      ppprop: "wikibase_item",
-      redirects: "1",
-    });
-    const byTitle = new Map(query.pages.map((page) => [page.title, page]));
-    for (const [title, final] of finalTitles(query, batch)) {
-      const id = byTitle.get(final)?.pageprops?.wikibase_item;
-      if (id) ids.set(title, id);
-    }
+  const params = { prop: "pageprops", ppprop: "wikibase_item" };
+  for await (const [title, page] of pagesByTitle(titles, params)) {
+    const id = page?.pageprops?.wikibase_item;
+    if (id) ids.set(title, id);
   }
   return ids;
 }
@@ -116,23 +129,16 @@ export async function fetchInfoboxColors(
   titles: readonly string[],
 ): Promise<Map<string, string>> {
   const colors = new Map<string, string>();
-  for (const batch of chunk(titles, TITLES_PER_CALL)) {
-    const { query } = await call<PageQuery>({
-      action: "query",
-      titles: batch.join("|"),
-      prop: "revisions",
-      rvprop: "content",
-      rvslots: "main",
-      rvsection: "0",
-      redirects: "1",
-    });
-    const byTitle = new Map(query.pages.map((page) => [page.title, page]));
-    for (const [title, final] of finalTitles(query, batch)) {
-      const content =
-        byTitle.get(final)?.revisions?.[0]?.slots.main.content ?? "";
-      const match = /\|\s*couleurs?\s*=\s*(.+)/.exec(content);
-      if (match) colors.set(title, match[1].trim());
-    }
+  const params = {
+    prop: "revisions",
+    rvprop: "content",
+    rvslots: "main",
+    rvsection: "0",
+  };
+  for await (const [title, page] of pagesByTitle(titles, params)) {
+    const content = page?.revisions?.[0]?.slots.main.content ?? "";
+    const match = /\|\s*couleurs?\s*=\s*(.+)/.exec(content);
+    if (match) colors.set(title, match[1].trim());
   }
   return colors;
 }

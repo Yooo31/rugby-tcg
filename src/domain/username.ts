@@ -27,8 +27,6 @@ export const usernameSchema = z
   )
   .refine(isUsernameAllowed, "Ce pseudo n'est pas autorisé.");
 
-export type Username = z.infer<typeof usernameSchema>;
-
 export class UsernameTakenError extends Error {
   constructor() {
     super("Ce pseudo est déjà pris.");

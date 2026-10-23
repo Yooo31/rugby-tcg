@@ -30,7 +30,7 @@ const department = (name: string, region: RegionId): Department => ({
 });
 
 /** Départements métropolitains, indexés par code INSEE. */
-export const DEPARTMENTS = {
+const DEPARTMENTS = {
   "01": department("Ain", "ara"),
   "02": department("Aisne", "hdf"),
   "03": department("Allier", "ara"),
