@@ -40,6 +40,7 @@ Jeu de cartes à collectionner (PWA mobile d'abord) sur les clubs de rugby fran�
 | `pnpm fallow`                 | code mort, duplication, santé (régression = échec)            |
 | `pnpm test` / `pnpm test:cov` | tests, avec ou sans couverture                                |
 | `pnpm test:db`                | tests d'intégration contre un Postgres jetable (Docker)       |
+| `pnpm e2e`                    | tests de bout en bout (Playwright, Supabase local)            |
 | `pnpm typecheck`              | régénère les types de routes puis `tsc`                       |
 | `pnpm icons`                  | régénère les icônes PWA                                       |
 | `pnpm clubs:import`           | réimporte les clubs de la saison (Wikipédia, Wikidata)        |
@@ -163,7 +164,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 
 ## Exploitation et sécurité
 
-- **En-têtes** (`next.config.ts`) : CSP sans nonce (un nonce rendrait chaque page dynamique), `frame-ancestors 'none'`, `nosniff`, HSTS… Le navigateur ne parle qu'au site : toute nouvelle ressource externe (police, image, API) doit être ajoutée à la CSP, sinon elle est bloquée sans bruit.
+- **En-têtes** (`next.config.ts`) : `upgrade-insecure-requests` seulement si `NEXT_PUBLIC_SITE_URL` est en `https://` (sinon un serveur de test en HTTP casse). CSP sans nonce (un nonce rendrait chaque page dynamique), `frame-ancestors 'none'`, `nosniff`, HSTS… Le navigateur ne parle qu'au site : toute nouvelle ressource externe (police, image, API) doit être ajoutée à la CSP, sinon elle est bloquée sans bruit.
 - **RGPD** : suppression du compte (Compte, mot de passe redemandé ; `DELETE FROM auth.users`, tout part en cascade), export JSON (`/compte/donnees`), pages `/confidentialite` et `/mentions-legales` (publiques ; les « À compléter » sont à remplir par l'éditeur). Le service worker ne met plus les pages en cache : elles contiennent l'état du joueur.
 - **Pseudos** : liste de mots interdits (`domain/moderation.ts`, accents et chiffres déguisés normalisés ; mots courts bloqués seulement s'ils sont entiers). L'admin peut réinitialiser un pseudo.
 - **Notifications** (Web Push) : clés `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`. Règles dans `domain/notification.ts` : réserve pleine (une fois par remplissage), rappel de série dès 19 h, jamais de 22 h à 8 h. L'envoi se fait par `GET /api/cron/notifications` avec `Authorization: Bearer $CRON_SECRET`, **à appeler toutes les 15 minutes** par une tâche planifiée (à mettre en place avec l'hébergement). Sur iPhone, il faut d'abord installer le jeu sur l'écran d'accueil.
@@ -191,7 +192,8 @@ Hors périmètre V1 : paiement réel, marché d'échange, usage des doublons, co
 ## Git, CI et versions
 
 - Dépôt public `github.com/Yooo31/rugby-tcg`. **`main` = production, `develop` = développement.** On travaille sur `develop` (ou une branche qui y fusionne) ; `main` ne reçoit que des fusions depuis `develop`.
-- **CI** (`.github/workflows/ci.yml`), sur chaque push et PR vers `main` et `develop` : Qualité (types, lint, formatage, fallow, tests et couverture), Base de données (`pnpm test:db`), Build, Commits (commitlint sur la PR). Ces quatre noms sont les vérifications obligatoires des deux branches.
+- **CI** (`.github/workflows/ci.yml`), sur chaque push et PR vers `main` et `develop` : Qualité (types, lint, formatage, fallow, tests et couverture), Base de données (`pnpm test:db`), Build, Bout en bout (`pnpm e2e`), Commits (commitlint sur la PR). Ces cinq noms sont les vérifications obligatoires des deux branches.
+- **Bout en bout** (`e2e/`, `playwright.config.ts`) : l'application construite, branchée sur une pile Supabase locale (`supabase/config.toml` : Postgres, authentification et API seulement), en mobile (Pixel 7) et en bureau. Parcours joueur, accès à l'administration, accessibilité (axe, WCAG AA, violations graves) et console sans erreur sur toutes les pages. En local : `pnpm e2e:supabase` puis `pnpm e2e:prepare` une fois, puis `pnpm e2e` (port 3200). Les pseudos de test passent par la modération : pas de « admin » dedans.
 - **Versions** : semantic-release (`.releaserc.json`, `release.yml`) après une CI verte sur `main`. Le numéro vient des commits conventionnels (`feat` → mineure, `fix` → corrective, `BREAKING CHANGE` → majeure) ; il est porté par le tag git et la release GitHub, dont les notes font office de changelog. Rien n'est commité sur les branches : `package.json` garde `0.0.0-development`. Avant la V1, les versions restent en 0.x (tag de départ `v0.1.0`).
 - **Dépendances** : Dependabot (`.github/dependabot.yml`) propose chaque lundi ses mises à jour sur `develop`. Mineures et correctives sont fusionnées seules si la CI passe (`dependabot-auto-merge.yml`) ; les majeures attendent une relecture.
 - **Revue** : CodeRabbit (`.coderabbit.yaml`, gratuit en dépôt public) relit chaque PR vers `develop` et `main`, en français, avec les règles de ce fichier.

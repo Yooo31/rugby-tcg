@@ -14,7 +14,7 @@ export default defineConfig({
     globals: true,
     setupFiles: ["./src/test/setup.ts"],
     // Tests contre Postgres : `pnpm test:db` (vitest.db.config.mts).
-    exclude: ["**/node_modules/**", "src/**/*.db.test.ts"],
+    exclude: ["**/node_modules/**", "src/**/*.db.test.ts", "e2e/**"],
     coverage: {
       provider: "v8",
       reporter: ["text", "html", "lcov"],

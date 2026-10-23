@@ -2,5 +2,9 @@
   "$schema": "./node_modules/fallow/schema.json",
   "dynamicallyLoaded": ["public/sw.js"],
   "ignorePatterns": ["src/generated/**"],
-  "ignoreDependencies": ["@tailwindcss/turbopack", "fallow"]
+  "ignoreDependencies": [
+    "@tailwindcss/turbopack",
+    "fallow",
+    "conventional-changelog-conventionalcommits"
+  ]
 }
