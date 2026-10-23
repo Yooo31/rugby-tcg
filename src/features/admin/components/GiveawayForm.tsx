@@ -1,0 +1,69 @@
+"use client";
+
+import { useActionState } from "react";
+import { Button } from "@/components/ui/button";
+import { TextField } from "@/components/ui/text-field";
+import { INITIAL_ADMIN_FORM_STATE } from "../lib/schemas";
+import { createGiveawayAction } from "../server/actions";
+import { FormMessage } from "./FormMessage";
+
+/** Programmer un cadeau pour tous les joueurs, sur des jours entiers (heure de Paris). */
+export function GiveawayForm({ today }: { readonly today: string }) {
+  const [state, action, isPending] = useActionState(
+    createGiveawayAction,
+    INITIAL_ADMIN_FORM_STATE,
+  );
+  return (
+    <form action={action} className="flex flex-col gap-4">
+      <TextField
+        label="Titre"
+        name="title"
+        required
+        maxLength={80}
+        placeholder="Un booster offert pour le derby"
+        error={state.fieldErrors?.title}
+      />
+      <div className="grid grid-cols-2 gap-3">
+        <TextField
+          label="Lingots"
+          name="ingots"
+          inputMode="numeric"
+          placeholder="0"
+          error={state.fieldErrors?.ingots}
+        />
+        <TextField
+          label="Boosters"
+          name="boosters"
+          inputMode="numeric"
+          placeholder="0"
+          error={state.fieldErrors?.boosters}
+        />
+        <TextField
+          label="Premier jour"
+          name="startDay"
+          type="date"
+          required
+          defaultValue={today}
+          error={state.fieldErrors?.startDay}
+        />
+        <TextField
+          label="Dernier jour"
+          name="endDay"
+          type="date"
+          required
+          defaultValue={today}
+          error={state.fieldErrors?.endDay}
+        />
+      </div>
+      <p className="text-chalk-muted text-sm">
+        Jours entiers, heure de Paris : de minuit le premier jour à minuit le
+        lendemain du dernier. Chaque joueur le récupère une fois depuis
+        l&apos;accueil.
+      </p>
+      <FormMessage state={state} />
+      <Button type="submit" disabled={isPending} aria-busy={isPending}>
+        Programmer le cadeau
+      </Button>
+    </form>
+  );
+}
