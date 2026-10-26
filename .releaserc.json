@@ -2,31 +2,56 @@
   "branches": ["main"],
   "tagFormat": "v${version}",
   "plugins": [
-    ["@semantic-release/commit-analyzer", { "preset": "conventionalcommits" }],
     [
-      "@semantic-release/release-notes-generator",
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits"
+      }
+    ],
+    [
+      "./node_modules/@semantic-release/release-notes-generator/index.js",
       {
         "preset": "conventionalcommits",
         "presetConfig": {
           "types": [
-            { "type": "feat", "section": "Nouveautés" },
-            { "type": "fix", "section": "Corrections" },
-            { "type": "perf", "section": "Performances" },
-            { "type": "revert", "section": "Retours en arrière" },
-            { "type": "refactor", "section": "Restructuration" },
-            { "type": "docs", "section": "Documentation" },
-            { "type": "build", "section": "Construction et dépendances" },
-            { "type": "chore", "hidden": true },
-            { "type": "ci", "hidden": true },
-            { "type": "test", "hidden": true },
-            { "type": "style", "hidden": true }
+            {
+              "type": "feat",
+              "section": "Nouveautés"
+            },
+            {
+              "type": "fix",
+              "section": "Corrections"
+            },
+            {
+              "type": "perf",
+              "section": "Performances"
+            },
+            {
+              "type": "revert",
+              "section": "Retours en arrière"
+            },
+            {
+              "type": "refactor",
+              "section": "Restructuration"
+            },
+            {
+              "type": "docs",
+              "section": "Documentation"
+            },
+            {
+              "type": "build",
+              "section": "Construction et dépendances"
+            }
           ]
         }
       }
     ],
     [
       "@semantic-release/github",
-      { "successComment": false, "failComment": false }
+      {
+        "successComment": false,
+        "failComment": false
+      }
     ]
   ]
 }
