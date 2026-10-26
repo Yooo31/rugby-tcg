@@ -21,10 +21,9 @@ export function LegalNotice() {
       <section>
         <h2>Hébergement</h2>
         <p>
-          Site : Vercel Inc.{" "}
-          <ToComplete>
-            adresse et téléphone de Vercel (voir vercel.com/legal)
-          </ToComplete>
+          Site : Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723,
+          États-Unis (legalnotices@vercel.com).{" "}
+          <ToComplete>téléphone de Vercel</ToComplete>
           <br />
           Base de données et comptes : Supabase Inc.,{" "}
           <ToComplete>
