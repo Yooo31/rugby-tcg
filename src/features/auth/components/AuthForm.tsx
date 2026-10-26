@@ -1,7 +1,7 @@
 "use client";
 
 import { MailCheck } from "lucide-react";
-import { useActionState, type ReactNode } from "react";
+import { useActionState, useEffect, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { INITIAL_AUTH_FORM_STATE, type AuthFormState } from "../lib/form-state";
 
@@ -24,6 +24,10 @@ export function AuthForm({ action, submitLabel, children }: AuthFormProps) {
     action,
     INITIAL_AUTH_FORM_STATE,
   );
+
+  useEffect(() => {
+    if (state.redirectTo) window.location.replace(state.redirectTo);
+  }, [state.redirectTo]);
 
   if (state.notice) {
     return (

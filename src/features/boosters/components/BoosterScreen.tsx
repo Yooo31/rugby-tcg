@@ -69,6 +69,7 @@ function BoosterFlow({ game }: { readonly game: ReadyGame }) {
         clubsById={game.clubsById}
         remaining={available}
         onOpenAnother={open}
+        onBack={() => setPhase({ step: "idle" })}
       />
     );
   }
