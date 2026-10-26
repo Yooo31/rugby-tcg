@@ -5,7 +5,9 @@ import { sentryOptions } from "@/lib/sentry/options";
 Sentry.init(
   sentryOptions({
     dsn: process.env["NEXT_PUBLIC_SENTRY_DSN"],
-    environment: process.env["NEXT_PUBLIC_SENTRY_ENVIRONMENT"],
+    environment:
+      process.env["NEXT_PUBLIC_SENTRY_ENVIRONMENT"] ??
+      process.env["NEXT_PUBLIC_VERCEL_ENV"],
   }),
 );
 

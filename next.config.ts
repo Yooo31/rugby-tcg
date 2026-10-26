@@ -25,6 +25,11 @@ const nextConfig: NextConfig = {
   },
   // Ne pas annoncer la technologie du serveur.
   poweredByHeader: false,
+  // L'outil `prisma` (migrations) n'a rien à faire à l'exécution : Next.js
+  // embarquait ses moteurs pour toutes les bases de données (plus de 15 Mo).
+  outputFileTracingExcludes: {
+    "/*": ["./node_modules/.pnpm/prisma@*/**/*"],
+  },
   async headers() {
     return [
       { source: "/(.*)", headers: SECURITY_HEADERS },

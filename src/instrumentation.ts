@@ -6,7 +6,9 @@ export function register() {
   Sentry.init(
     sentryOptions({
       dsn: process.env["NEXT_PUBLIC_SENTRY_DSN"],
-      environment: process.env["SENTRY_ENVIRONMENT"],
+      // Sur Vercel, VERCEL_ENV vaut « production » ou « preview ».
+      environment:
+        process.env["SENTRY_ENVIRONMENT"] ?? process.env["VERCEL_ENV"],
     }),
   );
 }
