@@ -24,7 +24,7 @@ export async function updateSession(
   const supabase = createServerClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     cookies: {
       getAll: () => request.cookies.getAll(),
-      setAll(cookiesToSet) {
+      setAll(cookiesToSet, headers) {
         // Le jeton rafraîchi doit atteindre à la fois le rendu serveur (requête)
         // et le navigateur (réponse).
         for (const { name, value } of cookiesToSet)
@@ -33,6 +33,10 @@ export async function updateSession(
         for (const { name, value, options } of cookiesToSet) {
           response.cookies.set(name, value, options);
         }
+        // En-têtes anti-cache fournis par Supabase : une réponse qui pose un
+        // jeton ne doit jamais être servie à un autre visiteur par un CDN.
+        for (const [key, value] of Object.entries(headers))
+          response.headers.set(key, value);
       },
     },
   });
