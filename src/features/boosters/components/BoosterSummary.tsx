@@ -11,6 +11,8 @@ interface BoosterSummaryProps {
   readonly clubsById: ReadonlyMap<string, Club>;
   readonly remaining: number;
   readonly onOpenAnother: () => void;
+  /** Retour à l'écran des boosters (réserve, boutique). */
+  readonly onBack: () => void;
 }
 
 export function BoosterSummary({
@@ -18,6 +20,7 @@ export function BoosterSummary({
   clubsById,
   remaining,
   onOpenAnother,
+  onBack,
 }: BoosterSummaryProps) {
   const newClubs = cards.filter((card) => card.isNewClub).length;
 
@@ -60,13 +63,13 @@ export function BoosterSummary({
           <Button size="lg" block onClick={onOpenAnother}>
             Ouvrir un autre ({remaining})
           </Button>
-        ) : null}
-        <ButtonLink
-          href="/collection"
-          variant={remaining > 0 ? "secondary" : "primary"}
-          size="lg"
-          block
-        >
+        ) : (
+          // Plus de booster : on retourne à la boutique, jamais d'impasse.
+          <Button size="lg" block onClick={onBack}>
+            Retour aux boosters
+          </Button>
+        )}
+        <ButtonLink href="/collection" variant="secondary" size="lg" block>
           Ma collection
         </ButtonLink>
       </div>

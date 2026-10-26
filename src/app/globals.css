@@ -78,6 +78,14 @@
     color: var(--color-chalk);
     font-family: var(--font-sans);
     overscroll-behavior-y: none;
+    /*
+     * L'application occupe tout l'écran, barre d'état comprise (viewportFit:
+     * cover) : on réserve la place de l'encoche et des bords arrondis, sinon
+     * la barre du haut passe dessous. La barre d'onglets gère le bas.
+     */
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 
   /* Halo des projecteurs en haut, tontes de pelouse en bas : le décor fixe du jeu. */

@@ -8,6 +8,11 @@ export interface AuthFormState {
   readonly fieldErrors?: Readonly<Record<string, string>>;
   /** Confirmation à afficher à la place du formulaire (e-mail envoyé…). */
   readonly notice?: string;
+  /**
+   * Page où aller par un rechargement complet (sortie d'un compte) : rien de
+   * la session précédente ne doit rester dans la page.
+   */
+  readonly redirectTo?: string;
   /** Valeurs à remettre dans les champs après une erreur (jamais le mot de passe). */
   readonly values?: Readonly<Record<string, string>>;
 }

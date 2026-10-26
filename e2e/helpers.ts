@@ -1,7 +1,7 @@
 import { expect, type Page } from "@playwright/test";
 
 /** Mot de passe des comptes de test (base locale jetable uniquement). */
-const PASSWORD = "MotDePasseDeTest-2026";
+export const PASSWORD = "MotDePasseDeTest-2026";
 
 /** Pseudo et adresse uniques, pour que les tests ne se gênent pas entre eux. */
 export function uniquePlayer(prefix = "Joueur") {
@@ -10,6 +10,17 @@ export function uniquePlayer(prefix = "Joueur") {
     username: `${prefix}_${id}`.slice(0, 20),
     email: `${prefix.toLowerCase()}-${id}@rugby-tcg.test`,
   };
+}
+
+/** Se connecte avec un compte existant et arrive sur l'accueil. */
+export async function signIn(page: Page, player: { readonly email: string }) {
+  await page.goto("/connexion");
+  await page.getByLabel("Adresse e-mail").fill(player.email);
+  await page.getByLabel("Mot de passe").fill(PASSWORD);
+  await page.getByRole("button", { name: "Se connecter" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Jour de match" }),
+  ).toBeVisible();
 }
 
 /**

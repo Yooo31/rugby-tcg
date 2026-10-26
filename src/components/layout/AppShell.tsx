@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -53,6 +53,13 @@ function NavBadge({ count }: { readonly count: number }) {
 /** Coquille du jeu : marque en haut, onglets en bas sur mobile et en haut sur grand écran. */
 export function AppShell({ children, badges = {}, headerEnd }: AppShellProps) {
   const pathname = usePathname();
+  // Toucher l'onglet déjà ouvert ramène à son écran de départ (comme dans les
+  // applications mobiles) : on remonte le contenu, ce qui efface son état
+  // (par exemple le récapitulatif d'un booster).
+  const [screenKey, setScreenKey] = useState(0);
+  const resetIfActive = (href: string) => {
+    if (isActive(pathname, href)) setScreenKey((key) => key + 1);
+  };
 
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-6xl flex-col px-4 sm:px-6">
@@ -73,6 +80,7 @@ export function AppShell({ children, badges = {}, headerEnd }: AppShellProps) {
               <li key={href}>
                 <Link
                   href={href}
+                  onClick={() => resetIfActive(href)}
                   aria-current={isActive(pathname, href) ? "page" : undefined}
                   className="text-chalk-muted hover:text-chalk aria-[current=page]:bg-surface-raised aria-[current=page]:text-chalk flex min-h-11 items-center gap-1.5 rounded-full px-4 text-sm font-medium transition"
                 >
@@ -86,7 +94,10 @@ export function AppShell({ children, badges = {}, headerEnd }: AppShellProps) {
         {headerEnd}
       </header>
 
-      <main className="pb-safe-nav flex-1 pt-2 md:pt-4 md:pb-16">
+      <main
+        key={screenKey}
+        className="pb-safe-nav flex-1 pt-2 md:pt-4 md:pb-16"
+      >
         {children}
       </main>
 
@@ -106,6 +117,7 @@ export function AppShell({ children, badges = {}, headerEnd }: AppShellProps) {
               <li key={href} className="flex-1">
                 <Link
                   href={href}
+                  onClick={() => resetIfActive(href)}
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "relative flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl text-[0.6875rem] font-medium transition duration-200",
