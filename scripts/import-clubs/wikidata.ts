@@ -11,8 +11,36 @@ export interface WikidataPlace {
   readonly isCommune: boolean;
 }
 
-interface Binding {
+export interface Binding {
   readonly [name: string]: { readonly value: string } | undefined;
+}
+
+/**
+ * Commune la plus sûre d'une ligne de résultat : l'élément lui-même s'il est
+ * une commune, sinon le siège du club, sinon sa localisation administrative.
+ */
+export function bestPlace(row: Binding): WikidataPlace | undefined {
+  const candidates = [
+    {
+      city: row["itemLabel"]?.value,
+      insee: row["own"]?.value,
+      isCommune: true,
+    },
+    {
+      city: row["seatLabel"]?.value,
+      insee: row["seatInsee"]?.value,
+      isCommune: false,
+    },
+    {
+      city: row["areaLabel"]?.value,
+      insee: row["areaInsee"]?.value,
+      isCommune: false,
+    },
+  ];
+  for (const { city, insee, isCommune } of candidates) {
+    if (city && insee) return { city, insee, isCommune };
+  }
+  return undefined;
 }
 
 /**
@@ -40,27 +68,8 @@ export async function fetchPlaces(
     for (const row of data.results.bindings) {
       const id = row.item?.value.split("/").pop();
       if (!id || places.has(id)) continue;
-      const candidates = [
-        { city: row.itemLabel?.value, insee: row.own?.value, isCommune: true },
-        {
-          city: row.seatLabel?.value,
-          insee: row.seatInsee?.value,
-          isCommune: false,
-        },
-        {
-          city: row.areaLabel?.value,
-          insee: row.areaInsee?.value,
-          isCommune: false,
-        },
-      ];
-      const best = candidates.find(({ city, insee }) => city && insee);
-      if (best?.city && best.insee) {
-        places.set(id, {
-          city: best.city,
-          insee: best.insee,
-          isCommune: best.isCommune,
-        });
-      }
+      const place = bestPlace(row);
+      if (place) places.set(id, place);
     }
   }
   return places;

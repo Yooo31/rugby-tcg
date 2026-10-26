@@ -47,12 +47,13 @@ jobs:
         run: pnpm lint
       - name: Formatage
         run: pnpm format:check
-      - name: Maintenabilité (fallow)
-        run: |
-          pnpm exec fallow --health-baseline .fallow/health-baseline.json --format github-summary >> "$GITHUB_STEP_SUMMARY" || true
-          pnpm fallow
       - name: Tests et couverture
         run: pnpm test:cov
+      # Après les tests : fallow lit leur couverture pour des scores de risque exacts.
+      - name: Maintenabilité (fallow)
+        run: |
+          pnpm fallow --format github-summary >> "$GITHUB_STEP_SUMMARY" || true
+          pnpm fallow
 
   database:
     name: Base de données

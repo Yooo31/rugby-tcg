@@ -12,12 +12,17 @@ export function uniquePlayer(prefix = "Joueur") {
   };
 }
 
-/** Se connecte avec un compte existant et arrive sur l'accueil. */
-export async function signIn(page: Page, player: { readonly email: string }) {
+/** Remplit et envoie le formulaire de connexion (sans attendre le résultat). */
+async function submitSignIn(page: Page, email: string) {
   await page.goto("/connexion");
-  await page.getByLabel("Adresse e-mail").fill(player.email);
+  await page.getByLabel("Adresse e-mail").fill(email);
   await page.getByLabel("Mot de passe").fill(PASSWORD);
   await page.getByRole("button", { name: "Se connecter" }).click();
+}
+
+/** Se connecte avec un compte existant et arrive sur l'accueil. */
+export async function signIn(page: Page, player: { readonly email: string }) {
+  await submitSignIn(page, player.email);
   await expect(
     page.getByRole("heading", { name: "Jour de match" }),
   ).toBeVisible();
@@ -31,10 +36,7 @@ export async function signInOrSignUp(
   page: Page,
   player: { readonly username: string; readonly email: string },
 ) {
-  await page.goto("/connexion");
-  await page.getByLabel("Adresse e-mail").fill(player.email);
-  await page.getByLabel("Mot de passe").fill(PASSWORD);
-  await page.getByRole("button", { name: "Se connecter" }).click();
+  await submitSignIn(page, player.email);
   const home = page.getByRole("heading", { name: "Jour de match" });
   const refused = page.getByRole("alert").filter({ hasText: /incorrect/ });
   await expect(home.or(refused)).toBeVisible();
