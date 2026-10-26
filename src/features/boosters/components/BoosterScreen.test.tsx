@@ -47,4 +47,33 @@ describe("BoosterScreen", () => {
       BOOSTER_SIZE,
     );
   });
+
+  it("ramène à la boutique après le dernier booster, sans impasse", async () => {
+    const user = userEvent.setup();
+    const repositories = await renderScreen();
+    // Il ne reste qu'un booster gratuit à ouvrir dans l'écran.
+    for (let opening = 1; opening < MAX_FREE_BOOSTERS; opening += 1)
+      await repositories.player.openBooster();
+
+    await user.click(
+      await screen.findByRole("button", { name: "Ouvrir le booster" }),
+    );
+    await user.click(
+      await screen.findByRole(
+        "button",
+        { name: "Tout révéler" },
+        { timeout: 3000 },
+      ),
+    );
+    await user.click(
+      await screen.findByRole("button", { name: "Retour aux boosters" }),
+    );
+
+    expect(
+      await screen.findByRole("heading", { name: "Réserve vide" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /\+1 booster/ }),
+    ).toBeInTheDocument();
+  });
 });
