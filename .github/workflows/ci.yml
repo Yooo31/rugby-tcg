@@ -108,8 +108,21 @@ jobs:
         run: pnpm e2e:supabase
       - name: Schéma et catalogue
         run: pnpm e2e:prepare
+      # Le navigateur est gardé en cache d'une exécution à l'autre (clé : version
+      # de Playwright). Les paquets système, déjà présents sur ubuntu-latest, ne
+      # sont pas réinstallés : `--with-deps` prenait parfois plus de 10 minutes.
+      - name: Version de Playwright
+        id: playwright
+        run: echo "version=$(pnpm exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+      - name: Cache du navigateur
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
       - name: Navigateur
-        run: pnpm exec playwright install --with-deps chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install chromium
       - name: Parcours (mobile et bureau)
         run: pnpm e2e
       - name: Rapport en cas d'échec
