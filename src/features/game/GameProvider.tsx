@@ -115,7 +115,9 @@ export function GameProvider({
 
   const seed = useMemo<SeedPlayer>(
     () => (snapshot) => {
-      if (snapshot) setPlayer((current) => current ?? snapshot);
+      // L'état lu par le serveur fait foi : il remplace celui gardé en
+      // mémoire (écran restauré par Next.js, éventuellement d'un autre compte).
+      if (snapshot) setPlayer(snapshot);
       else setMustFetch(true);
     },
     [],

@@ -91,10 +91,15 @@ export async function signUp(
   };
 }
 
+/**
+ * Déconnecte le joueur. La redirection se fait côté navigateur par un
+ * rechargement complet (voir `SignOutButton`) : Next.js garde sinon les écrans
+ * quittés en mémoire, avec l'état du joueur, et les restaurerait au compte
+ * suivant.
+ */
 export async function signOut(): Promise<void> {
   const supabase = await createSupabaseServerClient();
   await supabase.auth.signOut();
-  redirect(SIGN_IN_PATH);
 }
 
 export async function requestPasswordReset(
@@ -167,5 +172,7 @@ export async function deleteAccount(
   await accountData.delete(user.id);
   // Le compte n'existe plus : on efface aussi les cookies de session.
   await supabase.auth.signOut().catch(() => undefined);
-  redirect(`${SIGN_IN_PATH}?compte=supprime`);
+  // Rechargement complet côté navigateur : rien du compte supprimé ne doit
+  // rester en mémoire dans la page (écrans gardés par Next.js).
+  return { redirectTo: `${SIGN_IN_PATH}?compte=supprime` };
 }
