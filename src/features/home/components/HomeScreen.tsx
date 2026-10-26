@@ -59,7 +59,7 @@ function Home({ game }: { readonly game: ReadyGame }) {
           </h2>
           {hasBoosters && game.boosters.nextFreeAt === null ? (
             <p className="text-chalk-muted text-sm text-pretty">
-              Cinq clubs par booster, du Top 14 à la Régionale 3.
+              Cinq clubs par booster, du Top 14 à la Fédérale 3.
             </p>
           ) : null}
           <NextBoosterCountdown

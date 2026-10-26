@@ -7,7 +7,7 @@
 
 ## Le produit en une phrase
 
-Jeu de cartes à collectionner (PWA mobile d'abord) sur les clubs de rugby français, du Top 14 à la Régionale 3 : on ouvre des boosters, on collectionne des clubs, on complète des albums, et les missions du jour rapportent des lingots à échanger contre d'autres boosters.
+Jeu de cartes à collectionner (PWA mobile d'abord) sur les clubs de rugby français, du Top 14 à la Fédérale 3 : on ouvre des boosters, on collectionne des clubs, on complète des albums, et les missions du jour rapportent des lingots à échanger contre d'autres boosters.
 
 ## Règles non négociables
 
@@ -40,6 +40,7 @@ Jeu de cartes à collectionner (PWA mobile d'abord) sur les clubs de rugby fran�
 | `pnpm fallow`                 | code mort, duplication, santé (régression = échec)            |
 | `pnpm test` / `pnpm test:cov` | tests, avec ou sans couverture                                |
 | `pnpm test:db`                | tests d'intégration contre un Postgres jetable (Docker)       |
+| `pnpm e2e`                    | tests de bout en bout (Playwright, Supabase local)            |
 | `pnpm typecheck`              | régénère les types de routes puis `tsc`                       |
 | `pnpm icons`                  | régénère les icônes PWA                                       |
 | `pnpm clubs:import`           | réimporte les clubs de la saison (Wikipédia, Wikidata)        |
@@ -102,7 +103,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 
 - **Catalogue des clubs** (`src/data/catalog`) : source unique du mock et de la base.
   - Du Top 14 à la Fédérale 3 : import de la saison depuis Wikipédia (composition des divisions, couleurs) et Wikidata (commune, département), par leurs API officielles. `pnpm clubs:import` régénère `clubs.wikipedia.json` ; changer `SEASON` dans `scripts/import-clubs/sources.ts` chaque été.
-  - Divisions régionales : `clubs.regional.ts`, saisi à la main et **indicatif**, faute de source ouverte.
+  - Divisions régionales : `clubs.regional.ts`, saisi à la main et **indicatif**, faute de source ouverte. **Masquées pour l'instant** (`HIDDEN_DIVISIONS`, `domain/club.ts`) : `CLUB_CATALOG` ne garde que les divisions jouables (tirage, albums, filtres, classement, seed) ; `FULL_CLUB_CATALOG` les contient toutes. Une carte régionale déjà possédée reste en base mais n'est plus affichée ni comptée.
   - Détails, limites et mentions à respecter : `docs/data-sources.md`.
 - **Ne pas aspirer les sites de la FFR** (`monclubhouse.ffr.fr` et son API) : leurs `robots.txt` l'interdisent. Les données officielles passent par un accord avec la FFR ou les ligues.
 - **Base** : Postgres chez Supabase, pilotée par Prisma (`prisma/schema.prisma`, migrations dans `prisma/migrations`). Le client généré (`src/generated`) n'est pas versionné.
@@ -163,10 +164,11 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 
 ## Exploitation et sécurité
 
-- **En-têtes** (`next.config.ts`) : CSP sans nonce (un nonce rendrait chaque page dynamique), `frame-ancestors 'none'`, `nosniff`, HSTS… Le navigateur ne parle qu'au site : toute nouvelle ressource externe (police, image, API) doit être ajoutée à la CSP, sinon elle est bloquée sans bruit.
+- **En-têtes** (`next.config.ts`) : `upgrade-insecure-requests` seulement si `NEXT_PUBLIC_SITE_URL` est en `https://` (sinon un serveur de test en HTTP casse). CSP sans nonce (un nonce rendrait chaque page dynamique), `frame-ancestors 'none'`, `nosniff`, HSTS… Le navigateur ne parle qu'au site : toute nouvelle ressource externe (police, image, API) doit être ajoutée à la CSP, sinon elle est bloquée sans bruit.
 - **RGPD** : suppression du compte (Compte, mot de passe redemandé ; `DELETE FROM auth.users`, tout part en cascade), export JSON (`/compte/donnees`), pages `/confidentialite` et `/mentions-legales` (publiques ; les « À compléter » sont à remplir par l'éditeur). Le service worker ne met plus les pages en cache : elles contiennent l'état du joueur.
 - **Pseudos** : liste de mots interdits (`domain/moderation.ts`, accents et chiffres déguisés normalisés ; mots courts bloqués seulement s'ils sont entiers). L'admin peut réinitialiser un pseudo.
 - **Notifications** (Web Push) : clés `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`. Règles dans `domain/notification.ts` : réserve pleine (une fois par remplissage), rappel de série dès 19 h, jamais de 22 h à 8 h. L'envoi se fait par `GET /api/cron/notifications` avec `Authorization: Bearer $CRON_SECRET`, **à appeler toutes les 15 minutes** par une tâche planifiée (à mettre en place avec l'hébergement). Sur iPhone, il faut d'abord installer le jeu sur l'écran d'accueil.
+- **Sentry** (offre gratuite) : erreurs seulement, ni traces ni enregistrement de session (`src/lib/sentry/options.ts`). Aucune donnée personnelle : `sendDefaultPii: false` et `scrubEvent` retire e-mail, IP, cookies, en-têtes et contenu des requêtes. Éteint sans `NEXT_PUBLIC_SENTRY_DSN` (donc en local et en CI). Le navigateur envoie par la route relais `/monitoring` (CSP inchangée, exclue du proxy). Source maps envoyées au build seulement si `SENTRY_AUTH_TOKEN` est défini. Bouton « Envoyer une erreur de test » dans `/admin`. Côté Sentry, l'organisation `yoan-2h` a « Prevent Storing of IP Addresses » activé, et une règle _Advanced Data Scrubbing_ `[Mask] [Anything] from [$user.geo.**]` : sans elles, Sentry déduit à la réception l'IP et la ville des erreurs du navigateur, quoi que dise le code. À refaire si l'organisation change. Sur Cloudflare Workers (si l'on y passe un jour), le point d'entrée devrait être enveloppé par `withSentry` : voir le commentaire de l'issue #10.
 - **Partage en story** : `/partage/carte?club=…&rarete=…` génère une image 1080 × 1920 (`next/og`) avec le code de parrainage, seulement pour une carte possédée. Ses couleurs copient les tokens (le moteur d'image ne lit pas le CSS).
 
 - **Garder Next.js à jour des correctifs de sécurité.** Versions exactes dans `package.json` (`next` et `eslint-config-next` toujours à la même version). `pnpm audit --prod` doit rester sans faille sur `next`.
@@ -174,7 +176,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
   - `next build` refuse de se lancer sur une version vulnérable connue (« SecurityFatalError ») : c'est le signal pour monter de version.
 - **Base Supabase en pause.** Un projet gratuit est mis en pause après une semaine sans activité : son nom de domaine ne répond plus (`NXDOMAIN`), l'application et la connexion tombent. Remède : bouton **Restore** dans le tableau de bord Supabase. Si le projet a été supprimé : en créer un, mettre à jour `.env.local`, puis `pnpm db:deploy` et `pnpm db:seed`.
 - **Catalogue et base doivent rester alignés** : relancer `pnpm db:seed` après chaque `pnpm clubs:import` (voir « Données »).
-- Pas encore de déploiement configuré (ni hébergeur, ni dépôt distant) : la mise en production reste à mettre en place.
+- **Hébergement : Vercel, offre gratuite (Hobby)**, relié au dépôt GitHub : `main` → production, `develop` et PR → préproduction (`vercel.json` : fonctions en région Paris `cdg1`, à côté de Supabase `eu-west-3` ; branches Dependabot jamais déployées). Variables d'environnement dans le tableau de bord Vercel (modèle : `.env.example`), `NEXT_PUBLIC_SITE_URL` en `https://`. ⚠️ Hobby interdit l'usage commercial : passer sur Cloudflare Workers payant (5 $/mois) ou Vercel Pro avant de monétiser. Cloudflare gratuit est hors de portée (Worker de 8 Mo compressés pour 3 Mo autorisés) ; ce qu'il faudrait refaire pour y passer est noté dans l'issue #10.
 
 ## Feuille de route V1
 
@@ -191,10 +193,12 @@ Hors périmètre V1 : paiement réel, marché d'échange, usage des doublons, co
 ## Git, CI et versions
 
 - Dépôt public `github.com/Yooo31/rugby-tcg`. **`main` = production, `develop` = développement.** On travaille sur `develop` (ou une branche qui y fusionne) ; `main` ne reçoit que des fusions depuis `develop`.
-- **CI** (`.github/workflows/ci.yml`), sur chaque push et PR vers `main` et `develop` : Qualité (types, lint, formatage, fallow, tests et couverture), Base de données (`pnpm test:db`), Build, Commits (commitlint sur la PR). Ces quatre noms sont les vérifications obligatoires des deux branches.
+- **CI** (`.github/workflows/ci.yml`), sur chaque push et PR vers `main` et `develop` : Qualité (types, lint, formatage, fallow, tests et couverture), Base de données (`pnpm test:db`), Build, Bout en bout (`pnpm e2e`), Commits (commitlint sur la PR). Ces cinq noms sont les vérifications obligatoires des deux branches.
+- **Bout en bout** (`e2e/`, `playwright.config.ts`) : l'application construite, branchée sur une pile Supabase locale (`supabase/config.toml` : Postgres, authentification et API seulement), en mobile (Pixel 7) et en bureau. Parcours joueur, accès à l'administration, accessibilité (axe, WCAG AA, violations graves) et console sans erreur sur toutes les pages. En local : `pnpm e2e:supabase` puis `pnpm e2e:prepare` une fois, puis `pnpm e2e` (port 3200). Les pseudos de test passent par la modération : pas de « admin » dedans.
 - **Versions** : semantic-release (`.releaserc.json`, `release.yml`) après une CI verte sur `main`. Le numéro vient des commits conventionnels (`feat` → mineure, `fix` → corrective, `BREAKING CHANGE` → majeure) ; il est porté par le tag git et la release GitHub, dont les notes font office de changelog. Rien n'est commité sur les branches : `package.json` garde `0.0.0-development`. Avant la V1, les versions restent en 0.x (tag de départ `v0.1.0`).
 - **Dépendances** : Dependabot (`.github/dependabot.yml`) propose chaque lundi ses mises à jour sur `develop`. Mineures et correctives sont fusionnées seules si la CI passe (`dependabot-auto-merge.yml`) ; les majeures attendent une relecture.
 - **Revue** : CodeRabbit (`.coderabbit.yaml`, gratuit en dépôt public) relit chaque PR vers `develop` et `main`, en français, avec les règles de ce fichier.
+- **Suivi** : un chantier = une issue GitHub (libellé, jalon « Mise en ligne », « MEP V1 » ou « Après V1 »). Sa branche part de `develop` et porte son numéro : `<type>/<n>-<sujet>` (`feat/7-masquer-regionales`), créée par `gh issue develop <n> --base develop --name <branche> --checkout`. La PR vers `develop` contient `Closes #<n>` ; elle est fusionnée en squash (le message reprend la description), et l'issue se ferme quand `develop` arrive sur `main`.
 - Coût : zéro. GitHub Actions est illimité pour un dépôt public ; ne pas ajouter de service payant.
 
 ## Méthode de travail

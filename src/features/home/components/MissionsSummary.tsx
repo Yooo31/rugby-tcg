@@ -17,7 +17,6 @@ export function MissionsSummary({
   return (
     <Link
       href="/missions"
-      aria-labelledby="home-missions"
       className={cn(
         "panel hover:border-line-strong flex flex-col gap-4 p-5 transition duration-200 active:scale-[0.99]",
         claimable > 0 && "border-gold/60",

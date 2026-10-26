@@ -126,7 +126,8 @@ export function createPlayerRepository({
     currentGiveaways: readonly Giveaway[],
   ): PlayerSnapshot => ({
     username: record.username,
-    collection: record.collection,
+    // Une carte d'une division masquée reste en base, mais hors du jeu.
+    collection: record.collection.filter((card) => clubsById.has(card.clubId)),
     ingots: record.wallet.ingots,
     boosters: boosterStock(
       record.reserve,

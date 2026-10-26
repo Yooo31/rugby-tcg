@@ -17,6 +17,9 @@
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
     "test:db": "vitest run --config vitest.db.config.mts",
+    "e2e:supabase": "supabase start -x vector,logflare,imgproxy,postgres-meta,supavisor,mailpit",
+    "e2e:prepare": "node scripts/e2e/prepare.mjs",
+    "e2e": "playwright test",
     "check": "pnpm typecheck && pnpm lint && pnpm fallow && pnpm test && pnpm build",
     "prepare": "husky",
     "icons": "node scripts/generate-icons.mjs",
@@ -30,6 +33,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",
+    "@sentry/nextjs": "11.9.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.117.3",
     "class-variance-authority": "^0.7.1",
@@ -45,8 +49,10 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
     "@commitlint/cli": "^21.2.3",
     "@commitlint/config-conventional": "^21.2.3",
+    "@playwright/test": "1.64.1",
     "@tailwindcss/turbopack": "^4",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
@@ -70,6 +76,7 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "prisma": "7.10.0",
     "semantic-release": "^25.0.9",
+    "supabase": "2.122.0",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
     "typescript": "^5",

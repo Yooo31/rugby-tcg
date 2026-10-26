@@ -1,46 +1,11 @@
+import { withSentryConfig } from "@sentry/nextjs/config";
 import type { NextConfig } from "next";
+import {
+  securityContextFrom,
+  securityHeaders,
+} from "./src/lib/security-headers";
 
-const isDev = process.env.NODE_ENV === "development";
-
-/**
- * Politique de sécurité du contenu, sans nonce : un nonce rendrait chaque page
- * dynamique et ferait perdre le pré-rendu. Les scripts en ligne restent donc
- * permis (Next en injecte lui-même), mais rien ne se charge depuis un autre
- * site, la page ne peut pas être affichée dans un cadre, et les formulaires
- * ne partent que vers le site lui-même. Le navigateur ne parle qu'au site :
- * Supabase n'est appelé que par le serveur.
- */
-const CONTENT_SECURITY_POLICY = [
-  "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' blob: data:",
-  "font-src 'self'",
-  "connect-src 'self'",
-  "worker-src 'self'",
-  "manifest-src 'self'",
-  "object-src 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "frame-ancestors 'none'",
-  ...(isDev ? [] : ["upgrade-insecure-requests"]),
-].join("; ");
-
-const SECURITY_HEADERS = [
-  { key: "Content-Security-Policy", value: CONTENT_SECURITY_POLICY },
-  { key: "X-Content-Type-Options", value: "nosniff" },
-  { key: "X-Frame-Options", value: "DENY" },
-  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  {
-    key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
-  },
-  // HTTPS obligatoire pendant deux ans (ignoré par les navigateurs en HTTP local).
-  {
-    key: "Strict-Transport-Security",
-    value: "max-age=63072000; includeSubDomains",
-  },
-];
+const SECURITY_HEADERS = securityHeaders(securityContextFrom(process.env));
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
@@ -60,6 +25,11 @@ const nextConfig: NextConfig = {
   },
   // Ne pas annoncer la technologie du serveur.
   poweredByHeader: false,
+  // L'outil `prisma` (migrations) n'a rien à faire à l'exécution : Next.js
+  // embarquait ses moteurs pour toutes les bases de données (plus de 15 Mo).
+  outputFileTracingExcludes: {
+    "/*": ["./node_modules/.pnpm/prisma@*/**/*"],
+  },
   async headers() {
     return [
       { source: "/(.*)", headers: SECURITY_HEADERS },
@@ -81,4 +51,18 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+/**
+ * Sentry : les erreurs du navigateur passent par `/monitoring`, une route du
+ * site qui les relaie (pas de domaine tiers dans la CSP, pas de blocage par
+ * les bloqueurs de publicité). Les source maps ne sont envoyées que si
+ * `SENTRY_AUTH_TOKEN` est défini, puis supprimées du build.
+ */
+export default withSentryConfig(nextConfig, {
+  org: process.env["SENTRY_ORG"],
+  project: process.env["SENTRY_PROJECT"],
+  authToken: process.env["SENTRY_AUTH_TOKEN"],
+  silent: !process.env["CI"],
+  tunnelRoute: "/monitoring",
+  widenClientFileUpload: true,
+  sourcemaps: { deleteSourcemapsAfterUpload: true },
+});

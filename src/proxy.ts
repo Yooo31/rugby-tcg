@@ -8,6 +8,7 @@ export function proxy(request: NextRequest) {
 export const config = {
   // Tout sauf les fichiers statiques : ils n'ont pas besoin de session.
   matcher: [
-    "/((?!_next/static|_next/image|icons/|sw\\.js|manifest\\.webmanifest|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+    // `monitoring` : route relais de Sentry, sans session (voir next.config.ts).
+    "/((?!_next/static|_next/image|icons/|monitoring|sw\\.js|manifest\\.webmanifest|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };

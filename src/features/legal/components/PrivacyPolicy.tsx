@@ -77,9 +77,13 @@ export function PrivacyPolicy() {
         <p>
           Les données sont hébergées par Supabase (base de données et comptes),
           région <ToComplete>région du projet Supabase</ToComplete>, et le site
-          par <ToComplete>hébergeur du site</ToComplete>. Les notifications
-          passent par le service de votre navigateur (Google, Apple ou Mozilla),
-          qui ne reçoit que leur contenu.
+          par Vercel Inc. (société américaine) : les traitements côté serveur
+          s&apos;exécutent à Paris, les fichiers statiques sont distribués par
+          son réseau mondial. Les notifications passent par le service de votre
+          navigateur (Google, Apple ou Mozilla), qui ne reçoit que leur contenu.
+          Les erreurs techniques du jeu sont signalées à Sentry (Functional
+          Software Inc.) pour être corrigées : page concernée et message
+          d&apos;erreur, sans adresse e-mail, adresse IP ni cookie.
         </p>
         <p>
           Nous gardons vos données tant que votre compte existe. Quand vous le

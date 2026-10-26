@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { AdminGuard } from "@/features/admin/server";
+
+/** L'administration ne doit jamais apparaître dans un moteur de recherche. */
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 const ADMIN_LINKS = [
   { href: "/admin", label: "Tableau de bord" },
