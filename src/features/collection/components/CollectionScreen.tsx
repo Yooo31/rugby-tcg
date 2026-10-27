@@ -41,7 +41,8 @@ function Collection({ game }: { readonly game: ReadyGame }) {
     ["Doublons", String(duplicateCount(game.collection))],
   ] as const;
 
-  if (game.collection.length === 0) {
+  // Une carte spéciale seule suffit à ouvrir la collection (clubs masqués).
+  if (game.collection.length === 0 && game.specialCards.length === 0) {
     return (
       <div className="flex flex-col gap-6 sm:gap-8">
         <ScreenHeader eyebrow="Vos cartes" title="Collection" />

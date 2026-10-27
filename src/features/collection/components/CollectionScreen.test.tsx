@@ -55,3 +55,28 @@ describe("doublons dans la collection", () => {
     expect(within(dialog).getByText("×2")).toBeInTheDocument();
   });
 });
+
+describe("collection sans club visible", () => {
+  it("montre quand même les cartes spéciales", async () => {
+    const repositories = createInMemoryRepositories();
+    await repositories.player.setUsername("Testeur");
+    const snapshot = await repositories.player.get();
+    // Ses clubs sont dans une division masquée : seule la carte spéciale reste.
+    vi.spyOn(repositories.player, "get").mockResolvedValue({
+      ...snapshot,
+      collection: [],
+      specialCards: [
+        { id: "equipe-de-france", count: 1, firstObtainedAt: "2026-10-27" },
+      ],
+    });
+    render(
+      <GameProvider repositories={repositories}>
+        <CollectionScreen />
+      </GameProvider>,
+    );
+    expect(
+      await screen.findByRole("region", { name: "Cartes spéciales" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("Vestiaire vide")).not.toBeInTheDocument();
+  });
+});

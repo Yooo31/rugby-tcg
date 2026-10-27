@@ -445,11 +445,11 @@
       #6e4710,
       #fff7d6
     );
-    --frame-glow: #f2c14ecc;
+    --frame-glow: color-mix(in oklab, var(--color-gold) 80%, transparent);
   }
 
   .special .frame {
-    animation: spin-frame 5s linear infinite;
+    animation: spin-frame var(--duration-special-frame) linear infinite;
   }
 
   .special .face {
@@ -480,12 +480,13 @@
   }
 
   .special:not([data-active]) .foil {
-    animation: drift-foil 6s ease-in-out infinite alternate;
+    animation: drift-foil var(--duration-special-foil) ease-in-out infinite
+      alternate;
   }
 
   .special .division {
-    border-color: #f2c14e80;
-    color: #ffe9a3;
+    border-color: color-mix(in oklab, var(--color-gold) 50%, transparent);
+    color: var(--color-gold-light);
   }
 
   .special .name {

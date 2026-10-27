@@ -16,6 +16,22 @@ interface BoosterSummaryProps {
   readonly onBack: () => void;
 }
 
+/** Phrase du résumé : nouveaux clubs, carte spéciale, ou doublons. */
+function summaryMessage(
+  newClubs: number,
+  special: PulledSpecialCard | null,
+): string {
+  const clubs =
+    newClubs > 0
+      ? `${newClubs} nouveau${newClubs > 1 ? "x" : ""} club${newClubs > 1 ? "s" : ""} dans votre collection.`
+      : null;
+  if (special?.isNew)
+    return clubs
+      ? `${clubs} Et une carte spéciale, une chance sur cent mille !`
+      : "Une carte spéciale, une chance sur cent mille !";
+  return clubs ?? "Que des doublons cette fois : ils serviront bientôt.";
+}
+
 export function BoosterSummary({
   cards,
   special = null,
@@ -31,9 +47,7 @@ export function BoosterSummary({
       <div className="text-center">
         <h2 className="text-4xl font-extrabold">Essai transformé</h2>
         <p className="text-chalk-muted mt-2 text-sm">
-          {newClubs > 0
-            ? `${newClubs} nouveau${newClubs > 1 ? "x" : ""} club${newClubs > 1 ? "s" : ""} dans votre collection.`
-            : "Que des doublons cette fois : ils serviront bientôt."}
+          {summaryMessage(newClubs, special)}
         </p>
       </div>
 

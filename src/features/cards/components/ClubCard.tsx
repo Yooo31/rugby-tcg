@@ -119,21 +119,21 @@ function TricolorCrest() {
         </clipPath>
       </defs>
       <g clipPath={`url(#${clipId})`}>
-        <rect width="34" height="116" fill="#0055a4" />
-        <rect x="34" width="32" height="116" fill="#f5f5f5" />
-        <rect x="66" width="34" height="116" fill="#e1000f" />
+        <rect width="34" height="116" fill="var(--color-france-blue)" />
+        <rect x="34" width="32" height="116" fill="var(--color-france-white)" />
+        <rect x="66" width="34" height="116" fill="var(--color-france-red)" />
       </g>
       <path
         d="M50 4 92 16V58C92 86 72 104 50 112 28 104 8 86 8 58V16Z"
         fill="none"
-        stroke="#f2c14e"
+        stroke="var(--color-gold)"
         strokeWidth="4"
         strokeLinejoin="round"
       />
       <path
         d="M50 38 55.6 52.3 70.9 53.2 59 62.9 63 77.8 50 69.5 37 77.8 41 62.9 29.1 53.2 44.4 52.3Z"
-        fill="#f2c14e"
-        stroke="#6e4710"
+        fill="var(--color-gold)"
+        stroke="var(--color-gold-deep)"
         strokeWidth="2"
         strokeLinejoin="round"
       />
