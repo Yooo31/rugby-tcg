@@ -6,20 +6,17 @@
 
 ## 1. Principe directeur
 
-**Le joueur gratuit doit pouvoir tout collectionner. On vend du confort et du
-style, jamais du hasard.**
+**Le joueur gratuit peut tout collectionner ; le joueur qui paie va plus
+vite et se distingue.**
 
 - Tout le contenu de jeu (cartes, albums, lingots, boosters) reste gagnable
   gratuitement, à un rythme qui donne envie de revenir chaque jour.
-- **Aucun contenu aléatoire n'est vendu contre de l'argent réel**, ni
-  directement (booster payant), ni indirectement (lingots achetables qui
-  servent à acheter des boosters). C'est le mécanisme le plus exposé du droit
-  à venir (section 4) et le plus mal vu des joueurs et des parents.
-- Ce qui se vend est **déterministe** : le joueur sait exactement ce qu'il
-  achète (un dos de carte, un abonnement aux avantages listés, un passe dont
-  les récompenses sont affichées).
+- On vend trois choses : le **pass VIP** (plus de boosters et de missions
+  chaque jour), des **lingots** en boutique (qui s'échangent contre des
+  boosters, comme aujourd'hui), et des **cosmétiques**.
 - Les cartes n'ont **aucune valeur monétaire** : ni revente, ni échange contre
-  de l'argent. C'est ce qui tient le jeu hors du champ des jeux d'argent.
+  de l'argent. C'est ce qui garde le jeu hors des jeux d'argent en France
+  (section 4).
 
 ## 2. Ce que gagne un joueur gratuit aujourd'hui
 
@@ -45,131 +42,123 @@ Conséquences :
   les avoir une fois (problème du collectionneur), soit **~12 semaines** pour
   un joueur régulier. Les quatre raretés de chaque club demandent beaucoup
   plus : la légendaire sort 1 fois sur 100.
-- **Les lingots pèsent peu** face aux boosters gratuits (~11 contre ~28 par
-  semaine). Ce n'est pas un problème tant que les lingots ne se vendent pas.
-  Ils redeviendront un levier si on leur donne d'autres usages gratuits
-  (doublons, cosmétiques gagnables).
+- **Les lingots gagnés pèsent peu** face aux boosters gratuits (~11 contre
+  ~28 par semaine). Un joueur qui veut aller plus vite les achète
+  (section 3.2).
 - **Récompenses d'album** : 5 lingots par club (20 au moins), plus 1 booster
   dès 10 clubs. Elles restent un objectif de moyen terme.
 
 À ne pas toucher en V1 : ces rythmes. On mesure d'abord la rétention réelle
 (tableau de bord de l'admin) avant de rééquilibrer.
 
-## 3. Sources de revenu envisagées
+## 3. Ce qu'on vend
 
-| Source                         | Retenue ?       | Pourquoi                                                                                                |
-| ------------------------------ | --------------- | ------------------------------------------------------------------------------------------------------- |
-| **Abonnement « Supporter »**   | ✅ Oui, d'abord | Revenu récurrent, simple à expliquer, déjà prévu (réserve de 5).                                        |
-| **Cosmétiques**                | ✅ Oui          | Déterministes, sans effet sur le jeu, très adaptés à une collection.                                    |
-| **Passe de saison**            | 🕓 Plus tard    | Fort levier d'engagement, mais demande du contenu à chaque saison. À faire après les premiers chiffres. |
-| Achat de lingots               | ❌ Non          | Les lingots achètent des boosters : ce serait vendre du hasard (loot box indirecte).                    |
-| Boosters payants               | ❌ Non          | Loot box directe : risque juridique (section 4) et image.                                               |
-| Boosters événementiels payants | ❌ Non          | Même raison. Les événements se gagnent (cadeaux, missions spéciales).                                   |
-| Publicité récompensée          | ❌ Pas en V1    | Revenu faible à notre échelle, consentement RGPD aux traceurs, CSP à ouvrir, image du jeu.              |
+| Offre                   | Quand     | Rôle                                                              |
+| ----------------------- | --------- | ----------------------------------------------------------------- |
+| **Pass VIP**            | D'abord   | Revenu récurrent : plus de boosters et de missions par jour       |
+| **Lingots en boutique** | D'abord   | Achat ponctuel, pour aller plus vite                              |
+| **Cosmétiques**         | Ensuite   | Se distinguer, sans effet sur le jeu                              |
+| Passe de saison         | Plus tard | Engagement sur 8 semaines, une fois les premiers chiffres en main |
+| Publicité récompensée   | Pas en V1 | Revenu faible à notre échelle, consentement aux traceurs          |
 
-### 3.1 Abonnement « Supporter »
+### 3.1 Pass VIP
 
-| Avantage                                    | Effet sur le jeu                                     |
-| ------------------------------------------- | ---------------------------------------------------- |
-| Réserve de 5 boosters gratuits au lieu de 3 | Moins de boosters perdus si l'on vient peu souvent   |
-| Badge « Supporter » au classement           | Cosmétique                                           |
-| Un dos de carte exclusif par mois           | Cosmétique, gardé même après l'arrêt de l'abonnement |
-| Accès anticipé aux nouveautés (albums…)     | Aucun avantage durable                               |
+| Avantage                                           | Gratuit          | VIP              |
+| -------------------------------------------------- | ---------------- | ---------------- |
+| Réserve de boosters gratuits                       | 3                | **5**            |
+| Recharge                                           | 1 toutes les 4 h | 1 toutes les 4 h |
+| **Booster VIP du jour**, à récupérer sur l'accueil | —                | **+1 par jour**  |
+| **Missions du jour**                               | 3                | **3 + 2 VIP**    |
+| Badge VIP au classement et sur le profil           | —                | ✅               |
 
-Le rythme de recharge ne change pas : un abonné qui vient 2 fois par jour
-reçoit autant de boosters qu'un gratuit. La réserve plus grande ne sert qu'à
-celui qui vient rarement. L'écart reste donc faible, ce qui garde un classement
-juste.
+- **Booster VIP du jour** : un booster bonus par jour (heure de Paris), à
+  récupérer d'un geste, comme la série de connexion. Non récupéré, il est
+  perdu le lendemain : il récompense la visite quotidienne.
+- **Missions VIP** : deux missions de plus chaque jour, tirées du même
+  `MISSION_POOL`, différentes des trois missions communes, avec les mêmes
+  récompenses en lingots (30 à 50).
+- **Prix proposé : 4,99 € par mois, ou 39,99 € par an** (−33 %).
+- Sans engagement : à l'arrêt, les avantages cessent à la fin de la période
+  payée. Les cartes obtenues restent.
 
-**Prix proposé : 2,99 € par mois, ou 24,99 € par an** (−30 %).
+### 3.2 Lingots en boutique
 
-### 3.2 Cosmétiques
+Un booster coûte 100 lingots (`BOOSTER_OFFERS`, inchangé). Les gros paquets
+font baisser le prix du booster :
+
+| Paquet  | Lingots | Prix    | Soit le booster |
+| ------- | ------- | ------- | --------------- |
+| Poignée | 120     | 0,99 €  | 0,83 €          |
+| Sac     | 650     | 4,99 €  | 0,77 €          |
+| Coffre  | 1 400   | 9,99 €  | 0,71 €          |
+| Malle   | 3 000   | 19,99 € | 0,67 €          |
+
+- Le prix en euros est toujours affiché, et la boutique indique combien de
+  boosters représente chaque paquet.
+- Les lingots achetés et gagnés se confondent dans le même solde.
+- **Effet sur le classement** : un joueur qui achète des lingots ouvre plus de
+  boosters, donc grimpe plus vite. C'est assumé : le classement récompense la
+  collection. Le badge VIP rend visible qui paie.
+
+### 3.3 Cosmétiques
 
 - **Dos de carte** (révélation des boosters) : 0,99 € à 1,99 €.
 - **Cadres de carte** (bordure, sans toucher à la couleur de rareté) : 1,99 €.
 - **Thèmes d'album** (fond, typographie de l'en-tête) : 1,99 €.
-- **Packs saisonniers** (Tournoi des Six Nations, finale du Top 14) : 2,99 €,
-  prix affiché, contenu listé, aucun tirage.
+- Payables en euros ou en lingots. Certains se gagnent aussi (album terminé,
+  série de 30 jours).
 
-Règle : un cosmétique ne doit jamais imiter un logo de club ou de la FFR
-(même règle que les blasons). Certains cosmétiques se gagnent aussi (album
-terminé, série de 30 jours) : l'achat n'est pas le seul chemin.
+Règle : un cosmétique n'imite jamais un logo de club ou de la FFR (même règle
+que les blasons).
 
-### 3.3 Passe de saison (plus tard)
+### 3.4 Passe de saison (plus tard)
 
 Une saison de 8 semaines, 30 paliers. On avance en ouvrant des boosters et en
-finissant des missions. La voie gratuite donne des lingots et des boosters. La
+finissant des missions. La voie gratuite donne des lingots et des boosters, la
 voie payante (4,99 €) ajoute des cosmétiques. Toutes les récompenses sont
 affichées dès le départ.
 
-## 4. Cadre légal (France et UE)
+### 3.5 Rythme d'un joueur VIP
 
-> ⚠️ À faire relire par un juriste avant de vendre quoi que ce soit. Ce qui
-> suit est un état des lieux pour décider, pas un avis juridique.
+| Source                         | Par semaine, en plus du gratuit |
+| ------------------------------ | ------------------------------- |
+| Booster VIP du jour            | +7 boosters                     |
+| Missions VIP (2 × ~40 lingots) | +560 lingots, soit ~5 boosters  |
+| Réserve de 5                   | moins de boosters perdus        |
+| **Total**                      | **~+12 boosters (+30 %)**       |
 
-### 4.1 Jeux d'argent
+Un VIP régulier ouvre ~52 boosters par semaine, contre ~40 pour un gratuit.
+L'écart se voit sans écraser le joueur gratuit.
 
-En France, un jeu est un jeu d'argent s'il réunit une offre au public, un
-sacrifice financier, une part de hasard et une espérance de gain. Le gain se
-juge sur sa valeur : **des cartes sans valeur monétaire, ni revendables ni
-échangeables contre de l'argent, ne font pas du jeu un jeu d'argent.** C'est
-une raison de plus pour ne pas ouvrir de marché d'échange payant. Le régime
-expérimental des « JONUM » (jeux à objets numériques monétisables, loi SREN de 2024) ne nous concerne pas tant que les cartes ne sont pas monétisables.
+## 4. Cadre légal (France)
 
-### 4.2 Loot boxes : le risque qui monte
+> ⚠️ À faire relire par un juriste ou un comptable avant d'ouvrir la vente.
 
-- **Belgique** : sa Commission des jeux de hasard considère depuis 2018 les
-  loot boxes payantes comme des jeux de hasard. Le jeu étant accessible
-  depuis la Belgique, vendre des boosters aléatoires y serait illégal.
-- **UE** : le futur **Digital Fairness Act** (proposition attendue au
-  4e trimestre 2026) doit examiner les mécanismes proches du jeu d'argent,
-  dont les loot boxes. Des associations de consommateurs demandent leur
-  interdiction.
-- **Notre position** : ne rien vendre d'aléatoire. Le modèle reste ainsi
-  valable quel que soit le texte adopté.
-- Les **probabilités des raretés** sont déjà fixes et publiques dans le code.
-  On les affichera quand même dans le jeu (page « Probabilités »), par
-  transparence, même sans vente.
-
-### 4.3 Monnaies virtuelles et protection du consommateur
-
-Le réseau européen des autorités de protection des consommateurs (CPC) a
-publié en mars 2025 sept principes sur les monnaies de jeu. Ils
-s'appliqueraient si l'on vendait des lingots. En ne les vendant pas, on évite
-le sujet, et l'on retient quand même l'esprit de ces principes :
-
-1. **Prix affichés en euros**, toujours.
-2. Aucun coût caché, aucune monnaie intermédiaire.
-3. **Aucune incitation à dépenser plus que prévu** : pas de compte à rebours
-   d'achat, pas d'offre « dernière chance ».
-4. Information claire avant l'achat.
-5. Droit de rétractation expliqué (voir 4.4).
-6. Conditions claires et équitables (CGV).
-7. **Protection des mineurs** : le jeu parle de rugby amateur, beaucoup de
-   joueurs auront moins de 18 ans. **Une carte bancaire ne prouve ni l'âge du
-   joueur ni le consentement d'un parent** : un mineur peut utiliser celle
-   d'un adulte. Le parcours d'achat demande donc une déclaration d'âge. Pour
-   un mineur, il demande le consentement d'un parent (e-mail de validation),
-   ou réserve les achats aux comptes déclarés majeurs (choix à trancher avec
-   le juriste). S'y ajoutent une limite de dépense mensuelle réglable, sans
-   relances ni notifications commerciales.
-
-### 4.4 Vente en ligne
-
-- **Droit de rétractation (14 jours)** : pour un contenu numérique fourni tout
-  de suite, il ne s'applique pas (article L221-28, 13° du Code de la
-  consommation), à trois conditions : le joueur **consent expressément** à
-  l'exécution immédiate, **reconnaît perdre** son droit de rétractation, et
-  reçoit une **confirmation** (e-mail). Il faut une case dédiée au moment de
-  payer : l'acceptation des CGV ne suffit pas.
+- **Jeux d'argent** : un jeu en relève s'il réunit une offre au public, un
+  sacrifice financier, du hasard et une espérance de gain. Des cartes **sans
+  valeur monétaire**, ni revendables ni échangeables contre de l'argent, n'en
+  font pas un jeu d'argent. Il ne faut donc pas ouvrir de revente des cartes
+  contre de l'argent.
+- **Probabilités** : celles des raretés sont fixes et dans le code. On les
+  affiche dans le jeu (page « Probabilités »), dès qu'on vend des lingots qui
+  servent à ouvrir des boosters.
+- **Droit de rétractation (14 jours)** : il ne s'applique pas à un contenu
+  numérique fourni tout de suite (article L221-28, 13° du Code de la
+  consommation), si le joueur **consent expressément** à l'exécution immédiate,
+  **reconnaît perdre** son droit, et reçoit une **confirmation** par e-mail.
+  Il faut une case dédiée au paiement : l'acceptation des CGV ne suffit pas.
 - **Abonnement** : résiliation en ligne en quelques clics (obligation légale),
-  sans reconduction cachée. Rappel avant le renouvellement de l'offre annuelle.
+  rappel avant le renouvellement de l'offre annuelle.
+- **Mineurs** : un mineur ne peut pas s'engager seul dans un achat important,
+  et une carte bancaire ne prouve pas l'âge. Le parcours d'achat demande une
+  déclaration d'âge et, pour un mineur, l'accord d'un parent (ou réserve les
+  achats aux majeurs : à trancher avec le juriste). Une limite de dépense
+  mensuelle est réglable dans le compte.
 - **Documents obligatoires** : CGV, mentions légales complètes (#16),
-  politique de confidentialité mise à jour (données de paiement chez Stripe),
-  **médiateur de la consommation** désigné (obligatoire pour vendre à des
-  particuliers).
-- **Structure** : il faut une entité qui facture (micro-entreprise au départ).
-  TVA et seuils : à valider avec un comptable.
+  politique de confidentialité mise à jour (paiements chez Stripe),
+  **médiateur de la consommation** désigné.
+- **Structure** : une entité qui facture (micro-entreprise au départ). TVA et
+  seuils : à valider avec le comptable.
 
 ## 5. Paiement
 
@@ -178,29 +167,23 @@ le sujet, et l'on retient quand même l'esprit de ces principes :
 | **Stripe** (Checkout + Billing)                 | ~1,5 % + 0,25 € par carte européenne | Moins cher, abonnements, portail client prêt | TVA et factures à notre charge (Stripe Tax en option) |
 | Lemon Squeezy / Paddle (« merchant of record ») | ~5 % + 0,50 $, plus des suppléments  | Gèrent TVA, factures et litiges              | 3 à 4 fois plus cher sur des petits montants          |
 
-**Recommandation : Stripe.** Les montants sont petits (0,99 € à 2,99 €), donc
+**Recommandation : Stripe.** Les montants sont petits (0,99 € à 19,99 €), donc
 une commission fixe élevée y pèse lourd. On utilise Stripe Checkout (page de paiement
 hébergée par Stripe : aucune donnée de carte chez nous, et une CSP inchangée
 côté jeu) et le portail client de Stripe pour résilier.
 
-**TVA** : un service numérique vendu à un particulier est taxé au taux du
-**pays du client**, partout dans l'UE. Le guichet unique (OSS) simplifie la
-déclaration, mais il faut toujours déterminer le pays du client, appliquer
-son taux et en garder les justificatifs. Deux options, à trancher avec le
-comptable :
-
-- **Vendre en France seulement** au départ (pays de facturation vérifié au
-  paiement), ce qui écarte aussi la question belge des loot boxes.
-- **Vendre dans toute l'UE** avec Stripe Tax (pays, taux, justificatifs),
-  dont le coût est à ajouter au modèle financier.
+**TVA** : on vend d'abord **en France seulement** (pays de facturation
+vérifié au paiement) : TVA française, une seule règle. Ouvrir d'autres pays
+demandera Stripe Tax (taux du pays du client) : à décider plus tard.
 
 Architecture :
 
 - Un **webhook** Stripe (route serveur signée) est la seule source de vérité
   d'un achat. Le navigateur ne déclare jamais un paiement.
 - Il écrit les droits dans Postgres (abonnement actif jusqu'à telle date,
-  cosmétiques possédés), avec RLS activée et sans règle, comme les autres
-  tables.
+  lingots crédités, cosmétiques possédés), avec RLS activée et sans règle,
+  comme les autres tables. Un achat de lingots crédite le solde par une
+  action tracée, comme les corrections de l'admin.
 - **Le droit va au bon joueur.** La session Checkout est créée côté serveur
   pour le joueur connecté (identité vérifiée par `requireAuthUser()`), qui y
   est rattaché (référence client). Le webhook retrouve le joueur par cette
@@ -217,7 +200,8 @@ Architecture :
   l'abonnement se relit chez Stripe plutôt que de déduire l'ordre des
   événements.
 - `maxFreeBoosters` (déjà prévu dans `createPlayerRepository`) vaut 5 pour un
-  abonné actif.
+  VIP actif ; le booster VIP du jour et les missions VIP ne sont proposés
+  qu'à un VIP actif, vérifié côté serveur à chaque action.
 
 ## 6. Coûts et seuil de rentabilité
 
@@ -231,10 +215,10 @@ permise** : elle interdit l'usage commercial (voir CLAUDE.md).
 | E-mails (#14), nom de domaine                                 | ~0 à 2 €                |
 | **Total**                                                     | **~20 à 50 € par mois** |
 
-Un abonnement à 2,99 € rapporte environ 2,49 € hors TVA, et ~2,20 € après la
-commission Stripe. **Il faut donc 10 à 25 abonnés pour couvrir les coûts.**
-Avec une conversion de 2 à 5 % (fourchette courante en jeu gratuit), cela
-représente 500 à 1 000 joueurs actifs par mois.
+Un pass VIP à 4,99 € rapporte environ 4,16 € hors TVA, et ~3,85 € après la
+commission Stripe. **Il faut donc 6 à 13 VIP pour couvrir les coûts**, sans
+compter les lingots. Avec une conversion de 2 à 5 % (fourchette courante en
+jeu gratuit), cela représente 300 à 600 joueurs actifs par mois.
 
 ## 7. Indicateurs à suivre (admin)
 
@@ -244,7 +228,9 @@ agrégées :
 - **Conversion** : part des joueurs actifs du mois qui ont payé.
 - **Revenu** : par joueur actif (ARPU), par payeur (ARPPU), récurrent mensuel
   (MRR).
-- **Abonnés** : nouveaux, résiliés, taux de résiliation mensuel.
+- **VIP** : nouveaux, résiliés, taux de résiliation mensuel.
+- **Lingots** : paquets vendus (par taille), lingots achetés contre lingots
+  gagnés.
 - **Rétention** à J1, J7 et J30, payeurs contre gratuits (la rétention existe
   déjà, il reste à la découper).
 - **Remboursements et litiges**, en nombre et en montant.
@@ -261,17 +247,14 @@ Dans l'ordre :
    (lié à #16), confidentialité à jour, page « Probabilités ».
 3. **Paiement Stripe** : Checkout, webhook signé, table des droits, portail
    client, e-mail de confirmation (lié à #14).
-4. **Abonnement Supporter** : réserve de 5, badge, dos de carte du mois.
-5. **Cosmétiques** : dos de carte, cadres, puis boutique.
-6. **Indicateurs de l'admin** (section 7).
-7. **Passe de saison**, une fois les premiers chiffres en main.
+4. **Pass VIP** : réserve de 5, booster VIP du jour, missions VIP, badge.
+5. **Boutique de lingots** : quatre paquets, crédit tracé du solde.
+6. **Cosmétiques** : dos de carte, cadres, thèmes d'album.
+7. **Indicateurs de l'admin** (section 7).
+8. **Passe de saison**, une fois les premiers chiffres en main.
 
 ## Sources
 
-- [CPC : Key principles on in-game virtual currencies (mars 2025)](https://esportslegal.news/wp-content/uploads/2025/03/Key-principles-on-in-game-virtual-currencies.pdf), et leur [résumé par Reed Smith](https://www.reedsmith.com/articles/qas-on-the-eu-consumer-protection-authorities-joint-guidance-paper/)
-- [Digital Fairness Act : guide pour les studios (Freshfields)](https://technologyquotient.freshfields.com/post/102ltio/the-eus-proposed-digital-fairness-act-a-game-developers-guide-to-potential-imp), et [son calendrier (Heuking)](https://www.heuking.de/en/news-events/newsletter-articles/detail/digital-fairness-act-implementation-obligations-companies-need-to-prepare-for.html)
-- [Belgique : les loot boxes considérées comme des jeux de hasard (Clubic)](https://www.clubic.com/mag/jeux-video/actualite-839236-lootboxes-belgique-considere-jeux-hasard.html)
-- [Régime expérimental des JONUM](https://www.soloazar.com/en/category/legislation/france-approves-three-year-trial-decree-for-monetisable-digital-object-games)
 - [Contenu numérique et rétractation (L221-28, 13°)](https://donneespersonnelles.fr/contenu-numerique-acces-immediat)
 - [Frais Stripe en France (comparatif 2026)](https://hayot-expertise.fr/blog/frais-stripe-paypal-mollie-klarna-comparatif-optimisation-ecommerce-2026), [frais de Lemon Squeezy](https://dodopayments.com/blogs/lemonsqueezy-review)
 - [Vercel : offre Hobby réservée à l'usage non commercial](https://vercel.com/docs/plans/hobby-plan), [tarifs](https://vercel.com/pricing)
