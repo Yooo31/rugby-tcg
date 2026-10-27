@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { departmentCodeSchema, regionOfDepartment, type RegionId } from "./geo";
+import { crestStyleSchema } from "./crest";
 
 /**
  * Divisions seniors, de l'élite (tier 1) au premier échelon régional (tier 10).
@@ -90,6 +91,8 @@ export const clubSchema = z.object({
   colors: z.object({ primary: hexColorSchema, secondary: hexColorSchema }),
   /** Du plus ancien au plus récent. */
   recentResults: z.array(matchResultSchema).max(RECENT_RESULTS_WINDOW),
+  /** Blason choisi pour ce club (catalogue) ; sinon tiré de son identifiant. */
+  crest: crestStyleSchema.optional(),
 });
 
 export type Club = z.infer<typeof clubSchema>;

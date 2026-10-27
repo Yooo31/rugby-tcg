@@ -30,6 +30,18 @@ const CHALK = "#eef2f0";
 const CHALK_MUTED = "#9aa5a0";
 const PITCH = "#3ddc84";
 
+/** Blason dessiné à 4,2 fois son repère (100 × 116). */
+const CREST_SCALE = 4.2;
+const CREST_WIDTH = 100 * CREST_SCALE;
+const CREST_HEIGHT = Math.round(116 * CREST_SCALE);
+/**
+ * Le sigle est posé en HTML par-dessus l'image : taille de police un peu
+ * inférieure à l'échelle du dessin, et boîte remontée d'une demi-hauteur de
+ * lettre environ, pour tomber au même endroit que sur la carte.
+ */
+const CREST_FONT_SCALE = 4;
+const INITIALS_BASELINE_RATIO = 0.45;
+
 /**
  * Image d'une carte à partager en story, avec le code de parrainage du
  * joueur. Seulement pour une carte qu'il possède : pas de fausse légendaire.
@@ -113,22 +125,25 @@ export async function shareImageResponse(request: Request): Promise<Response> {
           style={{
             display: "flex",
             position: "relative",
-            width: 420,
-            height: 487,
+            width: CREST_WIDTH,
+            height: CREST_HEIGHT,
             marginTop: 24,
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- moteur d'image, pas une page */}
-          <img src={crest} width={420} height={487} alt="" />
+          <img src={crest} width={CREST_WIDTH} height={CREST_HEIGHT} alt="" />
           <div
             style={{
               position: "absolute",
               left: 0,
               right: 0,
-              top: design.stars.length > 0 ? 220 : 190,
+              top:
+                (design.initialsLayout.y -
+                  design.initialsLayout.size * INITIALS_BASELINE_RATIO) *
+                CREST_SCALE,
               display: "flex",
               justifyContent: "center",
-              fontSize: design.initials.length > 2 ? 120 : 150,
+              fontSize: design.initialsLayout.size * CREST_FONT_SCALE,
               fontWeight: 800,
               color: design.ink,
             }}
