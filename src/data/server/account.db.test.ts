@@ -14,6 +14,9 @@ describe("compte (RGPD)", () => {
     await prisma.ownedCard.create({
       data: { playerId: id, clubId: CLUB_CATALOG[0].id, rarity: "rare" },
     });
+    await prisma.ownedSpecialCard.create({
+      data: { playerId: id, specialId: "equipe-de-france" },
+    });
     await prisma.adminAdjustment.create({
       data: {
         playerId: id,
@@ -26,6 +29,9 @@ describe("compte (RGPD)", () => {
     const data = await exportAccount(prisma, id);
     expect(data.account.email).toMatch(/^export-/);
     expect(data.player?.ownedCards).toMatchObject([{ rarity: "rare" }]);
+    expect(data.player?.ownedSpecialCards).toMatchObject([
+      { specialId: "equipe-de-france", count: 1 },
+    ]);
     expect(
       JSON.stringify(data, (_key, value: unknown) =>
         typeof value === "bigint" ? String(value) : value,
@@ -45,10 +51,16 @@ describe("compte (RGPD)", () => {
     await prisma.ownedCard.create({
       data: { playerId: id, clubId: CLUB_CATALOG[0].id, rarity: "common" },
     });
+    await prisma.ownedSpecialCard.create({
+      data: { playerId: id, specialId: "equipe-de-france" },
+    });
 
     await deleteAccount(prisma, id);
     expect(await prisma.player.count({ where: { id } })).toBe(0);
     expect(await prisma.ownedCard.count({ where: { playerId: id } })).toBe(0);
+    expect(
+      await prisma.ownedSpecialCard.count({ where: { playerId: id } }),
+    ).toBe(0);
     expect(await prisma.player.count({ where: { id: referrer } })).toBe(1);
   });
 });

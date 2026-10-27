@@ -2,6 +2,7 @@ import {
   boosterReserveSchema,
   missionLogSchema,
   ownedCardSchema,
+  ownedSpecialCardSchema,
   streakSchema,
   walletSchema,
   type MissionLog,
@@ -31,6 +32,12 @@ export interface OwnedCardRow {
   readonly firstObtainedAt: Date;
 }
 
+export interface OwnedSpecialCardRow {
+  readonly specialId: string;
+  readonly count: number;
+  readonly firstObtainedAt: Date;
+}
+
 export interface MissionLogRow {
   readonly day: string;
   /** Colonne JSON : validée à la lecture. */
@@ -41,6 +48,7 @@ export interface MissionLogRow {
 export interface PlayerRows {
   readonly player: PlayerRow;
   readonly ownedCards: readonly OwnedCardRow[];
+  readonly ownedSpecialCards: readonly OwnedSpecialCardRow[];
   readonly missionLog: MissionLogRow | null;
   readonly claimedAlbumIds: readonly string[];
   readonly claimedGiveawayIds: readonly string[];
@@ -76,6 +84,13 @@ export function recordFromRows(rows: PlayerRows): PlayerRecord {
         firstObtainedAt: card.firstObtainedAt.toISOString(),
       }),
     ),
+    specialCards: rows.ownedSpecialCards.map((card) =>
+      ownedSpecialCardSchema.parse({
+        id: card.specialId,
+        count: card.count,
+        firstObtainedAt: card.firstObtainedAt.toISOString(),
+      }),
+    ),
     reserve,
     wallet: walletSchema.parse({
       ingots: player.ingots,
@@ -97,6 +112,8 @@ export interface PlayerWrites {
   readonly player: PlayerRow | null;
   /** Cartes nouvelles ou dont le nombre d'exemplaires a changé. */
   readonly cards: readonly OwnedCardRow[];
+  /** Cartes spéciales nouvelles ou dont le nombre d'exemplaires a changé. */
+  readonly specialCards: readonly OwnedSpecialCardRow[];
   readonly missionLog: MissionLog | null;
   readonly newClaimedAlbumIds: readonly string[];
   readonly newClaimedGiveawayIds: readonly string[];
@@ -149,6 +166,17 @@ export function recordChanges(
       firstObtainedAt: new Date(card.firstObtainedAt),
     }));
 
+  const specialBefore = new Map(
+    before.specialCards.map((card) => [card.id, card.count]),
+  );
+  const specialCards = after.specialCards
+    .filter((card) => specialBefore.get(card.id) !== card.count)
+    .map((card) => ({
+      specialId: card.id,
+      count: card.count,
+      firstObtainedAt: new Date(card.firstObtainedAt),
+    }));
+
   const missionsChanged =
     JSON.stringify(before.missions) !== JSON.stringify(after.missions);
 
@@ -158,6 +186,7 @@ export function recordChanges(
   return {
     player: samePlayerRow(playerBefore, playerAfter) ? null : playerAfter,
     cards,
+    specialCards,
     missionLog: missionsChanged ? after.missions : null,
     newClaimedAlbumIds: after.claimedAlbumIds.filter(
       (albumId) => !claimedBefore.has(albumId),

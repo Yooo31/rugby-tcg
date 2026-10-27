@@ -3,8 +3,14 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { rarityLabel, type Club, type PulledCard, type Rarity } from "@/domain";
-import { CardBack, ClubCard } from "@/features/cards";
+import {
+  rarityLabel,
+  type Club,
+  type PulledCard,
+  type PulledSpecialCard,
+  type Rarity,
+} from "@/domain";
+import { CardBack, ClubCard, SpecialCard } from "@/features/cards";
 import { cn } from "@/lib/utils";
 import { PulledCardBadge } from "./PulledCardBadge";
 
@@ -22,8 +28,13 @@ const RARITY_TEXT: Record<Rarity, string> = {
   legendary: "text-rarity-legendary",
 };
 
+/** Halo de la carte spéciale : celui de l'or, plus intense. */
+const SPECIAL_HALO = "bg-rarity-legendary/80";
+
 interface BoosterRevealProps {
   readonly cards: readonly PulledCard[];
+  /** Carte spéciale tirée en plus : révélée en dernier. */
+  readonly special?: PulledSpecialCard | null;
   readonly clubsById: ReadonlyMap<string, Club>;
   readonly onDone: () => void;
 }
@@ -31,23 +42,23 @@ interface BoosterRevealProps {
 /** Révèle les cartes une à une : chacune se retourne, dos puis face. */
 export function BoosterReveal({
   cards,
+  special = null,
   clubsById,
   onDone,
 }: BoosterRevealProps) {
   const [index, setIndex] = useState(0);
-  const card = cards[index];
+  const total = cards.length + (special ? 1 : 0);
+  const isSpecialStep = special !== null && index === cards.length;
+  const card = cards[Math.min(index, cards.length - 1)];
   const club = clubsById.get(card.clubId);
-  const isLast = index === cards.length - 1;
+  const isLast = index === total - 1;
 
   if (!club) return null;
 
   return (
     <div className="flex flex-col items-center gap-4 sm:gap-6">
-      <ol
-        className="flex gap-2"
-        aria-label={`Carte ${index + 1} sur ${cards.length}`}
-      >
-        {cards.map((_, step) => (
+      <ol className="flex gap-2" aria-label={`Carte ${index + 1} sur ${total}`}>
+        {Array.from({ length: total }, (_, step) => (
           <li
             key={step}
             className={cn(
@@ -72,7 +83,7 @@ export function BoosterReveal({
               aria-hidden
               className={cn(
                 "absolute -inset-10 -z-10 rounded-full blur-3xl",
-                RARITY_HALO[card.rarity],
+                isSpecialStep ? SPECIAL_HALO : RARITY_HALO[card.rarity],
               )}
               initial={{ opacity: 0, scale: 0.4 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -90,7 +101,11 @@ export function BoosterReveal({
               }}
             >
               <div className="[backface-visibility:hidden]">
-                <ClubCard club={club} rarity={card.rarity} interactive />
+                {isSpecialStep ? (
+                  <SpecialCard id={special.id} interactive />
+                ) : (
+                  <ClubCard club={club} rarity={card.rarity} interactive />
+                )}
               </div>
               <div className="absolute inset-0 [transform:rotateY(180deg)] [backface-visibility:hidden]">
                 <CardBack />
@@ -104,15 +119,30 @@ export function BoosterReveal({
         className="flex min-h-14 flex-col items-center gap-1.5"
         aria-live="polite"
       >
-        <p
-          className={cn(
-            "font-display text-2xl font-bold tracking-wide uppercase",
-            RARITY_TEXT[card.rarity],
-          )}
-        >
-          {rarityLabel(card.rarity)}
-        </p>
-        <PulledCardBadge card={card} />
+        {isSpecialStep ? (
+          <>
+            <p className="font-display text-rarity-legendary text-2xl font-bold tracking-wide uppercase">
+              Carte spéciale !
+            </p>
+            <p className="text-chalk-muted text-sm">
+              {special.isNew
+                ? "Une chance sur cent mille. Elle rejoint votre collection."
+                : "Encore elle : un exemplaire de plus."}
+            </p>
+          </>
+        ) : (
+          <>
+            <p
+              className={cn(
+                "font-display text-2xl font-bold tracking-wide uppercase",
+                RARITY_TEXT[card.rarity],
+              )}
+            >
+              {rarityLabel(card.rarity)}
+            </p>
+            <PulledCardBadge card={card} />
+          </>
+        )}
       </div>
 
       <div className="flex w-full max-w-xs flex-col gap-2">

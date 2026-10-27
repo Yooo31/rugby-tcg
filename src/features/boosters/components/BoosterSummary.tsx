@@ -2,12 +2,13 @@
 
 import { motion } from "motion/react";
 import { Button, ButtonLink } from "@/components/ui/button";
-import type { Club, PulledCard } from "@/domain";
-import { ClubCard } from "@/features/cards";
+import type { Club, PulledCard, PulledSpecialCard } from "@/domain";
+import { ClubCard, SpecialCard } from "@/features/cards";
 import { PulledCardBadge } from "./PulledCardBadge";
 
 interface BoosterSummaryProps {
   readonly cards: readonly PulledCard[];
+  readonly special?: PulledSpecialCard | null;
   readonly clubsById: ReadonlyMap<string, Club>;
   readonly remaining: number;
   readonly onOpenAnother: () => void;
@@ -15,8 +16,25 @@ interface BoosterSummaryProps {
   readonly onBack: () => void;
 }
 
+/** Phrase du résumé : nouveaux clubs, carte spéciale, ou doublons. */
+function summaryMessage(
+  newClubs: number,
+  special: PulledSpecialCard | null,
+): string {
+  const clubs =
+    newClubs > 0
+      ? `${newClubs} nouveau${newClubs > 1 ? "x" : ""} club${newClubs > 1 ? "s" : ""} dans votre collection.`
+      : null;
+  if (special?.isNew)
+    return clubs
+      ? `${clubs} Et une carte spéciale, une chance sur cent mille !`
+      : "Une carte spéciale, une chance sur cent mille !";
+  return clubs ?? "Que des doublons cette fois : ils serviront bientôt.";
+}
+
 export function BoosterSummary({
   cards,
+  special = null,
   clubsById,
   remaining,
   onOpenAnother,
@@ -29,11 +47,18 @@ export function BoosterSummary({
       <div className="text-center">
         <h2 className="text-4xl font-extrabold">Essai transformé</h2>
         <p className="text-chalk-muted mt-2 text-sm">
-          {newClubs > 0
-            ? `${newClubs} nouveau${newClubs > 1 ? "x" : ""} club${newClubs > 1 ? "s" : ""} dans votre collection.`
-            : "Que des doublons cette fois : ils serviront bientôt."}
+          {summaryMessage(newClubs, special)}
         </p>
       </div>
+
+      {special ? (
+        <div className="flex flex-col items-center gap-2">
+          <SpecialCard id={special.id} className="w-40" />
+          <p className="text-rarity-legendary text-sm font-bold">
+            Carte spéciale
+          </p>
+        </div>
+      ) : null}
 
       <ul className="flex w-full flex-wrap justify-center gap-x-3 gap-y-5">
         {cards.map((card, index) => {

@@ -110,6 +110,34 @@ describe("état du joueur dans Postgres", () => {
     expect(snapshot).toEqual(third.player);
   });
 
+  it("range une carte spéciale tirée avec un booster, en plus des clubs", async () => {
+    const playerId = await createAuthUser(prisma);
+    // Aléa nul : les premiers clubs, en commune, et la carte spéciale.
+    const lucky = () =>
+      createPlayerRepository({
+        store: createPrismaPlayerStore(prisma, playerId),
+        clubs: CLUB_CATALOG,
+        albums: CATALOG_ALBUMS,
+        rng: () => 0,
+        now: () => new Date("2026-10-22T09:00:00Z"),
+      });
+    const first = await lucky().openBooster();
+    expect(first.cards).toHaveLength(BOOSTER_SIZE);
+    expect(first.special).toEqual({ id: "equipe-de-france", isNew: true });
+    const second = await lucky().openBooster();
+    expect(second.special).toEqual({ id: "equipe-de-france", isNew: false });
+
+    expect(
+      await prisma.ownedSpecialCard.findMany({
+        where: { playerId },
+        select: { specialId: true, count: true },
+      }),
+    ).toEqual([{ specialId: "equipe-de-france", count: 2 }]);
+    expect((await lucky().get()).specialCards).toEqual(
+      second.player.specialCards,
+    );
+  });
+
   it("ne dépense jamais deux fois le même booster, même en rafale", async () => {
     const { playerId, repository } = await newPlayer();
     const attempts = MAX_FREE_BOOSTERS + 3;

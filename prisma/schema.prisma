@@ -65,6 +65,7 @@ model Player {
   updatedAt          DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
   ownedCards        OwnedCard[]
+  ownedSpecialCards OwnedSpecialCard[]
   missionLog        MissionLog?
   claimedAlbums     ClaimedAlbum[]
   boosterOpenings   BoosterOpening[]
@@ -92,6 +93,21 @@ model OwnedCard {
   @@id([playerId, clubId, rarity])
   @@index([clubId])
   @@map("owned_cards")
+}
+
+/// Cartes spéciales possédées (hors clubs, voir `domain/special-card.ts`).
+/// Leur liste vit dans le code : pas de table de référence, l'identifiant
+/// est validé à la lecture.
+model OwnedSpecialCard {
+  playerId        String   @map("player_id") @db.Uuid
+  specialId       String   @map("special_id")
+  count           Int      @default(1)
+  firstObtainedAt DateTime @default(now()) @map("first_obtained_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@id([playerId, specialId])
+  @@map("owned_special_cards")
 }
 
 /// Avancement du joueur sur les missions du jour `day`. Une seule ligne par

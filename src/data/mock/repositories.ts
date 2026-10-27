@@ -7,6 +7,7 @@ import {
   EMPTY_STREAK,
   EMPTY_WALLET,
   missionLogSchema,
+  ownedSpecialCardSchema,
   rankScores,
   streakSchema,
   walletSchema,
@@ -26,6 +27,7 @@ import { readJson, writeJson, type KeyValueStore } from "./storage";
 const KEYS = {
   username: "rugby-tcg:username",
   collection: "rugby-tcg:collection",
+  specialCards: "rugby-tcg:special-cards",
   reserve: "rugby-tcg:booster-reserve",
   wallet: "rugby-tcg:wallet",
   missions: "rugby-tcg:missions",
@@ -42,6 +44,12 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
   const read = (): PlayerRecord => ({
     username: readJson(store, KEYS.username, z.string().nullable(), null),
     collection: readJson(store, KEYS.collection, collectionSchema, []),
+    specialCards: readJson(
+      store,
+      KEYS.specialCards,
+      z.array(ownedSpecialCardSchema),
+      [],
+    ),
     reserve: readJson(
       store,
       KEYS.reserve,
@@ -68,6 +76,7 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
   const write = (record: PlayerRecord): void => {
     writeJson(store, KEYS.username, record.username);
     writeJson(store, KEYS.collection, record.collection);
+    writeJson(store, KEYS.specialCards, record.specialCards);
     writeJson(store, KEYS.reserve, record.reserve);
     writeJson(store, KEYS.wallet, record.wallet);
     writeJson(store, KEYS.missions, record.missions);

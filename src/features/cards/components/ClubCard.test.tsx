@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { RARITIES } from "@/domain";
 import { makeClub } from "@/test/fixtures";
-import { CardSlot, ClubCard, RecentForm } from "./ClubCard";
+import { CardSlot, ClubCard, RecentForm, SpecialCard } from "./ClubCard";
 
 const club = makeClub({
   id: "stade-toulousain",
@@ -63,6 +63,20 @@ describe("CardSlot", () => {
       screen.getByRole("article", {
         name: "Stade Toulousain, carte manquante",
       }),
+    ).toBeInTheDocument();
+  });
+});
+
+describe("SpecialCard", () => {
+  it("se présente comme une carte spéciale, sans puissance ni division", () => {
+    render(<SpecialCard id="equipe-de-france" />);
+    const card = screen.getByRole("article", {
+      name: "Équipe de France, carte spéciale",
+    });
+    expect(card).toHaveAttribute("data-special", "equipe-de-france");
+    expect(card).not.toHaveTextContent("Puissance");
+    expect(
+      screen.getByRole("heading", { name: "Équipe de France" }),
     ).toBeInTheDocument();
   });
 });

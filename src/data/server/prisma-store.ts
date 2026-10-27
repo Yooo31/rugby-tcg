@@ -44,6 +44,10 @@ async function loadRecord(db: Db, playerId: string): Promise<PlayerRecord> {
     where: { playerId },
     orderBy: { firstObtainedAt: "asc" },
   });
+  const ownedSpecialCards = await db.ownedSpecialCard.findMany({
+    where: { playerId },
+    orderBy: { firstObtainedAt: "asc" },
+  });
   const missionLog = await db.missionLog.findUnique({ where: { playerId } });
   const claimedAlbums = await db.claimedAlbum.findMany({
     where: { playerId },
@@ -56,6 +60,7 @@ async function loadRecord(db: Db, playerId: string): Promise<PlayerRecord> {
   return recordFromRows({
     player,
     ownedCards,
+    ownedSpecialCards,
     missionLog,
     claimedAlbumIds: claimedAlbums.map(({ albumId }) => albumId),
     claimedGiveawayIds: claimedGiveaways.map(({ giveawayId }) => giveawayId),
@@ -85,6 +90,15 @@ async function saveWrites(
           clubId: card.clubId,
           rarity: card.rarity,
         },
+      },
+      create: { playerId, ...card },
+      update: { count: card.count },
+    });
+  }
+  for (const card of writes.specialCards) {
+    await db.ownedSpecialCard.upsert({
+      where: {
+        playerId_specialId: { playerId, specialId: card.specialId },
       },
       create: { playerId, ...card },
       update: { count: card.count },
