@@ -28,7 +28,7 @@ Toutes les divisions du rugby français sont prévues. Les Régionales 1 à 3 so
 | Épique     | Effet holographique |
 | Légendaire | Animation spéciale  |
 
-**La puissance et la rareté sont indépendantes.** Un club de Fédérale 3 peut avoir une carte légendaire, même si sa puissance reste inférieure à celle d'un club de Top 14. La puissance évolue selon les résultats sportifs ; la rareté d'une carte reste fixe.
+**La puissance et la rareté sont indépendantes.** Un club de Fédérale 3 peut avoir une carte légendaire, même si sa puissance reste inférieure à celle d'un club de Top 14. La puissance évoluera selon les résultats sportifs, quand une source officielle les fournira (pour l'instant, elle ne dépend que de la division) ; la rareté d'une carte reste fixe.
 
 Les données sportives seraient récupérées via l'API FFR Compétitions, sous réserve de vérifier les accès et les droits d'utilisation.
 
