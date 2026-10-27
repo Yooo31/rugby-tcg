@@ -78,5 +78,5 @@ Objectif : vérifier que les passionnés de rugby aiment collectionner les clubs
 - Lingots : monnaie gagnée en jouant (missions, albums), échangée contre des boosters : 1 pour 100 lingots, 10 pour 900. Aucun paiement réel.
 - Missions : 3 par jour, identiques pour tous les joueurs, remises à zéro à minuit.
 - Récompense d'album : 5 lingots par club (20 au minimum), plus un booster à partir de 10 clubs.
-- Boosters gratuits : une réserve de 3 au maximum, qui regagne 1 booster toutes les 8 heures, avec un chrono jusqu'au prochain : 3 boosters gratuits par jour au plus. L'offre premium (hors V1) portera la réserve à 5.
+- Boosters gratuits : une réserve de 3 au maximum, qui regagne 1 booster toutes les 4 heures, avec un chrono jusqu'au prochain : 6 boosters gratuits par jour au plus. L'offre premium (hors V1) portera la réserve à 5.
 - Clubs : il n'existe pas d'API publique de la FFR. Du Top 14 à la Fédérale 3, les clubs de la saison viennent de Wikipédia et Wikidata (`docs/data-sources.md`) ; les divisions régionales attendent une source officielle.
