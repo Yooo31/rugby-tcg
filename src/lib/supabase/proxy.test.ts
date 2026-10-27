@@ -47,6 +47,7 @@ describe("aiguillage des requêtes", () => {
     expect(url.pathname).toBe("/connexion");
     expect(url.searchParams.get("next")).toBe("/albums");
     expect(response.cookies.get("sb-jeton")?.value).toBe("neuf");
+    expect(response.headers.get("Cache-Control")).toContain("no-store");
   });
 
   it("ne retient pas l'accueil comme page de retour", async () => {
