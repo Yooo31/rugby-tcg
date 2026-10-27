@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { departmentCodeSchema, regionOfDepartment, type RegionId } from "./geo";
+import { crestStyleSchema } from "./crest";
 
 /**
  * Divisions seniors, de l'élite (tier 1) au premier échelon régional (tier 10).
@@ -68,6 +69,14 @@ export type MatchResult = z.infer<typeof matchResultSchema>;
 /** Nombre de résultats récents pris en compte (forme du moment). */
 export const RECENT_RESULTS_WINDOW = 5;
 
+/**
+ * Forme récente affichée et comptée dans la puissance. Coupée tant qu'aucune
+ * source officielle ne fournit les résultats (accord FFR ou ligues) : ceux du
+ * catalogue ne sont pas tenus à jour, et des défaites inexactes froisseraient
+ * clubs et joueurs. Remettre à `true` quand les résultats seront fiables.
+ */
+export const IS_RECENT_FORM_SHOWN = false;
+
 const hexColorSchema = z
   .string()
   .regex(/^#[0-9a-f]{6}$/i, "Couleur hexadécimale attendue");
@@ -82,6 +91,8 @@ export const clubSchema = z.object({
   colors: z.object({ primary: hexColorSchema, secondary: hexColorSchema }),
   /** Du plus ancien au plus récent. */
   recentResults: z.array(matchResultSchema).max(RECENT_RESULTS_WINDOW),
+  /** Blason choisi pour ce club (catalogue) ; sinon tiré de son identifiant. */
+  crest: crestStyleSchema.optional(),
 });
 
 export type Club = z.infer<typeof clubSchema>;

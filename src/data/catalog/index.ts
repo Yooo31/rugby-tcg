@@ -12,6 +12,7 @@ import {
 import { createSeededRng, hashString } from "@/lib/rng";
 import { REGIONAL_CLUB_SEEDS, type ClubSeed } from "./clubs.regional";
 import wikipediaImport from "./clubs.wikipedia.json";
+import { withIdentity } from "./identity";
 
 /**
  * Catalogue des clubs du jeu :
@@ -24,7 +25,11 @@ import wikipediaImport from "./clubs.wikipedia.json";
 
 // Le fichier importé porte quelques champs en plus (identifiant Wikidata…) :
 // le schéma ne garde que ceux du domaine et rejette toute entrée invalide.
-const importedClubs: Club[] = z.array(clubSchema).parse(wikipediaImport.clubs);
+// L'identité saisie à la main (blason, couleurs corrigées) passe par-dessus.
+const importedClubs: Club[] = z
+  .array(clubSchema)
+  .parse(wikipediaImport.clubs)
+  .map(withIdentity);
 
 export const CATALOG_SEASON: string = wikipediaImport.season;
 

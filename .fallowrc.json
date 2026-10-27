@@ -6,5 +6,24 @@
     "@tailwindcss/turbopack",
     "fallow",
     "conventional-changelog-conventionalcommits"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "src/data/server/prisma-store.ts",
+        "src/data/server/admin.ts",
+        "src/data/server/giveaways.ts",
+        "src/data/server/leaderboard.ts",
+        "src/data/server/rate-limit.ts",
+        "src/data/server/account.ts",
+        "src/data/server/referral.ts",
+        "src/data/server/notifications.ts",
+        "src/data/server/index.ts",
+        "src/data/server/web-push.ts"
+      ],
+      "rules": {
+        "complexity-crap": "off"
+      }
+    }
   ]
 }

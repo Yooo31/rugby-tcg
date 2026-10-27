@@ -1,6 +1,6 @@
 # CLAUDE.md — Rugby TCG
 
-> Source de vérité du projet. Cahier des charges : `docs/spec.md`. Design : `docs/design-system.md`.
+> Source de vérité du projet. Cahier des charges : `docs/spec.md`. Design : `docs/design-system.md`. Économie et monétisation : `docs/economie.md`.
 > Les règles de Next.js propres à cette version sont dans `AGENTS.md` (géré par `next dev`).
 
 @AGENTS.md
@@ -11,13 +11,13 @@ Jeu de cartes à collectionner (PWA mobile d'abord) sur les clubs de rugby fran�
 
 ## Règles non négociables
 
-- **Rareté ≠ puissance.** La rareté est tirée au sort et fixée sur la carte ; la puissance vient du club (division + forme) et évolue. Aucun code ne doit déduire l'une de l'autre.
+- **Rareté ≠ puissance.** La rareté est tirée au sort et fixée sur la carte ; la puissance vient du club (division, plus la forme quand elle sera affichée) et évolue. Aucun code ne doit déduire l'une de l'autre.
 - **Le domaine est pur.** `src/domain` ne dépend ni de React, ni de Next, ni des données. Tout aléa (`Rng`) et toute date y sont injectés. ESLint le vérifie.
 - **L'UI ne connaît que les interfaces de dépôt** (`src/data/repositories.ts`). Jamais d'import de `@/data/mock/*` hors de `src/data`. ESLint le vérifie.
 - **Une feature n'importe une autre que par son `index.ts`.** ESLint le vérifie.
 - **TypeScript strict, zéro `any`**, pas de `@ts-ignore` sans commentaire qui le justifie.
 - **Toute couleur, typo, rayon ou durée vient d'un token** de `src/app/globals.css`. Seule exception : les dégradés décoratifs des CSS Modules de carte et de sachet.
-- **Pas de logo officiel de club** tant que les droits ne sont pas acquis : on utilise `ClubCrest` (blason généré, dessin décrit dans `features/cards/lib/crest.ts` : forme, motif, sigle, étoiles selon la division). Les logos sont des marques et des œuvres protégées : ni Wikipédia ni une demande de joueur ne lèvent cette règle.
+- **Pas de logo officiel de club** tant que les droits ne sont pas acquis : on utilise `ClubCrest` (blason généré, dessin décrit dans `features/cards/lib/crest.ts` : forme, motif, symbole, sigle, étoiles selon la division). Le symbole et le motif d'un club se choisissent dans `data/catalog/identity.ts` (Top 14 et Pro D2 faits) : un symbole générique qui évoque un lieu ou une tradition (volcan, ancre, croix occitane…), jamais une imitation du logo. Les logos sont des marques et des œuvres protégées : ni Wikipédia ni une demande de joueur ne lèvent cette règle.
 - **Toute logique livrée a ses tests**, co-localisés (`foo.ts` → `foo.test.ts`). Seuil de couverture bloquant sur `domain`, `data`, `lib`.
 - **Ne jamais committer de secret.** Commits conventionnels (`feat:`, `fix:`, `chore:`…), vérifiés par commitlint.
 - **Lire `node_modules/next/dist/docs/`** avant d'utiliser une API Next.js : cette version diffère de ce que l'on croit savoir.
@@ -95,6 +95,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 - Commentaires en français, pour dire le pourquoi. Textes d'interface en français, vouvoiement, vocabulaire du rugby sans excès.
 - Albums = règles (`AlbumRule`), jamais des listes de clubs : c'est ce qui permet à une carte d'appartenir à plusieurs albums.
 - La région d'un club se déduit de son département ; elle n'est jamais stockée.
+- Collection et albums montrent **une carte par club**, à sa meilleure rareté (la rareté filtrée si un filtre est actif). La fiche ouverte au clic (`CardDialog`) montre les quatre raretés : celles obtenues avec leurs exemplaires, à afficher et partager, les autres grisées. Regroupement : `holdingsByClub` (`domain/collection.ts`).
 - Tout l'état du joueur passe par `PlayerRepository` : chaque action (ouvrir, acheter, récupérer) renvoie un `PlayerSnapshot` complet, que `GameProvider` publie tel quel. L'interface ne recalcule jamais un solde ou un avancement.
 - Une récompense a trois états (`RewardStatus`) : `locked`, `claimable`, `claimed`. Elle se récupère par un geste du joueur, jamais automatiquement.
 - Les styles des CSS Modules vivent dans `@layer components` pour que les utilitaires Tailwind de l'appelant restent prioritaires.
@@ -104,6 +105,8 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 - **Catalogue des clubs** (`src/data/catalog`) : source unique du mock et de la base.
   - Du Top 14 à la Fédérale 3 : import de la saison depuis Wikipédia (composition des divisions, couleurs) et Wikidata (commune, département), par leurs API officielles. `pnpm clubs:import` régénère `clubs.wikipedia.json` ; changer `SEASON` dans `scripts/import-clubs/sources.ts` chaque été.
   - Divisions régionales : `clubs.regional.ts`, saisi à la main et **indicatif**, faute de source ouverte. **Masquées pour l'instant** (`HIDDEN_DIVISIONS`, `domain/club.ts`) : `CLUB_CATALOG` ne garde que les divisions jouables (tirage, albums, filtres, classement, seed) ; `FULL_CLUB_CATALOG` les contient toutes. Une carte régionale déjà possédée reste en base mais n'est plus affichée ni comptée.
+  - **Identité saisie à la main** (`data/catalog/identity.ts`), appliquée par-dessus l'import : blason choisi, et couleurs corrigées quand l'infobox se trompe (USA Perpignan, « sang et or »). Changer des couleurs demande un `pnpm db:seed`, la table `clubs` en garde une copie.
+  - **Forme récente masquée** (`IS_RECENT_FORM_SHOWN`, `domain/club.ts`) : les résultats du catalogue ne viennent d'aucune source officielle (pas tenus à jour, fictifs pour les régionales). Ni pastilles V / N / D sur les cartes, ni bonus de forme dans la puissance, qui ne dépend que de la division. Elle reviendra avec une source officielle (accord FFR ou ligues, jamais l'aspiration de leurs sites) : remettre la constante à `true`.
   - Détails, limites et mentions à respecter : `docs/data-sources.md`.
 - **Ne pas aspirer les sites de la FFR** (`monclubhouse.ffr.fr` et son API) : leurs `robots.txt` l'interdisent. Les données officielles passent par un accord avec la FFR ou les ligues.
 - **Base** : Postgres chez Supabase, pilotée par Prisma (`prisma/schema.prisma`, migrations dans `prisma/migrations`). Le client généré (`src/generated`) n'est pas versionné.
@@ -156,8 +159,9 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 ## Économie
 
 - **Lingots** : gagnés par les missions et les albums terminés, dépensés en boosters bonus (`BOOSTER_OFFERS` : 1 booster pour 100 lingots, 10 pour 900).
-- **Boosters** : une réserve de 3 gratuits au plus (`MAX_FREE_BOOSTERS`), qui regagne 1 booster toutes les 8 heures (`BOOSTER_REFILL_MS`) à partir de la première ouverture, soit 3 par jour au plus. Le premium (hors V1) portera la réserve à 5 (`PREMIUM_MAX_FREE_BOOSTERS`, paramètre `maxFreeBoosters` du dépôt). Les gratuits sont dépensés en premier ; les boosters bonus (achetés ou gagnés) s'y ajoutent sans plafond. L'état stocké est `{ count, since }` : ce qui a été regagné se calcule à partir de l'heure, sans minuteur.
+- **Boosters** : une réserve de 3 gratuits au plus (`MAX_FREE_BOOSTERS`), qui regagne 1 booster toutes les 4 heures (`BOOSTER_REFILL_MS`) à partir de la première ouverture, soit 6 par jour au plus. Le premium (hors V1) portera la réserve à 5 (`PREMIUM_MAX_FREE_BOOSTERS`, paramètre `maxFreeBoosters` du dépôt). Les gratuits sont dépensés en premier ; les boosters bonus (achetés ou gagnés) s'y ajoutent sans plafond. L'état stocké est `{ count, since }` : ce qui a été regagné se calcule à partir de l'heure, sans minuteur.
 - **Missions** : 3 par jour, les mêmes pour tous, tirées de `MISSION_POOL` à partir de la date, jamais deux du même type. Elles n'avancent qu'à l'ouverture d'un booster.
+- **Cartes spéciales** (`domain/special-card.ts`) : hors clubs, donc ni division, ni puissance, ni rareté tirée, ni album, et hors classement. La première est l'**Équipe de France** (carte dorée, écu tricolore généré : ni coq ni logo de la FFR, ni « XV de France », appellation qu'elle exploite). Un booster en contient une en plus de ses cartes, avec une chance sur cent mille (`SPECIAL_CARD_ODDS`). Table `owned_special_cards` ; section à part en tête de la collection.
 - **Albums** : récompense proportionnelle à la taille (`albumReward`), plus un booster à partir de 10 clubs.
 - **Série de connexion** (`domain/streak.ts`) : le jour n rapporte 10 × n lingots (100 au plus), plus 1 booster tous les 7 jours. Un jour manqué (heure de Paris) remet la série à 1. À récupérer d'un geste sur l'accueil.
 - **Parrainage** (`domain/referral.ts`) : code de 6 caractères, lien `/inscription?parrain=CODE`. Le filleul reçoit 1 booster à la création de son joueur ; le parrain en reçoit 2 quand le filleul a ouvert des boosters 3 jours différents, 10 filleuls récompensés au plus. Vérifié après chaque ouverture (`settleReferral`, verrou sur le parrain : un seul paiement par filleul).
@@ -168,7 +172,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 - **En-têtes** (`next.config.ts`) : `upgrade-insecure-requests` seulement si `NEXT_PUBLIC_SITE_URL` est en `https://` (sinon un serveur de test en HTTP casse). CSP sans nonce (un nonce rendrait chaque page dynamique), `frame-ancestors 'none'`, `nosniff`, HSTS… Le navigateur ne parle qu'au site : toute nouvelle ressource externe (police, image, API) doit être ajoutée à la CSP, sinon elle est bloquée sans bruit.
 - **RGPD** : suppression du compte (Compte, mot de passe redemandé ; `DELETE FROM auth.users`, tout part en cascade), export JSON (`/compte/donnees`), pages `/confidentialite` et `/mentions-legales` (publiques ; les « À compléter » sont à remplir par l'éditeur). Le service worker ne met plus les pages en cache : elles contiennent l'état du joueur.
 - **Pseudos** : liste de mots interdits (`domain/moderation.ts`, accents et chiffres déguisés normalisés ; mots courts bloqués seulement s'ils sont entiers). L'admin peut réinitialiser un pseudo.
-- **Notifications** (Web Push) : clés `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`. Règles dans `domain/notification.ts` : réserve pleine (une fois par remplissage), rappel de série dès 19 h, jamais de 22 h à 8 h. L'envoi se fait par `GET /api/cron/notifications` avec `Authorization: Bearer $CRON_SECRET`, **à appeler toutes les 15 minutes** par une tâche planifiée (à mettre en place avec l'hébergement). Sur iPhone, il faut d'abord installer le jeu sur l'écran d'accueil.
+- **Notifications** (Web Push) : clés `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`. Règles dans `domain/notification.ts` : réserve pleine (une fois par remplissage), rappel de série dès 19 h, jamais de 22 h à 8 h. L'envoi se fait par `GET /api/cron/notifications` avec `Authorization: Bearer $CRON_SECRET`, appelée toutes les 15 minutes par le workflow `notifications.yml` (GitHub Actions, gratuit en dépôt public ; secret du dépôt `CRON_SECRET`, identique à celui de Vercel). Cet appel régulier garde aussi la base Supabase active. GitHub désactive une tâche planifiée après 60 jours sans activité sur le dépôt : la réactiver dans l'onglet Actions si besoin. Sur iPhone, il faut d'abord installer le jeu sur l'écran d'accueil.
 - **Sentry** (offre gratuite) : erreurs seulement, ni traces ni enregistrement de session (`src/lib/sentry/options.ts`). Aucune donnée personnelle : `sendDefaultPii: false` et `scrubEvent` retire e-mail, IP, cookies, en-têtes et contenu des requêtes. Éteint sans `NEXT_PUBLIC_SENTRY_DSN` (donc en local et en CI). Le navigateur envoie par la route relais `/monitoring` (CSP inchangée, exclue du proxy). Source maps envoyées au build seulement si `SENTRY_AUTH_TOKEN` est défini. Bouton « Envoyer une erreur de test » dans `/admin`. Côté Sentry, l'organisation `yoan-2h` a « Prevent Storing of IP Addresses » activé, et une règle _Advanced Data Scrubbing_ `[Mask] [Anything] from [$user.geo.**]` : sans elles, Sentry déduit à la réception l'IP et la ville des erreurs du navigateur, quoi que dise le code. À refaire si l'organisation change. Sur Cloudflare Workers (si l'on y passe un jour), le point d'entrée devrait être enveloppé par `withSentry` : voir le commentaire de l'issue #10.
 - **Partage en story** : `/partage/carte?club=…&rarete=…` génère une image 1080 × 1920 (`next/og`) avec le code de parrainage, seulement pour une carte possédée. Ses couleurs copient les tokens (le moteur d'image ne lit pas le CSS).
 
@@ -189,7 +193,7 @@ Fait aussi : classement des collectionneurs (général et par région), pseudo, 
 
 À faire : divisions régionales, bloquées tant qu'il n'y a pas d'accord avec la FFR ou les ligues pour une source officielle. Avant la mise en ligne : relancer la base, premier commit, déploiement.
 
-Hors périmètre V1 : paiement réel, marché d'échange, usage des doublons, collections saisonnières et événementielles, féminines et jeunes (le champ `category` les prévoit).
+Hors périmètre V1 : paiement réel, marché d'échange, usage des doublons, collections saisonnières et événementielles (hormis la carte spéciale Équipe de France), féminines et jeunes (le champ `category` les prévoit).
 
 ## Git, CI et versions
 

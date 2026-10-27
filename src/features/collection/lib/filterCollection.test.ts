@@ -23,6 +23,13 @@ const collection: Collection = [
     firstObtainedAt: "2026-10-03",
   },
   { clubId: "albi", rarity: "rare", count: 1, firstObtainedAt: "2026-10-02" },
+  // Le même club dans une autre rareté : une seule entrée, à la meilleure.
+  {
+    clubId: "toulouse",
+    rarity: "epic",
+    count: 1,
+    firstObtainedAt: "2026-09-20",
+  },
   {
     clubId: "inconnu",
     rarity: "rare",
@@ -58,8 +65,8 @@ describe("filterCollection", () => {
     ]);
     expect(ids({ rarity: null, division: null, sort: "rarity" })).toEqual([
       "cugnaux",
-      "albi",
       "toulouse",
+      "albi",
     ]);
   });
 
@@ -70,8 +77,20 @@ describe("filterCollection", () => {
     expect(ids({ rarity: null, division: "top14", sort: "name" })).toEqual([
       "toulouse",
     ]);
-    expect(ids({ rarity: "epic", division: "top14", sort: "name" })).toEqual(
-      [],
-    );
+    expect(
+      ids({ rarity: "legendary", division: "top14", sort: "name" }),
+    ).toEqual([]);
+  });
+
+  it("montre un club à sa meilleure rareté, ou dans la rareté filtrée", () => {
+    const shown = (rarity: "common" | "epic" | null) =>
+      filterCollection(collection, clubsById, {
+        rarity,
+        division: "top14",
+        sort: "name",
+      }).map(({ rarity, count }) => [rarity, count]);
+    expect(shown(null)).toEqual([["epic", 3]]);
+    expect(shown("common")).toEqual([["common", 2]]);
+    expect(shown("epic")).toEqual([["epic", 1]]);
   });
 });

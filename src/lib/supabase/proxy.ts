@@ -20,11 +20,15 @@ export async function updateSession(
   request: NextRequest,
 ): Promise<NextResponse> {
   let response = NextResponse.next({ request });
+  // En-têtes anti-cache fournis par Supabase avec un jeton renouvelé : une
+  // réponse qui pose un jeton ne doit jamais être servie à un autre visiteur
+  // par un CDN. Gardés à part pour les reporter aussi sur une redirection.
+  let sessionHeaders: Readonly<Record<string, string>> = {};
 
   const supabase = createServerClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     cookies: {
       getAll: () => request.cookies.getAll(),
-      setAll(cookiesToSet) {
+      setAll(cookiesToSet, headers) {
         // Le jeton rafraîchi doit atteindre à la fois le rendu serveur (requête)
         // et le navigateur (réponse).
         for (const { name, value } of cookiesToSet)
@@ -33,6 +37,9 @@ export async function updateSession(
         for (const { name, value, options } of cookiesToSet) {
           response.cookies.set(name, value, options);
         }
+        sessionHeaders = headers;
+        for (const [key, value] of Object.entries(headers))
+          response.headers.set(key, value);
       },
     },
   });
@@ -44,18 +51,19 @@ export async function updateSession(
   const { pathname } = request.nextUrl;
 
   if (!isSignedIn && !isPublicPath(pathname)) {
-    return redirect(request, response, SIGN_IN_PATH, pathname);
+    return redirect(request, response, sessionHeaders, SIGN_IN_PATH, pathname);
   }
   if (isSignedIn && isGuestOnlyPath(pathname)) {
-    return redirect(request, response, HOME_PATH);
+    return redirect(request, response, sessionHeaders, HOME_PATH);
   }
   return response;
 }
 
-/** Redirige en conservant les cookies de session posés pendant la requête. */
+/** Redirige en conservant les cookies et en-têtes de session posés pendant la requête. */
 function redirect(
   request: NextRequest,
   sessionResponse: NextResponse,
+  sessionHeaders: Readonly<Record<string, string>>,
   pathname: string,
   returnTo?: string,
 ): NextResponse {
@@ -68,5 +76,7 @@ function redirect(
   const redirection = NextResponse.redirect(url);
   for (const cookie of sessionResponse.cookies.getAll())
     redirection.cookies.set(cookie);
+  for (const [key, value] of Object.entries(sessionHeaders))
+    redirection.headers.set(key, value);
   return redirection;
 }

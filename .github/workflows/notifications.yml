@@ -1,0 +1,42 @@
+# Notifications : toutes les 15 minutes, GitHub appelle la tâche planifiée du
+# site, qui envoie les notifications dues (réserve pleine, rappel de série).
+# Gratuit pour un dépôt public. Cet appel régulier garde aussi la base
+# Supabase active (pas de mise en pause pour inactivité).
+#
+# Secret du dépôt requis : CRON_SECRET, identique à celui de Vercel (production).
+# Bon à savoir : GitHub peut retarder une tâche planifiée de quelques minutes, et
+# la désactive après 60 jours sans activité sur le dépôt.
+name: Notifications
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: notifications
+  cancel-in-progress: false
+
+jobs:
+  send:
+    name: Envoi
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Appel de la tâche planifiée
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          SITE_URL: https://rugby-tcg.vercel.app
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::Secret CRON_SECRET absent des secrets du dépôt."
+            exit 1
+          fi
+          curl --fail-with-body --silent --show-error \
+            --max-time 60 --retry 2 --retry-delay 10 \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "$SITE_URL/api/cron/notifications"
+          echo

@@ -6,13 +6,8 @@ import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { AsyncButton } from "@/components/ui/async-button";
 import { Button } from "@/components/ui/button";
 import { IngotAmount } from "@/components/ui/reward";
-import {
-  BOOSTER_OFFERS,
-  canAfford,
-  offerDiscountPercent,
-  type PulledCard,
-} from "@/domain";
-import { GameGate, type ReadyGame } from "@/features/game";
+import { BOOSTER_OFFERS, canAfford, offerDiscountPercent } from "@/domain";
+import { GameGate, type OpenedBooster, type ReadyGame } from "@/features/game";
 import { BoosterPack } from "./BoosterPack";
 import { BoosterReveal } from "./BoosterReveal";
 import { BoosterSummary } from "./BoosterSummary";
@@ -22,8 +17,8 @@ import { NextBoosterCountdown } from "./NextBoosterCountdown";
 type Phase =
   | { readonly step: "idle" }
   | { readonly step: "opening" }
-  | { readonly step: "reveal"; readonly cards: readonly PulledCard[] }
-  | { readonly step: "summary"; readonly cards: readonly PulledCard[] };
+  | { readonly step: "reveal"; readonly opened: OpenedBooster }
+  | { readonly step: "summary"; readonly opened: OpenedBooster };
 
 /** Durée de la secousse du sachet avant la révélation, en millisecondes. */
 const TEAR_DURATION_MS = 700;
@@ -41,11 +36,11 @@ function BoosterFlow({ game }: { readonly game: ReadyGame }) {
     setHasFailed(false);
     setPhase({ step: "opening" });
     try {
-      const [cards] = await Promise.all([
+      const [opened] = await Promise.all([
         game.openBooster(),
         wait(TEAR_DURATION_MS),
       ]);
-      setPhase({ step: "reveal", cards });
+      setPhase({ step: "reveal", opened });
     } catch {
       setHasFailed(true);
       setPhase({ step: "idle" });
@@ -55,9 +50,10 @@ function BoosterFlow({ game }: { readonly game: ReadyGame }) {
   if (phase.step === "reveal") {
     return (
       <BoosterReveal
-        cards={phase.cards}
+        cards={phase.opened.cards}
+        special={phase.opened.special}
         clubsById={game.clubsById}
-        onDone={() => setPhase({ step: "summary", cards: phase.cards })}
+        onDone={() => setPhase({ step: "summary", opened: phase.opened })}
       />
     );
   }
@@ -65,7 +61,8 @@ function BoosterFlow({ game }: { readonly game: ReadyGame }) {
   if (phase.step === "summary") {
     return (
       <BoosterSummary
-        cards={phase.cards}
+        cards={phase.opened.cards}
+        special={phase.opened.special}
         clubsById={game.clubsById}
         remaining={available}
         onOpenAnother={open}

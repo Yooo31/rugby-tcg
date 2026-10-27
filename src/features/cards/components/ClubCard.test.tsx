@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { RARITIES } from "@/domain";
 import { makeClub } from "@/test/fixtures";
-import { CardSlot, ClubCard } from "./ClubCard";
+import { CardSlot, ClubCard, RecentForm, SpecialCard } from "./ClubCard";
 
 const club = makeClub({
   id: "stade-toulousain",
@@ -12,7 +12,7 @@ const club = makeClub({
 });
 
 describe("ClubCard", () => {
-  it("présente le club, sa division, sa puissance et sa forme", () => {
+  it("présente le club, sa division et sa puissance, sans la forme", () => {
     render(<ClubCard club={club} rarity="common" />);
 
     expect(
@@ -20,12 +20,8 @@ describe("ClubCard", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("Top 14")).toBeInTheDocument();
     expect(screen.getByText("Toulouse · Haute-Garonne")).toBeInTheDocument();
-    expect(screen.getByText("88")).toBeInTheDocument();
-    expect(
-      screen.getByRole("list", {
-        name: "Forme récente : victoire, victoire, défaite",
-      }),
-    ).toBeInTheDocument();
+    expect(screen.getByText("87")).toBeInTheDocument();
+    expect(screen.queryByRole("list")).not.toBeInTheDocument();
   });
 
   it.each(RARITIES)(
@@ -36,10 +32,28 @@ describe("ClubCard", () => {
       const card = screen.getByRole("article");
       expect(card).toHaveAttribute("data-rarity", id);
       expect(card).toHaveAccessibleName(
-        `Stade Toulousain, Top 14, puissance 88, carte ${label.toLowerCase()}`,
+        `Stade Toulousain, Top 14, puissance 87, carte ${label.toLowerCase()}`,
       );
     },
   );
+});
+
+describe("RecentForm", () => {
+  it("lit les derniers résultats", () => {
+    render(<RecentForm results={["W", "D", "L"]} />);
+    expect(
+      screen.getByRole("list", {
+        name: "Forme récente : victoire, nul, défaite",
+      }),
+    ).toHaveTextContent("VND");
+  });
+
+  it("annonce l'absence de résultat", () => {
+    render(<RecentForm results={[]} />);
+    expect(
+      screen.getByRole("list", { name: "Aucun résultat récent" }),
+    ).toBeInTheDocument();
+  });
 });
 
 describe("CardSlot", () => {
@@ -49,6 +63,20 @@ describe("CardSlot", () => {
       screen.getByRole("article", {
         name: "Stade Toulousain, carte manquante",
       }),
+    ).toBeInTheDocument();
+  });
+});
+
+describe("SpecialCard", () => {
+  it("se présente comme une carte spéciale, sans puissance ni division", () => {
+    render(<SpecialCard id="equipe-de-france" />);
+    const card = screen.getByRole("article", {
+      name: "Équipe de France, carte spéciale",
+    });
+    expect(card).toHaveAttribute("data-special", "equipe-de-france");
+    expect(card).not.toHaveTextContent("Puissance");
+    expect(
+      screen.getByRole("heading", { name: "Équipe de France" }),
     ).toBeInTheDocument();
   });
 });

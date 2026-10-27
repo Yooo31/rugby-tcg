@@ -1,5 +1,6 @@
 import {
   addCards,
+  addSpecialCard,
   albumProgress,
   albumReward,
   albumRewardStatus,
@@ -18,6 +19,7 @@ import {
   missionProgress,
   ownedClubIds,
   recordOpening,
+  rollSpecialCard,
   RewardNotClaimableError,
   spendBooster,
   streakProgress,
@@ -31,6 +33,7 @@ import {
   type Giveaway,
   type MissionLog,
   type PlayerSnapshot,
+  type SpecialCollection,
   type Streak,
   type Wallet,
 } from "@/domain";
@@ -42,6 +45,7 @@ import type { BoosterOpening, PlayerRepository } from "../repositories";
 export interface PlayerRecord {
   readonly username: string | null;
   readonly collection: Collection;
+  readonly specialCards: SpecialCollection;
   readonly reserve: BoosterReserve | null;
   readonly wallet: Wallet;
   /** Journal du dernier jour joué ; `null` si le joueur n'a jamais ouvert de booster. */
@@ -54,6 +58,7 @@ export interface PlayerRecord {
 export const EMPTY_PLAYER_RECORD: PlayerRecord = {
   username: null,
   collection: [],
+  specialCards: [],
   reserve: null,
   wallet: EMPTY_WALLET,
   missions: null,
@@ -128,6 +133,7 @@ export function createPlayerRepository({
     username: record.username,
     // Une carte d'une division masquée reste en base, mais hors du jeu.
     collection: record.collection.filter((card) => clubsById.has(card.clubId)),
+    specialCards: record.specialCards,
     ingots: record.wallet.ingots,
     boosters: boosterStock(
       record.reserve,
@@ -191,17 +197,28 @@ export function createPlayerRepository({
           pulled,
           clubsById,
         );
+        // Tirée après les clubs, en plus d'eux : le booster garde ses cartes.
+        const specialId = rollSpecialCard(rng);
+        const special = specialId
+          ? addSpecialCard(
+              record.specialCards,
+              specialId,
+              openedAt.toISOString(),
+            )
+          : null;
         const next: PlayerRecord = {
           ...record,
           reserve: spending.reserve,
           wallet: spending.wallet,
           collection,
+          specialCards: special?.collection ?? record.specialCards,
           missions,
         };
         return {
           record: next,
           result: {
             cards: pulled,
+            special: special?.pulled ?? null,
             player: toSnapshot(next, openedAt, currentGiveaways),
           },
           events: [

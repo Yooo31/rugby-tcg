@@ -1,2 +1,7 @@
 export { CardDialog, type CardDialogSelection } from "./components/CardDialog";
-export { CardBack, CardSlot, ClubCard } from "./components/ClubCard";
+export {
+  CardBack,
+  CardSlot,
+  ClubCard,
+  SpecialCard,
+} from "./components/ClubCard";

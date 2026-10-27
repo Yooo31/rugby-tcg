@@ -1,24 +1,27 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   clubRegion,
   computePower,
   departmentName,
   getDivision,
-  rarityLabel,
   regionName,
   type Club,
+  type ClubHoldings,
   type Rarity,
 } from "@/domain";
 import { ClubCard } from "./ClubCard";
+import { RarityPicker } from "./RarityPicker";
 import { ShareCardButton } from "./ShareCardButton";
 
 export interface CardDialogSelection {
   readonly club: Club;
+  /** Rareté montrée à l'ouverture (elle doit être obtenue). */
   readonly rarity: Rarity;
-  readonly count: number;
+  /** Exemplaires du club par rareté obtenue. */
+  readonly copies: ClubHoldings["copies"];
 }
 
 interface CardDialogProps {
@@ -50,35 +53,49 @@ export function CardDialog({ selection, onClose }: CardDialogProps) {
       className="text-chalk m-auto w-full max-w-sm bg-transparent p-4 backdrop:bg-black/80 backdrop:backdrop-blur-sm"
     >
       {selection ? (
-        <div className="flex flex-col items-center gap-6">
-          <ClubCard
-            club={selection.club}
-            rarity={selection.rarity}
-            interactive
-            className="max-w-72"
-          />
-          <ClubFacts {...selection} />
-          <ShareCardButton club={selection.club} rarity={selection.rarity} />
-          <button
-            type="button"
-            onClick={onClose}
-            className="border-line-strong bg-surface-raised hover:bg-surface-hover grid size-12 place-items-center rounded-full border transition"
-          >
-            <X aria-hidden className="size-5" />
-            <span className="sr-only">Fermer</span>
-          </button>
-        </div>
+        // Nouvelle carte ouverte : la rareté choisie repart de celle demandée.
+        <CardDetail
+          key={`${selection.club.id}:${selection.rarity}`}
+          selection={selection}
+          onClose={onClose}
+        />
       ) : null}
     </dialog>
   );
 }
 
-function ClubFacts({ club, rarity, count }: CardDialogSelection) {
+function CardDetail({
+  selection,
+  onClose,
+}: {
+  readonly selection: CardDialogSelection;
+  readonly onClose: () => void;
+}) {
+  const { club, copies } = selection;
+  const [rarity, setRarity] = useState(selection.rarity);
+
+  return (
+    <div className="flex flex-col items-center gap-6">
+      <ClubCard club={club} rarity={rarity} interactive className="max-w-72" />
+      <RarityPicker copies={copies} selected={rarity} onSelect={setRarity} />
+      <ClubFacts club={club} />
+      <ShareCardButton club={club} rarity={rarity} />
+      <button
+        type="button"
+        onClick={onClose}
+        className="border-line-strong bg-surface-raised hover:bg-surface-hover grid size-12 place-items-center rounded-full border transition"
+      >
+        <X aria-hidden className="size-5" />
+        <span className="sr-only">Fermer</span>
+      </button>
+    </div>
+  );
+}
+
+function ClubFacts({ club }: { readonly club: Club }) {
   const facts = [
     ["Division", getDivision(club.division).label],
     ["Puissance", String(computePower(club))],
-    ["Rareté", rarityLabel(rarity)],
-    ["Exemplaires", `×${count}`],
     ["Département", `${departmentName(club.department)} (${club.department})`],
     ["Région", regionName(clubRegion(club))],
   ] as const;
@@ -88,7 +105,9 @@ function ClubFacts({ club, rarity, count }: CardDialogSelection) {
       {facts.map(([term, value]) => (
         <div key={term} className="min-w-0">
           <dt className="eyebrow">{term}</dt>
-          <dd className="truncate text-sm font-medium">{value}</dd>
+          <dd className="text-sm font-medium text-pretty break-words">
+            {value}
+          </dd>
         </div>
       ))}
     </dl>

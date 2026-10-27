@@ -52,10 +52,11 @@ export const MAX_FREE_BOOSTERS = 3;
 export const PREMIUM_MAX_FREE_BOOSTERS = 5;
 const HOUR_MS = 60 * 60 * 1000;
 /**
- * Un booster gratuit revient toutes les 8 heures, tant que la réserve n'est pas
- * pleine : un joueur gratuit en reçoit au plus 3 par jour.
+ * Un booster gratuit revient toutes les 4 heures, tant que la réserve n'est pas
+ * pleine : un joueur gratuit en reçoit au plus 6 par jour (3 en réserve, il
+ * doit revenir pour la vider).
  */
-export const BOOSTER_REFILL_MS = 8 * HOUR_MS;
+export const BOOSTER_REFILL_MS = 4 * HOUR_MS;
 
 /**
  * Réserve de boosters gratuits : il y en avait `count` à l'instant `since`

@@ -25,7 +25,7 @@ describe("notifications", () => {
   });
 
   it("prévient une fois la réserve pleine, puis plus avant le prochain remplissage", () => {
-    const fullAt = since + 3 * BOOSTER_REFILL_MS; // 24/10, 8 h à Paris
+    const fullAt = since + 3 * BOOSTER_REFILL_MS; // 23/10, 20 h à Paris
     expect(dueNotifications(base, new Date(fullAt - 1))).toEqual([]);
     expect(dueNotifications(base, new Date(fullAt))).toEqual(["reserve-full"]);
     expect(

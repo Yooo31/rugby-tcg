@@ -28,13 +28,13 @@ Toutes les divisions du rugby français sont prévues. Les Régionales 1 à 3 so
 | Épique     | Effet holographique |
 | Légendaire | Animation spéciale  |
 
-**La puissance et la rareté sont indépendantes.** Un club de Fédérale 3 peut avoir une carte légendaire, même si sa puissance reste inférieure à celle d'un club de Top 14. La puissance évolue selon les résultats sportifs ; la rareté d'une carte reste fixe.
+**La puissance et la rareté sont indépendantes.** Un club de Fédérale 3 peut avoir une carte légendaire, même si sa puissance reste inférieure à celle d'un club de Top 14. La puissance évoluera selon les résultats sportifs, quand une source officielle les fournira (pour l'instant, elle ne dépend que de la division) ; la rareté d'une carte reste fixe.
 
 Les données sportives seraient récupérées via l'API FFR Compétitions, sous réserve de vérifier les accès et les droits d'utilisation.
 
 ## 2. Les boosters
 
-- 3 boosters gratuits par jour.
+- Une réserve de 3 boosters gratuits, qui en regagne 1 toutes les 4 heures (6 par jour au plus).
 - 5 cartes par booster.
 - Des boosters supplémentaires achetables.
 - Des boosters spéciaux pendant les événements.
@@ -78,5 +78,5 @@ Objectif : vérifier que les passionnés de rugby aiment collectionner les clubs
 - Lingots : monnaie gagnée en jouant (missions, albums), échangée contre des boosters : 1 pour 100 lingots, 10 pour 900. Aucun paiement réel.
 - Missions : 3 par jour, identiques pour tous les joueurs, remises à zéro à minuit.
 - Récompense d'album : 5 lingots par club (20 au minimum), plus un booster à partir de 10 clubs.
-- Boosters gratuits : une réserve de 3 au maximum, qui regagne 1 booster toutes les 8 heures, avec un chrono jusqu'au prochain : 3 boosters gratuits par jour au plus. L'offre premium (hors V1) portera la réserve à 5.
+- Boosters gratuits : une réserve de 3 au maximum, qui regagne 1 booster toutes les 4 heures, avec un chrono jusqu'au prochain : 6 boosters gratuits par jour au plus. L'offre premium (hors V1) portera la réserve à 5.
 - Clubs : il n'existe pas d'API publique de la FFR. Du Top 14 à la Fédérale 3, les clubs de la saison viennent de Wikipédia et Wikidata (`docs/data-sources.md`) ; les divisions régionales attendent une source officielle.

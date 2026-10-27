@@ -69,6 +69,19 @@ describe("classement en base", () => {
       (await createPrismaLeaderboard(prisma, alice).get(null)).me?.clubs,
     ).toBe(3);
 
+    // Les doublons ne comptent pas : 9 exemplaires d'un club restent 1 club.
+    await prisma.ownedCard.updateMany({
+      where: {
+        playerId: alice,
+        clubId: ids(occitanie, 1)[0],
+        rarity: "common",
+      },
+      data: { count: 9 },
+    });
+    expect(
+      (await createPrismaLeaderboard(prisma, alice).get(null)).me,
+    ).toMatchObject({ rank: 2, clubs: 3 });
+
     const region = await createPrismaLeaderboard(prisma, alice).get("occ");
     expect(region.entries.map((e) => [e.username, e.clubs])).toEqual([
       ["Alice", 3],
