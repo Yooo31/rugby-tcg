@@ -8,14 +8,13 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { Repositories } from "@/data";
+import type { BoosterOpening, Repositories } from "@/data";
 import type {
   Album,
   BoosterOfferId,
   Club,
   Leaderboard,
   PlayerSnapshot,
-  PulledCard,
   RegionId,
 } from "@/domain";
 import { createServerRepositories } from "./lib/server-repositories";
@@ -26,9 +25,12 @@ interface GameCatalog {
   readonly albums: readonly Album[];
 }
 
+export type OpenedBooster = Pick<BoosterOpening, "cards" | "special">;
+
 /** Actions du joueur. Chacune met l'état partagé à jour une fois terminée. */
 interface GameActions {
-  readonly openBooster: () => Promise<readonly PulledCard[]>;
+  /** Cartes tirées (et carte spéciale éventuelle) ; l'état suit tout seul. */
+  readonly openBooster: () => Promise<OpenedBooster>;
   readonly buyBoosters: (offerId: BoosterOfferId) => Promise<void>;
   readonly claimMission: (missionId: string) => Promise<void>;
   readonly claimAlbumReward: (albumId: string) => Promise<void>;
@@ -128,7 +130,7 @@ export function GameProvider({
       openBooster: async () => {
         const opening = await repositories.player.openBooster();
         setPlayer(opening.player);
-        return opening.cards;
+        return { cards: opening.cards, special: opening.special };
       },
       buyBoosters: async (offerId) =>
         setPlayer(await repositories.player.buyBoosters(offerId)),

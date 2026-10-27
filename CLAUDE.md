@@ -160,6 +160,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 - **Lingots** : gagnés par les missions et les albums terminés, dépensés en boosters bonus (`BOOSTER_OFFERS` : 1 booster pour 100 lingots, 10 pour 900).
 - **Boosters** : une réserve de 3 gratuits au plus (`MAX_FREE_BOOSTERS`), qui regagne 1 booster toutes les 4 heures (`BOOSTER_REFILL_MS`) à partir de la première ouverture, soit 6 par jour au plus. Le premium (hors V1) portera la réserve à 5 (`PREMIUM_MAX_FREE_BOOSTERS`, paramètre `maxFreeBoosters` du dépôt). Les gratuits sont dépensés en premier ; les boosters bonus (achetés ou gagnés) s'y ajoutent sans plafond. L'état stocké est `{ count, since }` : ce qui a été regagné se calcule à partir de l'heure, sans minuteur.
 - **Missions** : 3 par jour, les mêmes pour tous, tirées de `MISSION_POOL` à partir de la date, jamais deux du même type. Elles n'avancent qu'à l'ouverture d'un booster.
+- **Cartes spéciales** (`domain/special-card.ts`) : hors clubs, donc ni division, ni puissance, ni rareté tirée, ni album, et hors classement. La première est l'**Équipe de France** (carte dorée, écu tricolore généré : ni coq ni logo de la FFR, ni « XV de France », appellation qu'elle exploite). Un booster en contient une en plus de ses cartes, avec une chance sur cent mille (`SPECIAL_CARD_ODDS`). Table `owned_special_cards` ; section à part en tête de la collection.
 - **Albums** : récompense proportionnelle à la taille (`albumReward`), plus un booster à partir de 10 clubs.
 - **Série de connexion** (`domain/streak.ts`) : le jour n rapporte 10 × n lingots (100 au plus), plus 1 booster tous les 7 jours. Un jour manqué (heure de Paris) remet la série à 1. À récupérer d'un geste sur l'accueil.
 - **Parrainage** (`domain/referral.ts`) : code de 6 caractères, lien `/inscription?parrain=CODE`. Le filleul reçoit 1 booster à la création de son joueur ; le parrain en reçoit 2 quand le filleul a ouvert des boosters 3 jours différents, 10 filleuls récompensés au plus. Vérifié après chaque ouverture (`settleReferral`, verrou sur le parrain : un seul paiement par filleul).
@@ -191,7 +192,7 @@ Fait aussi : classement des collectionneurs (général et par région), pseudo, 
 
 À faire : divisions régionales, bloquées tant qu'il n'y a pas d'accord avec la FFR ou les ligues pour une source officielle. Avant la mise en ligne : relancer la base, premier commit, déploiement.
 
-Hors périmètre V1 : paiement réel, marché d'échange, usage des doublons, collections saisonnières et événementielles, féminines et jeunes (le champ `category` les prévoit).
+Hors périmètre V1 : paiement réel, marché d'échange, usage des doublons, collections saisonnières et événementielles (hormis la carte spéciale Équipe de France), féminines et jeunes (le champ `category` les prévoit).
 
 ## Git, CI et versions
 

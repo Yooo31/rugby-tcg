@@ -1,15 +1,17 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useId, type CSSProperties } from "react";
 import {
   computePower,
   departmentName,
   getDivision,
+  getSpecialCard,
   IS_RECENT_FORM_SHOWN,
   rarityLabel,
   type Club,
   type MatchResult,
   type Rarity,
+  type SpecialCardId,
 } from "@/domain";
 import { cn } from "@/lib/utils";
 import { useCardTilt } from "../hooks/useCardTilt";
@@ -99,6 +101,97 @@ export function ClubCard({
                 <span />
               </div>
             ) : null}
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+/** Écu tricolore de la carte spéciale : couleurs nationales, sans coq ni logo. */
+function TricolorCrest() {
+  const clipId = useId();
+  return (
+    <svg viewBox="0 0 100 116" role="img" aria-hidden>
+      <defs>
+        <clipPath id={clipId}>
+          <path d="M50 4 92 16V58C92 86 72 104 50 112 28 104 8 86 8 58V16Z" />
+        </clipPath>
+      </defs>
+      <g clipPath={`url(#${clipId})`}>
+        <rect width="34" height="116" fill="#0055a4" />
+        <rect x="34" width="32" height="116" fill="#f5f5f5" />
+        <rect x="66" width="34" height="116" fill="#e1000f" />
+      </g>
+      <path
+        d="M50 4 92 16V58C92 86 72 104 50 112 28 104 8 86 8 58V16Z"
+        fill="none"
+        stroke="#f2c14e"
+        strokeWidth="4"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M50 38 55.6 52.3 70.9 53.2 59 62.9 63 77.8 50 69.5 37 77.8 41 62.9 29.1 53.2 44.4 52.3Z"
+        fill="#f2c14e"
+        stroke="#6e4710"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/**
+ * Carte spéciale, dorée : ni division, ni puissance, ni rareté tirée. Même
+ * format et même inclinaison qu'une carte de club.
+ */
+export function SpecialCard({
+  id,
+  interactive = false,
+  className,
+}: {
+  readonly id: SpecialCardId;
+  readonly interactive?: boolean;
+  readonly className?: string;
+}) {
+  const { ref, handlers } = useCardTilt<HTMLElement>(interactive);
+  const card = getSpecialCard(id);
+
+  return (
+    <article
+      ref={ref}
+      {...handlers}
+      data-special={id}
+      aria-label={`${card.name}, ${card.caption.toLowerCase()}`}
+      className={cn(
+        styles.card,
+        styles.special,
+        interactive && styles.interactive,
+        className,
+      )}
+    >
+      <div className={styles.tilt}>
+        <div className={styles.frame}>
+          <div className={styles.face}>
+            <div className={styles.header}>
+              <span className={styles.division}>{card.caption}</span>
+            </div>
+            <div className={styles.crest}>
+              <TricolorCrest />
+            </div>
+            <h3 className={styles.name}>{card.name}</h3>
+            <p className={styles.locality}>France</p>
+            <div className={styles.footer}>
+              <span className={styles.rarity}>Or</span>
+            </div>
+            <div className={styles.foil} aria-hidden />
+            <div className={styles.glare} aria-hidden />
+            <div className={styles.sparkles} aria-hidden>
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
           </div>
         </div>
       </div>

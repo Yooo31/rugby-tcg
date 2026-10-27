@@ -5,6 +5,7 @@ export * from "./booster";
 export * from "./card";
 export * from "./club";
 export * from "./collection";
+export * from "./special-card";
 export * from "./geo";
 export * from "./giveaway";
 export * from "./mission";

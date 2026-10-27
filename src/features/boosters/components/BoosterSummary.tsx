@@ -2,12 +2,13 @@
 
 import { motion } from "motion/react";
 import { Button, ButtonLink } from "@/components/ui/button";
-import type { Club, PulledCard } from "@/domain";
-import { ClubCard } from "@/features/cards";
+import type { Club, PulledCard, PulledSpecialCard } from "@/domain";
+import { ClubCard, SpecialCard } from "@/features/cards";
 import { PulledCardBadge } from "./PulledCardBadge";
 
 interface BoosterSummaryProps {
   readonly cards: readonly PulledCard[];
+  readonly special?: PulledSpecialCard | null;
   readonly clubsById: ReadonlyMap<string, Club>;
   readonly remaining: number;
   readonly onOpenAnother: () => void;
@@ -17,6 +18,7 @@ interface BoosterSummaryProps {
 
 export function BoosterSummary({
   cards,
+  special = null,
   clubsById,
   remaining,
   onOpenAnother,
@@ -34,6 +36,15 @@ export function BoosterSummary({
             : "Que des doublons cette fois : ils serviront bientôt."}
         </p>
       </div>
+
+      {special ? (
+        <div className="flex flex-col items-center gap-2">
+          <SpecialCard id={special.id} className="w-40" />
+          <p className="text-rarity-legendary text-sm font-bold">
+            Carte spéciale
+          </p>
+        </div>
+      ) : null}
 
       <ul className="flex w-full flex-wrap justify-center gap-x-3 gap-y-5">
         {cards.map((card, index) => {

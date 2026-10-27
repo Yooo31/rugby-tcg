@@ -8,6 +8,7 @@ import { duplicateCount, ownedClubIds, totalCards } from "@/domain";
 import {
   CardDialog,
   ClubCard,
+  SpecialCard,
   type CardDialogSelection,
 } from "@/features/cards";
 import { GameGate, type ReadyGame } from "@/features/game";
@@ -67,6 +68,32 @@ function Collection({ game }: { readonly game: ReadyGame }) {
           </div>
         ))}
       </dl>
+
+      {game.specialCards.length > 0 ? (
+        <section
+          aria-labelledby="cartes-speciales"
+          className="flex flex-col gap-3"
+        >
+          <h2 id="cartes-speciales" className="eyebrow text-rarity-legendary">
+            Cartes spéciales
+          </h2>
+          <ul className="grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {game.specialCards.map((owned) => (
+              <li key={owned.id} className="relative">
+                <SpecialCard id={owned.id} interactive />
+                {owned.count > 1 ? (
+                  <span
+                    aria-label={`${owned.count} exemplaires`}
+                    className="border-line-strong bg-night font-display absolute -top-2 -right-1 rounded-full border px-2 text-sm font-bold tabular-nums"
+                  >
+                    ×{owned.count}
+                  </span>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <CollectionFilters
         filters={filters}

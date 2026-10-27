@@ -13,6 +13,7 @@ const NEW_PLAYER: PlayerRows = {
     streakLastDay: null,
   },
   ownedCards: [],
+  ownedSpecialCards: [],
   missionLog: null,
   claimedAlbumIds: [],
   claimedGiveawayIds: [],
@@ -32,6 +33,9 @@ const PLAYING: PlayerRows = {
   },
   ownedCards: [
     { clubId: "castres", rarity: "rare", count: 2, firstObtainedAt: since },
+  ],
+  ownedSpecialCards: [
+    { specialId: "equipe-de-france", count: 1, firstObtainedAt: since },
   ],
   missionLog: {
     day: "2026-10-22",
@@ -55,6 +59,13 @@ describe("recordFromRows", () => {
           clubId: "castres",
           rarity: "rare",
           count: 2,
+          firstObtainedAt: since.toISOString(),
+        },
+      ],
+      specialCards: [
+        {
+          id: "equipe-de-france",
+          count: 1,
           firstObtainedAt: since.toISOString(),
         },
       ],
@@ -86,6 +97,16 @@ describe("recordFromRows", () => {
     };
     expect(() => recordFromRows(rows)).toThrow(ZodError);
   });
+
+  it("refuse une carte spéciale inconnue", () => {
+    const rows = {
+      ...PLAYING,
+      ownedSpecialCards: [
+        { specialId: "inconnue", count: 1, firstObtainedAt: since },
+      ],
+    };
+    expect(() => recordFromRows(rows)).toThrow(ZodError);
+  });
 });
 
 describe("recordChanges", () => {
@@ -95,6 +116,7 @@ describe("recordChanges", () => {
     expect(recordChanges(before, before)).toEqual({
       player: null,
       cards: [],
+      specialCards: [],
       missionLog: null,
       newClaimedAlbumIds: [],
       newClaimedGiveawayIds: [],
@@ -114,6 +136,7 @@ describe("recordChanges", () => {
           firstObtainedAt: openedAt,
         },
       ],
+      specialCards: [{ ...before.specialCards[0], count: 2 }],
       reserve: { count: 0, since: since.getTime() },
       wallet: { ingots: 160, bonusBoosters: 2 },
       missions: {
@@ -144,6 +167,9 @@ describe("recordChanges", () => {
           count: 1,
           firstObtainedAt: new Date(openedAt),
         },
+      ],
+      specialCards: [
+        { specialId: "equipe-de-france", count: 2, firstObtainedAt: since },
       ],
       missionLog: after.missions,
       newClaimedAlbumIds: ["france"],

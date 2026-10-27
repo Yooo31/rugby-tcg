@@ -5,7 +5,10 @@ import { createInMemoryRepositories } from "@/data";
 import { GameProvider } from "@/features/game";
 import { CollectionScreen } from "./CollectionScreen";
 
-/** Aléa nul : chaque booster tire les mêmes premiers clubs, en commune. */
+/**
+ * Aléa nul : chaque booster tire les mêmes premiers clubs, en commune, et la
+ * carte spéciale (sa chance est franchie dès que l'aléa vaut 0).
+ */
 const sameDraw = () => 0;
 
 describe("doublons dans la collection", () => {
@@ -29,10 +32,25 @@ describe("doublons dans la collection", () => {
     expect(
       stat("Cartes").getByText(String(2 * BOOSTER_SIZE)),
     ).toBeInTheDocument();
-    expect(screen.getAllByText("×2")).toHaveLength(BOOSTER_SIZE);
+    // Une pastille par club, plus celle de la carte spéciale.
+    expect(screen.getAllByText("×2")).toHaveLength(BOOSTER_SIZE + 1);
+
+    const special = within(
+      screen.getByRole("region", { name: "Cartes spéciales" }),
+    );
+    expect(
+      special.getByRole("article", {
+        name: "Équipe de France, carte spéciale",
+      }),
+    ).toBeInTheDocument();
+    expect(special.getByLabelText("2 exemplaires")).toBeInTheDocument();
 
     const user = userEvent.setup();
-    await user.click(screen.getAllByRole("article")[0]);
+    await user.click(
+      screen.getAllByRole("article", {
+        name: /Top 14|Pro D2|Nationale|Fédérale/,
+      })[0],
+    );
     const dialog = await screen.findByRole("dialog");
     expect(within(dialog).getByText("×2")).toBeInTheDocument();
   });

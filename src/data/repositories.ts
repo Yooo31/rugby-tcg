@@ -5,6 +5,7 @@ import type {
   Leaderboard,
   PlayerSnapshot,
   PulledCard,
+  PulledSpecialCard,
   RegionId,
 } from "@/domain";
 
@@ -24,6 +25,8 @@ export interface AlbumRepository {
 
 export interface BoosterOpening {
   readonly cards: readonly PulledCard[];
+  /** Carte spéciale tirée en plus, une fois sur cent mille ; sinon `null`. */
+  readonly special: PulledSpecialCard | null;
   /** État du joueur après l'ouverture (cartes rangées, missions avancées). */
   readonly player: PlayerSnapshot;
 }

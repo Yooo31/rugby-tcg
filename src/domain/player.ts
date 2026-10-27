@@ -1,6 +1,7 @@
 import type { Collection } from "./collection";
 import type { GiveawayProgress } from "./giveaway";
 import type { MissionProgress } from "./mission";
+import type { SpecialCollection } from "./special-card";
 import type { StreakProgress } from "./streak";
 import type { BoosterStock } from "./wallet";
 
@@ -9,6 +10,8 @@ export interface PlayerSnapshot {
   /** Pseudo public ; `null` tant que le joueur ne l'a pas choisi. */
   readonly username: string | null;
   readonly collection: Collection;
+  /** Cartes spéciales (hors clubs), à part de la collection. */
+  readonly specialCards: SpecialCollection;
   readonly ingots: number;
   readonly boosters: BoosterStock;
   readonly missions: readonly MissionProgress[];

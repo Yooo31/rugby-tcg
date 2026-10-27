@@ -22,6 +22,7 @@ export async function exportAccount(prisma: PrismaClient, userId: string) {
     where: { id: userId },
     include: {
       ownedCards: { omit: { playerId: true } },
+      ownedSpecialCards: { omit: { playerId: true } },
       missionLog: { omit: { playerId: true } },
       claimedAlbums: { omit: { playerId: true } },
       claimedGiveaways: { omit: { playerId: true } },
