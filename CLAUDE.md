@@ -95,6 +95,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 - Commentaires en français, pour dire le pourquoi. Textes d'interface en français, vouvoiement, vocabulaire du rugby sans excès.
 - Albums = règles (`AlbumRule`), jamais des listes de clubs : c'est ce qui permet à une carte d'appartenir à plusieurs albums.
 - La région d'un club se déduit de son département ; elle n'est jamais stockée.
+- Collection et albums montrent **une carte par club**, à sa meilleure rareté (la rareté filtrée si un filtre est actif). La fiche ouverte au clic (`CardDialog`) montre les quatre raretés : celles obtenues avec leurs exemplaires, à afficher et partager, les autres grisées. Regroupement : `holdingsByClub` (`domain/collection.ts`).
 - Tout l'état du joueur passe par `PlayerRepository` : chaque action (ouvrir, acheter, récupérer) renvoie un `PlayerSnapshot` complet, que `GameProvider` publie tel quel. L'interface ne recalcule jamais un solde ou un avancement.
 - Une récompense a trois états (`RewardStatus`) : `locked`, `claimable`, `claimed`. Elle se récupère par un geste du joueur, jamais automatiquement.
 - Les styles des CSS Modules vivent dans `@layer components` pour que les utilitaires Tailwind de l'appelant restent prioritaires.

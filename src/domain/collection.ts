@@ -65,17 +65,6 @@ export function ownedClubIds(collection: Collection): Set<string> {
   return new Set(collection.map((owned) => owned.clubId));
 }
 
-/** Meilleure rareté possédée par club : c'est elle qu'on montre dans les albums. */
-export function bestRarityByClub(collection: Collection): Map<string, Rarity> {
-  const best = new Map<string, Rarity>();
-  for (const { clubId, rarity } of collection) {
-    const current = best.get(clubId);
-    if (!current || rarityRank(rarity) > rarityRank(current))
-      best.set(clubId, rarity);
-  }
-  return best;
-}
-
 export function totalCards(collection: Collection): number {
   return collection.reduce((total, owned) => total + owned.count, 0);
 }
@@ -83,4 +72,54 @@ export function totalCards(collection: Collection): number {
 /** Exemplaires en trop (au-delà du premier), futurs candidats à l'échange. */
 export function duplicateCount(collection: Collection): number {
   return totalCards(collection) - collection.length;
+}
+
+/** Ce qu'un joueur possède d'un club, toutes raretés confondues. */
+export interface ClubHoldings {
+  readonly clubId: string;
+  /** Exemplaires par rareté obtenue ; une rareté absente n'est pas débloquée. */
+  readonly copies: Readonly<Partial<Record<Rarity, number>>>;
+  /** Rareté montrée par défaut (collection, albums). */
+  readonly bestRarity: Rarity;
+  readonly total: number;
+  /** Date ISO de la dernière rareté débloquée pour ce club. */
+  readonly lastUnlockedAt: string;
+}
+
+/** Regroupe la collection par club, dans l'ordre où les clubs apparaissent. */
+export function holdingsByClub(
+  collection: Collection,
+): Map<string, ClubHoldings> {
+  const holdings = new Map<string, ClubHoldings>();
+  for (const { clubId, rarity, count, firstObtainedAt } of collection) {
+    const current = holdings.get(clubId);
+    holdings.set(
+      clubId,
+      current
+        ? {
+            clubId,
+            copies: {
+              ...current.copies,
+              [rarity]: (current.copies[rarity] ?? 0) + count,
+            },
+            bestRarity:
+              rarityRank(rarity) > rarityRank(current.bestRarity)
+                ? rarity
+                : current.bestRarity,
+            total: current.total + count,
+            lastUnlockedAt:
+              firstObtainedAt > current.lastUnlockedAt
+                ? firstObtainedAt
+                : current.lastUnlockedAt,
+          }
+        : {
+            clubId,
+            copies: { [rarity]: count },
+            bestRarity: rarity,
+            total: count,
+            lastUnlockedAt: firstObtainedAt,
+          },
+    );
+  }
+  return holdings;
 }
