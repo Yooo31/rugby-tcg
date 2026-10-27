@@ -30,6 +30,22 @@ async function newPlayer(now = () => new Date("2026-10-22T09:00:00Z")) {
   return { playerId, repository };
 }
 
+/**
+ * Tirage imposé : chaque carte prend le premier club restant (aléa 0), dans la
+ * rareté donnée par `rarityRoll`. Deux ouvertures tirent donc les mêmes clubs.
+ */
+function fixedDraw(playerId: string, rarityRoll: number) {
+  let call = 0;
+  return createPlayerRepository({
+    store: createPrismaPlayerStore(prisma, playerId),
+    clubs: CLUB_CATALOG,
+    albums: CATALOG_ALBUMS,
+    // Par carte : un aléa pour le club, puis un pour la rareté.
+    rng: () => (call++ % 2 === 0 ? 0 : rarityRoll),
+    now: () => new Date("2026-10-22T09:00:00Z"),
+  });
+}
+
 describe("état du joueur dans Postgres", () => {
   it("crée la ligne d'un nouveau joueur à la première lecture", async () => {
     const { playerId, repository } = await newPlayer();
@@ -59,6 +75,39 @@ describe("état du joueur dans Postgres", () => {
     expect(
       await prisma.missionLog.findUnique({ where: { playerId } }),
     ).toMatchObject({ day: "2026-10-22" });
+  });
+
+  it("empile les doublons en base, et sépare les raretés d'un même club", async () => {
+    const playerId = await createAuthUser(prisma);
+    const first = await fixedDraw(playerId, 0).openBooster();
+    expect(first.cards.every((card) => card.rarity === "common")).toBe(true);
+
+    const second = await fixedDraw(playerId, 0).openBooster();
+    expect(second.cards).toEqual(
+      first.cards.map((card) => ({
+        ...card,
+        isNewClub: false,
+        isNewCard: false,
+      })),
+    );
+    const third = await fixedDraw(playerId, 0.9999).openBooster();
+    expect(third.cards.every((card) => card.rarity === "legendary")).toBe(true);
+    expect(third.cards.every((card) => !card.isNewClub && card.isNewCard)).toBe(
+      true,
+    );
+
+    const rows = await prisma.ownedCard.findMany({ where: { playerId } });
+    expect(rows).toHaveLength(2 * BOOSTER_SIZE);
+    for (const { clubId } of first.cards) {
+      const byRarity = Object.fromEntries(
+        rows
+          .filter((row) => row.clubId === clubId)
+          .map((row) => [row.rarity, row.count]),
+      );
+      expect(byRarity).toEqual({ common: 2, legendary: 1 });
+    }
+    const snapshot = await fixedDraw(playerId, 0).get();
+    expect(snapshot).toEqual(third.player);
   });
 
   it("ne dépense jamais deux fois le même booster, même en rafale", async () => {
