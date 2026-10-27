@@ -1,6 +1,6 @@
 # CLAUDE.md — Rugby TCG
 
-> Source de vérité du projet. Cahier des charges : `docs/spec.md`. Design : `docs/design-system.md`.
+> Source de vérité du projet. Cahier des charges : `docs/spec.md`. Design : `docs/design-system.md`. Économie et monétisation : `docs/economie.md`.
 > Les règles de Next.js propres à cette version sont dans `AGENTS.md` (géré par `next dev`).
 
 @AGENTS.md
