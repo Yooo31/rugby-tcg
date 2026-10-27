@@ -1,4 +1,9 @@
-import { getDivision, type Club, type MatchResult } from "./club";
+import {
+  getDivision,
+  IS_RECENT_FORM_SHOWN,
+  type Club,
+  type MatchResult,
+} from "./club";
 
 /** Puissance d'un club de Régionale 3 sans forme particulière. */
 const BASE_POWER_LOWEST_TIER = 24;
@@ -17,15 +22,17 @@ export function formBonus(results: readonly MatchResult[]): number {
 }
 
 /**
- * Score de puissance : dépend uniquement du niveau sportif (division + forme).
+ * Score de puissance : dépend uniquement du niveau sportif (division, plus la
+ * forme quand elle est affichée, voir `IS_RECENT_FORM_SHOWN`).
  * Il est volontairement indépendant de la rareté de la carte.
  */
 export function computePower(
   club: Pick<Club, "division" | "recentResults">,
+  { withForm = IS_RECENT_FORM_SHOWN }: { readonly withForm?: boolean } = {},
 ): number {
   const { tier } = getDivision(club.division);
   const base =
     BASE_POWER_LOWEST_TIER + (LOWEST_TIER - tier) * POWER_STEP_PER_TIER;
-  const power = base + formBonus(club.recentResults);
+  const power = base + (withForm ? formBonus(club.recentResults) : 0);
   return Math.min(MAX_POWER, Math.max(MIN_POWER, power));
 }

@@ -86,7 +86,7 @@ describe("boosters", () => {
     expect(await player.get()).toEqual(opening.player);
   });
 
-  it("bloque quand la réserve est vide, puis rend un booster 8 heures plus tard", async () => {
+  it("bloque quand la réserve est vide, puis rend un booster 4 heures plus tard", async () => {
     const { player, setNow } = setup();
     for (let opening = 0; opening < MAX_FREE_BOOSTERS; opening += 1)
       await player.openBooster();
@@ -95,12 +95,12 @@ describe("boosters", () => {
       BoosterQuotaExceededError,
     );
     const { collection, boosters } = await player.get();
-    expect(boosters.nextFreeAt).toBe(new Date("2026-10-13T17:00:00").getTime());
+    expect(boosters.nextFreeAt).toBe(new Date("2026-10-13T13:00:00").getTime());
 
-    setNow("2026-10-13T16:59:59");
+    setNow("2026-10-13T12:59:59");
     expect((await player.get()).boosters.free).toBe(0);
 
-    setNow("2026-10-13T17:00:00");
+    setNow("2026-10-13T13:00:00");
     const later = await player.get();
     expect(later.boosters.free).toBe(1);
     expect(later.collection).toEqual(collection);

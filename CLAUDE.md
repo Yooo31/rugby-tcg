@@ -11,7 +11,7 @@ Jeu de cartes à collectionner (PWA mobile d'abord) sur les clubs de rugby fran�
 
 ## Règles non négociables
 
-- **Rareté ≠ puissance.** La rareté est tirée au sort et fixée sur la carte ; la puissance vient du club (division + forme) et évolue. Aucun code ne doit déduire l'une de l'autre.
+- **Rareté ≠ puissance.** La rareté est tirée au sort et fixée sur la carte ; la puissance vient du club (division, plus la forme quand elle sera affichée) et évolue. Aucun code ne doit déduire l'une de l'autre.
 - **Le domaine est pur.** `src/domain` ne dépend ni de React, ni de Next, ni des données. Tout aléa (`Rng`) et toute date y sont injectés. ESLint le vérifie.
 - **L'UI ne connaît que les interfaces de dépôt** (`src/data/repositories.ts`). Jamais d'import de `@/data/mock/*` hors de `src/data`. ESLint le vérifie.
 - **Une feature n'importe une autre que par son `index.ts`.** ESLint le vérifie.
@@ -105,6 +105,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 - **Catalogue des clubs** (`src/data/catalog`) : source unique du mock et de la base.
   - Du Top 14 à la Fédérale 3 : import de la saison depuis Wikipédia (composition des divisions, couleurs) et Wikidata (commune, département), par leurs API officielles. `pnpm clubs:import` régénère `clubs.wikipedia.json` ; changer `SEASON` dans `scripts/import-clubs/sources.ts` chaque été.
   - Divisions régionales : `clubs.regional.ts`, saisi à la main et **indicatif**, faute de source ouverte. **Masquées pour l'instant** (`HIDDEN_DIVISIONS`, `domain/club.ts`) : `CLUB_CATALOG` ne garde que les divisions jouables (tirage, albums, filtres, classement, seed) ; `FULL_CLUB_CATALOG` les contient toutes. Une carte régionale déjà possédée reste en base mais n'est plus affichée ni comptée.
+  - **Forme récente masquée** (`IS_RECENT_FORM_SHOWN`, `domain/club.ts`) : les résultats du catalogue ne viennent d'aucune source officielle (pas tenus à jour, fictifs pour les régionales). Ni pastilles V / N / D sur les cartes, ni bonus de forme dans la puissance, qui ne dépend que de la division. Elle reviendra avec une source officielle (accord FFR ou ligues, jamais l'aspiration de leurs sites) : remettre la constante à `true`.
   - Détails, limites et mentions à respecter : `docs/data-sources.md`.
 - **Ne pas aspirer les sites de la FFR** (`monclubhouse.ffr.fr` et son API) : leurs `robots.txt` l'interdisent. Les données officielles passent par un accord avec la FFR ou les ligues.
 - **Base** : Postgres chez Supabase, pilotée par Prisma (`prisma/schema.prisma`, migrations dans `prisma/migrations`). Le client généré (`src/generated`) n'est pas versionné.
@@ -157,7 +158,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 ## Économie
 
 - **Lingots** : gagnés par les missions et les albums terminés, dépensés en boosters bonus (`BOOSTER_OFFERS` : 1 booster pour 100 lingots, 10 pour 900).
-- **Boosters** : une réserve de 3 gratuits au plus (`MAX_FREE_BOOSTERS`), qui regagne 1 booster toutes les 8 heures (`BOOSTER_REFILL_MS`) à partir de la première ouverture, soit 3 par jour au plus. Le premium (hors V1) portera la réserve à 5 (`PREMIUM_MAX_FREE_BOOSTERS`, paramètre `maxFreeBoosters` du dépôt). Les gratuits sont dépensés en premier ; les boosters bonus (achetés ou gagnés) s'y ajoutent sans plafond. L'état stocké est `{ count, since }` : ce qui a été regagné se calcule à partir de l'heure, sans minuteur.
+- **Boosters** : une réserve de 3 gratuits au plus (`MAX_FREE_BOOSTERS`), qui regagne 1 booster toutes les 4 heures (`BOOSTER_REFILL_MS`) à partir de la première ouverture, soit 6 par jour au plus. Le premium (hors V1) portera la réserve à 5 (`PREMIUM_MAX_FREE_BOOSTERS`, paramètre `maxFreeBoosters` du dépôt). Les gratuits sont dépensés en premier ; les boosters bonus (achetés ou gagnés) s'y ajoutent sans plafond. L'état stocké est `{ count, since }` : ce qui a été regagné se calcule à partir de l'heure, sans minuteur.
 - **Missions** : 3 par jour, les mêmes pour tous, tirées de `MISSION_POOL` à partir de la date, jamais deux du même type. Elles n'avancent qu'à l'ouverture d'un booster.
 - **Albums** : récompense proportionnelle à la taille (`albumReward`), plus un booster à partir de 10 clubs.
 - **Série de connexion** (`domain/streak.ts`) : le jour n rapporte 10 × n lingots (100 au plus), plus 1 booster tous les 7 jours. Un jour manqué (heure de Paris) remet la série à 1. À récupérer d'un geste sur l'accueil.

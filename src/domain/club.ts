@@ -68,6 +68,14 @@ export type MatchResult = z.infer<typeof matchResultSchema>;
 /** Nombre de résultats récents pris en compte (forme du moment). */
 export const RECENT_RESULTS_WINDOW = 5;
 
+/**
+ * Forme récente affichée et comptée dans la puissance. Coupée tant qu'aucune
+ * source officielle ne fournit les résultats (accord FFR ou ligues) : ceux du
+ * catalogue ne sont pas tenus à jour, et des défaites inexactes froisseraient
+ * clubs et joueurs. Remettre à `true` quand les résultats seront fiables.
+ */
+export const IS_RECENT_FORM_SHOWN = false;
+
 const hexColorSchema = z
   .string()
   .regex(/^#[0-9a-f]{6}$/i, "Couleur hexadécimale attendue");
