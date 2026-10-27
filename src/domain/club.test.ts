@@ -7,6 +7,7 @@ import {
   clubSchema,
   DIVISIONS,
   getDivision,
+  IS_RECENT_FORM_SHOWN,
 } from "./club";
 import { departmentName, regionName } from "./geo";
 import { computePower, formBonus, MAX_POWER } from "./power";
@@ -66,22 +67,37 @@ describe("puissance", () => {
     expect(new Set(powers).size).toBe(DIVISIONS.length);
   });
 
-  it("suit la forme du moment", () => {
+  it("ne dépend que de la division tant que la forme est masquée", () => {
+    expect(IS_RECENT_FORM_SHOWN).toBe(false);
+    const base = computePower({ division: "federale2", recentResults: [] });
+    expect(
+      computePower({ division: "federale2", recentResults: ["L", "L"] }),
+    ).toBe(base);
+  });
+
+  it("suit la forme du moment quand elle est affichée", () => {
+    const withForm = { withForm: true };
     expect(formBonus(["W", "W", "D", "L", "W"])).toBe(2);
     const base = computePower({ division: "federale2", recentResults: [] });
     expect(
-      computePower({ division: "federale2", recentResults: ["W", "W", "W"] }),
+      computePower(
+        { division: "federale2", recentResults: ["W", "W", "W"] },
+        withForm,
+      ),
     ).toBe(base + 3);
     expect(
-      computePower({ division: "federale2", recentResults: ["L", "L"] }),
+      computePower(
+        { division: "federale2", recentResults: ["L", "L"] },
+        withForm,
+      ),
     ).toBe(base - 2);
   });
 
   it("reste bornée", () => {
-    const power = computePower({
-      division: "top14",
-      recentResults: ["W", "W", "W", "W", "W"],
-    });
+    const power = computePower(
+      { division: "top14", recentResults: ["W", "W", "W", "W", "W"] },
+      { withForm: true },
+    );
     expect(power).toBeLessThanOrEqual(MAX_POWER);
   });
 });

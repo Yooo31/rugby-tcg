@@ -5,6 +5,7 @@ import {
   computePower,
   departmentName,
   getDivision,
+  IS_RECENT_FORM_SHOWN,
   rarityLabel,
   type Club,
   type MatchResult,
@@ -49,9 +50,6 @@ export function ClubCard({
   const { ref, handlers } = useCardTilt<HTMLElement>(interactive);
   const division = getDivision(club.division);
   const power = computePower(club);
-  const form = club.recentResults
-    .map((result) => RESULT_LABELS[result].name)
-    .join(", ");
 
   return (
     <article
@@ -83,23 +81,9 @@ export function ClubCard({
             </p>
 
             <div className={styles.footer}>
-              <ul
-                className={styles.form}
-                aria-label={
-                  form ? `Forme récente : ${form}` : "Aucun résultat récent"
-                }
-              >
-                {club.recentResults.map((result, index) => (
-                  <li
-                    key={index}
-                    className={styles.result}
-                    data-result={result}
-                    aria-hidden
-                  >
-                    {RESULT_LABELS[result].letter}
-                  </li>
-                ))}
-              </ul>
+              {IS_RECENT_FORM_SHOWN ? (
+                <RecentForm results={club.recentResults} />
+              ) : null}
               <span className={styles.rarity}>{rarityLabel(rarity)}</span>
             </div>
 
@@ -119,6 +103,32 @@ export function ClubCard({
         </div>
       </div>
     </article>
+  );
+}
+
+/** Pastilles V / N / D des derniers matchs (masquées, voir `IS_RECENT_FORM_SHOWN`). */
+export function RecentForm({
+  results,
+}: {
+  readonly results: readonly MatchResult[];
+}) {
+  const form = results.map((result) => RESULT_LABELS[result].name).join(", ");
+  return (
+    <ul
+      className={styles.form}
+      aria-label={form ? `Forme récente : ${form}` : "Aucun résultat récent"}
+    >
+      {results.map((result, index) => (
+        <li
+          key={index}
+          className={styles.result}
+          data-result={result}
+          aria-hidden
+        >
+          {RESULT_LABELS[result].letter}
+        </li>
+      ))}
+    </ul>
   );
 }
 
