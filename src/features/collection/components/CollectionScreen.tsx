@@ -96,41 +96,46 @@ function Collection({ game }: { readonly game: ReadyGame }) {
         </section>
       ) : null}
 
-      <CollectionFilters
-        filters={filters}
-        onChange={setFilters}
-        resultCount={entries.length}
-      />
+      {/* Sans club visible (divisions masquées), ni filtres ni grille de clubs. */}
+      {game.collection.length > 0 ? (
+        <>
+          <CollectionFilters
+            filters={filters}
+            onChange={setFilters}
+            resultCount={entries.length}
+          />
 
-      {entries.length === 0 ? (
-        <p className="text-chalk-muted py-12 text-center text-sm">
-          Aucune carte ne correspond à ces filtres.
-        </p>
-      ) : (
-        <ul className="grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {entries.map(({ club, holdings, rarity, count }) => (
-            <li key={club.id} className="relative">
-              <button
-                type="button"
-                onClick={() =>
-                  setSelection({ club, rarity, copies: holdings.copies })
-                }
-                className="ease-out-expo block w-full rounded-2xl text-left transition duration-300 hover:-translate-y-1.5"
-              >
-                <ClubCard club={club} rarity={rarity} />
-              </button>
-              {count > 1 ? (
-                <span
-                  aria-hidden
-                  className="border-line-strong bg-night font-display absolute -top-2 -right-1 rounded-full border px-2 text-sm font-bold tabular-nums"
-                >
-                  ×{count}
-                </span>
-              ) : null}
-            </li>
-          ))}
-        </ul>
-      )}
+          {entries.length === 0 ? (
+            <p className="text-chalk-muted py-12 text-center text-sm">
+              Aucune carte ne correspond à ces filtres.
+            </p>
+          ) : (
+            <ul className="grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+              {entries.map(({ club, holdings, rarity, count }) => (
+                <li key={club.id} className="relative">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setSelection({ club, rarity, copies: holdings.copies })
+                    }
+                    className="ease-out-expo block w-full rounded-2xl text-left transition duration-300 hover:-translate-y-1.5"
+                  >
+                    <ClubCard club={club} rarity={rarity} />
+                  </button>
+                  {count > 1 ? (
+                    <span
+                      aria-hidden
+                      className="border-line-strong bg-night font-display absolute -top-2 -right-1 rounded-full border px-2 text-sm font-bold tabular-nums"
+                    >
+                      ×{count}
+                    </span>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      ) : null}
 
       <CardDialog selection={selection} onClose={() => setSelection(null)} />
     </div>

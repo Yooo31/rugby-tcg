@@ -78,5 +78,9 @@ describe("collection sans club visible", () => {
       await screen.findByRole("region", { name: "Cartes spéciales" }),
     ).toBeInTheDocument();
     expect(screen.queryByText("Vestiaire vide")).not.toBeInTheDocument();
+    expect(screen.queryByText(/Aucune carte/)).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /Filtres/ }),
+    ).not.toBeInTheDocument();
   });
 });
