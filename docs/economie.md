@@ -26,14 +26,18 @@ style, jamais du hasard.**
 Chiffres tirés des constantes du domaine (après #34 : 1 booster gratuit toutes
 les 4 heures, réserve de 3).
 
-| Source                                      | Par jour        | Par semaine                        |
-| ------------------------------------------- | --------------- | ---------------------------------- |
-| Boosters gratuits (joueur qui vient 2 fois) | ~4              | ~28                                |
-| Boosters gratuits (maximum théorique)       | 6               | 42                                 |
-| Missions (3 par jour, 30 à 50 lingots)      | ~120 lingots    | ~840 lingots                       |
-| Série de connexion (10 × n, 100 au plus)    | 10 à 70 lingots | 280 lingots + 1 boost              |
-| Lingots convertis (100 le booster)          |                 | ~11 boosters                       |
-| **Total, joueur régulier**                  |                 | **~40 boosters, soit ~200 cartes** |
+| Source                                   | Par jour        | Par semaine                        |
+| ---------------------------------------- | --------------- | ---------------------------------- |
+| Boosters gratuits (2 visites par jour¹)  | ~4              | ~28                                |
+| Boosters gratuits (maximum théorique)    | 6               | 42                                 |
+| Missions (3 par jour, 30 à 50 lingots)   | ~120 lingots    | ~840 lingots                       |
+| Série de connexion (10 × n, 100 au plus) | 10 à 70 lingots | 280 lingots + 1 boost              |
+| Lingots convertis (100 le booster)       |                 | ~11 boosters                       |
+| **Total, joueur régulier**               |                 | **~40 boosters, soit ~200 cartes** |
+
+¹ Hypothèse : deux visites à 4 heures d'écart, la réserve vidée à chacune
+(3 boosters, puis 1 regagné). Deux visites à 12 heures d'écart en donnent 6.
+Le chiffre réel viendra du tableau de bord (section 7).
 
 Conséquences :
 
@@ -142,9 +146,13 @@ le sujet, et l'on retient quand même l'esprit de ces principes :
 5. Droit de rétractation expliqué (voir 4.4).
 6. Conditions claires et équitables (CGV).
 7. **Protection des mineurs** : le jeu parle de rugby amateur, beaucoup de
-   joueurs auront moins de 18 ans. Les achats passent par une carte bancaire
-   (Stripe), donc par un adulte. On ajoute une mention et une limite de
-   dépense mensuelle réglable, sans relances ni notifications commerciales.
+   joueurs auront moins de 18 ans. **Une carte bancaire ne prouve ni l'âge du
+   joueur ni le consentement d'un parent** : un mineur peut utiliser celle
+   d'un adulte. Le parcours d'achat demande donc une déclaration d'âge. Pour
+   un mineur, il demande le consentement d'un parent (e-mail de validation),
+   ou réserve les achats aux comptes déclarés majeurs (choix à trancher avec
+   le juriste). S'y ajoutent une limite de dépense mensuelle réglable, sans
+   relances ni notifications commerciales.
 
 ### 4.4 Vente en ligne
 
@@ -171,10 +179,20 @@ le sujet, et l'on retient quand même l'esprit de ces principes :
 | Lemon Squeezy / Paddle (« merchant of record ») | ~5 % + 0,50 $, plus des suppléments  | Gèrent TVA, factures et litiges              | 3 à 4 fois plus cher sur des petits montants          |
 
 **Recommandation : Stripe.** Les montants sont petits (0,99 € à 2,99 €), donc
-une commission fixe élevée y pèse lourd. Les clients sont surtout en France,
-ce qui garde la TVA simple. On utilise Stripe Checkout (page de paiement
+une commission fixe élevée y pèse lourd. On utilise Stripe Checkout (page de paiement
 hébergée par Stripe : aucune donnée de carte chez nous, et une CSP inchangée
 côté jeu) et le portail client de Stripe pour résilier.
+
+**TVA** : un service numérique vendu à un particulier est taxé au taux du
+**pays du client**, partout dans l'UE. Le guichet unique (OSS) simplifie la
+déclaration, mais il faut toujours déterminer le pays du client, appliquer
+son taux et en garder les justificatifs. Deux options, à trancher avec le
+comptable :
+
+- **Vendre en France seulement** au départ (pays de facturation vérifié au
+  paiement), ce qui écarte aussi la question belge des loot boxes.
+- **Vendre dans toute l'UE** avec Stripe Tax (pays, taux, justificatifs),
+  dont le coût est à ajouter au modèle financier.
 
 Architecture :
 
@@ -183,6 +201,21 @@ Architecture :
 - Il écrit les droits dans Postgres (abonnement actif jusqu'à telle date,
   cosmétiques possédés), avec RLS activée et sans règle, comme les autres
   tables.
+- **Le droit va au bon joueur.** La session Checkout est créée côté serveur
+  pour le joueur connecté (identité vérifiée par `requireAuthUser()`), qui y
+  est rattaché (référence client). Le webhook retrouve le joueur par cette
+  référence, jamais par un identifiant envoyé par le navigateur. Avant
+  d'écrire, il vérifie le produit, le montant, la devise et le mode (test ou
+  production).
+- **Un événement ne compte qu'une fois.** Stripe peut livrer un même
+  événement plusieurs fois, et dans le désordre. L'identifiant de chaque
+  événement traité est enregistré, et un doublon est ignoré. L'écriture des
+  droits et cet enregistrement se font dans la même transaction.
+- **Chaque événement a sa transition de droits** : paiement (droit accordé),
+  renouvellement (date de fin repoussée), annulation (droit gardé jusqu'à la
+  fin de la période payée), remboursement et litige (droit retiré). L'état de
+  l'abonnement se relit chez Stripe plutôt que de déduire l'ordre des
+  événements.
 - `maxFreeBoosters` (déjà prévu dans `createPlayerRepository`) vaut 5 pour un
   abonné actif.
 
