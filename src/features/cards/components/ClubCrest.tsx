@@ -1,9 +1,9 @@
 import { useId } from "react";
 import type { Club } from "@/domain";
-import { CREST_VIEWBOX, crestDesign } from "../lib/crest";
+import { CREST_VIEWBOX, crestDesign, symbolLayers } from "../lib/crest";
 
 /**
- * Blason généré depuis le club (couleurs, sigle, division). Il remplace les
+ * Blason généré depuis le club (couleurs, symbole, sigle, division). Il remplace les
  * logos officiels, dont nous n'avons pas les droits. Dessin : `lib/crest.ts`.
  */
 export function ClubCrest({ club }: { readonly club: Club }) {
@@ -23,6 +23,14 @@ export function ClubCrest({ club }: { readonly club: Club }) {
         <rect width="100" height="116" fill={design.field} />
         <path d={design.pattern} fill={design.charge} />
         <rect width="50" height="116" fill="#000" opacity="0.12" />
+        {symbolLayers(design).map((layer, index) => (
+          <path
+            key={index}
+            {...layer}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        ))}
       </g>
       <path
         d={design.shield}
@@ -44,15 +52,15 @@ export function ClubCrest({ club }: { readonly club: Club }) {
       ))}
       <text
         x="50"
-        y={design.stars.length > 0 ? 66 : 60}
+        y={design.initialsLayout.y}
         textAnchor="middle"
         dominantBaseline="central"
         fontFamily="var(--font-display)"
         fontWeight="800"
-        fontSize={design.initials.length > 2 ? 30 : 38}
+        fontSize={design.initialsLayout.size}
         fill={design.ink}
         stroke={design.field}
-        strokeWidth="7"
+        strokeWidth={design.initialsLayout.size / 5}
         strokeLinejoin="round"
         paintOrder="stroke"
       >
