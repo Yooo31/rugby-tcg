@@ -77,7 +77,7 @@ Conséquences :
 - **Missions VIP** : deux missions de plus chaque jour, tirées du même
   `MISSION_POOL`, différentes des trois missions communes, avec les mêmes
   récompenses en lingots (30 à 50).
-- **Prix proposé : 4,99 € par mois, ou 39,99 € par an** (−33 %).
+- **Prix proposé : 5,99 € par mois, ou 49,99 € par an** (−30 %).
 - Sans engagement : à l'arrêt, les avantages cessent à la fin de la période
   payée. Les cartes obtenues restent.
 
@@ -88,10 +88,10 @@ font baisser le prix du booster :
 
 | Paquet  | Lingots | Prix    | Soit le booster |
 | ------- | ------- | ------- | --------------- |
-| Poignée | 120     | 0,99 €  | 0,83 €          |
-| Sac     | 650     | 4,99 €  | 0,77 €          |
-| Coffre  | 1 400   | 9,99 €  | 0,71 €          |
-| Malle   | 3 000   | 19,99 € | 0,67 €          |
+| Poignée | 200     | 1,99 €  | 1,00 €          |
+| Sac     | 650     | 5,99 €  | 0,92 €          |
+| Coffre  | 1 400   | 11,99 € | 0,86 €          |
+| Malle   | 3 000   | 24,99 € | 0,83 €          |
 
 - Le prix en euros est toujours affiché, et la boutique indique combien de
   boosters représente chaque paquet.
@@ -102,9 +102,9 @@ font baisser le prix du booster :
 
 ### 3.3 Cosmétiques
 
-- **Dos de carte** (révélation des boosters) : 0,99 € à 1,99 €.
-- **Cadres de carte** (bordure, sans toucher à la couleur de rareté) : 1,99 €.
-- **Thèmes d'album** (fond, typographie de l'en-tête) : 1,99 €.
+- **Dos de carte** (révélation des boosters) : 1,49 € à 2,49 €.
+- **Cadres de carte** (bordure, sans toucher à la couleur de rareté) : 2,49 €.
+- **Thèmes d'album** (fond, typographie de l'en-tête) : 2,49 €.
 - Payables en euros ou en lingots. Certains se gagnent aussi (album terminé,
   série de 30 jours).
 
@@ -115,7 +115,7 @@ que les blasons).
 
 Une saison de 8 semaines, 30 paliers. On avance en ouvrant des boosters et en
 finissant des missions. La voie gratuite donne des lingots et des boosters, la
-voie payante (4,99 €) ajoute des cosmétiques. Toutes les récompenses sont
+voie payante (5,99 €) ajoute des cosmétiques. Toutes les récompenses sont
 affichées dès le départ.
 
 ### 3.5 Rythme d'un joueur VIP
@@ -167,7 +167,7 @@ L'écart se voit sans écraser le joueur gratuit.
 | **Stripe** (Checkout + Billing)                 | ~1,5 % + 0,25 € par carte européenne | Moins cher, abonnements, portail client prêt | TVA et factures à notre charge (Stripe Tax en option) |
 | Lemon Squeezy / Paddle (« merchant of record ») | ~5 % + 0,50 $, plus des suppléments  | Gèrent TVA, factures et litiges              | 3 à 4 fois plus cher sur des petits montants          |
 
-**Recommandation : Stripe.** Les montants sont petits (0,99 € à 19,99 €), donc
+**Recommandation : Stripe.** Les montants sont petits (1,49 € à 24,99 €), donc
 une commission fixe élevée y pèse lourd. On utilise Stripe Checkout (page de paiement
 hébergée par Stripe : aucune donnée de carte chez nous, et une CSP inchangée
 côté jeu) et le portail client de Stripe pour résilier.
@@ -215,45 +215,46 @@ permise** : elle interdit l'usage commercial (voir CLAUDE.md).
 | E-mails (#14), nom de domaine                                 | ~0 à 2 €                |
 | **Total**                                                     | **~20 à 50 € par mois** |
 
-Un pass VIP à 4,99 € rapporte environ 4,16 € hors TVA, et ~3,85 € après la
-commission Stripe. **Il faut donc 6 à 13 VIP pour couvrir les coûts**, sans
+Un pass VIP à 5,99 € rapporte environ 4,99 € hors TVA, et ~4,65 € après la
+commission Stripe. **Il faut donc 5 à 11 VIP pour couvrir les coûts**, sans
 compter les lingots. Avec une conversion de 2 à 5 % (fourchette courante en
-jeu gratuit), cela représente 300 à 600 joueurs actifs par mois.
+jeu gratuit), cela représente 200 à 550 joueurs actifs par mois.
 
 ## 6 bis. Prévisions
 
 > Ordres de grandeur pour décider, pas des promesses. Les taux viennent des
 > fourchettes courantes des jeux gratuits sur mobile ; les vrais chiffres
-> viendront du tableau de bord (section 7).
+> viendront du tableau de bord (section 7). Les taux d'achat sont gardés
+> identiques malgré la hausse des prix : à surveiller dès le lancement.
 
 ### Ce que rapporte chaque joueur, par mois
 
 | Joueur                        | Rapporte (net de TVA et de Stripe) | Coûte (serveurs) |
 | ----------------------------- | ---------------------------------- | ---------------- |
 | Gratuit                       | 0 €                                | ~0,01 à 0,03 €   |
-| VIP mensuel (4,99 €)          | **~3,85 €**                        | ~0,03 €          |
-| VIP annuel (39,99 €)          | ~2,75 € par mois                   | ~0,03 €          |
-| Acheteur de lingots (moyenne) | ~4 à 8 €, les mois où il achète    | ~0,03 €          |
+| VIP mensuel (5,99 €)          | **~4,65 €**                        | ~0,03 €          |
+| VIP annuel (49,99 €)          | ~3,40 € par mois                   | ~0,03 €          |
+| Acheteur de lingots (moyenne) | ~5 à 10 €, les mois où il achète   | ~0,03 €          |
 
 - Le joueur gratuit ne coûte presque rien : les serveurs sont un forfait, pas
   un coût par joueur. Il fait vivre le classement, parraine, et sera peut-être
   VIP demain.
-- **Le petit paquet à 0,99 € rapporte mal** : ~0,58 € net, la commission fixe
-  de Stripe (0,25 €) en prend un quart. Les paquets à 4,99 € et plus sont ceux
-  qui comptent.
-- Un VIP reste en moyenne 4 à 6 mois : **il rapporte ~15 à 25 € sur sa durée
+- **Le plus petit paquet (1,99 €) rapporte ~1,38 € net** : la commission fixe
+  de Stripe (0,25 €) en prend encore une part sensible. Les paquets à 5,99 € et
+  plus sont ceux qui comptent.
+- Un VIP reste en moyenne 4 à 6 mois : **il rapporte ~19 à 28 € sur sa durée
   de vie**.
 
 ### Hypothèses
 
 | Scénario  | Joueurs VIP | Acheteurs de lingots | Dépense moyenne en lingots |
 | --------- | ----------- | -------------------- | -------------------------- |
-| Prudent   | 1 %         | 0,5 %                | 4 € net par mois           |
-| Médian    | 2,5 %       | 1,5 %                | 6 € net par mois           |
-| Favorable | 4 %         | 3 %                  | 8 € net par mois           |
+| Prudent   | 1 %         | 0,5 %                | ~4,80 € net par mois       |
+| Médian    | 2,5 %       | 1,5 %                | ~7,20 € net par mois       |
+| Favorable | 4 %         | 3 %                  | ~9,60 € net par mois       |
 
-En pourcentage des joueurs actifs du mois. Soit un revenu net de **~0,06 €,
-~0,19 € ou ~0,39 € par joueur actif et par mois**.
+En pourcentage des joueurs actifs du mois. Soit un revenu net de **~0,07 €,
+~0,22 € ou ~0,47 € par joueur actif et par mois**.
 
 ### Résultat mensuel, selon le nombre de joueurs actifs
 
@@ -263,12 +264,12 @@ Revenu net de TVA et de Stripe, moins les cotisations de micro-entreprise
 
 | Joueurs actifs par mois | Coûts  | Prudent    | Médian       | Favorable    |
 | ----------------------- | ------ | ---------- | ------------ | ------------ |
-| 500                     | ~30 €  | **−7 €**   | **+43 €**    | **+124 €**   |
-| 2 000                   | ~55 €  | **+36 €**  | **+235 €**   | **+560 €**   |
-| 10 000                  | ~100 € | **+356 €** | **+1 350 €** | **+2 970 €** |
+| 500                     | ~30 €  | **−3 €**   | **+57 €**    | **+155 €**   |
+| 2 000                   | ~55 €  | **+55 €**  | **+295 €**   | **+685 €**   |
+| 10 000                  | ~100 € | **+450 €** | **+1 650 €** | **+3 600 €** |
 
-- **Seuil de rentabilité** : ~300 joueurs actifs dans le scénario médian,
-  ~600 dans le prudent.
+- **Seuil de rentabilité** : ~200 joueurs actifs dans le scénario médian,
+  ~550 dans le prudent.
 - Au-delà de ~2 000 joueurs actifs, il faut Supabase Pro (~25 $ par mois) :
   c'est inclus dans les coûts ci-dessus.
 
@@ -279,9 +280,9 @@ vise d'abord leurs clubs.
 
 | Moment         | Joueurs actifs | Résultat mensuel |
 | -------------- | -------------- | ---------------- |
-| Lancement (M1) | 200 à 500      | autour de 0 €    |
-| M6             | 1 000 à 3 000  | +100 à +350 €    |
-| M12            | 3 000 à 8 000  | +400 à +1 100 €  |
+| Lancement (M1) | 200 à 500      | 0 à +55 €        |
+| M6             | 1 000 à 3 000  | +130 à +460 €    |
+| M12            | 3 000 à 8 000  | +460 à +1 300 €  |
 
 **Ce qui fera la différence n'est pas le prix mais l'audience** : faire
 connaître le jeu dans les clubs (parrainage, partage en story, accords avec
