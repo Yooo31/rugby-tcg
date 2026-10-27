@@ -220,6 +220,74 @@ commission Stripe. **Il faut donc 6 à 13 VIP pour couvrir les coûts**, sans
 compter les lingots. Avec une conversion de 2 à 5 % (fourchette courante en
 jeu gratuit), cela représente 300 à 600 joueurs actifs par mois.
 
+## 6 bis. Prévisions
+
+> Ordres de grandeur pour décider, pas des promesses. Les taux viennent des
+> fourchettes courantes des jeux gratuits sur mobile ; les vrais chiffres
+> viendront du tableau de bord (section 7).
+
+### Ce que rapporte chaque joueur, par mois
+
+| Joueur                        | Rapporte (net de TVA et de Stripe) | Coûte (serveurs) |
+| ----------------------------- | ---------------------------------- | ---------------- |
+| Gratuit                       | 0 €                                | ~0,01 à 0,03 €   |
+| VIP mensuel (4,99 €)          | **~3,85 €**                        | ~0,03 €          |
+| VIP annuel (39,99 €)          | ~2,75 € par mois                   | ~0,03 €          |
+| Acheteur de lingots (moyenne) | ~4 à 8 €, les mois où il achète    | ~0,03 €          |
+
+- Le joueur gratuit ne coûte presque rien : les serveurs sont un forfait, pas
+  un coût par joueur. Il fait vivre le classement, parraine, et sera peut-être
+  VIP demain.
+- **Le petit paquet à 0,99 € rapporte mal** : ~0,58 € net, la commission fixe
+  de Stripe (0,25 €) en prend un quart. Les paquets à 4,99 € et plus sont ceux
+  qui comptent.
+- Un VIP reste en moyenne 4 à 6 mois : **il rapporte ~15 à 25 € sur sa durée
+  de vie**.
+
+### Hypothèses
+
+| Scénario  | Joueurs VIP | Acheteurs de lingots | Dépense moyenne en lingots |
+| --------- | ----------- | -------------------- | -------------------------- |
+| Prudent   | 1 %         | 0,5 %                | 4 € net par mois           |
+| Médian    | 2,5 %       | 1,5 %                | 6 € net par mois           |
+| Favorable | 4 %         | 3 %                  | 8 € net par mois           |
+
+En pourcentage des joueurs actifs du mois. Soit un revenu net de **~0,06 €,
+~0,19 € ou ~0,39 € par joueur actif et par mois**.
+
+### Résultat mensuel, selon le nombre de joueurs actifs
+
+Revenu net de TVA et de Stripe, moins les cotisations de micro-entreprise
+(~22 % du chiffre d'affaires, à confirmer avec le comptable) et les coûts
+(hébergement, base, médiateur, domaine).
+
+| Joueurs actifs par mois | Coûts  | Prudent    | Médian       | Favorable    |
+| ----------------------- | ------ | ---------- | ------------ | ------------ |
+| 500                     | ~30 €  | **−7 €**   | **+43 €**    | **+124 €**   |
+| 2 000                   | ~55 €  | **+36 €**  | **+235 €**   | **+560 €**   |
+| 10 000                  | ~100 € | **+356 €** | **+1 350 €** | **+2 970 €** |
+
+- **Seuil de rentabilité** : ~300 joueurs actifs dans le scénario médian,
+  ~600 dans le prudent.
+- Au-delà de ~2 000 joueurs actifs, il faut Supabase Pro (~25 $ par mois) :
+  c'est inclus dans les coûts ci-dessus.
+
+### Trajectoire possible (scénario médian)
+
+Le rugby compte ~300 000 licenciés en France, plus les supporters. Le jeu
+vise d'abord leurs clubs.
+
+| Moment         | Joueurs actifs | Résultat mensuel |
+| -------------- | -------------- | ---------------- |
+| Lancement (M1) | 200 à 500      | autour de 0 €    |
+| M6             | 1 000 à 3 000  | +100 à +350 €    |
+| M12            | 3 000 à 8 000  | +400 à +1 100 €  |
+
+**Ce qui fera la différence n'est pas le prix mais l'audience** : faire
+connaître le jeu dans les clubs (parrainage, partage en story, accords avec
+des clubs ou des ligues). À 2 000 joueurs actifs, le jeu se finance ; à
+10 000, il devient un vrai complément de revenu.
+
 ## 7. Indicateurs à suivre (admin)
 
 À ajouter au tableau de bord, calculés côté serveur sur des données
