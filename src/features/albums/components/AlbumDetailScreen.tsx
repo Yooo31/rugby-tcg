@@ -9,7 +9,7 @@ import {
   albumClubs,
   albumProgress,
   albumRewardView,
-  bestRarityByClub,
+  holdingsByClub,
   computePower,
   getDivision,
   ownedClubIds,
@@ -68,11 +68,7 @@ function AlbumDetail({
     game.clubs,
     ownedClubIds(game.collection),
   );
-  const bestRarity = bestRarityByClub(game.collection);
-  const copies = (clubId: string) =>
-    game.collection
-      .filter((card) => card.clubId === clubId)
-      .reduce((total, card) => total + card.count, 0);
+  const holdings = holdingsByClub(game.collection);
 
   return (
     <div className="flex flex-col gap-6">
@@ -106,18 +102,22 @@ function AlbumDetail({
 
       <ul className="grid grid-cols-3 gap-x-2.5 gap-y-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
         {clubs.map((club) => {
-          const rarity = bestRarity.get(club.id);
+          const owned = holdings.get(club.id);
           return (
             <li key={club.id}>
-              {rarity ? (
+              {owned ? (
                 <button
                   type="button"
                   onClick={() =>
-                    setSelection({ club, rarity, count: copies(club.id) })
+                    setSelection({
+                      club,
+                      rarity: owned.bestRarity,
+                      copies: owned.copies,
+                    })
                   }
                   className="ease-out-expo block w-full rounded-xl text-left transition duration-300 hover:-translate-y-1"
                 >
-                  <ClubCard club={club} rarity={rarity} />
+                  <ClubCard club={club} rarity={owned.bestRarity} />
                 </button>
               ) : (
                 <CardSlot club={club} />

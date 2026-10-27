@@ -1,7 +1,7 @@
 import {
   addCards,
-  bestRarityByClub,
   duplicateCount,
+  holdingsByClub,
   ownedClubIds,
   totalCards,
   type Collection,
@@ -92,14 +92,59 @@ describe("statistiques de collection", () => {
   });
 
   it("retient la meilleure rareté de chaque club", () => {
-    expect(Object.fromEntries(bestRarityByClub(collection))).toEqual({
-      a: "legendary",
-      b: "rare",
-    });
+    const best = [...holdingsByClub(collection).values()].map(
+      ({ clubId, bestRarity }) => [clubId, bestRarity],
+    );
+    expect(Object.fromEntries(best)).toEqual({ a: "legendary", b: "rare" });
   });
 
   it("compte les exemplaires et les doublons", () => {
     expect(totalCards(collection)).toBe(5);
     expect(duplicateCount(collection)).toBe(2);
+  });
+});
+
+describe("holdingsByClub", () => {
+  it("regroupe les raretés et exemplaires de chaque club", () => {
+    const holdings = holdingsByClub([
+      { clubId: "a", rarity: "rare", count: 2, firstObtainedAt: "2026-10-02" },
+      {
+        clubId: "b",
+        rarity: "common",
+        count: 1,
+        firstObtainedAt: "2026-10-01",
+      },
+      {
+        clubId: "a",
+        rarity: "legendary",
+        count: 1,
+        firstObtainedAt: "2026-10-05",
+      },
+      {
+        clubId: "a",
+        rarity: "common",
+        count: 3,
+        firstObtainedAt: "2026-10-01",
+      },
+    ]);
+    expect([...holdings.keys()]).toEqual(["a", "b"]);
+    expect(holdings.get("a")).toEqual({
+      clubId: "a",
+      copies: { rare: 2, legendary: 1, common: 3 },
+      bestRarity: "legendary",
+      total: 6,
+      lastUnlockedAt: "2026-10-05",
+    });
+    expect(holdings.get("b")).toEqual({
+      clubId: "b",
+      copies: { common: 1 },
+      bestRarity: "common",
+      total: 1,
+      lastUnlockedAt: "2026-10-01",
+    });
+  });
+
+  it("est vide pour une collection vide", () => {
+    expect(holdingsByClub([]).size).toBe(0);
   });
 });

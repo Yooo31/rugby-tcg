@@ -80,20 +80,23 @@ function Collection({ game }: { readonly game: ReadyGame }) {
         </p>
       ) : (
         <ul className="grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {entries.map(({ card, club }) => (
-            <li key={`${card.clubId}:${card.rarity}`} className="relative">
+          {entries.map(({ club, holdings, rarity, count }) => (
+            <li key={club.id} className="relative">
               <button
                 type="button"
                 onClick={() =>
-                  setSelection({ club, rarity: card.rarity, count: card.count })
+                  setSelection({ club, rarity, copies: holdings.copies })
                 }
                 className="ease-out-expo block w-full rounded-2xl text-left transition duration-300 hover:-translate-y-1.5"
               >
-                <ClubCard club={club} rarity={card.rarity} />
+                <ClubCard club={club} rarity={rarity} />
               </button>
-              {card.count > 1 ? (
-                <span className="border-line-strong bg-night font-display absolute -top-2 -right-1 rounded-full border px-2 text-sm font-bold tabular-nums">
-                  ×{card.count}
+              {count > 1 ? (
+                <span
+                  aria-hidden
+                  className="border-line-strong bg-night font-display absolute -top-2 -right-1 rounded-full border px-2 text-sm font-bold tabular-nums"
+                >
+                  ×{count}
                 </span>
               ) : null}
             </li>
