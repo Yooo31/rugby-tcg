@@ -6,16 +6,15 @@
 //
 // Usage : pnpm clubs:import   (écrit src/data/catalog/clubs.wikipedia.json)
 import { writeFile } from "node:fs/promises";
-import { clubSchema, type Club, type DivisionId } from "../../src/domain";
-import { fallbackColors, parseColors } from "./colors";
-import { EXCLUDED_CLUBS, LOCATION_OVERRIDES } from "./overrides";
+import type { DivisionId } from "../../src/domain";
 import {
-  cityName,
-  departmentOfInsee,
-  formFromRecord,
-  parseStandings,
-  slugify,
-} from "./parse";
+  assembleClubs,
+  type Assembly,
+  type Entry,
+  type Sources,
+} from "./assemble";
+import { EXCLUDED_CLUBS, LOCATION_OVERRIDES } from "./overrides";
+import { formFromRecord, parseStandings } from "./parse";
 import { SEASON, SEASON_PAGES } from "./sources";
 import { fetchPlaces } from "./wikidata";
 import {
@@ -27,14 +26,8 @@ import {
 
 const OUTPUT = "src/data/catalog/clubs.wikipedia.json";
 
-interface Entry {
-  readonly division: DivisionId;
-  readonly code: string;
-  readonly form: ReturnType<typeof formFromRecord>;
-}
-
-async function main() {
-  // 1. Clubs engagés, division par division.
+/** 1. Clubs engagés, division par division. */
+async function collectEntries(): Promise<Entry[]> {
   const entries: Entry[] = [];
   for (const [division, page] of Object.entries(SEASON_PAGES) as [
     DivisionId,
@@ -51,71 +44,32 @@ async function main() {
       });
     }
   }
+  return entries;
+}
 
-  // 2. Article, élément Wikidata, commune et couleurs de chaque club.
+/** 2. Article, élément Wikidata, commune et couleurs de chaque club. */
+async function fetchSources(entries: readonly Entry[]): Promise<Sources> {
   const links = await resolveClubCodes(entries.map(({ code }) => code));
   const titles = [...new Set([...links.values()].map(({ title }) => title))];
   const wikidataIds = await fetchWikidataIds(titles);
   const places = await fetchPlaces([...new Set(wikidataIds.values())]);
+  // Un lien vers la commune elle-même n'a pas d'infobox de club.
   const clubArticles = titles.filter((title) => {
     const id = wikidataIds.get(title);
     return id !== undefined && places.get(id)?.isCommune !== true;
   });
   const infoboxColors = await fetchInfoboxColors(clubArticles);
+  return {
+    links,
+    wikidataIds,
+    places,
+    infoboxColors,
+    locationOverrides: LOCATION_OVERRIDES,
+  };
+}
 
-  // 3. Assemblage et validation.
-  const clubs: (Club & { wikidata?: string })[] = [];
-  const skipped: string[] = [];
-  const usedIds = new Set<string>();
-  let realColors = 0;
-
-  for (const { division, code, form } of entries) {
-    const link = links.get(code);
-    if (!link) {
-      skipped.push(`${code} : lien introuvable`);
-      continue;
-    }
-    const wikidata = wikidataIds.get(link.title);
-    const place = wikidata ? places.get(wikidata) : undefined;
-    const location =
-      LOCATION_OVERRIDES[code] ??
-      (place && {
-        city: cityName(place.city),
-        department: departmentOfInsee(place.insee),
-      });
-    if (!location) {
-      skipped.push(`${code} (${link.label}) : commune inconnue`);
-      continue;
-    }
-
-    let id = slugify(link.label);
-    if (usedIds.has(id)) id = `${id}-${location.department.toLowerCase()}`;
-    usedIds.add(id);
-
-    const colorText = infoboxColors.get(link.title);
-    const colors = (colorText && parseColors(colorText)) || null;
-    if (colors) realColors += 1;
-
-    const parsed = clubSchema.safeParse({
-      id,
-      name: link.label,
-      city: location.city,
-      department: location.department,
-      division,
-      category: "senior-men",
-      colors: colors ?? fallbackColors(id),
-      recentResults: form,
-    });
-    if (!parsed.success) {
-      skipped.push(
-        `${code} (${link.label}) : ${parsed.error.issues[0].message}`,
-      );
-      continue;
-    }
-    // Un club qui partage l'élément Wikidata de sa commune n'a pas d'identifiant propre.
-    clubs.push(place?.isCommune ? parsed.data : { ...parsed.data, wikidata });
-  }
-
+/** 4. Écrit le catalogue et rend compte de ce qui a été écarté. */
+async function writeCatalog({ clubs, skipped, realColors }: Assembly) {
   const document = {
     season: SEASON,
     source: "Wikipédia en français (CC BY-SA 4.0) et Wikidata (CC0)",
@@ -135,6 +89,13 @@ async function main() {
     for (const line of skipped) console.log(`  ${line}`);
     process.exitCode = 1;
   }
+}
+
+async function main() {
+  const entries = await collectEntries();
+  const sources = await fetchSources(entries);
+  // 3. Assemblage et validation (pur, testé dans assemble.test.ts).
+  await writeCatalog(assembleClubs(entries, sources));
 }
 
 main().catch((error: unknown) => {

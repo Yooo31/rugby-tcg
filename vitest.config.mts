@@ -2,6 +2,9 @@ import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
 
+/** Seuil de couverture bloquant (CLAUDE.md) pour le domaine, les dépôts et les utilitaires. */
+const GATED = { lines: 90, functions: 90, branches: 85, statements: 90 };
+
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -17,43 +20,33 @@ export default defineConfig({
     exclude: ["**/node_modules/**", "src/**/*.db.test.ts", "e2e/**"],
     coverage: {
       provider: "v8",
-      reporter: ["text", "html", "lcov"],
-      // Surface au seuil bloquant : le domaine pur, les dépôts et les utilitaires.
-      // Les composants sont testés mais hors seuil (effets visuels peu testables).
-      include: [
-        "src/domain/**/*.ts",
-        "src/data/**/*.ts",
-        "src/lib/**/*.ts",
-        "scripts/import-clubs/parse.ts",
-        "scripts/import-clubs/colors.ts",
-      ],
+      // `json` (coverage-final.json) sert aussi à fallow, pour des scores de
+      // risque exacts au lieu d'estimations.
+      reporter: ["text", "html", "lcov", "json"],
+      // Mesurée sur tout le code (pour fallow), mais bloquante seulement sur le
+      // domaine pur, les dépôts et les utilitaires (voir `thresholds`). Les
+      // écrans sont testés sans seuil (effets visuels peu testables).
+      include: ["src/**/*.{ts,tsx}", "scripts/**/*.{ts,mts,mjs}"],
       exclude: [
         "**/*.test.{ts,tsx}",
+        "**/*.db.test.ts",
         "**/*.d.ts",
-        "**/index.ts",
-        "src/data/catalog/clubs.regional.ts",
-        // Couches d'entrée-sortie (base, session) : vérifiées en conditions réelles, pas en test unitaire.
-        "src/lib/db.ts",
-        // Requêtes Postgres : couvertes par les tests d'intégration (`pnpm test:db`).
-        "src/data/server/prisma-store.ts",
-        "src/data/server/admin.ts",
-        "src/data/server/giveaways.ts",
-        "src/data/server/leaderboard.ts",
-        "src/data/server/rate-limit.ts",
-        "src/data/server/account.ts",
-        "src/data/server/referral.ts",
-        "src/data/server/notifications.ts",
-        // Appel réseau vers les services de notification : vérifié en conditions réelles.
-        "src/data/server/web-push.ts",
-        "src/lib/supabase/env.ts",
-        "src/lib/supabase/server.ts",
-        "src/lib/supabase/proxy.ts",
+        "src/generated/**",
+        "src/test/**",
       ],
+      // Seuils par zone : les couches d'entrée-sortie (Postgres, session,
+      // notifications) n'y figurent pas, elles sont vérifiées par `pnpm test:db`
+      // et en conditions réelles.
       thresholds: {
-        lines: 90,
-        functions: 90,
-        branches: 85,
-        statements: 90,
+        "src/domain/**/*.ts": GATED,
+        "src/data/{catalog,mock,player}/**/*.ts": GATED,
+        "src/data/repositories.ts": GATED,
+        "src/data/server/{rows,notification-state}.ts": GATED,
+        "src/lib/{dates,duration,rng,utils,rate-limit,security-headers}.ts":
+          GATED,
+        "src/lib/sentry/**/*.ts": GATED,
+        "src/lib/supabase/routes.ts": GATED,
+        "scripts/import-clubs/{parse,colors,assemble}.ts": GATED,
       },
     },
   },

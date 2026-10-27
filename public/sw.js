@@ -46,10 +46,15 @@ async function networkOnly(request) {
   }
 }
 
+/** Seules les lectures du site lui-même passent par le service worker. */
+function isOwnRead(request, url) {
+  return request.method === "GET" && url.origin === self.location.origin;
+}
+
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
-  if (request.method !== "GET" || url.origin !== self.location.origin) return;
+  if (!isOwnRead(request, url)) return;
 
   if (isStaticAsset(url)) event.respondWith(cacheFirst(request));
   else if (request.mode === "navigate") event.respondWith(networkOnly(request));
