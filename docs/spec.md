@@ -34,7 +34,7 @@ Les données sportives seraient récupérées via l'API FFR Compétitions, sous 
 
 ## 2. Les boosters
 
-- 3 boosters gratuits par jour.
+- Une réserve de 3 boosters gratuits, qui en regagne 1 toutes les 4 heures (6 par jour au plus).
 - 5 cartes par booster.
 - Des boosters supplémentaires achetables.
 - Des boosters spéciaux pendant les événements.

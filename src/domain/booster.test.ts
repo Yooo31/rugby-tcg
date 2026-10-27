@@ -137,10 +137,17 @@ describe("réserve de boosters gratuits", () => {
     );
   });
 
-  it("garde 3 boosters en réserve et en rend au plus 6 par jour", () => {
-    const day = 24 * 60 * 60 * 1000;
+  it("garde 3 boosters en réserve et en rend un toutes les 4 heures", () => {
+    const fourHours = 4 * 60 * 60 * 1000;
     expect(MAX_FREE_BOOSTERS).toBe(3);
-    expect(Math.floor(day / BOOSTER_REFILL_MS)).toBe(6);
+    // Réserve vidée, puis un booster ouvert dès qu'il revient : 6 en 24 heures.
+    let reserve = { count: 0, since: start };
+    for (let refill = 1; refill <= 6; refill += 1) {
+      const at = start + refill * fourHours;
+      expect(freeBoosters(reserve, at - 1)).toBe(0);
+      expect(freeBoosters(reserve, at)).toBe(1);
+      reserve = takeFreeBooster(reserve, at);
+    }
   });
 
   it("accepte une réserve plus grande pour le premium", () => {
