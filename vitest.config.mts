@@ -42,7 +42,7 @@ export default defineConfig({
         "src/data/{catalog,mock,player}/**/*.ts": GATED,
         "src/data/repositories.ts": GATED,
         "src/data/server/{rows,notification-state}.ts": GATED,
-        "src/lib/{dates,duration,rng,utils,rate-limit,security-headers}.ts":
+        "src/lib/{dates,duration,rng,utils,rate-limit,security-headers,money}.ts":
           GATED,
         "src/lib/sentry/**/*.ts": GATED,
         "src/lib/supabase/routes.ts": GATED,

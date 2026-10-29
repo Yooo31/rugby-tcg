@@ -31,6 +31,7 @@ import {
   type Club,
   type Collection,
   type Giveaway,
+  type IngotPackId,
   type MissionLog,
   type PlayerSnapshot,
   type SpecialCollection,
@@ -73,6 +74,15 @@ export type PlayerEvent =
       readonly type: "booster-opened";
       readonly source: "free" | "bonus";
       readonly cards: readonly Card[];
+    }
+  | {
+      /** Paquet de lingots payé (crédité par le serveur de paiement). */
+      readonly type: "ingots-purchased";
+      readonly packId: IngotPackId;
+      readonly ingots: number;
+      readonly priceCents: number;
+      /** Identifiant du paiement chez le prestataire : un paiement, un crédit. */
+      readonly reference: string;
     }
   | {
       readonly type: "admin-adjusted";

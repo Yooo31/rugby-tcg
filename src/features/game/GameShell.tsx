@@ -46,8 +46,8 @@ export function GameShell({ children }: { readonly children: ReactNode }) {
         <div className="flex items-center gap-2">
           {isReady ? (
             <Link
-              href="/missions"
-              aria-label={`${game.ingots} lingots, voir les missions`}
+              href="/boutique"
+              aria-label={`${game.ingots} lingots, ouvrir la boutique`}
               className="border-line-strong bg-surface-raised hover:bg-surface-hover flex min-h-11 items-center rounded-full border px-4 transition"
             >
               <IngotAmount amount={game.ingots} className="text-lg" />
