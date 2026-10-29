@@ -8,6 +8,8 @@ import {
   EMPTY_WALLET,
   missionLogSchema,
   ownedSpecialCardSchema,
+  parseEquipped,
+  parseOwnedCosmetics,
   rankScores,
   streakSchema,
   walletSchema,
@@ -34,7 +36,16 @@ const KEYS = {
   claimedAlbums: "rugby-tcg:claimed-albums",
   claimedGiveaways: "rugby-tcg:claimed-giveaways",
   streak: "rugby-tcg:streak",
+  ownedCosmetics: "rugby-tcg:owned-cosmetics",
+  equippedCosmetics: "rugby-tcg:equipped-cosmetics",
 } as const;
+
+/** Équipement tel que stocké : un identifiant par sorte, validé à la lecture. */
+const storedEquippedSchema = z.object({
+  "card-back": z.string().nullish(),
+  "card-frame": z.string().nullish(),
+  "album-theme": z.string().nullish(),
+});
 
 /** Identifiant du seul joueur du mock. */
 const MOCK_PLAYER_ID = "joueur-mock";
@@ -71,6 +82,12 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
       [],
     ),
     streak: readJson(store, KEYS.streak, streakSchema, EMPTY_STREAK),
+    ownedCosmetics: parseOwnedCosmetics(
+      readJson(store, KEYS.ownedCosmetics, z.array(z.string()), []),
+    ),
+    equippedCosmetics: parseEquipped(
+      readJson(store, KEYS.equippedCosmetics, storedEquippedSchema, {}),
+    ),
   });
 
   const write = (record: PlayerRecord): void => {
@@ -83,6 +100,8 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
     writeJson(store, KEYS.claimedAlbums, record.claimedAlbumIds);
     writeJson(store, KEYS.claimedGiveaways, record.claimedGiveawayIds);
     writeJson(store, KEYS.streak, record.streak);
+    writeJson(store, KEYS.ownedCosmetics, record.ownedCosmetics);
+    writeJson(store, KEYS.equippedCosmetics, record.equippedCosmetics);
   };
 
   return {

@@ -1,4 +1,5 @@
 import type { Collection } from "./collection";
+import type { CosmeticState } from "./cosmetic";
 import type { GiveawayProgress } from "./giveaway";
 import type { MissionProgress } from "./mission";
 import type { SpecialCollection } from "./special-card";
@@ -21,4 +22,6 @@ export interface PlayerSnapshot {
   readonly giveaways: readonly GiveawayProgress[];
   /** Série de connexion : la récompense du jour. */
   readonly streak: StreakProgress;
+  /** Cosmétiques possédés et équipés. */
+  readonly cosmetics: CosmeticState;
 }

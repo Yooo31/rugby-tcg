@@ -23,6 +23,7 @@ export async function exportAccount(prisma: PrismaClient, userId: string) {
     include: {
       ownedCards: { omit: { playerId: true } },
       ownedSpecialCards: { omit: { playerId: true } },
+      ownedCosmetics: { omit: { playerId: true } },
       ingotPurchases: { omit: { playerId: true } },
       missionLog: { omit: { playerId: true } },
       claimedAlbums: { omit: { playerId: true } },

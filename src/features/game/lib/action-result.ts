@@ -1,5 +1,6 @@
 import {
   BoosterQuotaExceededError,
+  CosmeticUnavailableError,
   InsufficientIngotsError,
   RewardNotClaimableError,
   UsernameTakenError,
@@ -14,6 +15,7 @@ export type GameErrorCode =
   | "booster-quota"
   | "insufficient-ingots"
   | "reward-not-claimable"
+  | "cosmetic-unavailable"
   | "username-taken"
   | "rate-limited"
   | "invalid-request";
@@ -42,6 +44,7 @@ export function gameErrorCode(error: unknown): GameErrorCode | null {
   if (error instanceof BoosterQuotaExceededError) return "booster-quota";
   if (error instanceof InsufficientIngotsError) return "insufficient-ingots";
   if (error instanceof RewardNotClaimableError) return "reward-not-claimable";
+  if (error instanceof CosmeticUnavailableError) return "cosmetic-unavailable";
   if (error instanceof UsernameTakenError) return "username-taken";
   if (error instanceof RateLimitedError) return "rate-limited";
   if (error instanceof InvalidGameRequestError) return "invalid-request";
@@ -56,6 +59,8 @@ function errorFromCode(code: GameErrorCode): Error {
       return new InsufficientIngotsError();
     case "reward-not-claimable":
       return new RewardNotClaimableError();
+    case "cosmetic-unavailable":
+      return new CosmeticUnavailableError();
     case "username-taken":
       return new UsernameTakenError();
     case "rate-limited":

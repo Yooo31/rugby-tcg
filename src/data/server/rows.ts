@@ -3,6 +3,8 @@ import {
   missionLogSchema,
   ownedCardSchema,
   ownedSpecialCardSchema,
+  parseEquipped,
+  parseOwnedCosmetics,
   streakSchema,
   walletSchema,
   type MissionLog,
@@ -23,6 +25,10 @@ export interface PlayerRow {
   readonly reserveSince: Date | null;
   readonly streakCount: number;
   readonly streakLastDay: string | null;
+  /** Cosmétiques équipés ; nuls pour ceux de départ. */
+  readonly cardBack: string | null;
+  readonly cardFrame: string | null;
+  readonly albumTheme: string | null;
 }
 
 export interface OwnedCardRow {
@@ -52,6 +58,7 @@ export interface PlayerRows {
   readonly missionLog: MissionLogRow | null;
   readonly claimedAlbumIds: readonly string[];
   readonly claimedGiveawayIds: readonly string[];
+  readonly ownedCosmeticIds: readonly string[];
 }
 
 /** Lignes de la base → état du joueur. Une ligne invalide est une erreur franche. */
@@ -103,6 +110,13 @@ export function recordFromRows(rows: PlayerRows): PlayerRecord {
       count: player.streakCount,
       lastDay: player.streakLastDay,
     }),
+    // Un cosmétique retiré du catalogue est ignoré, sans bloquer le joueur.
+    ownedCosmetics: parseOwnedCosmetics(rows.ownedCosmeticIds),
+    equippedCosmetics: parseEquipped({
+      "card-back": player.cardBack,
+      "card-frame": player.cardFrame,
+      "album-theme": player.albumTheme,
+    }),
   };
 }
 
@@ -117,6 +131,7 @@ export interface PlayerWrites {
   readonly missionLog: MissionLog | null;
   readonly newClaimedAlbumIds: readonly string[];
   readonly newClaimedGiveawayIds: readonly string[];
+  readonly newCosmeticIds: readonly string[];
 }
 
 const cardKey = (card: Pick<OwnedCard, "clubId" | "rarity">) =>
@@ -131,6 +146,9 @@ function toPlayerRow(record: PlayerRecord): PlayerRow {
     reserveSince: record.reserve ? new Date(record.reserve.since) : null,
     streakCount: record.streak.count,
     streakLastDay: record.streak.lastDay,
+    cardBack: record.equippedCosmetics["card-back"],
+    cardFrame: record.equippedCosmetics["card-frame"],
+    albumTheme: record.equippedCosmetics["album-theme"],
   };
 }
 
@@ -141,11 +159,14 @@ const samePlayerRow = (a: PlayerRow, b: PlayerRow) =>
   a.reserveCount === b.reserveCount &&
   a.streakCount === b.streakCount &&
   a.streakLastDay === b.streakLastDay &&
+  a.cardBack === b.cardBack &&
+  a.cardFrame === b.cardFrame &&
+  a.albumTheme === b.albumTheme &&
   a.reserveSince?.getTime() === b.reserveSince?.getTime();
 
 /**
  * Ne réécrit que ce qui a changé. Le domaine n'enlève jamais une carte ni un
- * album récupéré : seuls des ajouts et des mises à jour sont prévus.
+ * album récupéré, ni un cosmétique : seuls des ajouts et des mises à jour sont prévus.
  */
 export function recordChanges(
   before: PlayerRecord,
@@ -182,6 +203,7 @@ export function recordChanges(
 
   const claimedBefore = new Set(before.claimedAlbumIds);
   const giveawaysBefore = new Set(before.claimedGiveawayIds);
+  const cosmeticsBefore = new Set(before.ownedCosmetics);
 
   return {
     player: samePlayerRow(playerBefore, playerAfter) ? null : playerAfter,
@@ -193,6 +215,9 @@ export function recordChanges(
     ),
     newClaimedGiveawayIds: after.claimedGiveawayIds.filter(
       (giveawayId) => !giveawaysBefore.has(giveawayId),
+    ),
+    newCosmeticIds: after.ownedCosmetics.filter(
+      (cosmeticId) => !cosmeticsBefore.has(cosmeticId),
     ),
   };
 }

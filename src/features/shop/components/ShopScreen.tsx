@@ -12,6 +12,7 @@ import {
 import { BoosterOffers } from "@/features/boosters";
 import { GameGate, type ReadyGame } from "@/features/game";
 import { formatEuros } from "@/lib/money";
+import { CosmeticShop } from "./CosmeticShop";
 
 export function ShopScreen() {
   return <GameGate>{(game) => <Shop game={game} />}</GameGate>;
@@ -23,7 +24,10 @@ const PAYMENT_NOTICE_ID = "paiement-bientot";
 function Shop({ game }: { readonly game: ReadyGame }) {
   return (
     <div className="flex flex-col gap-6 sm:gap-8">
-      <ScreenHeader eyebrow="Boutique" title="Lingots et boosters" />
+      <ScreenHeader
+        eyebrow="Boutique"
+        title="Lingots, boosters et cosmétiques"
+      />
 
       <section
         aria-labelledby="solde"
@@ -64,6 +68,8 @@ function Shop({ game }: { readonly game: ReadyGame }) {
         </h2>
         <BoosterOffers game={game} disabled={false} />
       </section>
+
+      <CosmeticShop game={game} />
     </div>
   );
 }

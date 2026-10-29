@@ -8,6 +8,7 @@ export * from "./crest";
 export * from "./collection";
 export * from "./special-card";
 export * from "./shop";
+export * from "./cosmetic";
 export * from "./geo";
 export * from "./giveaway";
 export * from "./mission";

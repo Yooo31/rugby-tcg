@@ -1,10 +1,12 @@
 import { createCatalogRepositories, type Repositories } from "@/data";
 import {
   buyBoosters,
+  buyCosmetic,
   claimAlbumReward,
   claimGiveaway,
   claimMission,
   claimStreak,
+  equipCosmetic,
   getLeaderboard,
   getPlayer,
   openBooster,
@@ -30,6 +32,9 @@ export function createServerRepositories(): Repositories {
       claimGiveaway: async (giveawayId) =>
         unwrap(await claimGiveaway(giveawayId)),
       claimStreak: async () => unwrap(await claimStreak()),
+      buyCosmetic: async (cosmeticId) => unwrap(await buyCosmetic(cosmeticId)),
+      equipCosmetic: async (cosmeticId) =>
+        unwrap(await equipCosmetic(cosmeticId)),
       setUsername: async (username) => unwrap(await setUsername(username)),
     },
     leaderboard: {
