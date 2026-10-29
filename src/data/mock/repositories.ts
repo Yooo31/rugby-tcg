@@ -8,6 +8,8 @@ import {
   EMPTY_WALLET,
   missionLogSchema,
   ownedSpecialCardSchema,
+  parseEquipped,
+  parseOwnedCosmetics,
   rankScores,
   seasonLogSchema,
   streakSchema,
@@ -36,9 +38,18 @@ const KEYS = {
   claimedAlbums: "rugby-tcg:claimed-albums",
   claimedGiveaways: "rugby-tcg:claimed-giveaways",
   streak: "rugby-tcg:streak",
+  ownedCosmetics: "rugby-tcg:owned-cosmetics",
+  equippedCosmetics: "rugby-tcg:equipped-cosmetics",
   season: "rugby-tcg:season",
   seasonPasses: "rugby-tcg:season-passes",
 } as const;
+
+/** Équipement tel que stocké : un identifiant par sorte, validé à la lecture. */
+const storedEquippedSchema = z.object({
+  "card-back": z.string().nullish(),
+  "card-frame": z.string().nullish(),
+  "album-theme": z.string().nullish(),
+});
 
 /** Identifiant du seul joueur du mock. */
 const MOCK_PLAYER_ID = "joueur-mock";
@@ -75,6 +86,12 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
       [],
     ),
     streak: readJson(store, KEYS.streak, streakSchema, EMPTY_STREAK),
+    ownedCosmetics: parseOwnedCosmetics(
+      readJson(store, KEYS.ownedCosmetics, z.array(z.string()), []),
+    ),
+    equippedCosmetics: parseEquipped(
+      readJson(store, KEYS.equippedCosmetics, storedEquippedSchema, {}),
+    ),
     season: readJson(store, KEYS.season, seasonLogSchema.nullable(), null),
     seasonPasses: readJson(store, KEYS.seasonPasses, z.array(z.string()), []),
   });
@@ -89,6 +106,8 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
     writeJson(store, KEYS.claimedAlbums, record.claimedAlbumIds);
     writeJson(store, KEYS.claimedGiveaways, record.claimedGiveawayIds);
     writeJson(store, KEYS.streak, record.streak);
+    writeJson(store, KEYS.ownedCosmetics, record.ownedCosmetics);
+    writeJson(store, KEYS.equippedCosmetics, record.equippedCosmetics);
     writeJson(store, KEYS.season, record.season);
     writeJson(store, KEYS.seasonPasses, record.seasonPasses);
   };

@@ -13,6 +13,7 @@ import type {
   Album,
   BoosterOfferId,
   Club,
+  CosmeticId,
   Leaderboard,
   PlayerSnapshot,
   RegionId,
@@ -38,6 +39,8 @@ interface GameActions {
   readonly claimGiveaway: (giveawayId: string) => Promise<void>;
   readonly claimSeasonTier: (tier: number, track: SeasonTrack) => Promise<void>;
   readonly claimStreak: () => Promise<void>;
+  readonly buyCosmetic: (cosmeticId: CosmeticId) => Promise<void>;
+  readonly equipCosmetic: (cosmeticId: CosmeticId) => Promise<void>;
   readonly setUsername: (username: string) => Promise<void>;
   /** Classement du moment (non partagé : chaque écran le demande au besoin). */
   readonly loadLeaderboard: (region: RegionId | null) => Promise<Leaderboard>;
@@ -146,6 +149,10 @@ export function GameProvider({
         setPlayer(await repositories.player.claimSeasonTier(tier, track)),
       claimStreak: async () =>
         setPlayer(await repositories.player.claimStreak()),
+      buyCosmetic: async (cosmeticId) =>
+        setPlayer(await repositories.player.buyCosmetic(cosmeticId)),
+      equipCosmetic: async (cosmeticId) =>
+        setPlayer(await repositories.player.equipCosmetic(cosmeticId)),
       setUsername: async (username) =>
         setPlayer(await repositories.player.setUsername(username)),
       loadLeaderboard: (region) => repositories.leaderboard.get(region),

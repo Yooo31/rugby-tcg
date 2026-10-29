@@ -6,6 +6,11 @@ import {
   albumRewardStatus,
   boosterStock,
   buyBoosters,
+  buyCosmetic,
+  DEFAULT_EQUIPPED,
+  equipCosmetic,
+  ownedCosmeticIds,
+  withEarnedCosmetics,
   claimGiveaway,
   claimMission,
   claimSeasonTier,
@@ -35,6 +40,8 @@ import {
   type Card,
   type Club,
   type Collection,
+  type CosmeticId,
+  type EquippedCosmetics,
   type Giveaway,
   type IngotPackId,
   type MissionLog,
@@ -65,6 +72,23 @@ export interface PlayerRecord {
   readonly season: SeasonLog | null;
   /** Saisons dont le joueur a la voie payante. */
   readonly seasonPasses: readonly string[];
+  /** Cosmétiques achetés ou gagnés, hors ceux de départ. */
+  readonly ownedCosmetics: readonly CosmeticId[];
+  readonly equippedCosmetics: EquippedCosmetics;
+}
+
+/**
+ * Range les cosmétiques que le joueur vient de gagner (série, album terminé).
+ * Ils restent acquis ensuite, même si la série retombe.
+ */
+function grantEarnedCosmetics(record: PlayerRecord): PlayerRecord {
+  const ownedCosmetics = withEarnedCosmetics(record.ownedCosmetics, {
+    streakDays: record.streak.count,
+    completedAlbums: record.claimedAlbumIds.length,
+  });
+  return ownedCosmetics === record.ownedCosmetics
+    ? record
+    : { ...record, ownedCosmetics };
 }
 
 export const EMPTY_PLAYER_RECORD: PlayerRecord = {
@@ -77,6 +101,8 @@ export const EMPTY_PLAYER_RECORD: PlayerRecord = {
   claimedAlbumIds: [],
   claimedGiveawayIds: [],
   streak: EMPTY_STREAK,
+  ownedCosmetics: [],
+  equippedCosmetics: DEFAULT_EQUIPPED,
   season: null,
   seasonPasses: [],
 };
@@ -194,6 +220,10 @@ export function createPlayerRepository({
       at.getTime(),
     ),
     streak: streakProgress(record.streak, toDayKey(at)),
+    cosmetics: {
+      owned: ownedCosmeticIds(grantEarnedCosmetics(record).ownedCosmetics),
+      equipped: record.equippedCosmetics,
+    },
     season: seasonProgress(
       currentSeason,
       record.season,
@@ -208,7 +238,11 @@ export function createPlayerRepository({
   ): Promise<PlayerSnapshot> => {
     const context = await loadContext();
     return store.update((record) => {
-      const next = change(record, context);
+      // Avant l'action (un cosmétique gagné peut être équipé aussitôt) et
+      // après (la série ou l'album qui vient d'être récupéré).
+      const next = grantEarnedCosmetics(
+        change(grantEarnedCosmetics(record), context),
+      );
       return { record: next, result: toSnapshot(next, context) };
     });
   };
@@ -368,6 +402,30 @@ export function createPlayerRepository({
           wallet: grantReward(record.wallet, claimed.reward),
         };
       }),
+
+    buyCosmetic: (cosmeticId) =>
+      update((record) => {
+        const bought = buyCosmetic(
+          record.wallet,
+          record.ownedCosmetics,
+          cosmeticId,
+        );
+        return {
+          ...record,
+          wallet: bought.wallet,
+          ownedCosmetics: bought.owned,
+        };
+      }),
+
+    equipCosmetic: (cosmeticId) =>
+      update((record) => ({
+        ...record,
+        equippedCosmetics: equipCosmetic(
+          record.equippedCosmetics,
+          record.ownedCosmetics,
+          cosmeticId,
+        ),
+      })),
 
     setUsername: (username) =>
       update((record) => ({

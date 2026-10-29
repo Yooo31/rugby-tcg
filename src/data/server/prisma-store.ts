@@ -57,6 +57,10 @@ async function loadRecord(db: Db, playerId: string): Promise<PlayerRecord> {
     where: { playerId },
     orderBy: { claimedAt: "asc" },
   });
+  const ownedCosmetics = await db.ownedCosmetic.findMany({
+    where: { playerId },
+    orderBy: { obtainedAt: "asc" },
+  });
   const seasonLog = await db.seasonLog.findUnique({ where: { playerId } });
   const seasonPasses = await db.seasonPass.findMany({
     where: { playerId },
@@ -69,6 +73,7 @@ async function loadRecord(db: Db, playerId: string): Promise<PlayerRecord> {
     missionLog,
     claimedAlbumIds: claimedAlbums.map(({ albumId }) => albumId),
     claimedGiveawayIds: claimedGiveaways.map(({ giveawayId }) => giveawayId),
+    ownedCosmeticIds: ownedCosmetics.map(({ cosmeticId }) => cosmeticId),
     seasonLog,
     seasonPassIds: seasonPasses.map(({ seasonId }) => seasonId),
   });
@@ -146,6 +151,14 @@ async function saveWrites(
       data: writes.newClaimedGiveawayIds.map((giveawayId) => ({
         playerId,
         giveawayId,
+      })),
+    });
+  }
+  if (writes.newCosmeticIds.length > 0) {
+    await db.ownedCosmetic.createMany({
+      data: writes.newCosmeticIds.map((cosmeticId) => ({
+        playerId,
+        cosmeticId,
       })),
     });
   }

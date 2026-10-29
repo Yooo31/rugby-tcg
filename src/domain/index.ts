@@ -10,6 +10,7 @@ export * from "./special-card";
 export * from "./season";
 export * from "./vip";
 export * from "./shop";
+export * from "./cosmetic";
 export * from "./geo";
 export * from "./giveaway";
 export * from "./mission";

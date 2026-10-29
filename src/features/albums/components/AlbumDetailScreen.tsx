@@ -23,6 +23,7 @@ import {
 } from "@/features/cards";
 import { GameGate, type ReadyGame } from "@/features/game";
 import { AlbumRewardPanel } from "./AlbumRewardPanel";
+import { AlbumThemeSurface } from "./AlbumTheme";
 import { ProgressRing } from "./ProgressRing";
 
 export function AlbumDetailScreen({ albumId }: { readonly albumId: string }) {
@@ -80,20 +81,22 @@ function AlbumDetail({
         Albums
       </Link>
 
-      <header className="flex items-center gap-5">
-        <ProgressRing progress={progress} />
-        <div className="min-w-0">
-          <p className="eyebrow text-pitch">{album.subtitle}</p>
-          <h1 className="mt-1 text-4xl font-extrabold sm:text-5xl">
-            {album.title}
-          </h1>
-          <p className="text-chalk-muted mt-1.5 text-sm tabular-nums">
-            {progress.isComplete
-              ? "Album terminé, bravo !"
-              : `${progress.owned} sur ${progress.total} · encore ${progress.total - progress.owned} à trouver`}
-          </p>
-        </div>
-      </header>
+      <AlbumThemeSurface theme={game.cosmetics.equipped["album-theme"]}>
+        <header className="flex items-center gap-5">
+          <ProgressRing progress={progress} />
+          <div className="min-w-0">
+            <p className="eyebrow text-(--album-accent)">{album.subtitle}</p>
+            <h1 className="mt-1 text-4xl font-extrabold sm:text-5xl">
+              {album.title}
+            </h1>
+            <p className="mt-1.5 text-sm text-(--album-muted) tabular-nums">
+              {progress.isComplete
+                ? "Album terminé, bravo !"
+                : `${progress.owned} sur ${progress.total} · encore ${progress.total - progress.owned} à trouver`}
+            </p>
+          </div>
+        </header>
+      </AlbumThemeSurface>
 
       <AlbumRewardPanel
         view={albumRewardView(album.id, progress, game.claimedAlbumIds)}

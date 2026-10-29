@@ -157,6 +157,48 @@ describe("état du joueur dans Postgres", () => {
     );
   });
 
+  it("enregistre un cosmétique acheté et celui équipé", async () => {
+    const { playerId, repository } = await newPlayer();
+    await repository.get();
+    await prisma.player.update({
+      where: { id: playerId },
+      data: { ingots: 300 },
+    });
+    await repository.buyCosmetic("frame-stitch");
+    const equipped = await repository.equipCosmetic("frame-stitch");
+    expect(equipped.ingots).toBe(50);
+    expect(await repository.get()).toEqual(equipped);
+    expect(
+      await prisma.ownedCosmetic.findMany({
+        where: { playerId },
+        select: { cosmeticId: true },
+      }),
+    ).toEqual([{ cosmeticId: "frame-stitch" }]);
+    expect(
+      await prisma.player.findUniqueOrThrow({
+        where: { id: playerId },
+        select: { cardFrame: true },
+      }),
+    ).toEqual({ cardFrame: "frame-stitch" });
+  });
+
+  it("n'achète qu'une fois un cosmétique, même en deux clics simultanés", async () => {
+    const { playerId, repository } = await newPlayer();
+    await repository.get();
+    await prisma.player.update({
+      where: { id: playerId },
+      data: { ingots: 1_000 },
+    });
+    const results = await Promise.allSettled([
+      repository.buyCosmetic("theme-pitch"),
+      repository.buyCosmetic("theme-pitch"),
+    ]);
+    expect(results.filter(({ status }) => status === "fulfilled")).toHaveLength(
+      1,
+    );
+    expect((await repository.get()).ingots).toBe(750);
+  });
+
   it("annule tout si l'action est refusée", async () => {
     const { playerId, repository } = await newPlayer();
     await repository.get();

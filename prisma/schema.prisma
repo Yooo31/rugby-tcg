@@ -61,11 +61,16 @@ model Player {
   /// Dernières notifications envoyées, pour ne pas les répéter.
   notifiedFullAt     DateTime? @map("notified_full_at") @db.Timestamptz
   notifiedStreakDay  String?   @map("notified_streak_day")
+  /// Cosmétiques équipés (identifiants du catalogue). Nuls : ceux de départ.
+  cardBack           String?   @map("card_back")
+  cardFrame          String?   @map("card_frame")
+  albumTheme         String?   @map("album_theme")
   createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz
   updatedAt          DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
   ownedCards        OwnedCard[]
   ownedSpecialCards OwnedSpecialCard[]
+  ownedCosmetics    OwnedCosmetic[]
   seasonLog         SeasonLog?
   seasonPasses      SeasonPass[]
   ingotPurchases    IngotPurchase[]
@@ -111,6 +116,19 @@ model OwnedSpecialCard {
 
   @@id([playerId, specialId])
   @@map("owned_special_cards")
+}
+
+/// Cosmétiques achetés ou gagnés. Ceux de départ ne sont jamais enregistrés :
+/// tout joueur les possède.
+model OwnedCosmetic {
+  playerId   String   @map("player_id") @db.Uuid
+  cosmeticId String   @map("cosmetic_id")
+  obtainedAt DateTime @default(now()) @map("obtained_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@id([playerId, cosmeticId])
+  @@map("owned_cosmetics")
 }
 
 /// Avancement du joueur sur les missions du jour `day`. Une seule ligne par

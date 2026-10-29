@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { EmptyState } from "@/components/ui/empty-state";
+import { CardCosmeticsProvider } from "@/features/cards";
 import { UsernamePrompt } from "./components/UsernamePrompt";
 import { useGame, type ReadyGame } from "./GameProvider";
 
@@ -39,5 +40,10 @@ export function GameGate({
   }
   // Le pseudo est exigé avant de jouer : il sert aux classements.
   if (game.username === null) return <UsernamePrompt game={game} />;
-  return children(game);
+  // Les cartes affichées portent les cosmétiques équipés (dos, cadre).
+  return (
+    <CardCosmeticsProvider equipped={game.cosmetics.equipped}>
+      {children(game)}
+    </CardCosmeticsProvider>
+  );
 }
