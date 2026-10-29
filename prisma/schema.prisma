@@ -276,6 +276,8 @@ model SeasonPass {
 
   @@id([playerId, seasonId])
   @@map("season_passes")
+}
+
 /// Paquet de lingots payé. `reference` est l'identifiant du paiement chez le
 /// prestataire : unique, il garantit qu'un paiement ne crédite qu'une fois.
 model IngotPurchase {
