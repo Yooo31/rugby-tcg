@@ -26,9 +26,10 @@ describe("clubInitials", () => {
     ["Stade Toulousain", "ST"],
     ["RC Toulonnais", "RCT"],
     ["Union Bordeaux-Bègles", "UBB"],
-    ["USA Perpignan", "USA"],
-    ["US L'Isle-Jourdain", "USI"],
-    ["Saint-Jean-de-Luz Olympique", "SJL"],
+    ["USA Perpignan", "USAP"],
+    ["US L'Isle-Jourdain", "USIJ"],
+    ["Saint-Jean-de-Luz Olympique", "SJLO"],
+    ["Racing Club Salvetat Plaisance", "RCSP"],
   ])("%s → %s", (name, initials) => {
     expect(clubInitials(name)).toBe(initials);
   });

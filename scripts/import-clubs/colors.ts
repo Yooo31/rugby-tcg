@@ -3,6 +3,8 @@ import { hashString } from "../../src/lib/rng";
 export interface ClubColors {
   readonly primary: string;
   readonly secondary: string;
+  /** Troisième couleur d'un club tricolore. */
+  readonly tertiary?: string;
 }
 
 /**
@@ -87,4 +89,37 @@ const FALLBACK_PALETTE: readonly ClubColors[] = [
 /** Couleurs attribuées d'office, toujours les mêmes pour un club donné. */
 export function fallbackColors(clubId: string): ClubColors {
   return FALLBACK_PALETTE[hashString(clubId) % FALLBACK_PALETTE.length];
+}
+
+/** Couleur nommée (« Bleu ciel », « jaune »), sinon `null`. */
+export function namedColor(name: string): string | null {
+  const key = name.trim().toLowerCase().replace(/\s+/g, " ");
+  return NAMED_COLORS.find(([named]) => named === key)?.[1] ?? null;
+}
+
+/**
+ * Couleurs de la tenue telles que la FFR les nomme, dans son ordre : la
+ * première devient le champ du blason, la deuxième le motif, la troisième le
+ * liseré. Renvoie aussi les noms qu'on ne sait pas traduire, à compléter.
+ */
+export function ffrColors(names: readonly string[]): {
+  readonly colors: ClubColors | null;
+  readonly unknown: readonly string[];
+} {
+  const unknown = names.filter((name) => namedColor(name) === null);
+  const hexes = [
+    ...new Set(
+      names.map(namedColor).filter((hex): hex is string => hex !== null),
+    ),
+  ];
+  const [primary, secondary, tertiary] = hexes;
+  if (!primary) return { colors: null, unknown };
+  return {
+    colors: {
+      primary,
+      secondary: secondary ?? (primary === WHITE ? BLACK : WHITE),
+      ...(tertiary ? { tertiary } : {}),
+    },
+    unknown,
+  };
 }

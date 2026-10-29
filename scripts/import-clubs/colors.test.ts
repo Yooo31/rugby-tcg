@@ -1,4 +1,4 @@
-import { fallbackColors, parseColors } from "./colors";
+import { fallbackColors, ffrColors, namedColor, parseColors } from "./colors";
 
 describe("parseColors", () => {
   it.each([
@@ -39,5 +39,31 @@ describe("fallbackColors", () => {
   it("attribue toujours les mêmes couleurs à un club", () => {
     expect(fallbackColors("us-vendome")).toEqual(fallbackColors("us-vendome"));
     expect(fallbackColors("us-vendome").primary).toMatch(/^#[0-9a-f]{6}$/);
+  });
+});
+
+describe("couleurs de la tenue nommées par la FFR", () => {
+  it("garde l'ordre de la FFR, jusqu'à trois couleurs", () => {
+    expect(ffrColors(["Bleu", "Jaune"])).toEqual({
+      colors: { primary: "#0055a4", secondary: "#ffd100" },
+      unknown: [],
+    });
+    expect(ffrColors(["Noir", "Rouge", "Blanc"]).colors).toEqual({
+      primary: "#111111",
+      secondary: "#c8102e",
+      tertiary: "#f5f5f5",
+    });
+  });
+
+  it("complète une tenue d'une seule couleur, et signale l'inconnu", () => {
+    expect(ffrColors(["Vert"]).colors).toEqual({
+      primary: "#00843d",
+      secondary: "#f5f5f5",
+    });
+    expect(ffrColors(["Turquoise fluo"])).toEqual({
+      colors: null,
+      unknown: ["Turquoise fluo"],
+    });
+    expect(namedColor(" Bleu  Ciel ")).toBe("#6cace4");
   });
 });

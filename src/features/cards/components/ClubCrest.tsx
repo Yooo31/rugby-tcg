@@ -1,6 +1,11 @@
 import { useId } from "react";
 import type { Club } from "@/domain";
-import { CREST_VIEWBOX, crestDesign, symbolLayers } from "../lib/crest";
+import {
+  CREST_VIEWBOX,
+  crestDesign,
+  symbolLayers,
+  TRIM_WIDTH,
+} from "../lib/crest";
 
 /**
  * Blason généré depuis le club (couleurs, symbole, sigle, division). Il remplace les
@@ -31,6 +36,14 @@ export function ClubCrest({ club }: { readonly club: Club }) {
             strokeLinejoin="round"
           />
         ))}
+        {design.trim ? (
+          <path
+            d={design.shield}
+            fill="none"
+            stroke={design.trim}
+            strokeWidth={TRIM_WIDTH}
+          />
+        ) : null}
       </g>
       <path
         d={design.shield}

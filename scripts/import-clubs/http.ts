@@ -2,7 +2,8 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 
 /** Identifie le script auprès des serveurs, comme le demandent Wikipédia et Wikidata. */
-const USER_AGENT = "rugby-tcg-import/0.1 (import de clubs de rugby)";
+const USER_AGENT =
+  "rugby-tcg-import/0.1 (import de clubs de rugby ; donnees des clubs avec accord de la FFR)";
 /** Pause entre deux requêtes : l'import n'est pas pressé, les serveurs sont partagés. */
 const PAUSE_MS = 3000;
 const MAX_ATTEMPTS = 5;
@@ -12,17 +13,18 @@ const sleep = (milliseconds: number) =>
   new Promise((resolve) => setTimeout(resolve, milliseconds));
 
 /**
- * Requête GET qui renvoie du JSON. Les réponses sont gardées sur disque
- * (`.cache/import-clubs`) : relancer l'import ne sollicite pas les serveurs
- * une seconde fois. Supprimer ce dossier force une récupération fraîche.
+ * Requête GET qui renvoie le texte de la réponse. Les réponses sont gardées
+ * sur disque (`.cache/import-clubs`) : relancer l'import ne sollicite pas les
+ * serveurs une seconde fois. Supprimer ce dossier force une récupération
+ * fraîche.
  */
-export async function getJson<T>(
+export async function getText(
   url: string,
   accept = "application/json",
-): Promise<T> {
+): Promise<string> {
   const cacheFile = `${CACHE_DIR}/${createHash("sha1").update(url).digest("hex")}.json`;
   try {
-    return JSON.parse(await readFile(cacheFile, "utf8")) as T;
+    return await readFile(cacheFile, "utf8");
   } catch {
     // Pas encore en cache : on interroge le serveur.
   }
@@ -36,7 +38,7 @@ export async function getJson<T>(
       await mkdir(CACHE_DIR, { recursive: true });
       await writeFile(cacheFile, text);
       await sleep(PAUSE_MS);
-      return JSON.parse(text) as T;
+      return text;
     }
     if (response.status !== 429 || attempt === MAX_ATTEMPTS) {
       throw new Error(`${response.status} ${response.statusText} pour ${url}`);
@@ -46,6 +48,14 @@ export async function getJson<T>(
       Number(response.headers.get("Retry-After")) || 15 * attempt;
     await sleep(retryAfter * 1000);
   }
+}
+
+/** Requête GET qui renvoie du JSON (voir `getText` pour le cache). */
+export async function getJson<T>(
+  url: string,
+  accept = "application/json",
+): Promise<T> {
+  return JSON.parse(await getText(url, accept)) as T;
 }
 
 /** Découpe une liste en lots de taille fixe. */

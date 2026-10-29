@@ -28,7 +28,8 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:seed": "prisma db seed",
-    "clubs:import": "tsx scripts/import-clubs/index.ts"
+    "clubs:import": "tsx scripts/import-clubs/index.ts",
+    "clubs:ffr": "tsx scripts/import-clubs/ffr-import.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",
