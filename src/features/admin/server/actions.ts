@@ -125,6 +125,15 @@ export async function endSeasonAction(formData: FormData): Promise<void> {
   refresh();
 }
 
+/** Offre 30 jours de pass VIP à un joueur (tests entre amis, geste commercial). */
+export async function grantVipAction(formData: FormData): Promise<void> {
+  const admin = await requireAdmin();
+  const playerId = playerIdSchema.safeParse(formData.get("playerId"));
+  if (!playerId.success) return;
+  await adminData.grantVip(playerId.data, admin.email);
+  refresh();
+}
+
 /** Donne la voie payante de la saison en cours à un joueur (tests entre amis). */
 export async function grantSeasonPassAction(formData: FormData): Promise<void> {
   const admin = await requireAdmin();

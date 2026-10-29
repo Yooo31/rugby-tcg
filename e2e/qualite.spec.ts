@@ -11,6 +11,7 @@ const GAME_PAGES = [
   "/classement",
   "/boutique",
   "/saison",
+  "/vip",
   "/compte",
 ];
 const PUBLIC_PAGES = [

@@ -15,6 +15,7 @@ import {
   claimMission,
   claimSeasonTier,
   claimStreak,
+  claimVipBooster,
   drawBooster,
   EMPTY_STREAK,
   EMPTY_WALLET,
@@ -34,6 +35,10 @@ import {
   spendBooster,
   streakProgress,
   usernameSchema,
+  VIP_MAX_FREE_BOOSTERS,
+  vipStatus,
+  vipUntil,
+  type VipMembership,
   type Adjustment,
   type Album,
   type BoosterReserve,
@@ -75,6 +80,10 @@ export interface PlayerRecord {
   /** Cosmétiques achetés ou gagnés, hors ceux de départ. */
   readonly ownedCosmetics: readonly CosmeticId[];
   readonly equippedCosmetics: EquippedCosmetics;
+  /** Périodes de pass VIP, passées comprises. */
+  readonly vipMemberships: readonly VipMembership[];
+  /** Dernier jour où le booster VIP du jour a été pris. */
+  readonly vipBoosterDay: string | null;
 }
 
 /**
@@ -105,7 +114,14 @@ export const EMPTY_PLAYER_RECORD: PlayerRecord = {
   equippedCosmetics: DEFAULT_EQUIPPED,
   season: null,
   seasonPasses: [],
+  vipMemberships: [],
+  vipBoosterDay: null,
 };
+
+/** Le joueur est-il VIP à cet instant ? */
+function isVipAt(record: PlayerRecord, at: Date): boolean {
+  return vipUntil(record.vipMemberships, at.getTime()) !== null;
+}
 
 /** Le joueur a-t-il la voie payante de la saison en cours ? */
 function hasSeasonPass(record: PlayerRecord, season: Season | null): boolean {
@@ -127,6 +143,18 @@ export type PlayerEvent =
       readonly priceCents: number;
       /** Identifiant du paiement chez le prestataire : un paiement, un crédit. */
       readonly reference: string;
+    }
+  | {
+      /** Période de pass VIP, achetée (`purchase`) ou offerte (`grantedBy`). */
+      readonly type: "vip-granted";
+      readonly membership: VipMembership;
+      readonly purchase?: {
+        readonly offerId: string;
+        readonly priceCents: number;
+        /** Identifiant du paiement chez le prestataire : un paiement, une période. */
+        readonly reference: string;
+      };
+      readonly grantedBy?: string;
     }
   | {
       readonly type: "admin-adjusted";
@@ -189,6 +217,12 @@ export function createPlayerRepository({
 }: PlayerRepositoryDependencies): PlayerRepository {
   const clubsById = new Map(clubs.map((club) => [club.id, club]));
 
+  /** Taille de la réserve gratuite : plus grande pour un VIP. */
+  const reserveSize = (record: PlayerRecord, at: Date) =>
+    isVipAt(record, at)
+      ? Math.max(maxFreeBoosters, VIP_MAX_FREE_BOOSTERS)
+      : maxFreeBoosters;
+
   const loadContext = async (): Promise<ActionContext> => {
     const [currentGiveaways, currentSeason] = await Promise.all([
       giveaways(),
@@ -210,9 +244,12 @@ export function createPlayerRepository({
       record.reserve,
       record.wallet,
       at.getTime(),
-      maxFreeBoosters,
+      reserveSize(record, at),
     ),
-    missions: missionProgress(missionLogFor(record.missions, toDayKey(at))),
+    missions: missionProgress(
+      missionLogFor(record.missions, toDayKey(at)),
+      isVipAt(record, at),
+    ),
     claimedAlbumIds: record.claimedAlbumIds,
     giveaways: giveawayProgress(
       currentGiveaways,
@@ -228,6 +265,12 @@ export function createPlayerRepository({
       currentSeason,
       record.season,
       hasSeasonPass(record, currentSeason),
+      at.getTime(),
+    ),
+    vip: vipStatus(
+      record.vipMemberships,
+      record.vipBoosterDay,
+      toDayKey(at),
       at.getTime(),
     ),
   });
@@ -266,7 +309,7 @@ export function createPlayerRepository({
           record.reserve,
           record.wallet,
           openedAt.getTime(),
-          maxFreeBoosters,
+          reserveSize(record, openedAt),
         );
         const drawn = drawBooster(clubs, rng);
         const { collection, pulled } = addCards(
@@ -278,6 +321,7 @@ export function createPlayerRepository({
           missionLogFor(record.missions, toDayKey(openedAt)),
           pulled,
           clubsById,
+          isVipAt(record, openedAt),
         );
         // Tirée après les clubs, en plus d'eux : le booster garde ses cartes.
         const specialId = rollSpecialCard(rng);
@@ -327,6 +371,7 @@ export function createPlayerRepository({
         const { log, reward } = claimMission(
           missionLogFor(record.missions, toDayKey(at)),
           missionId,
+          isVipAt(record, at),
         );
         return {
           ...record,
@@ -401,6 +446,21 @@ export function createPlayerRepository({
         return {
           ...record,
           streak: claimed.streak,
+          wallet: grantReward(record.wallet, claimed.reward),
+        };
+      }),
+
+    claimVipBooster: () =>
+      update((record, { at }) => {
+        const claimed = claimVipBooster(
+          record.vipMemberships,
+          record.vipBoosterDay,
+          toDayKey(at),
+          at.getTime(),
+        );
+        return {
+          ...record,
+          vipBoosterDay: claimed.day,
           wallet: grantReward(record.wallet, claimed.reward),
         };
       }),

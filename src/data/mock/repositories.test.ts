@@ -2,6 +2,9 @@ import { z } from "zod";
 import {
   BOOSTER_SIZE,
   BoosterQuotaExceededError,
+  DAILY_MISSION_COUNT,
+  VIP_MAX_FREE_BOOSTERS,
+  VIP_MISSION_COUNT,
   clubSchema,
   CosmeticUnavailableError,
   DEFAULT_COSMETICS,
@@ -380,5 +383,53 @@ describe("passe de saison (mock)", () => {
       now: () => new Date(start),
     });
     expect((await repositories.player.openBooster()).player.season).toBeNull();
+  });
+});
+
+describe("pass VIP (mock)", () => {
+  const start = new Date("2026-10-13T09:00:00").getTime();
+  const DAY_MS = 24 * 60 * 60 * 1000;
+  const vipMemberships = [
+    { startsAt: start - DAY_MS, endsAt: start + 29 * DAY_MS },
+  ];
+
+  it("porte la réserve à 5 et ajoute deux missions VIP", async () => {
+    const { player } = setup({ vipMemberships });
+    const snapshot = await player.get();
+    expect(snapshot.boosters.free).toBe(VIP_MAX_FREE_BOOSTERS);
+    expect(snapshot.missions).toHaveLength(
+      DAILY_MISSION_COUNT + VIP_MISSION_COUNT,
+    );
+    expect(snapshot.missions.filter(({ isVip }) => isVip)).toHaveLength(
+      VIP_MISSION_COUNT,
+    );
+    expect(snapshot.vip).toMatchObject({
+      isActive: true,
+      dailyBooster: "claimable",
+    });
+  });
+
+  it("donne un booster VIP par jour, perdu s'il n'est pas pris", async () => {
+    const { player, setNow } = setup({ vipMemberships });
+    const claimed = await player.claimVipBooster();
+    expect(claimed.boosters.bonus).toBe(1);
+    expect(claimed.vip.dailyBooster).toBe("claimed");
+    await expect(player.claimVipBooster()).rejects.toBeInstanceOf(
+      RewardNotClaimableError,
+    );
+    setNow("2026-10-14T09:00:00");
+    expect((await player.get()).vip.dailyBooster).toBe("claimable");
+  });
+
+  it("revient à la réserve de 3 et refuse le booster VIP à la fin", async () => {
+    const { player, setNow } = setup({ vipMemberships });
+    setNow("2026-11-12T10:00:00");
+    const snapshot = await player.get();
+    expect(snapshot.vip.isActive).toBe(false);
+    expect(snapshot.boosters.free).toBe(MAX_FREE_BOOSTERS);
+    expect(snapshot.missions).toHaveLength(DAILY_MISSION_COUNT);
+    await expect(player.claimVipBooster()).rejects.toBeInstanceOf(
+      RewardNotClaimableError,
+    );
   });
 });

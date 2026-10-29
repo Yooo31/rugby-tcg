@@ -14,6 +14,7 @@ const NEW_PLAYER: PlayerRows = {
     cardBack: null,
     cardFrame: null,
     albumTheme: null,
+    vipBoosterDay: null,
   },
   ownedCards: [],
   ownedSpecialCards: [],
@@ -23,6 +24,7 @@ const NEW_PLAYER: PlayerRows = {
   ownedCosmeticIds: [],
   seasonLog: null,
   seasonPassIds: [],
+  vipMemberships: [],
 };
 
 const since = new Date("2026-10-22T08:00:00Z");
@@ -39,6 +41,7 @@ const PLAYING: PlayerRows = {
     cardBack: "back-night",
     cardFrame: null,
     albumTheme: "theme-pitch",
+    vipBoosterDay: "2026-10-21",
   },
   ownedCards: [
     { clubId: "castres", rarity: "rare", count: 2, firstObtainedAt: since },
@@ -56,6 +59,9 @@ const PLAYING: PlayerRows = {
   ownedCosmeticIds: ["back-night", "theme-pitch"],
   seasonLog: { seasonId: "s1", xp: 60, claimedFree: [], claimedPremium: [] },
   seasonPassIds: ["s1"],
+  vipMemberships: [
+    { startsAt: since, endsAt: new Date("2026-11-21T08:00:00Z") },
+  ],
 };
 
 describe("recordFromRows", () => {
@@ -104,6 +110,13 @@ describe("recordFromRows", () => {
         claimedPremium: [],
       },
       seasonPasses: ["s1"],
+      vipMemberships: [
+        {
+          startsAt: since.getTime(),
+          endsAt: Date.parse("2026-11-21T08:00:00Z"),
+        },
+      ],
+      vipBoosterDay: "2026-10-21",
     });
   });
 
@@ -191,6 +204,8 @@ describe("recordChanges", () => {
       },
       season: { ...before.season!, xp: 70, claimedFree: [1] },
       seasonPasses: ["s1"],
+      vipMemberships: before.vipMemberships,
+      vipBoosterDay: "2026-10-22",
     };
 
     expect(recordChanges(before, after)).toEqual({
@@ -205,6 +220,7 @@ describe("recordChanges", () => {
         cardBack: "back-night",
         cardFrame: "frame-stitch",
         albumTheme: "theme-pitch",
+        vipBoosterDay: "2026-10-22",
       },
       cards: [
         { clubId: "castres", rarity: "rare", count: 3, firstObtainedAt: since },
@@ -242,6 +258,7 @@ describe("recordChanges", () => {
       cardBack: "back-pitch",
       cardFrame: "frame-plain",
       albumTheme: "theme-night",
+      vipBoosterDay: null,
     });
   });
 });

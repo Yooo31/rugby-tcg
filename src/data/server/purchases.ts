@@ -1,5 +1,12 @@
 import "server-only";
-import { creditIngotPack, getIngotPack, type IngotPackId } from "@/domain";
+import {
+  creditIngotPack,
+  extendVip,
+  getIngotPack,
+  getVipOffer,
+  type IngotPackId,
+  type VipOffer,
+} from "@/domain";
 import type { PrismaClient } from "@/generated/prisma/client";
 import { createPrismaPlayerStore, isUniqueViolation } from "./prisma-store";
 
@@ -32,6 +39,52 @@ export async function creditIngotPurchase(
         },
       ],
     }));
+    return true;
+  } catch (error) {
+    if (isUniqueViolation(error)) return false;
+    throw error;
+  }
+}
+
+/**
+ * Crédite un pass VIP payé : une période de la durée de l'offre, à la suite
+ * de l'adhésion en cours. Mêmes garanties que `creditIngotPurchase` (serveur
+ * de paiement seulement, un paiement crédité une fois). Renvoie `true` si la
+ * période vient d'être ajoutée.
+ */
+export async function creditVipPurchase(
+  prisma: PrismaClient,
+  playerId: string,
+  purchase: { readonly offerId: VipOffer["id"]; readonly reference: string },
+  now: Date,
+): Promise<boolean> {
+  const offer = getVipOffer(purchase.offerId);
+  try {
+    await createPrismaPlayerStore(prisma, playerId).update((record) => {
+      const membership = extendVip(
+        record.vipMemberships,
+        now.getTime(),
+        offer.days,
+      );
+      return {
+        record: {
+          ...record,
+          vipMemberships: [...record.vipMemberships, membership],
+        },
+        result: undefined,
+        events: [
+          {
+            type: "vip-granted",
+            membership,
+            purchase: {
+              offerId: offer.id,
+              priceCents: offer.priceCents,
+              reference: purchase.reference,
+            },
+          },
+        ],
+      };
+    });
     return true;
   } catch (error) {
     if (isUniqueViolation(error)) return false;

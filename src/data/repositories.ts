@@ -56,6 +56,8 @@ export interface PlayerRepository {
   claimGiveaway(giveawayId: string): Promise<PlayerSnapshot>;
   /** Rejette avec `RewardNotClaimableError` si la série du jour est déjà récupérée. */
   claimStreak(): Promise<PlayerSnapshot>;
+  /** Rejette avec `RewardNotClaimableError` hors VIP ou si le booster du jour est déjà pris. */
+  claimVipBooster(): Promise<PlayerSnapshot>;
   /**
    * Achète un cosmétique en lingots. Rejette avec `InsufficientIngotsError`,
    * ou `CosmeticUnavailableError` s'il est déjà possédé.

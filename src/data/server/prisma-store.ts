@@ -66,6 +66,11 @@ async function loadRecord(db: Db, playerId: string): Promise<PlayerRecord> {
     where: { playerId },
     select: { seasonId: true },
   });
+  const vipMemberships = await db.vipMembership.findMany({
+    where: { playerId },
+    select: { startsAt: true, endsAt: true },
+    orderBy: { startsAt: "asc" },
+  });
   return recordFromRows({
     player,
     ownedCards,
@@ -76,6 +81,7 @@ async function loadRecord(db: Db, playerId: string): Promise<PlayerRecord> {
     ownedCosmeticIds: ownedCosmetics.map(({ cosmeticId }) => cosmeticId),
     seasonLog,
     seasonPassIds: seasonPasses.map(({ seasonId }) => seasonId),
+    vipMemberships,
   });
 }
 
@@ -191,6 +197,21 @@ async function saveEvents(
             ingots: event.ingots,
             priceCents: event.priceCents,
             reference: event.reference,
+          },
+        });
+        break;
+      case "vip-granted":
+        // Les périodes ne s'écrivent que par cet événement : une période
+        // achetée garde sa référence de paiement, unique.
+        await db.vipMembership.create({
+          data: {
+            playerId,
+            startsAt: new Date(event.membership.startsAt),
+            endsAt: new Date(event.membership.endsAt),
+            offerId: event.purchase?.offerId,
+            priceCents: event.purchase?.priceCents,
+            reference: event.purchase?.reference,
+            grantedBy: event.grantedBy,
           },
         });
         break;

@@ -5,6 +5,8 @@ export interface LeaderboardScore {
   readonly username: string;
   /** Clubs différents possédés, toutes raretés confondues. */
   readonly clubs: number;
+  /** Membre du pass VIP en ce moment (badge). */
+  readonly isVip?: boolean;
 }
 
 export interface LeaderboardEntry {
@@ -13,6 +15,7 @@ export interface LeaderboardEntry {
   readonly username: string;
   readonly clubs: number;
   readonly isMe: boolean;
+  readonly isVip: boolean;
 }
 
 export interface Leaderboard {
@@ -52,6 +55,7 @@ export function rankScores(
       username: score.username,
       clubs: score.clubs,
       isMe: score.playerId === myId,
+      isVip: score.isVip ?? false,
     };
     if (rank <= size) entries.push(entry);
     if (entry.isMe) me = entry;

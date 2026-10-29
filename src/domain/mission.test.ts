@@ -4,6 +4,8 @@ import {
   claimMission,
   DAILY_MISSION_COUNT,
   dailyMissions,
+  vipMissions,
+  VIP_MISSION_COUNT,
   missionGain,
   missionLogFor,
   missionProgress,
@@ -45,6 +47,34 @@ const logWith = (progress: number, claimed: string[] = []): MissionLog => ({
   day,
   progress: { [first.id]: progress },
   claimed,
+});
+
+describe("vipMissions", () => {
+  it("ajoute deux missions du jour, toujours les mêmes, jamais une commune", () => {
+    for (let dayOfMonth = 1; dayOfMonth <= 28; dayOfMonth += 1) {
+      const date = `2026-11-${String(dayOfMonth).padStart(2, "0")}`;
+      const daily = new Set(dailyMissions(date).map(({ id }) => id));
+      const vip = vipMissions(date);
+      expect(vip).toHaveLength(VIP_MISSION_COUNT);
+      expect(vip).toEqual(vipMissions(date));
+      expect(vip.some(({ id }) => daily.has(id))).toBe(false);
+    }
+  });
+
+  it("fait avancer et récupérer une mission VIP, seulement pour un VIP", () => {
+    const [mission] = vipMissions(day);
+    const log = { day, progress: { [mission.id]: mission.goal }, claimed: [] };
+    expect(missionProgress(log).some(({ isVip }) => isVip)).toBe(false);
+    expect(
+      missionProgress(log, true).find(
+        (entry) => entry.mission.id === mission.id,
+      ),
+    ).toMatchObject({ isVip: true, status: "claimable" });
+    expect(() => claimMission(log, mission.id)).toThrow(
+      RewardNotClaimableError,
+    );
+    expect(claimMission(log, mission.id, true).reward).toEqual(mission.reward);
+  });
 });
 
 describe("dailyMissions", () => {

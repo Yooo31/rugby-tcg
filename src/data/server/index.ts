@@ -109,6 +109,8 @@ export const adminData = {
     admin.endSeason(prisma, seasonId, new Date()),
   grantSeasonPass: (playerId: string, seasonId: string, adminEmail: string) =>
     admin.grantSeasonPass(prisma, playerId, seasonId, adminEmail),
+  grantVip: (playerId: string, adminEmail: string) =>
+    admin.grantVip(prisma, playerId, adminEmail, new Date()),
 };
 
 /** Suppression et export d'un compte (RGPD) : `userId` vient de la session vérifiée. */

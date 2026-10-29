@@ -144,6 +144,10 @@ export async function claimStreak(): Promise<ActionResult<PlayerSnapshot>> {
   return run(({ player }) => player.claimStreak());
 }
 
+export async function claimVipBooster(): Promise<ActionResult<PlayerSnapshot>> {
+  return run(({ player }) => player.claimVipBooster());
+}
+
 export async function buyCosmetic(
   cosmeticId: unknown,
 ): Promise<ActionResult<PlayerSnapshot>> {

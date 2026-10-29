@@ -82,6 +82,8 @@ export const MISSION_POOL: readonly Mission[] = [
 ];
 
 export const DAILY_MISSION_COUNT = 3;
+/** Missions de plus chaque jour pour un VIP. */
+export const VIP_MISSION_COUNT = 2;
 
 /**
  * Missions du jour : les mêmes pour tous les joueurs, tirées du vivier à partir
@@ -104,6 +106,35 @@ export function dailyMissions(
     }
   }
   return picked;
+}
+
+/**
+ * Missions VIP du jour : deux de plus, les mêmes pour tous les VIP, tirées
+ * du vivier parmi celles qui ne sont pas déjà des missions communes.
+ */
+export function vipMissions(
+  day: string,
+  pool: readonly Mission[] = MISSION_POOL,
+): Mission[] {
+  const daily = new Set(dailyMissions(day, pool).map(({ id }) => id));
+  const rng = createSeededRng(hashString(`vip:${day}`));
+  const candidates = pool.filter(({ id }) => !daily.has(id));
+  const picked: Mission[] = [];
+  while (picked.length < VIP_MISSION_COUNT && candidates.length > 0) {
+    const [mission] = candidates.splice(
+      Math.floor(rng() * candidates.length),
+      1,
+    );
+    picked.push(mission);
+  }
+  return picked;
+}
+
+/** Missions du jour d'un joueur : les communes, plus celles des VIP. */
+function missionsOf(day: string, isVip: boolean): Mission[] {
+  return isVip
+    ? [...dailyMissions(day), ...vipMissions(day)]
+    : dailyMissions(day);
 }
 
 /** De combien une ouverture de booster fait avancer une mission. */
@@ -152,9 +183,10 @@ export function recordOpening(
   log: MissionLog,
   cards: readonly PulledCard[],
   clubsById: ReadonlyMap<string, Club>,
+  isVip = false,
 ): MissionLog {
   const progress = { ...log.progress };
-  for (const mission of dailyMissions(log.day)) {
+  for (const mission of missionsOf(log.day, isVip)) {
     const current = progress[mission.id] ?? 0;
     const gain = missionGain(mission.metric, cards, clubsById);
     progress[mission.id] = Math.min(mission.goal, current + gain);
@@ -167,12 +199,23 @@ export interface MissionProgress {
   readonly mission: Mission;
   readonly progress: number;
   readonly status: RewardStatus;
+  /** Mission réservée aux VIP. */
+  readonly isVip: boolean;
 }
 
-export function missionProgress(log: MissionLog): MissionProgress[] {
-  return dailyMissions(log.day).map((mission) => {
+export function missionProgress(
+  log: MissionLog,
+  isVip = false,
+): MissionProgress[] {
+  const vipIds = new Set(isVip ? vipMissions(log.day).map(({ id }) => id) : []);
+  return missionsOf(log.day, isVip).map((mission) => {
     const progress = log.progress[mission.id] ?? 0;
-    return { mission, progress, status: missionStatus(mission, log) };
+    return {
+      mission,
+      progress,
+      status: missionStatus(mission, log),
+      isVip: vipIds.has(mission.id),
+    };
   });
 }
 
@@ -189,8 +232,12 @@ interface MissionClaim {
 }
 
 /** Marque une mission comme récupérée ; lève une erreur si elle n'est pas terminée ou déjà prise. */
-export function claimMission(log: MissionLog, missionId: string): MissionClaim {
-  const entry = missionProgress(log).find(
+export function claimMission(
+  log: MissionLog,
+  missionId: string,
+  isVip = false,
+): MissionClaim {
+  const entry = missionProgress(log, isVip).find(
     ({ mission }) => mission.id === missionId,
   );
   if (entry?.status !== "claimable") throw new RewardNotClaimableError();

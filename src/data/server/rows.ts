@@ -31,6 +31,7 @@ export interface PlayerRow {
   readonly cardBack: string | null;
   readonly cardFrame: string | null;
   readonly albumTheme: string | null;
+  readonly vipBoosterDay: string | null;
 }
 
 export interface OwnedCardRow {
@@ -64,6 +65,13 @@ export interface PlayerRows {
   readonly seasonLog: SeasonLogRow | null;
   /** Saisons dont le joueur a la voie payante. */
   readonly seasonPassIds: readonly string[];
+  /** Périodes de pass VIP. */
+  readonly vipMemberships: readonly VipMembershipRow[];
+}
+
+export interface VipMembershipRow {
+  readonly startsAt: Date;
+  readonly endsAt: Date;
 }
 
 export interface SeasonLogRow {
@@ -138,6 +146,11 @@ export function recordFromRows(rows: PlayerRows): PlayerRecord {
         })
       : null,
     seasonPasses: [...rows.seasonPassIds],
+    vipMemberships: rows.vipMemberships.map(({ startsAt, endsAt }) => ({
+      startsAt: startsAt.getTime(),
+      endsAt: endsAt.getTime(),
+    })),
+    vipBoosterDay: player.vipBoosterDay,
   };
 }
 
@@ -172,6 +185,7 @@ function toPlayerRow(record: PlayerRecord): PlayerRow {
     cardBack: record.equippedCosmetics["card-back"],
     cardFrame: record.equippedCosmetics["card-frame"],
     albumTheme: record.equippedCosmetics["album-theme"],
+    vipBoosterDay: record.vipBoosterDay,
   };
 }
 
@@ -185,6 +199,7 @@ const samePlayerRow = (a: PlayerRow, b: PlayerRow) =>
   a.cardBack === b.cardBack &&
   a.cardFrame === b.cardFrame &&
   a.albumTheme === b.albumTheme &&
+  a.vipBoosterDay === b.vipBoosterDay &&
   a.reserveSince?.getTime() === b.reserveSince?.getTime();
 
 /**

@@ -22,6 +22,7 @@ vi.mock("./actions", () => ({
   createSeasonAction: vi.fn(),
   endSeasonAction: vi.fn(),
   grantSeasonPassAction: vi.fn(),
+  grantVipAction: vi.fn(),
 }));
 vi.mock("@/data/server", () => ({
   adminData: {
