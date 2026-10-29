@@ -31,11 +31,11 @@ describe("catalogue des cosmétiques", () => {
     }
   });
 
-  it("a des identifiants uniques et des prix positifs hors départ", () => {
+  it("a des identifiants uniques et un prix en lingots hors départ", () => {
     expect(new Set(COSMETICS.map(({ id }) => id)).size).toBe(COSMETICS.length);
     for (const cosmetic of COSMETICS) {
-      if (cosmetic.ingots === 0) continue;
-      expect(cosmetic.priceCents).toBeGreaterThan(0);
+      if (cosmetic.id === DEFAULT_COSMETICS[cosmetic.kind]) continue;
+      expect(cosmetic.ingots).toBeGreaterThan(0);
     }
   });
 

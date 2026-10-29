@@ -21,9 +21,6 @@ describe("ShopScreen", () => {
       "Coffre : 1400 lingots pour 11,99 €",
       "Malle : 3000 lingots pour 24,99 €",
     ]);
-    expect(
-      within(packs[1]!).getByText(/6 boosters, soit 0,92/),
-    ).toBeInTheDocument();
     for (const pack of packs)
       expect(within(pack).getByRole("button")).toBeDisabled();
     expect(

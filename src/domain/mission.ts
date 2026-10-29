@@ -81,7 +81,7 @@ export const MISSION_POOL: readonly Mission[] = [
   },
 ];
 
-export const DAILY_MISSION_COUNT = 3;
+export const DAILY_MISSION_COUNT = 2;
 /** Missions de plus chaque jour pour un VIP. */
 export const VIP_MISSION_COUNT = 2;
 

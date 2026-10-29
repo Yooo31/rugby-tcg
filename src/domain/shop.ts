@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BOOSTER_OFFERS, type Wallet } from "./wallet";
+import type { Wallet } from "./wallet";
 
 /**
  * Paquets de lingots vendus en boutique (voir docs/economie.md, section
@@ -20,23 +20,10 @@ export const ingotPackIdSchema = z.enum(
   INGOT_PACKS.map(({ id }) => id) as [IngotPackId, ...IngotPackId[]],
 );
 
-/** Prix d'un booster à l'unité, en lingots. */
-const BOOSTER_PRICE = BOOSTER_OFFERS[0].price;
-
 export function getIngotPack(id: IngotPackId): IngotPack {
   const pack = INGOT_PACKS.find((candidate) => candidate.id === id);
   if (!pack) throw new Error(`Paquet de lingots inconnu : ${id}`);
   return pack;
-}
-
-/** Boosters qu'un paquet permet d'acheter à l'unité. */
-export function boostersFor(pack: IngotPack): number {
-  return Math.floor(pack.ingots / BOOSTER_PRICE);
-}
-
-/** Ce que revient un booster acheté avec ce paquet, en centimes. */
-export function boosterPriceCents(pack: IngotPack): number {
-  return Math.round((pack.priceCents * BOOSTER_PRICE) / pack.ingots);
 }
 
 /** Crédite les lingots d'un paquet payé. */

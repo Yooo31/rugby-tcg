@@ -56,9 +56,9 @@ describe("cosmétiques en boutique", () => {
     expect(
       within(backs).getByRole("button", { name: "Équipé" }),
     ).toBeDisabled();
-    expect(screen.getByText(/Paiement en euros bientôt disponible/));
     const night = within(backs).getByRole("article", { name: "Nuit au stade" });
-    expect(within(night).getByText("ou 1,49 €, bientôt")).toBeInTheDocument();
+    // En lingots seulement : aucun prix en euros.
+    expect(within(night).queryByText(/€/)).not.toBeInTheDocument();
     await user.click(
       within(night).getByRole("button", {
         name: "Acheter Nuit au stade pour 150 lingots",
@@ -73,6 +73,35 @@ describe("cosmétiques en boutique", () => {
     expect(
       await within(night).findByRole("button", { name: "Équipé" }),
     ).toBeDisabled();
+  });
+
+  it("montre un cosmétique en grand, et l'achète depuis l'aperçu", async () => {
+    const user = userEvent.setup();
+    const { repositories, buyCosmetic } = await richPlayer();
+    render(
+      <GameProvider repositories={repositories}>
+        <ShopScreen />
+      </GameProvider>,
+    );
+    await user.click(
+      await screen.findByRole("button", {
+        name: "Voir en grand : Nuit au stade",
+      }),
+    );
+    const dialog = screen.getByRole("dialog", {
+      name: "Aperçu : Nuit au stade",
+    });
+    expect(dialog).toHaveTextContent("Dos de carte");
+    await user.click(
+      within(dialog).getByRole("button", {
+        name: "Acheter Nuit au stade pour 150 lingots",
+      }),
+    );
+    expect(buyCosmetic).toHaveBeenCalledWith("back-night");
+    await user.click(within(dialog).getByRole("button", { name: "Fermer" }));
+    expect(
+      screen.queryByRole("dialog", { name: "Aperçu : Nuit au stade" }),
+    ).not.toBeInTheDocument();
   });
 
   it("annonce les cosmétiques à gagner", async () => {
