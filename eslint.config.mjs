@@ -72,6 +72,7 @@ const eslintConfig = defineConfig([
   // Désactive les règles de style en conflit avec Prettier (doit rester en dernier).
   prettier,
   globalIgnores([
+    ".claude/**",
     ".next/**",
     "out/**",
     "build/**",

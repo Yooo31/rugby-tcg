@@ -13,9 +13,12 @@ import {
   referralData,
 } from "@/data/server";
 import {
+  cosmeticIdSchema,
+  seasonTrackSchema,
   usernameSchema,
   type Leaderboard,
   type PlayerSnapshot,
+  type SeasonTrack,
 } from "@/domain";
 import { requireAuthUser } from "@/features/auth/server";
 import {
@@ -31,6 +34,7 @@ import {
   leaderboardRegionSchema,
   offerIdSchema,
   rewardIdSchema,
+  seasonTierSchema,
 } from "../lib/inputs";
 
 /**
@@ -124,8 +128,40 @@ export async function claimGiveaway(
   );
 }
 
+export async function claimSeasonTier(
+  tier: number,
+  track: SeasonTrack,
+): Promise<ActionResult<PlayerSnapshot>> {
+  return run(({ player }) =>
+    player.claimSeasonTier(
+      parse(seasonTierSchema, tier),
+      parse(seasonTrackSchema, track),
+    ),
+  );
+}
+
 export async function claimStreak(): Promise<ActionResult<PlayerSnapshot>> {
   return run(({ player }) => player.claimStreak());
+}
+
+export async function claimVipBooster(): Promise<ActionResult<PlayerSnapshot>> {
+  return run(({ player }) => player.claimVipBooster());
+}
+
+export async function buyCosmetic(
+  cosmeticId: unknown,
+): Promise<ActionResult<PlayerSnapshot>> {
+  return run(({ player }) =>
+    player.buyCosmetic(parse(cosmeticIdSchema, cosmeticId)),
+  );
+}
+
+export async function equipCosmetic(
+  cosmeticId: unknown,
+): Promise<ActionResult<PlayerSnapshot>> {
+  return run(({ player }) =>
+    player.equipCosmetic(parse(cosmeticIdSchema, cosmeticId)),
+  );
 }
 
 export async function setUsername(

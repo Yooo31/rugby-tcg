@@ -38,4 +38,9 @@ Aucune source ouverte ne donne leur composition. `src/data/catalog/clubs.regiona
 
 ## FFR
 
-Il n'existe pas d'API publique. Le portail `monclubhouse.ffr.fr` charge ses données depuis un serveur interne dont le `robots.txt` interdit tout accès automatisé : on ne l'aspire pas. La liste complète des clubs (environ 1 900) et les résultats officiels passent par une demande à la FFR ou aux ligues régionales.
+Accord de la FFR pour les données des clubs ; les résultats officiels restent exclus tant que la demande est en cours.
+
+- **Liste des clubs** : plan du site de chaque ligue (`ligue*.ffr.fr/club-sitemap.xml`), environ 1 700 clubs. Ceux d'Auvergne-Rhône-Alpes et de Bretagne y sont incomplets : leur page se retrouve à partir du nom.
+- **Fiche d'un club** : page publique `monclubhouse.ffr.fr/clubs/<club>`, autorisée par le `robots.txt` (nom complet, couleurs de la tenue, adresse). Jamais les logos.
+- **API** (`api-web.monclubhouse.ffr.fr`) : clé d'accès nécessaire, que nous n'avons pas.
+- `pnpm clubs:ffr` rapproche chaque club du catalogue de sa page (nom, sigle, département) et écrit `scripts/import-clubs/clubs.ffr.json`, une aide à la relecture des fiches d'identité (`src/data/catalog/identity/`). Les couleurs saisies par les clubs sont souvent incomplètes : elles se croisent avec Wikipédia avant d'entrer dans une fiche, avec leur source.

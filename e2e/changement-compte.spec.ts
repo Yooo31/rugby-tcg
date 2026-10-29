@@ -11,7 +11,9 @@ test("un second compte sur le même navigateur ne voit rien du premier", async (
     .getByRole("region", { name: "Jour 1" })
     .getByRole("button", { name: "Récupérer" })
     .click();
-  await expect(page.getByRole("link", { name: /^10 lingots/ })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Boutique : 10 lingots" }),
+  ).toBeVisible();
   await page.goto("/boosters");
   await page.getByRole("button", { name: "Ouvrir le booster" }).click();
   await page.getByRole("button", { name: "Tout révéler" }).click();
@@ -27,7 +29,9 @@ test("un second compte sur le même navigateur ne voit rien du premier", async (
   // Compte B : tout doit repartir de zéro.
   const second = uniquePlayer("Second");
   await signUp(page, second);
-  await expect(page.getByRole("link", { name: /^0 lingots/ })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Boutique : 0 lingots" }),
+  ).toBeVisible();
   await expect(
     page
       .getByRole("region", { name: "Jour 1" })
@@ -57,7 +61,9 @@ test("se connecter à un compte existant après un autre ne montre que le sien",
     .getByRole("region", { name: "Jour 1" })
     .getByRole("button", { name: "Récupérer" })
     .click();
-  await expect(page.getByRole("link", { name: /^10 lingots/ })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Boutique : 10 lingots" }),
+  ).toBeVisible();
 
   await page.goto("/compte");
   await page.getByRole("button", { name: "Se déconnecter" }).click();
@@ -65,7 +71,9 @@ test("se connecter à un compte existant après un autre ne montre que le sien",
 
   // Connexion à B : son solde et sa série, pas ceux de A.
   await signIn(page, second);
-  await expect(page.getByRole("link", { name: /^0 lingots/ })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Boutique : 0 lingots" }),
+  ).toBeVisible();
   await page.goto("/compte");
   await expect(page.getByText(second.username)).toBeVisible();
 });
@@ -85,7 +93,9 @@ test("changer de compte sans recharger la page ne montre que le second", async (
     .getByRole("region", { name: "Jour 1" })
     .getByRole("button", { name: "Récupérer" })
     .click();
-  await expect(page.getByRole("link", { name: /^10 lingots/ })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Boutique : 10 lingots" }),
+  ).toBeVisible();
 
   // Tout en navigation interne, comme un joueur : aucun rechargement.
   await page.getByRole("link", { name: "Mon compte" }).click();
@@ -98,7 +108,9 @@ test("changer de compte sans recharger la page ne montre que le second", async (
   await expect(
     page.getByRole("heading", { name: "Jour de match" }),
   ).toBeVisible();
-  await expect(page.getByRole("link", { name: /^0 lingots/ })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Boutique : 0 lingots" }),
+  ).toBeVisible();
   await page.getByRole("link", { name: "Mon compte" }).click();
   await expect(page.getByText(second.username)).toBeVisible();
   await expect(page.getByText(first.username)).toHaveCount(0);

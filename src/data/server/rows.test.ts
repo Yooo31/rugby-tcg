@@ -11,12 +11,20 @@ const NEW_PLAYER: PlayerRows = {
     reserveSince: null,
     streakCount: 0,
     streakLastDay: null,
+    cardBack: null,
+    cardFrame: null,
+    albumTheme: null,
+    vipBoosterDay: null,
   },
   ownedCards: [],
   ownedSpecialCards: [],
   missionLog: null,
   claimedAlbumIds: [],
   claimedGiveawayIds: [],
+  ownedCosmeticIds: [],
+  seasonLog: null,
+  seasonPassIds: [],
+  vipMemberships: [],
 };
 
 const since = new Date("2026-10-22T08:00:00Z");
@@ -30,6 +38,10 @@ const PLAYING: PlayerRows = {
     reserveSince: since,
     streakCount: 3,
     streakLastDay: "2026-10-21",
+    cardBack: "back-night",
+    cardFrame: null,
+    albumTheme: "theme-pitch",
+    vipBoosterDay: "2026-10-21",
   },
   ownedCards: [
     { clubId: "castres", rarity: "rare", count: 2, firstObtainedAt: since },
@@ -44,6 +56,12 @@ const PLAYING: PlayerRows = {
   },
   claimedAlbumIds: ["division-top14"],
   claimedGiveawayIds: ["cadeau-1"],
+  ownedCosmeticIds: ["back-night", "theme-pitch"],
+  seasonLog: { seasonId: "s1", xp: 60, claimedFree: [], claimedPremium: [] },
+  seasonPassIds: ["s1"],
+  vipMemberships: [
+    { startsAt: since, endsAt: new Date("2026-11-21T08:00:00Z") },
+  ],
 };
 
 describe("recordFromRows", () => {
@@ -79,7 +97,37 @@ describe("recordFromRows", () => {
       claimedAlbumIds: ["division-top14"],
       claimedGiveawayIds: ["cadeau-1"],
       streak: { count: 3, lastDay: "2026-10-21" },
+      ownedCosmetics: ["back-night", "theme-pitch"],
+      equippedCosmetics: {
+        "card-back": "back-night",
+        "card-frame": "frame-plain",
+        "album-theme": "theme-pitch",
+      },
+      season: {
+        seasonId: "s1",
+        xp: 60,
+        claimedFree: [],
+        claimedPremium: [],
+      },
+      seasonPasses: ["s1"],
+      vipMemberships: [
+        {
+          startsAt: since.getTime(),
+          endsAt: Date.parse("2026-11-21T08:00:00Z"),
+        },
+      ],
+      vipBoosterDay: "2026-10-21",
     });
+  });
+
+  it("ignore un cosmétique retiré du catalogue, même équipé", () => {
+    const record = recordFromRows({
+      ...PLAYING,
+      player: { ...PLAYING.player, cardBack: "retire" },
+      ownedCosmeticIds: ["retire", "theme-pitch"],
+    });
+    expect(record.ownedCosmetics).toEqual(["theme-pitch"]);
+    expect(record.equippedCosmetics["card-back"]).toBe("back-pitch");
   });
 
   it("ignore un journal de missions illisible", () => {
@@ -118,8 +166,10 @@ describe("recordChanges", () => {
       cards: [],
       specialCards: [],
       missionLog: null,
+      seasonLog: null,
       newClaimedAlbumIds: [],
       newClaimedGiveawayIds: [],
+      newCosmeticIds: [],
     });
   });
 
@@ -147,6 +197,15 @@ describe("recordChanges", () => {
       claimedAlbumIds: ["division-top14", "france"],
       claimedGiveawayIds: ["cadeau-1", "cadeau-2"],
       streak: { count: 4, lastDay: "2026-10-22" },
+      ownedCosmetics: [...before.ownedCosmetics, "frame-stitch"],
+      equippedCosmetics: {
+        ...before.equippedCosmetics,
+        "card-frame": "frame-stitch",
+      },
+      season: { ...before.season!, xp: 70, claimedFree: [1] },
+      seasonPasses: ["s1"],
+      vipMemberships: before.vipMemberships,
+      vipBoosterDay: "2026-10-22",
     };
 
     expect(recordChanges(before, after)).toEqual({
@@ -158,6 +217,10 @@ describe("recordChanges", () => {
         reserveSince: since,
         streakCount: 4,
         streakLastDay: "2026-10-22",
+        cardBack: "back-night",
+        cardFrame: "frame-stitch",
+        albumTheme: "theme-pitch",
+        vipBoosterDay: "2026-10-22",
       },
       cards: [
         { clubId: "castres", rarity: "rare", count: 3, firstObtainedAt: since },
@@ -172,8 +235,10 @@ describe("recordChanges", () => {
         { specialId: "equipe-de-france", count: 2, firstObtainedAt: since },
       ],
       missionLog: after.missions,
+      seasonLog: after.season,
       newClaimedAlbumIds: ["france"],
       newClaimedGiveawayIds: ["cadeau-2"],
+      newCosmeticIds: ["frame-stitch"],
     });
   });
 
@@ -190,6 +255,10 @@ describe("recordChanges", () => {
       reserveSince: since,
       streakCount: 0,
       streakLastDay: null,
+      cardBack: "back-pitch",
+      cardFrame: "frame-plain",
+      albumTheme: "theme-night",
+      vipBoosterDay: null,
     });
   });
 });

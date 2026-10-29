@@ -25,7 +25,7 @@ import { withIdentity } from "./identity";
 
 // Le fichier importé porte quelques champs en plus (identifiant Wikidata…) :
 // le schéma ne garde que ceux du domaine et rejette toute entrée invalide.
-// L'identité saisie à la main (blason, couleurs corrigées) passe par-dessus.
+// L'identité relue à la main (couleurs, sigle, blason) passe par-dessus.
 const importedClubs: Club[] = z
   .array(clubSchema)
   .parse(wikipediaImport.clubs)

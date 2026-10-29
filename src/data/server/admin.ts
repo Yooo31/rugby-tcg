@@ -1,17 +1,20 @@
 import "server-only";
 import {
+  extendVip,
+  VIP_GRANT_DAYS,
   applyAdjustment,
   RARITIES,
   type Adjustment,
   type Giveaway,
+  type Season,
   type PlayerSnapshot,
   type Rarity,
 } from "@/domain";
 import { Prisma, type PrismaClient } from "@/generated/prisma/client";
-import { secureRng } from "@/lib/rng";
-import { CATALOG_ALBUMS, CLUB_CATALOG } from "../catalog";
-import { createPlayerRepository } from "../player/repository";
-import { activeGiveaways, toGiveaway } from "./giveaways";
+import { CLUB_CATALOG } from "../catalog";
+import { toGiveaway } from "./giveaways";
+import { postgresPlayerRepository } from "./player-repository";
+import { toSeason } from "./seasons";
 import { createPrismaPlayerStore } from "./prisma-store";
 
 /**
@@ -78,17 +81,6 @@ export interface AdminPlayerDetail {
   readonly adjustments: readonly AdminAdjustmentRow[];
 }
 
-function playerRepository(prisma: PrismaClient, playerId: string) {
-  return createPlayerRepository({
-    store: createPrismaPlayerStore(prisma, playerId),
-    clubs: CLUB_CATALOG,
-    albums: CATALOG_ALBUMS,
-    rng: secureRng,
-    now: () => new Date(),
-    giveaways: () => activeGiveaways(prisma, new Date()),
-  });
-}
-
 /** Fiche d'un joueur, ou `null` s'il n'existe pas. */
 export async function getPlayerDetail(
   prisma: PrismaClient,
@@ -103,7 +95,7 @@ export async function getPlayerDetail(
   if (!row) return null;
 
   const [snapshot, openings, lastOpening, adjustments] = await Promise.all([
-    playerRepository(prisma, playerId).get(),
+    postgresPlayerRepository(prisma, playerId).get(),
     prisma.boosterOpening.count({ where: { playerId } }),
     prisma.boosterOpening.findFirst({
       where: { playerId },
@@ -303,6 +295,124 @@ export async function endGiveaway(
   await prisma.giveaway.update({
     where: { id: giveawayId },
     data: { endsAt: now },
+  });
+}
+
+export interface AdminSeason {
+  readonly season: Season;
+  /** Joueurs qui ont la voie payante. */
+  readonly passes: number;
+  readonly createdBy: string;
+}
+
+/** Toutes les saisons, de la plus récente à la plus ancienne. */
+export async function listSeasons(
+  prisma: PrismaClient,
+): Promise<AdminSeason[]> {
+  const rows = await prisma.season.findMany({
+    orderBy: { startsAt: "desc" },
+    include: { _count: { select: { passes: true } } },
+  });
+  return rows.map((row) => ({
+    season: toSeason(row),
+    passes: row._count.passes,
+    createdBy: row.createdBy,
+  }));
+}
+
+/** Une saison chevauche déjà ces dates : il n'y en a qu'une à la fois. */
+export class SeasonOverlapError extends Error {
+  constructor() {
+    super("Une saison est déjà programmée sur ces dates.");
+    this.name = "SeasonOverlapError";
+  }
+}
+
+export interface NewSeason {
+  readonly title: string;
+  readonly startsAt: number;
+  readonly endsAt: number;
+}
+
+export async function createSeason(
+  prisma: PrismaClient,
+  season: NewSeason,
+  adminEmail: string,
+): Promise<void> {
+  const startsAt = new Date(season.startsAt);
+  const endsAt = new Date(season.endsAt);
+  await prisma.$transaction(async (tx) => {
+    // Verrou sur la table : deux créations simultanées ne se chevauchent pas.
+    await tx.$executeRaw`LOCK TABLE seasons IN SHARE ROW EXCLUSIVE MODE`;
+    const overlapping = await tx.season.count({
+      where: { startsAt: { lt: endsAt }, endsAt: { gt: startsAt } },
+    });
+    if (overlapping > 0) throw new SeasonOverlapError();
+    await tx.season.create({
+      data: { title: season.title, startsAt, endsAt, createdBy: adminEmail },
+    });
+  });
+}
+
+/**
+ * Arrête une saison en cours tout de suite (les récompenses prises restent).
+ * Une saison pas encore commencée est simplement supprimée.
+ */
+export async function endSeason(
+  prisma: PrismaClient,
+  seasonId: string,
+  now: Date,
+): Promise<void> {
+  const season = await prisma.season.findUnique({ where: { id: seasonId } });
+  if (!season || season.endsAt <= now) return;
+  if (season.startsAt > now) {
+    await prisma.season.delete({ where: { id: seasonId } });
+    return;
+  }
+  await prisma.season.update({
+    where: { id: seasonId },
+    data: { endsAt: now },
+  });
+}
+
+/** Donne la voie payante d'une saison à un joueur (tests, geste commercial). */
+export async function grantSeasonPass(
+  prisma: PrismaClient,
+  playerId: string,
+  seasonId: string,
+  adminEmail: string,
+): Promise<void> {
+  await prisma.seasonPass.upsert({
+    where: { playerId_seasonId: { playerId, seasonId } },
+    create: { playerId, seasonId, grantedBy: adminEmail },
+    update: {},
+  });
+}
+
+/**
+ * Offre `VIP_GRANT_DAYS` jours de pass VIP, à la suite de l'adhésion en cours
+ * (tests avant le paiement, geste commercial). Tracé par l'adresse de l'admin.
+ */
+export async function grantVip(
+  prisma: PrismaClient,
+  playerId: string,
+  adminEmail: string,
+  now: Date,
+): Promise<void> {
+  await createPrismaPlayerStore(prisma, playerId).update((record) => {
+    const membership = extendVip(
+      record.vipMemberships,
+      now.getTime(),
+      VIP_GRANT_DAYS,
+    );
+    return {
+      record: {
+        ...record,
+        vipMemberships: [...record.vipMemberships, membership],
+      },
+      result: undefined,
+      events: [{ type: "vip-granted", membership, grantedBy: adminEmail }],
+    };
   });
 }
 

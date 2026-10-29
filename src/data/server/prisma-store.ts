@@ -57,6 +57,20 @@ async function loadRecord(db: Db, playerId: string): Promise<PlayerRecord> {
     where: { playerId },
     orderBy: { claimedAt: "asc" },
   });
+  const ownedCosmetics = await db.ownedCosmetic.findMany({
+    where: { playerId },
+    orderBy: { obtainedAt: "asc" },
+  });
+  const seasonLog = await db.seasonLog.findUnique({ where: { playerId } });
+  const seasonPasses = await db.seasonPass.findMany({
+    where: { playerId },
+    select: { seasonId: true },
+  });
+  const vipMemberships = await db.vipMembership.findMany({
+    where: { playerId },
+    select: { startsAt: true, endsAt: true },
+    orderBy: { startsAt: "asc" },
+  });
   return recordFromRows({
     player,
     ownedCards,
@@ -64,6 +78,10 @@ async function loadRecord(db: Db, playerId: string): Promise<PlayerRecord> {
     missionLog,
     claimedAlbumIds: claimedAlbums.map(({ albumId }) => albumId),
     claimedGiveawayIds: claimedGiveaways.map(({ giveawayId }) => giveawayId),
+    ownedCosmeticIds: ownedCosmetics.map(({ cosmeticId }) => cosmeticId),
+    seasonLog,
+    seasonPassIds: seasonPasses.map(({ seasonId }) => seasonId),
+    vipMemberships,
   });
 }
 
@@ -104,6 +122,19 @@ async function saveWrites(
       update: { count: card.count },
     });
   }
+  if (writes.seasonLog) {
+    const log = {
+      seasonId: writes.seasonLog.seasonId,
+      xp: writes.seasonLog.xp,
+      claimedFree: [...writes.seasonLog.claimedFree],
+      claimedPremium: [...writes.seasonLog.claimedPremium],
+    };
+    await db.seasonLog.upsert({
+      where: { playerId },
+      create: { playerId, ...log },
+      update: log,
+    });
+  }
   if (writes.missionLog) {
     const log = {
       day: writes.missionLog.day,
@@ -129,6 +160,14 @@ async function saveWrites(
       })),
     });
   }
+  if (writes.newCosmeticIds.length > 0) {
+    await db.ownedCosmetic.createMany({
+      data: writes.newCosmeticIds.map((cosmeticId) => ({
+        playerId,
+        cosmeticId,
+      })),
+    });
+  }
 }
 
 async function saveEvents(
@@ -147,6 +186,32 @@ async function saveEvents(
               clubId,
               rarity,
             })),
+          },
+        });
+        break;
+      case "ingots-purchased":
+        await db.ingotPurchase.create({
+          data: {
+            playerId,
+            packId: event.packId,
+            ingots: event.ingots,
+            priceCents: event.priceCents,
+            reference: event.reference,
+          },
+        });
+        break;
+      case "vip-granted":
+        // Les périodes ne s'écrivent que par cet événement : une période
+        // achetée garde sa référence de paiement, unique.
+        await db.vipMembership.create({
+          data: {
+            playerId,
+            startsAt: new Date(event.membership.startsAt),
+            endsAt: new Date(event.membership.endsAt),
+            offerId: event.purchase?.offerId,
+            priceCents: event.purchase?.priceCents,
+            reference: event.purchase?.reference,
+            grantedBy: event.grantedBy,
           },
         });
         break;

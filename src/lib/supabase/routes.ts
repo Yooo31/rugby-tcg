@@ -8,9 +8,18 @@ export const AUTH_CALLBACK_PATH = "/auth/confirm";
 export const HOME_PATH = "/";
 export const PRIVACY_PATH = "/confidentialite";
 export const LEGAL_NOTICE_PATH = "/mentions-legales";
+export const TERMS_OF_USE_PATH = "/cgu";
+export const TERMS_OF_SALE_PATH = "/cgv";
+export const ODDS_PATH = "/probabilites";
 
 /** Pages d'information, lisibles avec ou sans session (obligations légales). */
-const OPEN_PATHS: readonly string[] = [PRIVACY_PATH, LEGAL_NOTICE_PATH];
+const OPEN_PATHS: readonly string[] = [
+  PRIVACY_PATH,
+  LEGAL_NOTICE_PATH,
+  TERMS_OF_USE_PATH,
+  TERMS_OF_SALE_PATH,
+  ODDS_PATH,
+];
 
 const GUEST_ONLY_PATHS: readonly string[] = [
   SIGN_IN_PATH,

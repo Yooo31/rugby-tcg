@@ -1,5 +1,6 @@
 import {
   BoosterQuotaExceededError,
+  CosmeticUnavailableError,
   InsufficientIngotsError,
   RewardNotClaimableError,
   UsernameTakenError,
@@ -16,6 +17,7 @@ const REFUSALS: readonly [Error, GameErrorCode][] = [
   [new BoosterQuotaExceededError(), "booster-quota"],
   [new InsufficientIngotsError(), "insufficient-ingots"],
   [new RewardNotClaimableError(), "reward-not-claimable"],
+  [new CosmeticUnavailableError(), "cosmetic-unavailable"],
   [new UsernameTakenError(), "username-taken"],
   [new RateLimitedError(), "rate-limited"],
   [new InvalidGameRequestError(), "invalid-request"],

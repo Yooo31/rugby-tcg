@@ -9,6 +9,9 @@ const GAME_PAGES = [
   "/albums",
   "/missions",
   "/classement",
+  "/boutique",
+  "/saison",
+  "/vip",
   "/compte",
 ];
 const PUBLIC_PAGES = [
@@ -16,6 +19,9 @@ const PUBLIC_PAGES = [
   "/inscription",
   "/confidentialite",
   "/mentions-legales",
+  "/cgu",
+  "/cgv",
+  "/probabilites",
 ];
 
 /** Erreurs de console et violations de la politique de sécurité du contenu. */

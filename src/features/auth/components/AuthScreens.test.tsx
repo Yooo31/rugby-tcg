@@ -73,6 +73,7 @@ describe("écran d'inscription", () => {
     await user.type(screen.getByLabelText("Pseudo"), "Ovalie");
     await user.type(screen.getByLabelText("Adresse e-mail"), "a@b.fr");
     await user.type(screen.getByLabelText("Mot de passe"), "MotDePasse-2026");
+    await user.click(screen.getByLabelText(/J'ai 15 ans ou plus/));
     await user.click(screen.getByRole("button", { name: "Créer mon compte" }));
 
     expect(

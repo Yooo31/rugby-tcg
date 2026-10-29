@@ -2,7 +2,13 @@ import { z } from "zod";
 import {
   BOOSTER_SIZE,
   BoosterQuotaExceededError,
+  DAILY_MISSION_COUNT,
+  VIP_MAX_FREE_BOOSTERS,
+  VIP_MISSION_COUNT,
   clubSchema,
+  CosmeticUnavailableError,
+  DEFAULT_COSMETICS,
+  DEFAULT_EQUIPPED,
   PLAYABLE_DIVISIONS,
   MAX_FREE_BOOSTERS,
   InsufficientIngotsError,
@@ -255,6 +261,74 @@ describe("série de connexion", () => {
   });
 });
 
+describe("cosmétiques", () => {
+  const withWallet = (store: ReturnType<typeof setup>["store"]) =>
+    store.setItem(
+      "rugby-tcg:wallet",
+      JSON.stringify({ ingots: 300, bonusBoosters: 0 }),
+    );
+
+  it("équipe d'abord ceux de départ, toujours possédés", async () => {
+    const { player } = setup();
+    const { cosmetics } = await player.get();
+    expect(cosmetics.equipped).toEqual(DEFAULT_EQUIPPED);
+    expect(cosmetics.owned).toEqual(Object.values(DEFAULT_COSMETICS));
+  });
+
+  it("achète un dos en lingots, l'équipe et le garde", async () => {
+    const { player, store } = setup();
+    withWallet(store);
+    await expect(player.equipCosmetic("back-night")).rejects.toBeInstanceOf(
+      CosmeticUnavailableError,
+    );
+    const bought = await player.buyCosmetic("back-night");
+    expect(bought.ingots).toBe(150);
+    expect(bought.cosmetics.owned).toContain("back-night");
+    await expect(player.buyCosmetic("back-night")).rejects.toBeInstanceOf(
+      CosmeticUnavailableError,
+    );
+    await expect(player.buyCosmetic("back-leather")).rejects.toBeInstanceOf(
+      InsufficientIngotsError,
+    );
+
+    const equipped = await player.equipCosmetic("back-night");
+    expect(equipped.cosmetics.equipped["card-back"]).toBe("back-night");
+    expect((await player.get()).cosmetics.equipped["card-back"]).toBe(
+      "back-night",
+    );
+  });
+
+  it("offre le dos « Tableau noir » au 30e jour de série, pour de bon", async () => {
+    const { player, store, setNow } = setup();
+    store.setItem(
+      "rugby-tcg:streak",
+      JSON.stringify({ count: 29, lastDay: "2026-10-12" }),
+    );
+    expect((await player.get()).cosmetics.owned).not.toContain("back-chalk");
+    const claimed = await player.claimStreak();
+    expect(claimed.cosmetics.owned).toContain("back-chalk");
+
+    // La série retombe : le dos reste acquis, et s'équipe.
+    setNow("2026-10-20T09:00:00");
+    await player.claimStreak();
+    const equipped = await player.equipCosmetic("back-chalk");
+    expect(equipped.cosmetics.equipped["card-back"]).toBe("back-chalk");
+  });
+
+  it("enregistre aussi un cosmétique gagné à l'ouverture d'un booster", async () => {
+    // Série atteinte avant l'arrivée des cosmétiques : rien n'est encore stocké.
+    const { player, store } = setup();
+    store.setItem(
+      "rugby-tcg:streak",
+      JSON.stringify({ count: 30, lastDay: "2026-10-13" }),
+    );
+    await player.openBooster();
+    expect(
+      readJson(store, "rugby-tcg:owned-cosmetics", z.array(z.string()), []),
+    ).toContain("back-chalk");
+  });
+});
+
 describe("divisions masquées", () => {
   it("garde une carte régionale possédée mais ne la montre plus", async () => {
     const regional = makeClubs(1, "regionale3")[0];
@@ -278,5 +352,84 @@ describe("divisions masquées", () => {
       store.getItem("rugby-tcg:collection") ?? "[]",
     ) as { clubId: string }[];
     expect(stored.some((card) => card.clubId === regional.id)).toBe(true);
+  });
+});
+
+describe("passe de saison (mock)", () => {
+  const start = new Date("2026-10-13T09:00:00").getTime();
+  const season = {
+    id: "s1",
+    title: "Saison test",
+    startsAt: start - 1000,
+    endsAt: start + 30 * 24 * 60 * 60 * 1000,
+  };
+
+  it("gagne des points en ouvrant un booster, refuse un palier non atteint", async () => {
+    const repositories = createMockRepositories({
+      store: createMemoryStore(),
+      now: () => new Date(start),
+      season,
+    });
+    const opening = await repositories.player.openBooster();
+    expect(opening.player.season).toMatchObject({ xp: 10, tier: 0 });
+    await expect(
+      repositories.player.claimSeasonTier(1, "free"),
+    ).rejects.toBeInstanceOf(RewardNotClaimableError);
+  });
+
+  it("ne compte rien hors saison", async () => {
+    const repositories = createMockRepositories({
+      store: createMemoryStore(),
+      now: () => new Date(start),
+    });
+    expect((await repositories.player.openBooster()).player.season).toBeNull();
+  });
+});
+
+describe("pass VIP (mock)", () => {
+  const start = new Date("2026-10-13T09:00:00").getTime();
+  const DAY_MS = 24 * 60 * 60 * 1000;
+  const vipMemberships = [
+    { startsAt: start - DAY_MS, endsAt: start + 29 * DAY_MS },
+  ];
+
+  it("porte la réserve à 5 et ajoute deux missions VIP", async () => {
+    const { player } = setup({ vipMemberships });
+    const snapshot = await player.get();
+    expect(snapshot.boosters.free).toBe(VIP_MAX_FREE_BOOSTERS);
+    expect(snapshot.missions).toHaveLength(
+      DAILY_MISSION_COUNT + VIP_MISSION_COUNT,
+    );
+    expect(snapshot.missions.filter(({ isVip }) => isVip)).toHaveLength(
+      VIP_MISSION_COUNT,
+    );
+    expect(snapshot.vip).toMatchObject({
+      isActive: true,
+      dailyBooster: "claimable",
+    });
+  });
+
+  it("donne un booster VIP par jour, perdu s'il n'est pas pris", async () => {
+    const { player, setNow } = setup({ vipMemberships });
+    const claimed = await player.claimVipBooster();
+    expect(claimed.boosters.bonus).toBe(1);
+    expect(claimed.vip.dailyBooster).toBe("claimed");
+    await expect(player.claimVipBooster()).rejects.toBeInstanceOf(
+      RewardNotClaimableError,
+    );
+    setNow("2026-10-14T09:00:00");
+    expect((await player.get()).vip.dailyBooster).toBe("claimable");
+  });
+
+  it("revient à la réserve de 3 et refuse le booster VIP à la fin", async () => {
+    const { player, setNow } = setup({ vipMemberships });
+    setNow("2026-11-12T10:00:00");
+    const snapshot = await player.get();
+    expect(snapshot.vip.isActive).toBe(false);
+    expect(snapshot.boosters.free).toBe(MAX_FREE_BOOSTERS);
+    expect(snapshot.missions).toHaveLength(DAILY_MISSION_COUNT);
+    await expect(player.claimVipBooster()).rejects.toBeInstanceOf(
+      RewardNotClaimableError,
+    );
   });
 });

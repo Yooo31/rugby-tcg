@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { adminData } from "@/data/server";
 import { createInMemoryRepositories } from "@/data";
 import { createSeededRng } from "@/lib/rng";
-import { AdminGiveawaysPage, AdminPlayerPage } from "./pages";
+import { AdminGiveawaysPage, AdminPlayerPage, AdminSeasonsPage } from "./pages";
 
 vi.mock("server-only", () => ({}));
 // Comme dans Next.js, une page introuvable interrompt le rendu.
@@ -19,9 +19,17 @@ vi.mock("./actions", () => ({
   endGiveawayAction: vi.fn(),
   resetUsernameAction: vi.fn(),
   sendTestErrorAction: vi.fn(),
+  createSeasonAction: vi.fn(),
+  endSeasonAction: vi.fn(),
+  grantSeasonPassAction: vi.fn(),
+  grantVipAction: vi.fn(),
 }));
 vi.mock("@/data/server", () => ({
-  adminData: { getPlayerDetail: vi.fn(), listGiveaways: vi.fn() },
+  adminData: {
+    getPlayerDetail: vi.fn(),
+    listGiveaways: vi.fn(),
+    listSeasons: vi.fn(),
+  },
 }));
 
 const PLAYER_ID = "00000000-0000-4000-8000-000000000001";
@@ -129,5 +137,34 @@ describe("cadeaux", () => {
     vi.mocked(adminData.listGiveaways).mockResolvedValueOnce([]);
     render(await AdminGiveawaysPage());
     expect(screen.getByText("Aucun cadeau programmé.")).toBeInTheDocument();
+  });
+});
+
+describe("saisons", () => {
+  it("classe chaque saison : en cours, à venir ou terminée", async () => {
+    const now = Date.now();
+    const season = (id: string, startsAt: number, endsAt: number) => ({
+      season: { id, title: `Saison ${id}`, startsAt, endsAt },
+      passes: 1,
+      createdBy: "admin@rugby-tcg.test",
+    });
+    vi.mocked(adminData.listSeasons).mockResolvedValueOnce([
+      season("a", now - HOUR_MS, now + HOUR_MS),
+      season("b", now + HOUR_MS, now + 2 * HOUR_MS),
+      season("c", now - 2 * HOUR_MS, now - HOUR_MS),
+    ]);
+    render(await AdminSeasonsPage());
+    const item = (title: string) =>
+      within(screen.getByText(title).closest("li") as HTMLElement);
+    expect(item("Saison a").getByRole("button")).toHaveTextContent("Arrêter");
+    expect(item("Saison b").getByRole("button")).toHaveTextContent("Annuler");
+    expect(item("Saison c").getByText("· Terminée")).toBeInTheDocument();
+    expect(item("Saison c").queryByRole("button")).not.toBeInTheDocument();
+  });
+
+  it("annonce l'absence de saison", async () => {
+    vi.mocked(adminData.listSeasons).mockResolvedValueOnce([]);
+    render(await AdminSeasonsPage());
+    expect(screen.getByText("Aucune saison programmée.")).toBeInTheDocument();
   });
 });

@@ -13,6 +13,14 @@ export const RARITY_ODDS: Record<Rarity, number> = {
   legendary: 0.01,
 };
 
+/**
+ * Chance qu'un booster contienne au moins une carte de cette rareté : les
+ * raretés de ses cartes sont tirées indépendamment.
+ */
+export function atLeastOnePerBooster(odds: number): number {
+  return 1 - (1 - odds) ** BOOSTER_SIZE;
+}
+
 export function rollRarity(rng: Rng): Rarity {
   const roll = rng();
   let cumulated = 0;

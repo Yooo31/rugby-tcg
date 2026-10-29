@@ -6,12 +6,20 @@ import {
   albumRewardStatus,
   boosterStock,
   buyBoosters,
+  buyCosmetic,
+  DEFAULT_EQUIPPED,
+  equipCosmetic,
+  ownedCosmeticIds,
+  withEarnedCosmetics,
   claimGiveaway,
   claimMission,
+  claimSeasonTier,
   claimStreak,
+  claimVipBooster,
   drawBooster,
   EMPTY_STREAK,
   EMPTY_WALLET,
+  gainSeasonXp,
   giveawayProgress,
   grantReward,
   MAX_FREE_BOOSTERS,
@@ -21,18 +29,30 @@ import {
   recordOpening,
   rollSpecialCard,
   RewardNotClaimableError,
+  SEASON_XP_PER_BOOSTER,
+  SEASON_XP_PER_MISSION,
+  seasonProgress,
   spendBooster,
   streakProgress,
   usernameSchema,
+  VIP_MAX_FREE_BOOSTERS,
+  vipStatus,
+  vipUntil,
+  type VipMembership,
   type Adjustment,
   type Album,
   type BoosterReserve,
   type Card,
   type Club,
   type Collection,
+  type CosmeticId,
+  type EquippedCosmetics,
   type Giveaway,
+  type IngotPackId,
   type MissionLog,
   type PlayerSnapshot,
+  type Season,
+  type SeasonLog,
   type SpecialCollection,
   type Streak,
   type Wallet,
@@ -53,6 +73,31 @@ export interface PlayerRecord {
   readonly claimedAlbumIds: readonly string[];
   readonly claimedGiveawayIds: readonly string[];
   readonly streak: Streak;
+  /** Avancement dans la dernière saison jouée ; `null` si jamais joué. */
+  readonly season: SeasonLog | null;
+  /** Saisons dont le joueur a la voie payante. */
+  readonly seasonPasses: readonly string[];
+  /** Cosmétiques achetés ou gagnés, hors ceux de départ. */
+  readonly ownedCosmetics: readonly CosmeticId[];
+  readonly equippedCosmetics: EquippedCosmetics;
+  /** Périodes de pass VIP, passées comprises. */
+  readonly vipMemberships: readonly VipMembership[];
+  /** Dernier jour où le booster VIP du jour a été pris. */
+  readonly vipBoosterDay: string | null;
+}
+
+/**
+ * Range les cosmétiques que le joueur vient de gagner (série, album terminé).
+ * Ils restent acquis ensuite, même si la série retombe.
+ */
+function grantEarnedCosmetics(record: PlayerRecord): PlayerRecord {
+  const ownedCosmetics = withEarnedCosmetics(record.ownedCosmetics, {
+    streakDays: record.streak.count,
+    completedAlbums: record.claimedAlbumIds.length,
+  });
+  return ownedCosmetics === record.ownedCosmetics
+    ? record
+    : { ...record, ownedCosmetics };
 }
 
 export const EMPTY_PLAYER_RECORD: PlayerRecord = {
@@ -65,7 +110,23 @@ export const EMPTY_PLAYER_RECORD: PlayerRecord = {
   claimedAlbumIds: [],
   claimedGiveawayIds: [],
   streak: EMPTY_STREAK,
+  ownedCosmetics: [],
+  equippedCosmetics: DEFAULT_EQUIPPED,
+  season: null,
+  seasonPasses: [],
+  vipMemberships: [],
+  vipBoosterDay: null,
 };
+
+/** Le joueur est-il VIP à cet instant ? */
+function isVipAt(record: PlayerRecord, at: Date): boolean {
+  return vipUntil(record.vipMemberships, at.getTime()) !== null;
+}
+
+/** Le joueur a-t-il la voie payante de la saison en cours ? */
+function hasSeasonPass(record: PlayerRecord, season: Season | null): boolean {
+  return season !== null && record.seasonPasses.includes(season.id);
+}
 
 /** Fait à consigner dans un journal, en plus du nouvel état (statistiques). */
 export type PlayerEvent =
@@ -73,6 +134,27 @@ export type PlayerEvent =
       readonly type: "booster-opened";
       readonly source: "free" | "bonus";
       readonly cards: readonly Card[];
+    }
+  | {
+      /** Paquet de lingots payé (crédité par le serveur de paiement). */
+      readonly type: "ingots-purchased";
+      readonly packId: IngotPackId;
+      readonly ingots: number;
+      readonly priceCents: number;
+      /** Identifiant du paiement chez le prestataire : un paiement, un crédit. */
+      readonly reference: string;
+    }
+  | {
+      /** Période de pass VIP, achetée (`purchase`) ou offerte (`grantedBy`). */
+      readonly type: "vip-granted";
+      readonly membership: VipMembership;
+      readonly purchase?: {
+        readonly offerId: string;
+        readonly priceCents: number;
+        /** Identifiant du paiement chez le prestataire : un paiement, une période. */
+        readonly reference: string;
+      };
+      readonly grantedBy?: string;
     }
   | {
       readonly type: "admin-adjusted";
@@ -108,6 +190,15 @@ interface PlayerRepositoryDependencies {
   readonly maxFreeBoosters?: number;
   /** Cadeaux en cours ou à venir (lus à chaque action, ils changent sans redéploiement). */
   readonly giveaways?: () => Promise<readonly Giveaway[]>;
+  /** Saison en cours, s'il y en a une (programmée dans l'administration). */
+  readonly season?: () => Promise<Season | null>;
+}
+
+/** Ce qu'une action lit une fois au départ : l'heure, les cadeaux, la saison. */
+interface ActionContext {
+  readonly at: Date;
+  readonly giveaways: readonly Giveaway[];
+  readonly season: Season | null;
 }
 
 /**
@@ -122,13 +213,27 @@ export function createPlayerRepository({
   now,
   maxFreeBoosters = MAX_FREE_BOOSTERS,
   giveaways = async () => [],
+  season = async () => null,
 }: PlayerRepositoryDependencies): PlayerRepository {
   const clubsById = new Map(clubs.map((club) => [club.id, club]));
 
+  /** Taille de la réserve gratuite : plus grande pour un VIP. */
+  const reserveSize = (record: PlayerRecord, at: Date) =>
+    isVipAt(record, at)
+      ? Math.max(maxFreeBoosters, VIP_MAX_FREE_BOOSTERS)
+      : maxFreeBoosters;
+
+  const loadContext = async (): Promise<ActionContext> => {
+    const [currentGiveaways, currentSeason] = await Promise.all([
+      giveaways(),
+      season(),
+    ]);
+    return { at: now(), giveaways: currentGiveaways, season: currentSeason };
+  };
+
   const toSnapshot = (
     record: PlayerRecord,
-    at: Date,
-    currentGiveaways: readonly Giveaway[],
+    { at, giveaways: currentGiveaways, season: currentSeason }: ActionContext,
   ): PlayerSnapshot => ({
     username: record.username,
     // Une carte d'une division masquée reste en base, mais hors du jeu.
@@ -139,9 +244,12 @@ export function createPlayerRepository({
       record.reserve,
       record.wallet,
       at.getTime(),
-      maxFreeBoosters,
+      reserveSize(record, at),
     ),
-    missions: missionProgress(missionLogFor(record.missions, toDayKey(at))),
+    missions: missionProgress(
+      missionLogFor(record.missions, toDayKey(at)),
+      isVipAt(record, at),
+    ),
     claimedAlbumIds: record.claimedAlbumIds,
     giveaways: giveawayProgress(
       currentGiveaways,
@@ -149,42 +257,59 @@ export function createPlayerRepository({
       at.getTime(),
     ),
     streak: streakProgress(record.streak, toDayKey(at)),
+    cosmetics: {
+      owned: ownedCosmeticIds(grantEarnedCosmetics(record).ownedCosmetics),
+      equipped: record.equippedCosmetics,
+    },
+    season: seasonProgress(
+      currentSeason,
+      record.season,
+      hasSeasonPass(record, currentSeason),
+      at.getTime(),
+    ),
+    vip: vipStatus(
+      record.vipMemberships,
+      record.vipBoosterDay,
+      toDayKey(at),
+      at.getTime(),
+    ),
   });
 
   /** Applique `change` à l'état du joueur, l'enregistre et renvoie le nouvel état. */
   const update = async (
-    change: (
-      record: PlayerRecord,
-      at: Date,
-      currentGiveaways: readonly Giveaway[],
-    ) => PlayerRecord,
+    change: (record: PlayerRecord, context: ActionContext) => PlayerRecord,
   ): Promise<PlayerSnapshot> => {
-    const at = now();
-    const currentGiveaways = await giveaways();
+    const context = await loadContext();
     return store.update((record) => {
-      const next = change(record, at, currentGiveaways);
-      return { record: next, result: toSnapshot(next, at, currentGiveaways) };
+      // Avant l'action (un cosmétique gagné peut être équipé aussitôt) et
+      // après (la série ou l'album qui vient d'être récupéré).
+      const next = grantEarnedCosmetics(
+        change(grantEarnedCosmetics(record), context),
+      );
+      return { record: next, result: toSnapshot(next, context) };
     });
   };
 
   return {
     get: async () => {
-      const [record, currentGiveaways] = await Promise.all([
+      const [record, context] = await Promise.all([
         store.read(),
-        giveaways(),
+        loadContext(),
       ]);
-      return toSnapshot(record, now(), currentGiveaways);
+      return toSnapshot(record, context);
     },
 
     openBooster: async () => {
-      const openedAt = now();
-      const currentGiveaways = await giveaways();
-      return store.update<BoosterOpening>((record) => {
+      const context = await loadContext();
+      const openedAt = context.at;
+      return store.update<BoosterOpening>((stored) => {
+        // Comme les autres actions : un cosmétique gagné est enregistré.
+        const record = grantEarnedCosmetics(stored);
         const spending = spendBooster(
           record.reserve,
           record.wallet,
           openedAt.getTime(),
-          maxFreeBoosters,
+          reserveSize(record, openedAt),
         );
         const drawn = drawBooster(clubs, rng);
         const { collection, pulled } = addCards(
@@ -196,6 +321,7 @@ export function createPlayerRepository({
           missionLogFor(record.missions, toDayKey(openedAt)),
           pulled,
           clubsById,
+          isVipAt(record, openedAt),
         );
         // Tirée après les clubs, en plus d'eux : le booster garde ses cartes.
         const specialId = rollSpecialCard(rng);
@@ -213,13 +339,19 @@ export function createPlayerRepository({
           collection,
           specialCards: special?.collection ?? record.specialCards,
           missions,
+          season: gainSeasonXp(
+            record.season,
+            context.season,
+            SEASON_XP_PER_BOOSTER,
+            openedAt.getTime(),
+          ),
         };
         return {
           record: next,
           result: {
             cards: pulled,
             special: special?.pulled ?? null,
-            player: toSnapshot(next, openedAt, currentGiveaways),
+            player: toSnapshot(next, context),
           },
           events: [
             { type: "booster-opened", source: spending.source, cards: drawn },
@@ -235,15 +367,39 @@ export function createPlayerRepository({
       })),
 
     claimMission: (missionId) =>
-      update((record, at) => {
+      update((record, { at, season: currentSeason }) => {
         const { log, reward } = claimMission(
           missionLogFor(record.missions, toDayKey(at)),
           missionId,
+          isVipAt(record, at),
         );
         return {
           ...record,
           missions: log,
           wallet: grantReward(record.wallet, reward),
+          season: gainSeasonXp(
+            record.season,
+            currentSeason,
+            SEASON_XP_PER_MISSION,
+            at.getTime(),
+          ),
+        };
+      }),
+
+    claimSeasonTier: (tier, track) =>
+      update((record, { at, season: currentSeason }) => {
+        const claimed = claimSeasonTier(
+          currentSeason,
+          record.season,
+          hasSeasonPass(record, currentSeason),
+          tier,
+          track,
+          at.getTime(),
+        );
+        return {
+          ...record,
+          season: claimed.log,
+          wallet: grantReward(record.wallet, claimed.reward),
         };
       }),
 
@@ -270,7 +426,7 @@ export function createPlayerRepository({
       }),
 
     claimGiveaway: (giveawayId) =>
-      update((record, at, currentGiveaways) => {
+      update((record, { at, giveaways: currentGiveaways }) => {
         const reward = claimGiveaway(
           currentGiveaways,
           giveawayId,
@@ -285,7 +441,7 @@ export function createPlayerRepository({
       }),
 
     claimStreak: () =>
-      update((record, at) => {
+      update((record, { at }) => {
         const claimed = claimStreak(record.streak, toDayKey(at));
         return {
           ...record,
@@ -293,6 +449,45 @@ export function createPlayerRepository({
           wallet: grantReward(record.wallet, claimed.reward),
         };
       }),
+
+    claimVipBooster: () =>
+      update((record, { at }) => {
+        const claimed = claimVipBooster(
+          record.vipMemberships,
+          record.vipBoosterDay,
+          toDayKey(at),
+          at.getTime(),
+        );
+        return {
+          ...record,
+          vipBoosterDay: claimed.day,
+          wallet: grantReward(record.wallet, claimed.reward),
+        };
+      }),
+
+    buyCosmetic: (cosmeticId) =>
+      update((record) => {
+        const bought = buyCosmetic(
+          record.wallet,
+          record.ownedCosmetics,
+          cosmeticId,
+        );
+        return {
+          ...record,
+          wallet: bought.wallet,
+          ownedCosmetics: bought.owned,
+        };
+      }),
+
+    equipCosmetic: (cosmeticId) =>
+      update((record) => ({
+        ...record,
+        equippedCosmetics: equipCosmetic(
+          record.equippedCosmetics,
+          record.ownedCosmetics,
+          cosmeticId,
+        ),
+      })),
 
     setUsername: (username) =>
       update((record) => ({

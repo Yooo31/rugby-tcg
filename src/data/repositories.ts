@@ -2,11 +2,13 @@ import type {
   Album,
   BoosterOfferId,
   Club,
+  CosmeticId,
   Leaderboard,
   PlayerSnapshot,
   PulledCard,
   PulledSpecialCard,
   RegionId,
+  SeasonTrack,
 } from "@/domain";
 
 /**
@@ -48,10 +50,21 @@ export interface PlayerRepository {
   claimMission(missionId: string): Promise<PlayerSnapshot>;
   /** Rejette avec `RewardNotClaimableError` si l'album n'est pas terminé ou déjà récompensé. */
   claimAlbumReward(albumId: string): Promise<PlayerSnapshot>;
+  /** Rejette avec `RewardNotClaimableError` si le palier n'est pas atteint, ouvert ou déjà pris. */
+  claimSeasonTier(tier: number, track: SeasonTrack): Promise<PlayerSnapshot>;
   /** Rejette avec `RewardNotClaimableError` si le cadeau n'est pas en cours ou déjà pris. */
   claimGiveaway(giveawayId: string): Promise<PlayerSnapshot>;
   /** Rejette avec `RewardNotClaimableError` si la série du jour est déjà récupérée. */
   claimStreak(): Promise<PlayerSnapshot>;
+  /** Rejette avec `RewardNotClaimableError` hors VIP ou si le booster du jour est déjà pris. */
+  claimVipBooster(): Promise<PlayerSnapshot>;
+  /**
+   * Achète un cosmétique en lingots. Rejette avec `InsufficientIngotsError`,
+   * ou `CosmeticUnavailableError` s'il est déjà possédé.
+   */
+  buyCosmetic(cosmeticId: CosmeticId): Promise<PlayerSnapshot>;
+  /** Équipe un cosmétique possédé. Rejette avec `CosmeticUnavailableError` sinon. */
+  equipCosmetic(cosmeticId: CosmeticId): Promise<PlayerSnapshot>;
   /**
    * Choisit ou change le pseudo (déjà validé par `usernameSchema`).
    * Rejette avec `UsernameTakenError` s'il appartient à un autre joueur.

@@ -61,11 +61,22 @@ model Player {
   /// Dernières notifications envoyées, pour ne pas les répéter.
   notifiedFullAt     DateTime? @map("notified_full_at") @db.Timestamptz
   notifiedStreakDay  String?   @map("notified_streak_day")
+  /// Cosmétiques équipés (identifiants du catalogue). Nuls : ceux de départ.
+  cardBack           String?   @map("card_back")
+  cardFrame          String?   @map("card_frame")
+  albumTheme         String?   @map("album_theme")
+  /// Dernier jour (AAAA-MM-JJ, Paris) où le booster VIP du jour a été pris.
+  vipBoosterDay      String?   @map("vip_booster_day")
   createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz
   updatedAt          DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
   ownedCards        OwnedCard[]
   ownedSpecialCards OwnedSpecialCard[]
+  ownedCosmetics    OwnedCosmetic[]
+  seasonLog         SeasonLog?
+  seasonPasses      SeasonPass[]
+  ingotPurchases    IngotPurchase[]
+  vipMemberships    VipMembership[]
   missionLog        MissionLog?
   claimedAlbums     ClaimedAlbum[]
   boosterOpenings   BoosterOpening[]
@@ -108,6 +119,19 @@ model OwnedSpecialCard {
 
   @@id([playerId, specialId])
   @@map("owned_special_cards")
+}
+
+/// Cosmétiques achetés ou gagnés. Ceux de départ ne sont jamais enregistrés :
+/// tout joueur les possède.
+model OwnedCosmetic {
+  playerId   String   @map("player_id") @db.Uuid
+  cosmeticId String   @map("cosmetic_id")
+  obtainedAt DateTime @default(now()) @map("obtained_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@id([playerId, cosmeticId])
+  @@map("owned_cosmetics")
 }
 
 /// Avancement du joueur sur les missions du jour `day`. Une seule ligne par
@@ -228,4 +252,87 @@ model PushSubscription {
 
   @@index([playerId])
   @@map("push_subscriptions")
+}
+
+/// Saison du passe de saison, programmée dans l'administration. Début inclus,
+/// fin exclue, comme les cadeaux.
+model Season {
+  id        String   @id @default(uuid()) @db.Uuid
+  title     String
+  startsAt  DateTime @map("starts_at") @db.Timestamptz
+  endsAt    DateTime @map("ends_at") @db.Timestamptz
+  createdBy String   @map("created_by")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  passes SeasonPass[]
+
+  @@index([startsAt, endsAt])
+  @@map("seasons")
+}
+
+/// Avancement du joueur dans la dernière saison jouée. Une seule ligne par
+/// joueur : elle repart de zéro quand la saison change.
+model SeasonLog {
+  playerId       String   @id @map("player_id") @db.Uuid
+  seasonId       String   @map("season_id")
+  xp             Int      @default(0)
+  claimedFree    Int[]    @map("claimed_free")
+  claimedPremium Int[]    @map("claimed_premium")
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@map("season_logs")
+}
+
+/// Voie payante d'une saison pour un joueur (achetée, ou donnée par l'admin).
+model SeasonPass {
+  playerId  String   @map("player_id") @db.Uuid
+  seasonId  String   @map("season_id") @db.Uuid
+  grantedBy String   @map("granted_by")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  season Season @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+
+  @@id([playerId, seasonId])
+  @@map("season_passes")
+}
+
+/// Paquet de lingots payé. `reference` est l'identifiant du paiement chez le
+/// prestataire : unique, il garantit qu'un paiement ne crédite qu'une fois.
+model IngotPurchase {
+  id         String   @id @default(uuid()) @db.Uuid
+  playerId   String   @map("player_id") @db.Uuid
+  packId     String   @map("pack_id")
+  ingots     Int
+  priceCents Int      @map("price_cents")
+  reference  String   @unique
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@index([playerId])
+  @@map("ingot_purchases")
+}
+
+/// Périodes de pass VIP : achetées (référence du paiement, unique : un
+/// paiement, une période) ou offertes par l'administration.
+model VipMembership {
+  id         String   @id @default(uuid()) @db.Uuid
+  playerId   String   @map("player_id") @db.Uuid
+  startsAt   DateTime @map("starts_at") @db.Timestamptz
+  endsAt     DateTime @map("ends_at") @db.Timestamptz
+  /// Offre achetée ; nulle pour un don de l'administration.
+  offerId    String?  @map("offer_id")
+  priceCents Int?     @map("price_cents")
+  reference  String?  @unique
+  /// Adresse de l'administrateur qui l'a offerte.
+  grantedBy  String?  @map("granted_by")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@index([playerId])
+  @@map("vip_memberships")
 }

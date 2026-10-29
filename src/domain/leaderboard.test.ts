@@ -41,6 +41,7 @@ describe("classement", () => {
       username: "moi",
       clubs: 1,
       isMe: true,
+      isVip: false,
     });
   });
 });

@@ -1,6 +1,10 @@
 import { createAuthUser, createTestPrisma, seedClubs } from "@/test/db";
 import { CLUB_CATALOG } from "../catalog";
-import { deleteAccount, exportAccount } from "./account";
+import {
+  deleteAccount,
+  deleteInactiveAccounts,
+  exportAccount,
+} from "./account";
 import { ensurePlayerRow } from "./prisma-store";
 
 const prisma = createTestPrisma();
@@ -17,6 +21,18 @@ describe("compte (RGPD)", () => {
     await prisma.ownedSpecialCard.create({
       data: { playerId: id, specialId: "equipe-de-france" },
     });
+    await prisma.ownedCosmetic.create({
+      data: { playerId: id, cosmeticId: "back-night" },
+    });
+    await prisma.ingotPurchase.create({
+      data: {
+        playerId: id,
+        packId: "bag",
+        ingots: 650,
+        priceCents: 599,
+        reference: `export-${id}`,
+      },
+    });
     await prisma.adminAdjustment.create({
       data: {
         playerId: id,
@@ -31,6 +47,12 @@ describe("compte (RGPD)", () => {
     expect(data.player?.ownedCards).toMatchObject([{ rarity: "rare" }]);
     expect(data.player?.ownedSpecialCards).toMatchObject([
       { specialId: "equipe-de-france", count: 1 },
+    ]);
+    expect(data.player?.ownedCosmetics).toMatchObject([
+      { cosmeticId: "back-night" },
+    ]);
+    expect(data.player?.ingotPurchases).toMatchObject([
+      { packId: "bag", ingots: 650, priceCents: 599 },
     ]);
     expect(
       JSON.stringify(data, (_key, value: unknown) =>
@@ -62,5 +84,47 @@ describe("compte (RGPD)", () => {
       await prisma.ownedSpecialCard.count({ where: { playerId: id } }),
     ).toBe(0);
     expect(await prisma.player.count({ where: { id: referrer } })).toBe(1);
+  });
+});
+
+describe("comptes inactifs", () => {
+  const now = new Date();
+  const YEAR_MS = 365 * 24 * 60 * 60 * 1000;
+  const longAgo = new Date(now.getTime() - 3 * YEAR_MS);
+
+  /** Compte créé il y a trois ans, avec un joueur qui n'a rien fait depuis. */
+  async function oldAccount(lastSignIn: Date = longAgo): Promise<string> {
+    const id = await createAuthUser(prisma);
+    await prisma.$executeRaw`UPDATE auth.users SET created_at = ${longAgo}, last_sign_in_at = ${lastSignIn} WHERE id = ${id}::uuid`;
+    await ensurePlayerRow(prisma, id);
+    await prisma.$executeRaw`UPDATE players SET created_at = ${longAgo}, updated_at = ${longAgo} WHERE id = ${id}::uuid`;
+    return id;
+  }
+
+  const exists = async (id: string) =>
+    (await prisma.player.count({ where: { id } })) === 1;
+
+  it("supprime un compte sans activité depuis deux ans, garde les autres", async () => {
+    const inactive = await oldAccount();
+    const recentSignIn = await oldAccount(new Date(now.getTime() - YEAR_MS));
+    const recentOpening = await oldAccount();
+    await prisma.boosterOpening.create({
+      data: { playerId: recentOpening, source: "free", cards: [] },
+    });
+    const vip = await oldAccount();
+    await prisma.vipMembership.create({
+      data: {
+        playerId: vip,
+        startsAt: longAgo,
+        endsAt: new Date(now.getTime() + YEAR_MS),
+        grantedBy: "admin@example.com",
+      },
+    });
+
+    expect(await deleteInactiveAccounts(prisma, now)).toBeGreaterThanOrEqual(1);
+    expect(await exists(inactive)).toBe(false);
+    expect(await exists(recentSignIn)).toBe(true);
+    expect(await exists(recentOpening)).toBe(true);
+    expect(await exists(vip)).toBe(true);
   });
 });

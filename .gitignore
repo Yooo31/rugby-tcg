@@ -49,6 +49,7 @@ next-env.d.ts
 
 # Réglages personnels de Claude Code (les skills du projet, eux, sont partagés)
 .claude/settings.local.json
+/.claude/worktrees/
 
 # Playwright
 /test-results/
@@ -58,3 +59,6 @@ next-env.d.ts
 # Supabase local
 supabase/.temp/
 supabase/.branches/
+
+# copies de travail des agents
+/.claude/worktrees/

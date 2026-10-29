@@ -47,6 +47,25 @@ describe("classement en base", () => {
     ]);
     expect(france.me).toMatchObject({ username: "Alice", rank: 2, isMe: true });
 
+    // Badge VIP : seulement pendant une période en cours.
+    const now = Date.now();
+    await prisma.vipMembership.createMany({
+      data: [
+        {
+          playerId: alice,
+          startsAt: new Date(now - 1000),
+          endsAt: new Date(now + 86_400_000),
+          grantedBy: "admin@example.com",
+        },
+      ],
+    });
+    const withVip = await createPrismaLeaderboard(prisma, alice).get(null);
+    expect(withVip.entries.map((e) => [e.username, e.isVip])).toEqual([
+      ["Bruno", false],
+      ["Alice", true],
+      ["Chloé", false],
+    ]);
+
     // Une carte d'une division masquée ne compte pas au classement.
     const hidden = await prisma.club.upsert({
       where: { id: "club-masque-test" },

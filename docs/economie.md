@@ -63,19 +63,19 @@ Conséquences :
 
 ### 3.1 Pass VIP
 
-| Avantage                                           | Gratuit          | VIP              |
-| -------------------------------------------------- | ---------------- | ---------------- |
-| Réserve de boosters gratuits                       | 3                | **5**            |
-| Recharge                                           | 1 toutes les 4 h | 1 toutes les 4 h |
-| **Booster VIP du jour**, à récupérer sur l'accueil | —                | **+1 par jour**  |
-| **Missions du jour**                               | 3                | **3 + 2 VIP**    |
-| Badge VIP au classement et sur le profil           | —                | ✅               |
+| Avantage                                           | Gratuit          | VIP               |
+| -------------------------------------------------- | ---------------- | ----------------- |
+| Réserve de boosters gratuits                       | 3                | **5**             |
+| Recharge                                           | 1 toutes les 4 h | 1 toutes les 4 h  |
+| **Booster VIP du jour**, à récupérer sur l'accueil | —                | **+1 par jour**   |
+| **Missions du jour**                               | 2                | **4, dont 2 VIP** |
+| Badge VIP au classement et sur le profil           | —                | ✅                |
 
 - **Booster VIP du jour** : un booster bonus par jour (heure de Paris), à
   récupérer d'un geste, comme la série de connexion. Non récupéré, il est
   perdu le lendemain : il récompense la visite quotidienne.
 - **Missions VIP** : deux missions de plus chaque jour, tirées du même
-  `MISSION_POOL`, différentes des trois missions communes, avec les mêmes
+  `MISSION_POOL`, différentes des deux missions communes, avec les mêmes
   récompenses en lingots (30 à 50).
 - **Prix proposé : 5,99 € par mois, ou 49,99 € par an** (−30 %).
 - Sans engagement : à l'arrêt, les avantages cessent à la fin de la période
@@ -93,8 +93,9 @@ font baisser le prix du booster :
 | Coffre  | 1 400   | 11,99 € | 0,86 €          |
 | Malle   | 3 000   | 24,99 € | 0,83 €          |
 
-- Le prix en euros est toujours affiché, et la boutique indique combien de
-  boosters représente chaque paquet.
+- La boutique n'affiche que les lingots et leur prix en euros, sans
+  conversion en boosters : mélanger lingots et euros dans un même calcul
+  brouille la lecture. Le prix du booster ci-dessus sert à l'équilibrage.
 - Les lingots achetés et gagnés se confondent dans le même solde.
 - **Effet sur le classement** : un joueur qui achète des lingots ouvre plus de
   boosters, donc grimpe plus vite. C'est assumé : le classement récompense la
@@ -102,11 +103,12 @@ font baisser le prix du booster :
 
 ### 3.3 Cosmétiques
 
-- **Dos de carte** (révélation des boosters) : 1,49 € à 2,49 €.
-- **Cadres de carte** (bordure, sans toucher à la couleur de rareté) : 2,49 €.
-- **Thèmes d'album** (fond, typographie de l'en-tête) : 2,49 €.
-- Payables en euros ou en lingots. Certains se gagnent aussi (album terminé,
-  série de 30 jours).
+- **Dos de carte** (révélation des boosters) : 150 à 250 lingots.
+- **Cadres de carte** (bordure, sans toucher à la couleur de rareté) : 250 lingots.
+- **Thèmes d'album** (fond, typographie de l'en-tête) : 250 lingots.
+- **En lingots seulement**, jamais en euros : on achète des lingots, puis on
+  les dépense. Certains se gagnent aussi (album terminé, série de 30 jours).
+  Un clic sur un cosmétique l'ouvre en grand avant l'achat.
 
 Règle : un cosmétique n'imite jamais un logo de club ou de la FFR (même règle
 que les blasons).

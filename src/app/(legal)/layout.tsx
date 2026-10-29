@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LegalLinks } from "@/features/legal";
 
 /** Pages légales : lisibles avec ou sans compte. */
 export default function LegalLayout({ children }: LayoutProps<"/">) {
@@ -15,6 +16,7 @@ export default function LegalLayout({ children }: LayoutProps<"/">) {
         Rugby <span className="text-pitch">TCG</span>
       </Link>
       <main className="panel p-6">{children}</main>
+      <LegalLinks className="text-chalk-muted flex justify-center text-xs" />
     </div>
   );
 }

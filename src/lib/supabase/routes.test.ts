@@ -9,6 +9,8 @@ describe("routes d'authentification", () => {
 
   it("laisse lire les pages légales avec ou sans session", () => {
     expect(isPublicPath("/confidentialite")).toBe(true);
+    for (const path of ["/cgu", "/cgv", "/probabilites"])
+      expect(isPublicPath(path)).toBe(true);
     expect(isPublicPath("/mentions-legales")).toBe(true);
     expect(isGuestOnlyPath("/confidentialite")).toBe(false);
     expect(isPublicPath("/api/cron/notifications")).toBe(true);

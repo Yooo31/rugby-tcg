@@ -17,7 +17,13 @@ export default defineConfig({
     globals: true,
     setupFiles: ["./src/test/setup.ts"],
     // Tests contre Postgres : `pnpm test:db` (vitest.db.config.mts).
-    exclude: ["**/node_modules/**", "src/**/*.db.test.ts", "e2e/**"],
+    exclude: [
+      "**/node_modules/**",
+      "src/**/*.db.test.ts",
+      "e2e/**",
+      // Copies de travail des agents (worktrees) : pas ce dépôt.
+      ".claude/**",
+    ],
     coverage: {
       provider: "v8",
       // `json` (coverage-final.json) sert aussi à fallow, pour des scores de
@@ -42,7 +48,7 @@ export default defineConfig({
         "src/data/{catalog,mock,player}/**/*.ts": GATED,
         "src/data/repositories.ts": GATED,
         "src/data/server/{rows,notification-state}.ts": GATED,
-        "src/lib/{dates,duration,rng,utils,rate-limit,security-headers}.ts":
+        "src/lib/{dates,duration,rng,utils,rate-limit,security-headers,money}.ts":
           GATED,
         "src/lib/sentry/**/*.ts": GATED,
         "src/lib/supabase/routes.ts": GATED,

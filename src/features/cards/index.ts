@@ -1,3 +1,4 @@
+export { CardCosmeticsProvider } from "./components/CardCosmetics";
 export { CardDialog, type CardDialogSelection } from "./components/CardDialog";
 export {
   CardBack,

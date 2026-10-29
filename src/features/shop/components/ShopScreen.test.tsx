@@ -1,0 +1,30 @@
+import { render, screen, within } from "@testing-library/react";
+import { createInMemoryRepositories } from "@/data";
+import { GameProvider } from "@/features/game";
+import { ShopScreen } from "./ShopScreen";
+
+describe("ShopScreen", () => {
+  it("présente les quatre paquets en euros, paiement pas encore ouvert", async () => {
+    const repositories = createInMemoryRepositories();
+    await repositories.player.setUsername("Testeur");
+    render(
+      <GameProvider repositories={repositories}>
+        <ShopScreen />
+      </GameProvider>,
+    );
+    const packs = within(
+      await screen.findByRole("region", { name: "Lingots" }),
+    ).getAllByRole("article");
+    expect(packs.map((pack) => pack.getAttribute("aria-label"))).toEqual([
+      "Poignée : 200 lingots pour 1,99 €",
+      "Sac : 650 lingots pour 5,99 €",
+      "Coffre : 1400 lingots pour 11,99 €",
+      "Malle : 3000 lingots pour 24,99 €",
+    ]);
+    for (const pack of packs)
+      expect(within(pack).getByRole("button")).toBeDisabled();
+    expect(
+      screen.getByRole("region", { name: "Échanger des lingots" }),
+    ).toBeInTheDocument();
+  });
+});

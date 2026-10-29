@@ -3,6 +3,7 @@ import { AsyncButton } from "@/components/ui/async-button";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { RewardLabel } from "@/components/ui/reward";
 import type { MissionProgress } from "@/domain";
+import { VipBadge } from "@/features/vip";
 import { cn } from "@/lib/utils";
 
 interface MissionCardProps {
@@ -11,7 +12,7 @@ interface MissionCardProps {
 }
 
 export function MissionCard({
-  entry: { mission, progress, status },
+  entry: { mission, progress, status, isVip },
   onClaim,
 }: MissionCardProps) {
   const isClaimed = status === "claimed";
@@ -25,7 +26,10 @@ export function MissionCard({
       )}
     >
       <div className="flex items-start justify-between gap-4">
-        <h2 className="text-2xl font-bold">{mission.title}</h2>
+        <div className="flex flex-col items-start gap-1">
+          {isVip ? <VipBadge /> : null}
+          <h2 className="text-2xl font-bold">{mission.title}</h2>
+        </div>
         <RewardLabel reward={mission.reward} className="shrink-0" />
       </div>
 

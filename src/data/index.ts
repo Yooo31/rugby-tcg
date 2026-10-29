@@ -1,6 +1,7 @@
 import { CATALOG_ALBUMS, CLUB_CATALOG } from "./catalog";
 import { createMockRepositories } from "./mock/repositories";
 import { createMemoryStore } from "./mock/storage";
+import type { Season, VipMembership } from "@/domain";
 import type { Rng } from "@/lib/rng";
 import type { Repositories } from "./repositories";
 
@@ -30,6 +31,17 @@ export function createCatalogRepositories(): Pick<
 }
 
 /** Dépôts sans persistance, au tirage reproductible si `rng` est fourni : pour les tests. */
-export function createInMemoryRepositories(rng?: Rng): Repositories {
-  return createMockRepositories({ store: createMemoryStore(), rng });
+export function createInMemoryRepositories(
+  rng?: Rng,
+  options: {
+    readonly season?: Season | null;
+    readonly now?: () => Date;
+    readonly vipMemberships?: readonly VipMembership[];
+  } = {},
+): Repositories {
+  return createMockRepositories({
+    store: createMemoryStore(),
+    rng,
+    ...options,
+  });
 }

@@ -12,6 +12,7 @@ import {
   type RegionId,
 } from "@/domain";
 import { gameErrorMessage, GameGate, type ReadyGame } from "@/features/game";
+import { VipBadge } from "@/features/vip";
 import { cn } from "@/lib/utils";
 
 export function LeaderboardScreen() {
@@ -164,6 +165,7 @@ function Row({ entry }: { readonly entry: LeaderboardEntry }) {
       <span className="min-w-0 flex-1 truncate font-medium">
         {entry.username}
         {entry.isMe ? <span className="text-pitch"> (vous)</span> : null}
+        {entry.isVip ? <VipBadge className="ml-2 align-middle" /> : null}
       </span>
       <span className="font-display shrink-0 text-xl font-bold tabular-nums">
         {entry.clubs}

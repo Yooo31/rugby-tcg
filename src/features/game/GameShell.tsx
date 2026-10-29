@@ -1,6 +1,6 @@
 "use client";
 
-import { UserRound } from "lucide-react";
+import { ShoppingCart, UserRound } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { AppShell } from "@/components/layout/AppShell";
@@ -46,10 +46,11 @@ export function GameShell({ children }: { readonly children: ReactNode }) {
         <div className="flex items-center gap-2">
           {isReady ? (
             <Link
-              href="/missions"
-              aria-label={`${game.ingots} lingots, voir les missions`}
-              className="border-line-strong bg-surface-raised hover:bg-surface-hover flex min-h-11 items-center rounded-full border px-4 transition"
+              href="/boutique"
+              aria-label={`Boutique : ${game.ingots} lingots`}
+              className="border-line-strong bg-surface-raised hover:bg-surface-hover flex min-h-11 items-center gap-2 rounded-full border pr-4 pl-3 transition"
             >
+              <ShoppingCart aria-hidden className="text-pitch size-5" />
               <IngotAmount amount={game.ingots} className="text-lg" />
             </Link>
           ) : null}
