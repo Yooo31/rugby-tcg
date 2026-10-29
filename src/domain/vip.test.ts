@@ -27,6 +27,10 @@ describe("pass VIP", () => {
     expect(vipUntil([membership], membership.endsAt)).toBeNull();
     const longer = { startsAt: now - 2 * DAY_MS, endsAt: now + 60 * DAY_MS };
     expect(vipUntil([membership, longer], now)).toBe(longer.endsAt);
+    const next = extendVip([membership], now, 30);
+    expect(vipUntil([membership, next], now)).toBe(next.endsAt);
+    const later = { startsAt: now + 90 * DAY_MS, endsAt: now + 99 * DAY_MS };
+    expect(vipUntil([membership, later], now)).toBe(membership.endsAt);
   });
 
   it("prolonge à partir de la fin de l'adhésion en cours, ou de maintenant", () => {

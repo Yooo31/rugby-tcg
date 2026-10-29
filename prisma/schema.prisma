@@ -65,6 +65,8 @@ model Player {
   cardBack           String?   @map("card_back")
   cardFrame          String?   @map("card_frame")
   albumTheme         String?   @map("album_theme")
+  /// Dernier jour (AAAA-MM-JJ, Paris) où le booster VIP du jour a été pris.
+  vipBoosterDay      String?   @map("vip_booster_day")
   createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz
   updatedAt          DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
@@ -74,6 +76,7 @@ model Player {
   seasonLog         SeasonLog?
   seasonPasses      SeasonPass[]
   ingotPurchases    IngotPurchase[]
+  vipMemberships    VipMembership[]
   missionLog        MissionLog?
   claimedAlbums     ClaimedAlbum[]
   boosterOpenings   BoosterOpening[]
@@ -311,4 +314,25 @@ model IngotPurchase {
 
   @@index([playerId])
   @@map("ingot_purchases")
+}
+
+/// Périodes de pass VIP : achetées (référence du paiement, unique : un
+/// paiement, une période) ou offertes par l'administration.
+model VipMembership {
+  id         String   @id @default(uuid()) @db.Uuid
+  playerId   String   @map("player_id") @db.Uuid
+  startsAt   DateTime @map("starts_at") @db.Timestamptz
+  endsAt     DateTime @map("ends_at") @db.Timestamptz
+  /// Offre achetée ; nulle pour un don de l'administration.
+  offerId    String?  @map("offer_id")
+  priceCents Int?     @map("price_cents")
+  reference  String?  @unique
+  /// Adresse de l'administrateur qui l'a offerte.
+  grantedBy  String?  @map("granted_by")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@index([playerId])
+  @@map("vip_memberships")
 }

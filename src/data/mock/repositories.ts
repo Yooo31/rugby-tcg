@@ -17,6 +17,8 @@ import {
   type Club,
   type Giveaway,
   type Season,
+  vipMembershipSchema,
+  type VipMembership,
 } from "@/domain";
 import type { Rng } from "@/lib/rng";
 import type { Repositories } from "../repositories";
@@ -42,6 +44,8 @@ const KEYS = {
   equippedCosmetics: "rugby-tcg:equipped-cosmetics",
   season: "rugby-tcg:season",
   seasonPasses: "rugby-tcg:season-passes",
+  vipMemberships: "rugby-tcg:vip-memberships",
+  vipBoosterDay: "rugby-tcg:vip-booster-day",
 } as const;
 
 /** Équipement tel que stocké : un identifiant par sorte, validé à la lecture. */
@@ -94,6 +98,18 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
     ),
     season: readJson(store, KEYS.season, seasonLogSchema.nullable(), null),
     seasonPasses: readJson(store, KEYS.seasonPasses, z.array(z.string()), []),
+    vipMemberships: readJson(
+      store,
+      KEYS.vipMemberships,
+      z.array(vipMembershipSchema),
+      [],
+    ),
+    vipBoosterDay: readJson(
+      store,
+      KEYS.vipBoosterDay,
+      z.string().nullable(),
+      null,
+    ),
   });
 
   const write = (record: PlayerRecord): void => {
@@ -110,6 +126,8 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
     writeJson(store, KEYS.equippedCosmetics, record.equippedCosmetics);
     writeJson(store, KEYS.season, record.season);
     writeJson(store, KEYS.seasonPasses, record.seasonPasses);
+    writeJson(store, KEYS.vipMemberships, record.vipMemberships);
+    writeJson(store, KEYS.vipBoosterDay, record.vipBoosterDay);
   };
 
   return {
@@ -130,6 +148,8 @@ interface MockDependencies {
   readonly giveaways?: readonly Giveaway[];
   /** Saison en cours, pour les tests du passe de saison. */
   readonly season?: Season | null;
+  /** Périodes de pass VIP de départ, pour les tests du VIP. */
+  readonly vipMemberships?: readonly VipMembership[];
 }
 
 /**
@@ -143,7 +163,9 @@ export function createMockRepositories({
   now = () => new Date(),
   giveaways = [],
   season = null,
+  vipMemberships,
 }: MockDependencies): Repositories {
+  if (vipMemberships) writeJson(store, KEYS.vipMemberships, vipMemberships);
   const albums = buildPermanentAlbums(clubs);
   const clubsById = new Map(clubs.map((club) => [club.id, club]));
   const playerStore = createKeyValuePlayerStore(store);

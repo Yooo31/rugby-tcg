@@ -1,5 +1,7 @@
 import "server-only";
 import {
+  extendVip,
+  VIP_GRANT_DAYS,
   applyAdjustment,
   RARITIES,
   type Adjustment,
@@ -384,6 +386,33 @@ export async function grantSeasonPass(
     where: { playerId_seasonId: { playerId, seasonId } },
     create: { playerId, seasonId, grantedBy: adminEmail },
     update: {},
+  });
+}
+
+/**
+ * Offre `VIP_GRANT_DAYS` jours de pass VIP, à la suite de l'adhésion en cours
+ * (tests avant le paiement, geste commercial). Tracé par l'adresse de l'admin.
+ */
+export async function grantVip(
+  prisma: PrismaClient,
+  playerId: string,
+  adminEmail: string,
+  now: Date,
+): Promise<void> {
+  await createPrismaPlayerStore(prisma, playerId).update((record) => {
+    const membership = extendVip(
+      record.vipMemberships,
+      now.getTime(),
+      VIP_GRANT_DAYS,
+    );
+    return {
+      record: {
+        ...record,
+        vipMemberships: [...record.vipMemberships, membership],
+      },
+      result: undefined,
+      events: [{ type: "vip-granted", membership, grantedBy: adminEmail }],
+    };
   });
 }
 

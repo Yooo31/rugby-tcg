@@ -44,17 +44,22 @@ export const vipMembershipSchema = z.object({
 
 export type VipMembership = z.infer<typeof vipMembershipSchema>;
 
-/** Fin de l'adhésion en cours, ou `null` si le joueur n'est pas VIP. */
+/**
+ * Fin de l'adhésion en cours, périodes qui se suivent comprises (un mois
+ * acheté puis prolongé), ou `null` si le joueur n'est pas VIP.
+ */
 export function vipUntil(
   memberships: readonly VipMembership[],
   now: number,
 ): number | null {
-  const current = memberships.filter(
-    ({ startsAt, endsAt }) => startsAt <= now && now < endsAt,
-  );
-  return current.length > 0
-    ? Math.max(...current.map(({ endsAt }) => endsAt))
-    : null;
+  let until = now;
+  for (;;) {
+    const ends = memberships
+      .filter(({ startsAt, endsAt }) => startsAt <= until && until < endsAt)
+      .map(({ endsAt }) => endsAt);
+    if (ends.length === 0) return until > now ? until : null;
+    until = Math.max(...ends);
+  }
 }
 
 /**
