@@ -4,9 +4,9 @@ import { MissionsSummary } from "./MissionsSummary";
 
 const [first, second, third] = MISSION_POOL;
 const missions: MissionProgress[] = [
-  { mission: first, progress: 1, status: "locked" },
-  { mission: second, progress: second.goal, status: "claimable" },
-  { mission: third, progress: third.goal, status: "claimed" },
+  { mission: first, progress: 1, status: "locked", isVip: false },
+  { mission: second, progress: second.goal, status: "claimable", isVip: false },
+  { mission: third, progress: third.goal, status: "claimed", isVip: false },
 ];
 
 describe("MissionsSummary", () => {

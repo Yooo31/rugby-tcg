@@ -8,6 +8,7 @@ export * from "./crest";
 export * from "./collection";
 export * from "./special-card";
 export * from "./season";
+export * from "./vip";
 export * from "./shop";
 export * from "./geo";
 export * from "./giveaway";
