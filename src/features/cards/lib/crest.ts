@@ -175,6 +175,9 @@ const CENTER_INITIALS = { withStars: 66, withoutStars: 60, size: 38 };
 const FOOT_INITIALS = { y: 92, size: 14 };
 /** Sigle de trois lettres ou plus : un peu plus petit, pour tenir. */
 const LONG_INITIALS_RATIO = 0.72;
+/** À partir de trois signes, le sigle est « long » ; à quatre, « très long ». */
+const LONG_INITIALS_LENGTH = 3;
+const LONGEST_INITIALS_LENGTH = 4;
 /** Sigle de quatre signes : plus petit encore. */
 const LONGEST_INITIALS_RATIO = 0.56;
 
@@ -199,9 +202,9 @@ function initialsLayout(
   hasSymbol: boolean,
 ): InitialsLayout {
   const ratio =
-    initials.length > 3
+    initials.length >= LONGEST_INITIALS_LENGTH
       ? LONGEST_INITIALS_RATIO
-      : initials.length > 2
+      : initials.length >= LONG_INITIALS_LENGTH
         ? LONG_INITIALS_RATIO
         : 1;
   if (hasSymbol)

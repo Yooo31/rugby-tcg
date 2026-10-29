@@ -41,12 +41,14 @@ export async function getText(
       return text;
     }
     if (response.status !== 429 || attempt === MAX_ATTEMPTS) {
+      // Même en erreur, on laisse la pause avant la requête suivante.
+      await sleep(PAUSE_MS);
       throw new Error(`${response.status} ${response.statusText} pour ${url}`);
     }
     // Le serveur demande de ralentir : on attend le délai qu'il indique.
     const retryAfter =
       Number(response.headers.get("Retry-After")) || 15 * attempt;
-    await sleep(retryAfter * 1000);
+    await sleep(Math.max(retryAfter * 1000, PAUSE_MS));
   }
 }
 

@@ -41,7 +41,11 @@ async function leagueSlugs(host: string): Promise<string[]> {
 /** Page d'un club ; `null` si elle est vide ou injoignable. */
 async function readPage(slug: string): Promise<FfrClubPage | null> {
   const html = await getText(`${CLUB_PAGE_BASE}${slug}`, "text/html").catch(
-    () => "",
+    (error: unknown) => {
+      // Échec passager (réseau, 5xx) : non mis en cache, à relancer.
+      console.warn(`${slug} : ${String(error)}`);
+      return "";
+    },
   );
   return parseClubPage(slug, html);
 }
