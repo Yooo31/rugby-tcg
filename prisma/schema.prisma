@@ -68,6 +68,7 @@ model Player {
   ownedSpecialCards OwnedSpecialCard[]
   seasonLog         SeasonLog?
   seasonPasses      SeasonPass[]
+  ingotPurchases    IngotPurchase[]
   missionLog        MissionLog?
   claimedAlbums     ClaimedAlbum[]
   boosterOpenings   BoosterOpening[]
@@ -275,4 +276,19 @@ model SeasonPass {
 
   @@id([playerId, seasonId])
   @@map("season_passes")
+/// Paquet de lingots payé. `reference` est l'identifiant du paiement chez le
+/// prestataire : unique, il garantit qu'un paiement ne crédite qu'une fois.
+model IngotPurchase {
+  id         String   @id @default(uuid()) @db.Uuid
+  playerId   String   @map("player_id") @db.Uuid
+  packId     String   @map("pack_id")
+  ingots     Int
+  priceCents Int      @map("price_cents")
+  reference  String   @unique
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@index([playerId])
+  @@map("ingot_purchases")
 }
