@@ -34,8 +34,6 @@ interface CosmeticDefinition {
   readonly description: string;
   /** Prix en lingots ; 0 pour le cosmétique de départ. */
   readonly ingots: number;
-  /** Prix en euros (centimes, TTC), pour le paiement à venir ; `null` si non vendu. */
-  readonly priceCents: number | null;
   /** Condition pour le gagner gratuitement ; `null` s'il ne se gagne pas. */
   readonly unlock: CosmeticUnlock | null;
 }
@@ -45,19 +43,12 @@ const STREAK_DAYS_FOR_CHALK_BACK = 30;
 /** Albums terminés (récompense récupérée) qui offrent le cadre « Ligne de touche ». */
 const ALBUMS_FOR_TOUCHLINE_FRAME = 1;
 
-/** Prix en lingots alignés sur les euros : environ 100 lingots pour 1 €. */
+/** Prix en lingots : les cosmétiques ne se vendent qu'en lingots. */
 const BACK_SMALL_INGOTS = 150;
 const BACK_MEDIUM_INGOTS = 200;
 const BACK_LARGE_INGOTS = 250;
 const FRAME_INGOTS = 250;
 const THEME_INGOTS = 250;
-
-/** Prix en euros prévus (docs/economie.md, section 3.3). */
-const BACK_SMALL_CENTS = 149;
-const BACK_MEDIUM_CENTS = 199;
-const BACK_LARGE_CENTS = 249;
-const FRAME_CENTS = 249;
-const THEME_CENTS = 249;
 
 export const COSMETICS = [
   // ——— Dos de carte ———
@@ -67,7 +58,6 @@ export const COSMETICS = [
     name: "Pelouse",
     description: "Le dos d'origine : la pelouse tondue sous les projecteurs.",
     ingots: 0,
-    priceCents: null,
     unlock: null,
   },
   {
@@ -76,7 +66,6 @@ export const COSMETICS = [
     name: "Nuit au stade",
     description: "Bleu nuit et halo des projecteurs, un soir de phase finale.",
     ingots: BACK_SMALL_INGOTS,
-    priceCents: BACK_SMALL_CENTS,
     unlock: null,
   },
   {
@@ -85,7 +74,6 @@ export const COSMETICS = [
     name: "Tableau noir",
     description: "Les flèches de la combinaison, tracées à la craie.",
     ingots: BACK_MEDIUM_INGOTS,
-    priceCents: BACK_MEDIUM_CENTS,
     unlock: { type: "streak", days: STREAK_DAYS_FOR_CHALK_BACK },
   },
   {
@@ -94,7 +82,6 @@ export const COSMETICS = [
     name: "Ballon de cuir",
     description: "Le cuir patiné et les coutures des ballons d'antan.",
     ingots: BACK_LARGE_INGOTS,
-    priceCents: BACK_LARGE_CENTS,
     unlock: null,
   },
   // ——— Cadres de carte ———
@@ -104,7 +91,6 @@ export const COSMETICS = [
     name: "Sobre",
     description: "Le cadre d'origine, sans liseré.",
     ingots: 0,
-    priceCents: null,
     unlock: null,
   },
   {
@@ -113,7 +99,6 @@ export const COSMETICS = [
     name: "Ligne de touche",
     description: "Un trait de craie blanche tout autour de la carte.",
     ingots: FRAME_INGOTS,
-    priceCents: FRAME_CENTS,
     unlock: { type: "albums", count: ALBUMS_FOR_TOUCHLINE_FRAME },
   },
   {
@@ -122,7 +107,6 @@ export const COSMETICS = [
     name: "Couture",
     description: "Le point sellier d'un ballon de cuir.",
     ingots: FRAME_INGOTS,
-    priceCents: FRAME_CENTS,
     unlock: null,
   },
   {
@@ -131,7 +115,6 @@ export const COSMETICS = [
     name: "En-but",
     description: "La double ligne de l'en-but, là où l'on marque.",
     ingots: FRAME_INGOTS,
-    priceCents: FRAME_CENTS,
     unlock: null,
   },
   // ——— Thèmes d'album ———
@@ -141,7 +124,6 @@ export const COSMETICS = [
     name: "Stade de nuit",
     description: "Le thème d'origine.",
     ingots: 0,
-    priceCents: null,
     unlock: null,
   },
   {
@@ -150,7 +132,6 @@ export const COSMETICS = [
     name: "Pelouse",
     description: "Les bandes de tonte d'une pelouse fraîchement coupée.",
     ingots: THEME_INGOTS,
-    priceCents: THEME_CENTS,
     unlock: null,
   },
   {
@@ -159,7 +140,6 @@ export const COSMETICS = [
     name: "Vestiaire",
     description: "Le tableau noir du vestiaire, avant d'entrer sur le terrain.",
     ingots: THEME_INGOTS,
-    priceCents: THEME_CENTS,
     unlock: null,
   },
   {
@@ -168,7 +148,6 @@ export const COSMETICS = [
     name: "Fin de match",
     description: "La lumière dorée d'un dimanche, au coup de sifflet final.",
     ingots: THEME_INGOTS,
-    priceCents: THEME_CENTS,
     unlock: null,
   },
 ] as const satisfies readonly CosmeticDefinition[];

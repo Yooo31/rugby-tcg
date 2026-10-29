@@ -3,12 +3,7 @@
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { IngotAmount } from "@/components/ui/reward";
-import {
-  boosterPriceCents,
-  boostersFor,
-  INGOT_PACKS,
-  type IngotPack,
-} from "@/domain";
+import { INGOT_PACKS, type IngotPack } from "@/domain";
 import { BoosterOffers } from "@/features/boosters";
 import { GameGate, type ReadyGame } from "@/features/game";
 import { formatEuros } from "@/lib/money";
@@ -80,20 +75,19 @@ function Shop({ game }: { readonly game: ReadyGame }) {
         </ul>
       </section>
 
+      <CosmeticShop game={game} />
+
       <section aria-labelledby="echange" className="flex flex-col gap-3">
         <h2 id="echange" className="text-2xl font-bold">
           Échanger des lingots
         </h2>
         <BoosterOffers game={game} disabled={false} />
       </section>
-
-      <CosmeticShop game={game} />
     </div>
   );
 }
 
 function IngotPackCard({ pack }: { readonly pack: IngotPack }) {
-  const boosters = boostersFor(pack);
   return (
     <article
       aria-label={`${pack.label} : ${pack.ingots} lingots pour ${formatEuros(pack.priceCents)}`}
@@ -101,10 +95,6 @@ function IngotPackCard({ pack }: { readonly pack: IngotPack }) {
     >
       <p className="eyebrow">{pack.label}</p>
       <IngotAmount amount={pack.ingots} className="text-2xl" />
-      <p className="text-chalk-muted text-sm">
-        {boosters} booster{boosters > 1 ? "s" : ""}, soit{" "}
-        {formatEuros(boosterPriceCents(pack))} le booster
-      </p>
       <Button
         variant="secondary"
         block

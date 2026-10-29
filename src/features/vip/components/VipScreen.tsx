@@ -33,7 +33,7 @@ const ADVANTAGES = [
   {
     label: "Missions du jour",
     free: `${DAILY_MISSION_COUNT}`,
-    vip: `${DAILY_MISSION_COUNT} + ${VIP_MISSION_COUNT} VIP`,
+    vip: `${DAILY_MISSION_COUNT + VIP_MISSION_COUNT}, dont ${VIP_MISSION_COUNT} VIP`,
   },
   { label: "Badge VIP au classement", free: "—", vip: "Oui" },
 ] as const;

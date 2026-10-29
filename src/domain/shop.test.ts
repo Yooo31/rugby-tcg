@@ -1,6 +1,4 @@
 import {
-  boosterPriceCents,
-  boostersFor,
   creditIngotPack,
   getIngotPack,
   ingotPackIdSchema,
@@ -19,11 +17,11 @@ describe("boutique de lingots", () => {
     ]);
   });
 
-  it("rend le booster moins cher dans les gros paquets", () => {
-    expect(INGOT_PACKS.map(boostersFor)).toEqual([2, 6, 14, 30]);
-    const prices = INGOT_PACKS.map(boosterPriceCents);
-    expect(prices).toEqual([100, 92, 86, 83]);
-    expect([...prices].sort((a, b) => b - a)).toEqual(prices);
+  it("donne plus de lingots par euro dans les gros paquets", () => {
+    const perEuro = INGOT_PACKS.map(
+      ({ ingots, priceCents }) => ingots / priceCents,
+    );
+    expect([...perEuro].sort((a, b) => a - b)).toEqual(perEuro);
   });
 
   it("crédite les lingots d'un paquet, sans toucher aux boosters", () => {
