@@ -117,6 +117,8 @@ export const adminData = {
 export const accountData = {
   delete: (userId: string) => account.deleteAccount(prisma, userId),
   export: (userId: string) => account.exportAccount(prisma, userId),
+  /** Tâche planifiée : supprime les comptes inactifs depuis deux ans. */
+  deleteInactive: () => account.deleteInactiveAccounts(prisma, new Date()),
 };
 import * as account from "./account";
 

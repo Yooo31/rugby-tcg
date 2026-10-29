@@ -9,6 +9,7 @@ import {
   MAX_FREE_BOOSTERS,
   PREMIUM_MAX_FREE_BOOSTERS,
   nextFreeBoosterAt,
+  atLeastOnePerBooster,
   RARITY_ODDS,
   rollRarity,
   takeFreeBooster,
@@ -170,5 +171,13 @@ describe("réserve de boosters gratuits", () => {
 
   it("ignore une horloge qui recule", () => {
     expect(freeBoosters({ count: 1, since: start }, start - 10_000)).toBe(1);
+  });
+});
+
+describe("atLeastOnePerBooster", () => {
+  it("cumule la chance sur les cartes du booster", () => {
+    expect(atLeastOnePerBooster(0)).toBe(0);
+    expect(atLeastOnePerBooster(1)).toBe(1);
+    expect(atLeastOnePerBooster(RARITY_ODDS.legendary)).toBeCloseTo(0.049, 3);
   });
 });

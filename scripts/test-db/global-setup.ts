@@ -92,7 +92,8 @@ const SUPABASE_PRELUDE = `
   CREATE TABLE auth.users (
     id uuid PRIMARY KEY,
     email text,
-    created_at timestamptz NOT NULL DEFAULT now()
+    created_at timestamptz NOT NULL DEFAULT now(),
+    last_sign_in_at timestamptz
   );
   DO $$ BEGIN
     IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'anon') THEN CREATE ROLE anon; END IF;

@@ -19,6 +19,9 @@ const PUBLIC_PAGES = [
   "/inscription",
   "/confidentialite",
   "/mentions-legales",
+  "/cgu",
+  "/cgv",
+  "/probabilites",
 ];
 
 /** Erreurs de console et violations de la politique de sécurité du contenu. */

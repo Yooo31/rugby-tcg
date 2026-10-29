@@ -45,6 +45,7 @@ const SIGN_UP = {
   username: "Ovalie_31",
   email: "joueur@rugby-tcg.test",
   password: "MotDePasse-2026",
+  acceptsTerms: "on",
 };
 
 describe("inscription", () => {
@@ -55,6 +56,12 @@ describe("inscription", () => {
     );
     expect(state.fieldErrors?.["email"]).toBeDefined();
     expect(state.values).not.toHaveProperty("password");
+    expect(auth.signUp).not.toHaveBeenCalled();
+  });
+
+  it("exige la déclaration d'âge et l'acceptation des CGU", async () => {
+    const state = await signUp({}, form({ ...SIGN_UP, acceptsTerms: "" }));
+    expect(state.fieldErrors?.["acceptsTerms"]).toContain("15 ans");
     expect(auth.signUp).not.toHaveBeenCalled();
   });
 
@@ -99,7 +106,11 @@ describe("inscription", () => {
       expect.objectContaining({
         email: SIGN_UP.email,
         options: expect.objectContaining({
-          data: { username: SIGN_UP.username, referralCode: "ABC234" },
+          data: {
+            username: SIGN_UP.username,
+            referralCode: "ABC234",
+            termsAcceptedAt: expect.any(String),
+          },
         }),
       }),
     );

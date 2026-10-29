@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { LEGAL_NOTICE_PATH, PRIVACY_PATH } from "@/lib/supabase/routes";
+import { LegalLinks } from "@/features/legal";
 
 /** Pages d'authentification : la marque, puis un panneau centré. */
 export default function AuthLayout({ children }: LayoutProps<"/">) {
@@ -22,15 +22,7 @@ export default function AuthLayout({ children }: LayoutProps<"/">) {
           {children}
         </Suspense>
       </main>
-      <p className="text-chalk-muted text-center text-xs">
-        <Link href={PRIVACY_PATH} className="underline underline-offset-2">
-          Confidentialité
-        </Link>
-        {" · "}
-        <Link href={LEGAL_NOTICE_PATH} className="underline underline-offset-2">
-          Mentions légales
-        </Link>
-      </p>
+      <LegalLinks className="text-chalk-muted flex justify-center text-xs" />
     </div>
   );
 }

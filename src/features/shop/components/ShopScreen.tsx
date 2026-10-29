@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { ODDS_PATH, TERMS_OF_SALE_PATH } from "@/lib/supabase/routes";
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { IngotAmount } from "@/components/ui/reward";
@@ -63,7 +65,18 @@ function Shop({ game }: { readonly game: ReadyGame }) {
           >
             Le paiement en ligne arrive bientôt. Les lingots achetés
             s&apos;ajoutent à ceux que vous gagnez, et s&apos;échangent contre
-            des boosters.
+            des boosters. Voir les{" "}
+            <Link
+              href={TERMS_OF_SALE_PATH}
+              className="underline underline-offset-2"
+            >
+              conditions de vente
+            </Link>{" "}
+            et les{" "}
+            <Link href={ODDS_PATH} className="underline underline-offset-2">
+              probabilités
+            </Link>
+            .
           </p>
         </div>
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">

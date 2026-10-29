@@ -2,13 +2,18 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import { TextField } from "@/components/ui/text-field";
-import { USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH } from "@/domain";
+import {
+  MINIMUM_AGE,
+  USERNAME_MAX_LENGTH,
+  USERNAME_MIN_LENGTH,
+} from "@/domain";
 import {
   FORGOT_PASSWORD_PATH,
   SIGN_IN_PATH,
   SIGN_UP_PATH,
+  TERMS_OF_USE_PATH,
 } from "@/lib/supabase/routes";
 import { MIN_PASSWORD_LENGTH } from "../lib/schemas";
 import {
@@ -180,10 +185,46 @@ export function SignUpScreen() {
               hint="Un booster offert à l'inscription."
               error={state.fieldErrors?.referralCode}
             />
+            <TermsCheckbox error={state.fieldErrors?.acceptsTerms} />
           </>
         )}
       </AuthForm>
     </AuthCard>
+  );
+}
+
+/** Déclaration d'âge et acceptation des CGU, obligatoires pour s'inscrire. */
+function TermsCheckbox({ error }: { readonly error?: string }) {
+  const id = useId();
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label
+        htmlFor={id}
+        className="flex min-h-11 items-start gap-3 text-sm text-pretty"
+      >
+        <input
+          id={id}
+          name="acceptsTerms"
+          type="checkbox"
+          required
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${id}-error` : undefined}
+          className="accent-pitch mt-0.5 size-5 shrink-0"
+        />
+        <span>
+          J&apos;ai {MINIMUM_AGE} ans ou plus et j&apos;accepte les{" "}
+          <Link href={TERMS_OF_USE_PATH} target="_blank" className={linkClass}>
+            conditions d&apos;utilisation
+          </Link>
+          .
+        </span>
+      </label>
+      {error ? (
+        <p id={`${id}-error`} className="text-danger text-sm">
+          {error}
+        </p>
+      ) : null}
+    </div>
   );
 }
 

@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { ODDS_PATH, TERMS_OF_SALE_PATH } from "@/lib/supabase/routes";
 import { Check, Crown } from "lucide-react";
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { Button } from "@/components/ui/button";
@@ -119,7 +121,18 @@ function Vip({ game }: { readonly game: ReadyGame }) {
             id={PAYMENT_NOTICE_ID}
             className="text-chalk-muted text-sm text-pretty"
           >
-            Le paiement en ligne arrive bientôt.
+            Le paiement en ligne arrive bientôt. Voir les{" "}
+            <Link
+              href={TERMS_OF_SALE_PATH}
+              className="underline underline-offset-2"
+            >
+              conditions de vente
+            </Link>{" "}
+            et les{" "}
+            <Link href={ODDS_PATH} className="underline underline-offset-2">
+              probabilités
+            </Link>
+            .
           </p>
         </div>
         <ul className="grid gap-3 sm:grid-cols-2">

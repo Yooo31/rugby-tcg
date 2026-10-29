@@ -50,6 +50,7 @@ describe("parseForm", () => {
       "username",
       "email",
       "password",
+      "acceptsTerms",
     ]);
     expect(parsed.state.values).toEqual({
       username: "a b",
@@ -60,10 +61,20 @@ describe("parseForm", () => {
   it("exige un pseudo valide à l'inscription", () => {
     const parsed = parseForm(
       signUpSchema,
-      form({ username: "Pilier_31", email: "a@b.fr", password: "motdepasse" }),
+      form({
+        username: "Pilier_31",
+        email: "a@b.fr",
+        password: "motdepasse",
+        acceptsTerms: "on",
+      }),
     );
     expect(parsed).toEqual({
-      data: { username: "Pilier_31", email: "a@b.fr", password: "motdepasse" },
+      data: {
+        username: "Pilier_31",
+        email: "a@b.fr",
+        password: "motdepasse",
+        acceptsTerms: "on",
+      },
     });
   });
 });
