@@ -8,13 +8,16 @@ import {
   getSpecialCard,
   IS_RECENT_FORM_SHOWN,
   rarityLabel,
+  DEFAULT_COSMETICS,
   type Club,
+  type CosmeticIdOf,
   type MatchResult,
   type Rarity,
   type SpecialCardId,
 } from "@/domain";
 import { cn } from "@/lib/utils";
 import { useCardTilt } from "../hooks/useCardTilt";
+import { useEquippedCosmetics } from "./CardCosmetics";
 import styles from "./ClubCard.module.css";
 import { ClubCrest } from "./ClubCrest";
 
@@ -32,6 +35,8 @@ interface ClubCardProps {
   readonly rarity: Rarity;
   /** Active l'inclinaison 3D et les reflets au pointeur. */
   readonly interactive?: boolean;
+  /** Cadre à montrer à la place de celui équipé (aperçu en boutique). */
+  readonly frame?: CosmeticIdOf<"card-frame">;
   readonly className?: string;
 }
 
@@ -47,9 +52,12 @@ export function ClubCard({
   club,
   rarity,
   interactive = false,
+  frame,
   className,
 }: ClubCardProps) {
   const { ref, handlers } = useCardTilt<HTMLElement>(interactive);
+  const equipped = useEquippedCosmetics();
+  const shownFrame = frame ?? equipped["card-frame"];
   const division = getDivision(club.division);
   const power = computePower(club);
 
@@ -58,6 +66,10 @@ export function ClubCard({
       ref={ref}
       {...handlers}
       data-rarity={rarity}
+      // Le cadre est un liseré intérieur : la bordure de rareté reste intacte.
+      data-frame={
+        shownFrame === DEFAULT_COSMETICS["card-frame"] ? undefined : shownFrame
+      }
       aria-label={`${club.name}, ${division.label}, puissance ${power}, carte ${rarityLabel(rarity).toLowerCase()}`}
       className={cn(styles.card, interactive && styles.interactive, className)}
       style={clubColorVars(club)}
@@ -225,10 +237,22 @@ export function RecentForm({
   );
 }
 
-/** Dos de carte, montré avant la révélation d'un booster. */
-export function CardBack({ className }: { readonly className?: string }) {
+/** Dos de carte, montré avant la révélation d'un booster : celui équipé. */
+export function CardBack({
+  design,
+  className,
+}: {
+  /** Dos à montrer à la place de celui équipé (aperçu en boutique). */
+  readonly design?: CosmeticIdOf<"card-back">;
+  readonly className?: string;
+}) {
+  const equipped = useEquippedCosmetics();
   return (
-    <div className={cn(styles.card, className)} aria-hidden>
+    <div
+      className={cn(styles.card, className)}
+      data-back={design ?? equipped["card-back"]}
+      aria-hidden
+    >
       <div className={styles.frame}>
         <div className={cn(styles.face, styles.back)}>
           <span className={styles.backMark}>

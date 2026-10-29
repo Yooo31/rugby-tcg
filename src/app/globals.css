@@ -37,6 +37,16 @@
   --color-rarity-epic: #c084ff;
   --color-rarity-legendary: #f2c14e;
 
+  /* Thèmes d'album (cosmétiques) : fond et en-tête des pages d'album. */
+  --color-theme-pitch-light: #1f7a45;
+  --color-theme-pitch-dark: #12512e;
+  --color-theme-chalk-board: #24302b;
+  --color-theme-chalk-deep: #151d1a;
+  --color-theme-chalk-line: #eef4f0;
+  --color-theme-sunset-sky: #f2994a;
+  --color-theme-sunset-dusk: #6b2e5f;
+  --color-theme-sunset-night: #1c1030;
+
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-barlow-condensed), "Arial Narrow", sans-serif;
 

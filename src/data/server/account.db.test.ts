@@ -17,6 +17,9 @@ describe("compte (RGPD)", () => {
     await prisma.ownedSpecialCard.create({
       data: { playerId: id, specialId: "equipe-de-france" },
     });
+    await prisma.ownedCosmetic.create({
+      data: { playerId: id, cosmeticId: "back-night" },
+    });
     await prisma.ingotPurchase.create({
       data: {
         playerId: id,
@@ -40,6 +43,9 @@ describe("compte (RGPD)", () => {
     expect(data.player?.ownedCards).toMatchObject([{ rarity: "rare" }]);
     expect(data.player?.ownedSpecialCards).toMatchObject([
       { specialId: "equipe-de-france", count: 1 },
+    ]);
+    expect(data.player?.ownedCosmetics).toMatchObject([
+      { cosmeticId: "back-night" },
     ]);
     expect(data.player?.ingotPurchases).toMatchObject([
       { packId: "bag", ingots: 650, priceCents: 599 },

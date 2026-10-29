@@ -4,7 +4,7 @@
  *
  * Variables pilotées par useCardTilt : --tilt-x, --tilt-y, --pointer-x,
  * --pointer-y, --active. Variables pilotées par le composant : --club-primary,
- * --club-secondary.
+ * --club-secondary. Cosmétiques : `data-frame` (cadre) et `data-back` (dos).
  */
 
 @property --frame-angle {
@@ -495,12 +495,39 @@
     color: transparent;
   }
 
-  /* ——— Dos de carte ——— */
+  /* ——— Cadres (cosmétiques) : un liseré intérieur, jamais la bordure de rareté ——— */
 
-  .back {
-    display: grid;
-    place-items: center;
-    background:
+  .card[data-frame] .face::after {
+    content: "";
+    position: absolute;
+    inset: 1.6cqw;
+    z-index: 1;
+    border-radius: 4cqw;
+    pointer-events: none;
+  }
+
+  /* Ligne de touche : un trait de craie blanche. */
+  .card[data-frame="frame-touchline"] .face::after {
+    border: 0.9cqw solid #f4f7f2c7;
+    box-shadow: 0 0 2cqw #f4f7f240;
+  }
+
+  /* Couture : le point sellier d'un ballon de cuir. */
+  .card[data-frame="frame-stitch"] .face::after {
+    border: 0.8cqw dashed #e8c98f;
+    outline: 0.5cqw solid #7a4a2299;
+    outline-offset: 0.6cqw;
+  }
+
+  /* En-but : la double ligne. */
+  .card[data-frame="frame-in-goal"] .face::after {
+    border: 1.8cqw double #ffffffb8;
+  }
+
+  /* ——— Dos de carte (cosmétiques : `data-back`) ——— */
+
+  .card {
+    --back-background:
       radial-gradient(80% 60% at 50% 50%, #1fae5f40, transparent 70%),
       repeating-linear-gradient(
         90deg,
@@ -508,6 +535,64 @@
         transparent 9cqw 18cqw
       ),
       linear-gradient(180deg, #0c1f17, #060d0a);
+    --back-mark: var(--color-pitch);
+    --back-ring: #37d67f8c;
+    --back-ring-style: solid;
+  }
+
+  /* Nuit au stade : bleu nuit, halos des projecteurs aux quatre coins. */
+  .card[data-back="back-night"] {
+    --back-background:
+      radial-gradient(45% 30% at 0% 0%, #cfe9ff59, transparent 70%),
+      radial-gradient(45% 30% at 100% 0%, #cfe9ff59, transparent 70%),
+      radial-gradient(70% 40% at 50% 110%, #1fae5f4d, transparent 70%),
+      linear-gradient(180deg, #0b1630, #04070f);
+    --back-mark: #cfe9ff;
+    --back-ring: #cfe9ff80;
+  }
+
+  /* Tableau noir : ardoise et traits de craie. */
+  .card[data-back="back-chalk"] {
+    --back-background:
+      linear-gradient(
+        35deg,
+        transparent 46%,
+        #eef4f02e 47% 49%,
+        transparent 50%
+      ),
+      linear-gradient(
+        -35deg,
+        transparent 56%,
+        #eef4f024 57% 59%,
+        transparent 60%
+      ),
+      radial-gradient(60% 40% at 30% 30%, #eef4f014, transparent 70%),
+      linear-gradient(180deg, #24302b, #151d1a);
+    --back-mark: #eef4f0;
+    --back-ring: #eef4f0b3;
+    --back-ring-style: dashed;
+  }
+
+  /* Ballon de cuir : cuir patiné et couture centrale. */
+  .card[data-back="back-leather"] {
+    --back-background:
+      linear-gradient(
+        90deg,
+        transparent calc(50% - 0.6cqw),
+        #e8c98f calc(50% - 0.6cqw) calc(50% + 0.6cqw),
+        transparent calc(50% + 0.6cqw)
+      ),
+      repeating-linear-gradient(0deg, transparent 0 3cqw, #3b1f0d 3cqw 4.4cqw),
+      radial-gradient(90% 70% at 40% 30%, #a8693a, transparent 75%),
+      linear-gradient(180deg, #6e3d1d, #2c160a);
+    --back-mark: #f3dfb8;
+    --back-ring: #f3dfb8a6;
+  }
+
+  .back {
+    display: grid;
+    place-items: center;
+    background: var(--back-background);
   }
 
   .backMark {
@@ -515,7 +600,7 @@
     place-items: center;
     width: 46cqw;
     aspect-ratio: 3 / 4;
-    border: 1.2cqw solid #37d67f8c;
+    border: 1.2cqw var(--back-ring-style) var(--back-ring);
     border-radius: 50%;
     font-family: var(--font-display);
     font-size: 9cqw;
@@ -524,7 +609,7 @@
     letter-spacing: 0.06em;
     text-align: center;
     text-transform: uppercase;
-    color: var(--color-pitch);
+    color: var(--back-mark);
     transform: rotate(-18deg);
   }
 

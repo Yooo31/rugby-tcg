@@ -2,6 +2,7 @@ import type {
   Album,
   BoosterOfferId,
   Club,
+  CosmeticId,
   Leaderboard,
   PlayerSnapshot,
   PulledCard,
@@ -55,6 +56,13 @@ export interface PlayerRepository {
   claimGiveaway(giveawayId: string): Promise<PlayerSnapshot>;
   /** Rejette avec `RewardNotClaimableError` si la série du jour est déjà récupérée. */
   claimStreak(): Promise<PlayerSnapshot>;
+  /**
+   * Achète un cosmétique en lingots. Rejette avec `InsufficientIngotsError`,
+   * ou `CosmeticUnavailableError` s'il est déjà possédé.
+   */
+  buyCosmetic(cosmeticId: CosmeticId): Promise<PlayerSnapshot>;
+  /** Équipe un cosmétique possédé. Rejette avec `CosmeticUnavailableError` sinon. */
+  equipCosmetic(cosmeticId: CosmeticId): Promise<PlayerSnapshot>;
   /**
    * Choisit ou change le pseudo (déjà validé par `usernameSchema`).
    * Rejette avec `UsernameTakenError` s'il appartient à un autre joueur.

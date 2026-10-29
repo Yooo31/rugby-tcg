@@ -1,5 +1,6 @@
 import {
   BoosterQuotaExceededError,
+  CosmeticUnavailableError,
   InsufficientIngotsError,
   RewardNotClaimableError,
   UsernameTakenError,
@@ -17,5 +18,7 @@ export function gameErrorMessage(error: unknown): string {
   if (error instanceof InsufficientIngotsError) return "Pas assez de lingots.";
   if (error instanceof RewardNotClaimableError)
     return "Cette récompense n'est plus disponible.";
+  if (error instanceof CosmeticUnavailableError)
+    return "Ce cosmétique n'est pas disponible.";
   return "Une erreur est survenue. Réessayez dans un instant.";
 }

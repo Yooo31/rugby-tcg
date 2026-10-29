@@ -13,6 +13,7 @@ import {
   referralData,
 } from "@/data/server";
 import {
+  cosmeticIdSchema,
   seasonTrackSchema,
   usernameSchema,
   type Leaderboard,
@@ -141,6 +142,22 @@ export async function claimSeasonTier(
 
 export async function claimStreak(): Promise<ActionResult<PlayerSnapshot>> {
   return run(({ player }) => player.claimStreak());
+}
+
+export async function buyCosmetic(
+  cosmeticId: unknown,
+): Promise<ActionResult<PlayerSnapshot>> {
+  return run(({ player }) =>
+    player.buyCosmetic(parse(cosmeticIdSchema, cosmeticId)),
+  );
+}
+
+export async function equipCosmetic(
+  cosmeticId: unknown,
+): Promise<ActionResult<PlayerSnapshot>> {
+  return run(({ player }) =>
+    player.equipCosmetic(parse(cosmeticIdSchema, cosmeticId)),
+  );
 }
 
 export async function setUsername(

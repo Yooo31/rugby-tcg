@@ -1,0 +1,95 @@
+/*
+ * Thèmes d'album (cosmétiques) : fond et typographie de l'en-tête d'une page
+ * d'album. Couleurs tirées des tokens `--color-theme-*` de globals.css.
+ * Le thème de départ (« Stade de nuit ») n'ajoute rien : le décor du jeu.
+ */
+@layer components {
+  /* Couleur d'accent de l'en-tête (sur-titre), lisible sur chaque fond. */
+  .surface {
+    --album-accent: var(--color-pitch);
+    --album-muted: var(--color-chalk-muted);
+  }
+
+  .surface[data-album-theme="theme-pitch"] {
+    --album-accent: var(--color-gold-light);
+  }
+
+  .surface[data-album-theme="theme-chalk"] {
+    --album-accent: var(--color-theme-chalk-line);
+  }
+
+  .surface[data-album-theme="theme-sunset"] {
+    --album-accent: var(--color-chalk);
+  }
+
+  .surface[data-album-theme] {
+    --album-muted: var(--color-chalk);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 1rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-panel);
+    box-shadow: var(--shadow-panel);
+  }
+
+  /* Pelouse : bandes de tonte. */
+  .surface[data-album-theme="theme-pitch"] {
+    background: repeating-linear-gradient(
+      90deg,
+      var(--color-theme-pitch-light) 0 2.5rem,
+      var(--color-theme-pitch-dark) 2.5rem 5rem
+    );
+  }
+
+  /* Vestiaire : ardoise et craie, titre en italique comme tracé à la main. */
+  .surface[data-album-theme="theme-chalk"] {
+    background:
+      radial-gradient(
+        60% 80% at 20% 0%,
+        color-mix(in oklab, var(--color-theme-chalk-line) 10%, transparent),
+        transparent 70%
+      ),
+      linear-gradient(
+        180deg,
+        var(--color-theme-chalk-board),
+        var(--color-theme-chalk-deep)
+      );
+    border-style: dashed;
+    border-color: color-mix(
+      in oklab,
+      var(--color-theme-chalk-line) 45%,
+      transparent
+    );
+  }
+
+  .surface[data-album-theme="theme-chalk"] h1,
+  .surface[data-album-theme="theme-chalk"] h2,
+  .surface[data-album-theme="theme-chalk"] h4 {
+    font-style: italic;
+    letter-spacing: 0.04em;
+    color: var(--color-theme-chalk-line);
+  }
+
+  /* Fin de match : ciel doré du coucher de soleil. */
+  .surface[data-album-theme="theme-sunset"] {
+    background: linear-gradient(
+      165deg,
+      var(--color-theme-sunset-sky),
+      var(--color-theme-sunset-dusk) 55%,
+      var(--color-theme-sunset-night)
+    );
+  }
+
+  .surface[data-album-theme="theme-sunset"] h1,
+  .surface[data-album-theme="theme-sunset"] h2,
+  .surface[data-album-theme="theme-sunset"] h4 {
+    color: var(--color-gold-light);
+  }
+
+  /* Le texte secondaire reste lisible sur les fonds clairs. */
+  .surface[data-album-theme="theme-pitch"] *,
+  .surface[data-album-theme="theme-sunset"] * {
+    text-shadow: 0 1px 2px var(--color-night);
+  }
+}

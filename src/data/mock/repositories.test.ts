@@ -3,6 +3,9 @@ import {
   BOOSTER_SIZE,
   BoosterQuotaExceededError,
   clubSchema,
+  CosmeticUnavailableError,
+  DEFAULT_COSMETICS,
+  DEFAULT_EQUIPPED,
   PLAYABLE_DIVISIONS,
   MAX_FREE_BOOSTERS,
   InsufficientIngotsError,
@@ -252,6 +255,74 @@ describe("série de connexion", () => {
 
     setNow("2026-10-14T09:00:00");
     expect((await player.claimStreak()).ingots).toBe(30);
+  });
+});
+
+describe("cosmétiques", () => {
+  const withWallet = (store: ReturnType<typeof setup>["store"]) =>
+    store.setItem(
+      "rugby-tcg:wallet",
+      JSON.stringify({ ingots: 300, bonusBoosters: 0 }),
+    );
+
+  it("équipe d'abord ceux de départ, toujours possédés", async () => {
+    const { player } = setup();
+    const { cosmetics } = await player.get();
+    expect(cosmetics.equipped).toEqual(DEFAULT_EQUIPPED);
+    expect(cosmetics.owned).toEqual(Object.values(DEFAULT_COSMETICS));
+  });
+
+  it("achète un dos en lingots, l'équipe et le garde", async () => {
+    const { player, store } = setup();
+    withWallet(store);
+    await expect(player.equipCosmetic("back-night")).rejects.toBeInstanceOf(
+      CosmeticUnavailableError,
+    );
+    const bought = await player.buyCosmetic("back-night");
+    expect(bought.ingots).toBe(150);
+    expect(bought.cosmetics.owned).toContain("back-night");
+    await expect(player.buyCosmetic("back-night")).rejects.toBeInstanceOf(
+      CosmeticUnavailableError,
+    );
+    await expect(player.buyCosmetic("back-leather")).rejects.toBeInstanceOf(
+      InsufficientIngotsError,
+    );
+
+    const equipped = await player.equipCosmetic("back-night");
+    expect(equipped.cosmetics.equipped["card-back"]).toBe("back-night");
+    expect((await player.get()).cosmetics.equipped["card-back"]).toBe(
+      "back-night",
+    );
+  });
+
+  it("offre le dos « Tableau noir » au 30e jour de série, pour de bon", async () => {
+    const { player, store, setNow } = setup();
+    store.setItem(
+      "rugby-tcg:streak",
+      JSON.stringify({ count: 29, lastDay: "2026-10-12" }),
+    );
+    expect((await player.get()).cosmetics.owned).not.toContain("back-chalk");
+    const claimed = await player.claimStreak();
+    expect(claimed.cosmetics.owned).toContain("back-chalk");
+
+    // La série retombe : le dos reste acquis, et s'équipe.
+    setNow("2026-10-20T09:00:00");
+    await player.claimStreak();
+    const equipped = await player.equipCosmetic("back-chalk");
+    expect(equipped.cosmetics.equipped["card-back"]).toBe("back-chalk");
+  });
+
+  it("enregistre aussi un cosmétique gagné à l'ouverture d'un booster", async () => {
+    // Série atteinte avant l'arrivée des cosmétiques : rien n'est encore stocké.
+    const { player, store } = setup();
+    store.setItem(
+      "rugby-tcg:streak",
+      JSON.stringify({ count: 30, lastDay: "2026-10-13" }),
+    );
+    await player.openBooster();
+    expect(
+      readJson(store, "rugby-tcg:owned-cosmetics", z.array(z.string()), []),
+    ).toContain("back-chalk");
   });
 });
 
