@@ -21,7 +21,7 @@ export default defineConfig({
       "**/node_modules/**",
       "src/**/*.db.test.ts",
       "e2e/**",
-      // Copies de travail des agents (worktrees) : à ne pas tester deux fois.
+      // Copies de travail des agents (worktrees) : pas ce dépôt.
       ".claude/**",
     ],
     coverage: {

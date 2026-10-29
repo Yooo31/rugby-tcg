@@ -21,6 +21,8 @@ const NEW_PLAYER: PlayerRows = {
   claimedAlbumIds: [],
   claimedGiveawayIds: [],
   ownedCosmeticIds: [],
+  seasonLog: null,
+  seasonPassIds: [],
 };
 
 const since = new Date("2026-10-22T08:00:00Z");
@@ -52,6 +54,8 @@ const PLAYING: PlayerRows = {
   claimedAlbumIds: ["division-top14"],
   claimedGiveawayIds: ["cadeau-1"],
   ownedCosmeticIds: ["back-night", "theme-pitch"],
+  seasonLog: { seasonId: "s1", xp: 60, claimedFree: [], claimedPremium: [] },
+  seasonPassIds: ["s1"],
 };
 
 describe("recordFromRows", () => {
@@ -93,6 +97,13 @@ describe("recordFromRows", () => {
         "card-frame": "frame-plain",
         "album-theme": "theme-pitch",
       },
+      season: {
+        seasonId: "s1",
+        xp: 60,
+        claimedFree: [],
+        claimedPremium: [],
+      },
+      seasonPasses: ["s1"],
     });
   });
 
@@ -142,6 +153,7 @@ describe("recordChanges", () => {
       cards: [],
       specialCards: [],
       missionLog: null,
+      seasonLog: null,
       newClaimedAlbumIds: [],
       newClaimedGiveawayIds: [],
       newCosmeticIds: [],
@@ -177,6 +189,8 @@ describe("recordChanges", () => {
         ...before.equippedCosmetics,
         "card-frame": "frame-stitch",
       },
+      season: { ...before.season!, xp: 70, claimedFree: [1] },
+      seasonPasses: ["s1"],
     };
 
     expect(recordChanges(before, after)).toEqual({
@@ -205,6 +219,7 @@ describe("recordChanges", () => {
         { specialId: "equipe-de-france", count: 2, firstObtainedAt: since },
       ],
       missionLog: after.missions,
+      seasonLog: after.season,
       newClaimedAlbumIds: ["france"],
       newClaimedGiveawayIds: ["cadeau-2"],
       newCosmeticIds: ["frame-stitch"],

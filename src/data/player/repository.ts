@@ -13,10 +13,12 @@ import {
   withEarnedCosmetics,
   claimGiveaway,
   claimMission,
+  claimSeasonTier,
   claimStreak,
   drawBooster,
   EMPTY_STREAK,
   EMPTY_WALLET,
+  gainSeasonXp,
   giveawayProgress,
   grantReward,
   MAX_FREE_BOOSTERS,
@@ -26,6 +28,9 @@ import {
   recordOpening,
   rollSpecialCard,
   RewardNotClaimableError,
+  SEASON_XP_PER_BOOSTER,
+  SEASON_XP_PER_MISSION,
+  seasonProgress,
   spendBooster,
   streakProgress,
   usernameSchema,
@@ -41,6 +46,8 @@ import {
   type IngotPackId,
   type MissionLog,
   type PlayerSnapshot,
+  type Season,
+  type SeasonLog,
   type SpecialCollection,
   type Streak,
   type Wallet,
@@ -61,6 +68,10 @@ export interface PlayerRecord {
   readonly claimedAlbumIds: readonly string[];
   readonly claimedGiveawayIds: readonly string[];
   readonly streak: Streak;
+  /** Avancement dans la dernière saison jouée ; `null` si jamais joué. */
+  readonly season: SeasonLog | null;
+  /** Saisons dont le joueur a la voie payante. */
+  readonly seasonPasses: readonly string[];
   /** Cosmétiques achetés ou gagnés, hors ceux de départ. */
   readonly ownedCosmetics: readonly CosmeticId[];
   readonly equippedCosmetics: EquippedCosmetics;
@@ -92,7 +103,14 @@ export const EMPTY_PLAYER_RECORD: PlayerRecord = {
   streak: EMPTY_STREAK,
   ownedCosmetics: [],
   equippedCosmetics: DEFAULT_EQUIPPED,
+  season: null,
+  seasonPasses: [],
 };
+
+/** Le joueur a-t-il la voie payante de la saison en cours ? */
+function hasSeasonPass(record: PlayerRecord, season: Season | null): boolean {
+  return season !== null && record.seasonPasses.includes(season.id);
+}
 
 /** Fait à consigner dans un journal, en plus du nouvel état (statistiques). */
 export type PlayerEvent =
@@ -144,6 +162,15 @@ interface PlayerRepositoryDependencies {
   readonly maxFreeBoosters?: number;
   /** Cadeaux en cours ou à venir (lus à chaque action, ils changent sans redéploiement). */
   readonly giveaways?: () => Promise<readonly Giveaway[]>;
+  /** Saison en cours, s'il y en a une (programmée dans l'administration). */
+  readonly season?: () => Promise<Season | null>;
+}
+
+/** Ce qu'une action lit une fois au départ : l'heure, les cadeaux, la saison. */
+interface ActionContext {
+  readonly at: Date;
+  readonly giveaways: readonly Giveaway[];
+  readonly season: Season | null;
 }
 
 /**
@@ -158,13 +185,21 @@ export function createPlayerRepository({
   now,
   maxFreeBoosters = MAX_FREE_BOOSTERS,
   giveaways = async () => [],
+  season = async () => null,
 }: PlayerRepositoryDependencies): PlayerRepository {
   const clubsById = new Map(clubs.map((club) => [club.id, club]));
 
+  const loadContext = async (): Promise<ActionContext> => {
+    const [currentGiveaways, currentSeason] = await Promise.all([
+      giveaways(),
+      season(),
+    ]);
+    return { at: now(), giveaways: currentGiveaways, season: currentSeason };
+  };
+
   const toSnapshot = (
     record: PlayerRecord,
-    at: Date,
-    currentGiveaways: readonly Giveaway[],
+    { at, giveaways: currentGiveaways, season: currentSeason }: ActionContext,
   ): PlayerSnapshot => ({
     username: record.username,
     // Une carte d'une division masquée reste en base, mais hors du jeu.
@@ -189,40 +224,41 @@ export function createPlayerRepository({
       owned: ownedCosmeticIds(grantEarnedCosmetics(record).ownedCosmetics),
       equipped: record.equippedCosmetics,
     },
+    season: seasonProgress(
+      currentSeason,
+      record.season,
+      hasSeasonPass(record, currentSeason),
+      at.getTime(),
+    ),
   });
 
   /** Applique `change` à l'état du joueur, l'enregistre et renvoie le nouvel état. */
   const update = async (
-    change: (
-      record: PlayerRecord,
-      at: Date,
-      currentGiveaways: readonly Giveaway[],
-    ) => PlayerRecord,
+    change: (record: PlayerRecord, context: ActionContext) => PlayerRecord,
   ): Promise<PlayerSnapshot> => {
-    const at = now();
-    const currentGiveaways = await giveaways();
+    const context = await loadContext();
     return store.update((record) => {
       // Avant l'action (un cosmétique gagné peut être équipé aussitôt) et
       // après (la série ou l'album qui vient d'être récupéré).
       const next = grantEarnedCosmetics(
-        change(grantEarnedCosmetics(record), at, currentGiveaways),
+        change(grantEarnedCosmetics(record), context),
       );
-      return { record: next, result: toSnapshot(next, at, currentGiveaways) };
+      return { record: next, result: toSnapshot(next, context) };
     });
   };
 
   return {
     get: async () => {
-      const [record, currentGiveaways] = await Promise.all([
+      const [record, context] = await Promise.all([
         store.read(),
-        giveaways(),
+        loadContext(),
       ]);
-      return toSnapshot(record, now(), currentGiveaways);
+      return toSnapshot(record, context);
     },
 
     openBooster: async () => {
-      const openedAt = now();
-      const currentGiveaways = await giveaways();
+      const context = await loadContext();
+      const openedAt = context.at;
       return store.update<BoosterOpening>((record) => {
         const spending = spendBooster(
           record.reserve,
@@ -257,13 +293,19 @@ export function createPlayerRepository({
           collection,
           specialCards: special?.collection ?? record.specialCards,
           missions,
+          season: gainSeasonXp(
+            record.season,
+            context.season,
+            SEASON_XP_PER_BOOSTER,
+            openedAt.getTime(),
+          ),
         };
         return {
           record: next,
           result: {
             cards: pulled,
             special: special?.pulled ?? null,
-            player: toSnapshot(next, openedAt, currentGiveaways),
+            player: toSnapshot(next, context),
           },
           events: [
             { type: "booster-opened", source: spending.source, cards: drawn },
@@ -279,7 +321,7 @@ export function createPlayerRepository({
       })),
 
     claimMission: (missionId) =>
-      update((record, at) => {
+      update((record, { at, season: currentSeason }) => {
         const { log, reward } = claimMission(
           missionLogFor(record.missions, toDayKey(at)),
           missionId,
@@ -288,6 +330,29 @@ export function createPlayerRepository({
           ...record,
           missions: log,
           wallet: grantReward(record.wallet, reward),
+          season: gainSeasonXp(
+            record.season,
+            currentSeason,
+            SEASON_XP_PER_MISSION,
+            at.getTime(),
+          ),
+        };
+      }),
+
+    claimSeasonTier: (tier, track) =>
+      update((record, { at, season: currentSeason }) => {
+        const claimed = claimSeasonTier(
+          currentSeason,
+          record.season,
+          hasSeasonPass(record, currentSeason),
+          tier,
+          track,
+          at.getTime(),
+        );
+        return {
+          ...record,
+          season: claimed.log,
+          wallet: grantReward(record.wallet, claimed.reward),
         };
       }),
 
@@ -314,7 +379,7 @@ export function createPlayerRepository({
       }),
 
     claimGiveaway: (giveawayId) =>
-      update((record, at, currentGiveaways) => {
+      update((record, { at, giveaways: currentGiveaways }) => {
         const reward = claimGiveaway(
           currentGiveaways,
           giveawayId,
@@ -329,7 +394,7 @@ export function createPlayerRepository({
       }),
 
     claimStreak: () =>
-      update((record, at) => {
+      update((record, { at }) => {
         const claimed = claimStreak(record.streak, toDayKey(at));
         return {
           ...record,

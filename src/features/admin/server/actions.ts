@@ -3,12 +3,13 @@
 import * as Sentry from "@sentry/nextjs";
 import { refresh } from "next/cache";
 import { z } from "zod";
-import { adminData } from "@/data/server";
+import { adminData, SeasonOverlapError } from "@/data/server";
 import { NegativeBalanceError } from "@/domain";
 import {
   adjustmentFormSchema,
   fieldErrors,
   giveawayFormSchema,
+  seasonFormSchema,
   type AdminFormState,
 } from "../lib/schemas";
 import { requireAdmin } from "./guard";
@@ -96,4 +97,40 @@ export async function sendTestErrorAction(): Promise<AdminFormState> {
   return delivered
     ? { success: `Erreur de test envoyée (${eventId}).` }
     : { error: "Sentry n'a pas répondu : DSN configuré ?" };
+}
+
+export async function createSeasonAction(
+  _previous: AdminFormState,
+  formData: FormData,
+): Promise<AdminFormState> {
+  const admin = await requireAdmin();
+  const parsed = seasonFormSchema.safeParse(formValues(formData));
+  if (!parsed.success) return { fieldErrors: fieldErrors(parsed.error) };
+  try {
+    await adminData.createSeason(parsed.data, admin.email);
+  } catch (error) {
+    if (error instanceof SeasonOverlapError)
+      return { error: "Une saison est déjà programmée sur ces dates." };
+    throw error;
+  }
+  refresh();
+  return { success: "Saison programmée." };
+}
+
+export async function endSeasonAction(formData: FormData): Promise<void> {
+  await requireAdmin();
+  const seasonId = z.uuid().safeParse(formData.get("seasonId"));
+  if (!seasonId.success) return;
+  await adminData.endSeason(seasonId.data);
+  refresh();
+}
+
+/** Donne la voie payante de la saison en cours à un joueur (tests entre amis). */
+export async function grantSeasonPassAction(formData: FormData): Promise<void> {
+  const admin = await requireAdmin();
+  const playerId = playerIdSchema.safeParse(formData.get("playerId"));
+  const seasonId = z.uuid().safeParse(formData.get("seasonId"));
+  if (!playerId.success || !seasonId.success) return;
+  await adminData.grantSeasonPass(playerId.data, seasonId.data, admin.email);
+  refresh();
 }

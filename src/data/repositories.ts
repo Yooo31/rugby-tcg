@@ -8,6 +8,7 @@ import type {
   PulledCard,
   PulledSpecialCard,
   RegionId,
+  SeasonTrack,
 } from "@/domain";
 
 /**
@@ -49,6 +50,8 @@ export interface PlayerRepository {
   claimMission(missionId: string): Promise<PlayerSnapshot>;
   /** Rejette avec `RewardNotClaimableError` si l'album n'est pas terminé ou déjà récompensé. */
   claimAlbumReward(albumId: string): Promise<PlayerSnapshot>;
+  /** Rejette avec `RewardNotClaimableError` si le palier n'est pas atteint, ouvert ou déjà pris. */
+  claimSeasonTier(tier: number, track: SeasonTrack): Promise<PlayerSnapshot>;
   /** Rejette avec `RewardNotClaimableError` si le cadeau n'est pas en cours ou déjà pris. */
   claimGiveaway(giveawayId: string): Promise<PlayerSnapshot>;
   /** Rejette avec `RewardNotClaimableError` si la série du jour est déjà récupérée. */

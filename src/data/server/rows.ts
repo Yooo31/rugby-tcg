@@ -1,6 +1,7 @@
 import {
   boosterReserveSchema,
   missionLogSchema,
+  seasonLogSchema,
   ownedCardSchema,
   ownedSpecialCardSchema,
   parseEquipped,
@@ -9,6 +10,7 @@ import {
   walletSchema,
   type MissionLog,
   type OwnedCard,
+  type SeasonLog,
 } from "@/domain";
 import type { PlayerRecord } from "../player/repository";
 
@@ -59,6 +61,16 @@ export interface PlayerRows {
   readonly claimedAlbumIds: readonly string[];
   readonly claimedGiveawayIds: readonly string[];
   readonly ownedCosmeticIds: readonly string[];
+  readonly seasonLog: SeasonLogRow | null;
+  /** Saisons dont le joueur a la voie payante. */
+  readonly seasonPassIds: readonly string[];
+}
+
+export interface SeasonLogRow {
+  readonly seasonId: string;
+  readonly xp: number;
+  readonly claimedFree: readonly number[];
+  readonly claimedPremium: readonly number[];
 }
 
 /** Lignes de la base → état du joueur. Une ligne invalide est une erreur franche. */
@@ -117,6 +129,15 @@ export function recordFromRows(rows: PlayerRows): PlayerRecord {
       "card-frame": player.cardFrame,
       "album-theme": player.albumTheme,
     }),
+    season: rows.seasonLog
+      ? seasonLogSchema.parse({
+          seasonId: rows.seasonLog.seasonId,
+          xp: rows.seasonLog.xp,
+          claimedFree: [...rows.seasonLog.claimedFree],
+          claimedPremium: [...rows.seasonLog.claimedPremium],
+        })
+      : null,
+    seasonPasses: [...rows.seasonPassIds],
   };
 }
 
@@ -129,6 +150,8 @@ export interface PlayerWrites {
   /** Cartes spéciales nouvelles ou dont le nombre d'exemplaires a changé. */
   readonly specialCards: readonly OwnedSpecialCardRow[];
   readonly missionLog: MissionLog | null;
+  /** Avancement de saison à réécrire, ou `null` s'il n'a pas changé. */
+  readonly seasonLog: SeasonLog | null;
   readonly newClaimedAlbumIds: readonly string[];
   readonly newClaimedGiveawayIds: readonly string[];
   readonly newCosmeticIds: readonly string[];
@@ -210,6 +233,10 @@ export function recordChanges(
     cards,
     specialCards,
     missionLog: missionsChanged ? after.missions : null,
+    seasonLog:
+      JSON.stringify(before.season) !== JSON.stringify(after.season)
+        ? after.season
+        : null,
     newClaimedAlbumIds: after.claimedAlbumIds.filter(
       (albumId) => !claimedBefore.has(albumId),
     ),

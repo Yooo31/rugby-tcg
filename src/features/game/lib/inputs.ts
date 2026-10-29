@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BOOSTER_OFFERS, regionIdSchema } from "@/domain";
+import { BOOSTER_OFFERS, regionIdSchema, SEASON_TIERS } from "@/domain";
 
 /** Paramètres reçus du navigateur par les actions du jeu : validés avant usage. */
 
@@ -23,3 +23,6 @@ export const leaderboardRegionSchema = regionIdSchema.nullable();
  */
 export const ACTIONS_PER_WINDOW = 30;
 export const ACTION_WINDOW_MS = 10_000;
+
+/** Palier du passe de saison (1 à SEASON_TIERS). */
+export const seasonTierSchema = z.number().int().min(1).max(SEASON_TIERS);

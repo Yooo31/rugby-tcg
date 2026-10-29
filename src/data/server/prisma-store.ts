@@ -61,6 +61,11 @@ async function loadRecord(db: Db, playerId: string): Promise<PlayerRecord> {
     where: { playerId },
     orderBy: { obtainedAt: "asc" },
   });
+  const seasonLog = await db.seasonLog.findUnique({ where: { playerId } });
+  const seasonPasses = await db.seasonPass.findMany({
+    where: { playerId },
+    select: { seasonId: true },
+  });
   return recordFromRows({
     player,
     ownedCards,
@@ -69,6 +74,8 @@ async function loadRecord(db: Db, playerId: string): Promise<PlayerRecord> {
     claimedAlbumIds: claimedAlbums.map(({ albumId }) => albumId),
     claimedGiveawayIds: claimedGiveaways.map(({ giveawayId }) => giveawayId),
     ownedCosmeticIds: ownedCosmetics.map(({ cosmeticId }) => cosmeticId),
+    seasonLog,
+    seasonPassIds: seasonPasses.map(({ seasonId }) => seasonId),
   });
 }
 
@@ -107,6 +114,19 @@ async function saveWrites(
       },
       create: { playerId, ...card },
       update: { count: card.count },
+    });
+  }
+  if (writes.seasonLog) {
+    const log = {
+      seasonId: writes.seasonLog.seasonId,
+      xp: writes.seasonLog.xp,
+      claimedFree: [...writes.seasonLog.claimedFree],
+      claimedPremium: [...writes.seasonLog.claimedPremium],
+    };
+    await db.seasonLog.upsert({
+      where: { playerId },
+      create: { playerId, ...log },
+      update: log,
     });
   }
   if (writes.missionLog) {

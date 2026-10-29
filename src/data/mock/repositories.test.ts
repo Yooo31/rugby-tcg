@@ -338,3 +338,34 @@ describe("divisions masquées", () => {
     expect(stored.some((card) => card.clubId === regional.id)).toBe(true);
   });
 });
+
+describe("passe de saison (mock)", () => {
+  const start = new Date("2026-10-13T09:00:00").getTime();
+  const season = {
+    id: "s1",
+    title: "Saison test",
+    startsAt: start - 1000,
+    endsAt: start + 30 * 24 * 60 * 60 * 1000,
+  };
+
+  it("gagne des points en ouvrant un booster, refuse un palier non atteint", async () => {
+    const repositories = createMockRepositories({
+      store: createMemoryStore(),
+      now: () => new Date(start),
+      season,
+    });
+    const opening = await repositories.player.openBooster();
+    expect(opening.player.season).toMatchObject({ xp: 10, tier: 0 });
+    await expect(
+      repositories.player.claimSeasonTier(1, "free"),
+    ).rejects.toBeInstanceOf(RewardNotClaimableError);
+  });
+
+  it("ne compte rien hors saison", async () => {
+    const repositories = createMockRepositories({
+      store: createMemoryStore(),
+      now: () => new Date(start),
+    });
+    expect((await repositories.player.openBooster()).player.season).toBeNull();
+  });
+});

@@ -17,6 +17,7 @@ import type {
   Leaderboard,
   PlayerSnapshot,
   RegionId,
+  SeasonTrack,
 } from "@/domain";
 import { createServerRepositories } from "./lib/server-repositories";
 
@@ -36,6 +37,7 @@ interface GameActions {
   readonly claimMission: (missionId: string) => Promise<void>;
   readonly claimAlbumReward: (albumId: string) => Promise<void>;
   readonly claimGiveaway: (giveawayId: string) => Promise<void>;
+  readonly claimSeasonTier: (tier: number, track: SeasonTrack) => Promise<void>;
   readonly claimStreak: () => Promise<void>;
   readonly buyCosmetic: (cosmeticId: CosmeticId) => Promise<void>;
   readonly equipCosmetic: (cosmeticId: CosmeticId) => Promise<void>;
@@ -143,6 +145,8 @@ export function GameProvider({
         setPlayer(await repositories.player.claimAlbumReward(albumId)),
       claimGiveaway: async (giveawayId) =>
         setPlayer(await repositories.player.claimGiveaway(giveawayId)),
+      claimSeasonTier: async (tier, track) =>
+        setPlayer(await repositories.player.claimSeasonTier(tier, track)),
       claimStreak: async () =>
         setPlayer(await repositories.player.claimStreak()),
       buyCosmetic: async (cosmeticId) =>

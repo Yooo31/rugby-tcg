@@ -14,9 +14,11 @@ import {
 } from "@/data/server";
 import {
   cosmeticIdSchema,
+  seasonTrackSchema,
   usernameSchema,
   type Leaderboard,
   type PlayerSnapshot,
+  type SeasonTrack,
 } from "@/domain";
 import { requireAuthUser } from "@/features/auth/server";
 import {
@@ -32,6 +34,7 @@ import {
   leaderboardRegionSchema,
   offerIdSchema,
   rewardIdSchema,
+  seasonTierSchema,
 } from "../lib/inputs";
 
 /**
@@ -122,6 +125,18 @@ export async function claimGiveaway(
 ): Promise<ActionResult<PlayerSnapshot>> {
   return run(({ player }) =>
     player.claimGiveaway(parse(giveawayIdSchema, giveawayId)),
+  );
+}
+
+export async function claimSeasonTier(
+  tier: number,
+  track: SeasonTrack,
+): Promise<ActionResult<PlayerSnapshot>> {
+  return run(({ player }) =>
+    player.claimSeasonTier(
+      parse(seasonTierSchema, tier),
+      parse(seasonTrackSchema, track),
+    ),
   );
 }
 
