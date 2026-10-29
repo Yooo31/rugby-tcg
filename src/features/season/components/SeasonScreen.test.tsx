@@ -45,7 +45,9 @@ describe("SeasonScreen", () => {
       screen.queryByRole("button", { name: /Récupérer/ }),
     ).not.toBeInTheDocument();
     expect(
-      screen.getByText(/bientôt en vente dans la boutique/),
+      screen.getByRole("button", {
+        name: /Acheter Passe de saison, voie payante pour 5,99/,
+      }),
     ).toBeInTheDocument();
   });
 

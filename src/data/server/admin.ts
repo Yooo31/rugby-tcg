@@ -385,7 +385,8 @@ export async function grantSeasonPass(
   await prisma.seasonPass.upsert({
     where: { playerId_seasonId: { playerId, seasonId } },
     create: { playerId, seasonId, grantedBy: adminEmail },
-    update: {},
+    // Une voie payante remboursée puis offerte redevient valable.
+    update: { refundedAt: null, grantedBy: adminEmail },
   });
 }
 

@@ -287,10 +287,16 @@ model SeasonLog {
 
 /// Voie payante d'une saison pour un joueur (achetée, ou donnée par l'admin).
 model SeasonPass {
-  playerId  String   @map("player_id") @db.Uuid
-  seasonId  String   @map("season_id") @db.Uuid
-  grantedBy String   @map("granted_by")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  playerId   String    @map("player_id") @db.Uuid
+  seasonId   String    @map("season_id") @db.Uuid
+  /// Adresse de l'administrateur qui l'a offerte ; nulle pour un achat.
+  grantedBy  String?   @map("granted_by")
+  /// Paiement (achat) : un paiement, une voie payante.
+  reference  String?   @unique
+  priceCents Int?      @map("price_cents")
+  /// Achat remboursé ou contesté : la voie payante est retirée.
+  refundedAt DateTime? @map("refunded_at") @db.Timestamptz
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
 
   player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
   season Season @relation(fields: [seasonId], references: [id], onDelete: Cascade)
@@ -302,13 +308,15 @@ model SeasonPass {
 /// Paquet de lingots payé. `reference` est l'identifiant du paiement chez le
 /// prestataire : unique, il garantit qu'un paiement ne crédite qu'une fois.
 model IngotPurchase {
-  id         String   @id @default(uuid()) @db.Uuid
-  playerId   String   @map("player_id") @db.Uuid
-  packId     String   @map("pack_id")
+  id         String    @id @default(uuid()) @db.Uuid
+  playerId   String    @map("player_id") @db.Uuid
+  packId     String    @map("pack_id")
   ingots     Int
-  priceCents Int      @map("price_cents")
-  reference  String   @unique
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+  priceCents Int       @map("price_cents")
+  reference  String    @unique
+  /// Achat remboursé ou contesté : ses lingots ont été retirés.
+  refundedAt DateTime? @map("refunded_at") @db.Timestamptz
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
 
   player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
 
@@ -319,17 +327,19 @@ model IngotPurchase {
 /// Périodes de pass VIP : achetées (référence du paiement, unique : un
 /// paiement, une période) ou offertes par l'administration.
 model VipMembership {
-  id         String   @id @default(uuid()) @db.Uuid
-  playerId   String   @map("player_id") @db.Uuid
-  startsAt   DateTime @map("starts_at") @db.Timestamptz
-  endsAt     DateTime @map("ends_at") @db.Timestamptz
+  id         String    @id @default(uuid()) @db.Uuid
+  playerId   String    @map("player_id") @db.Uuid
+  startsAt   DateTime  @map("starts_at") @db.Timestamptz
+  endsAt     DateTime  @map("ends_at") @db.Timestamptz
   /// Offre achetée ; nulle pour un don de l'administration.
-  offerId    String?  @map("offer_id")
-  priceCents Int?     @map("price_cents")
-  reference  String?  @unique
+  offerId    String?   @map("offer_id")
+  priceCents Int?      @map("price_cents")
+  reference  String?   @unique
   /// Adresse de l'administrateur qui l'a offerte.
-  grantedBy  String?  @map("granted_by")
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+  grantedBy  String?   @map("granted_by")
+  /// Achat remboursé ou contesté : la période ne compte plus.
+  refundedAt DateTime? @map("refunded_at") @db.Timestamptz
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
 
   player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
 

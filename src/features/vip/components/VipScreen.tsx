@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ODDS_PATH, TERMS_OF_SALE_PATH } from "@/lib/supabase/routes";
 import { Check, Crown } from "lucide-react";
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
-import { Button } from "@/components/ui/button";
 import {
   DAILY_MISSION_COUNT,
   MAX_FREE_BOOSTERS,
@@ -14,15 +13,13 @@ import {
   type VipOffer,
 } from "@/domain";
 import { GameGate, type ReadyGame } from "@/features/game";
+import { CheckoutButton } from "@/features/payments";
 import { formatEuros } from "@/lib/money";
 import { VIP_DATE_FORMAT } from "../lib/format";
 
 export function VipScreen() {
   return <GameGate>{(game) => <Vip game={game} />}</GameGate>;
 }
-
-/** Le paiement en ligne n'est pas encore branché (Stripe, issue #48). */
-const PAYMENT_NOTICE_ID = "vip-paiement-bientot";
 
 /** Avantages du pass, comparés au jeu gratuit. */
 const ADVANTAGES = [
@@ -115,13 +112,10 @@ function Vip({ game }: { readonly game: ReadyGame }) {
       <section aria-labelledby="vip-offres" className="flex flex-col gap-3">
         <div className="flex flex-col gap-1">
           <h2 id="vip-offres" className="text-2xl font-bold">
-            {vip.isActive ? "Prolonger" : "S'abonner"}
+            {vip.isActive ? "Prolonger" : "Devenir VIP"}
           </h2>
-          <p
-            id={PAYMENT_NOTICE_ID}
-            className="text-chalk-muted text-sm text-pretty"
-          >
-            Le paiement en ligne arrive bientôt. Voir les{" "}
+          <p className="text-chalk-muted text-sm text-pretty">
+            Paiement unique, sans renouvellement automatique. Voir les{" "}
             <Link
               href={TERMS_OF_SALE_PATH}
               className="underline underline-offset-2"
@@ -166,15 +160,11 @@ function VipOfferCard({ offer }: { readonly offer: VipOffer }) {
       <p className="font-display text-3xl font-bold tabular-nums">
         {formatEuros(offer.priceCents)}
       </p>
-      <Button
-        variant="secondary"
-        block
-        disabled
-        aria-describedby={PAYMENT_NOTICE_ID}
+      <CheckoutButton
+        product={{ kind: "vip", id: offer.id }}
+        variant={isYearly ? "primary" : "secondary"}
         className="mt-auto"
-      >
-        Bientôt disponible
-      </Button>
+      />
     </article>
   );
 }

@@ -4,7 +4,9 @@ import {
   extendVip,
   getIngotPack,
   getVipOffer,
+  SEASON_PASS_PRICE_CENTS,
   type IngotPackId,
+  type PurchaseProduct,
   type VipOffer,
 } from "@/domain";
 import type { PrismaClient } from "@/generated/prisma/client";
@@ -89,5 +91,96 @@ export async function creditVipPurchase(
   } catch (error) {
     if (isUniqueViolation(error)) return false;
     throw error;
+  }
+}
+
+/**
+ * Crédite la voie payante d'une saison payée. Mêmes garanties que
+ * `creditIngotPurchase`. Renvoie `false` si ce paiement est déjà crédité, ou
+ * si le joueur avait déjà la voie payante (à rembourser à la main).
+ */
+async function creditSeasonPassPurchase(
+  prisma: PrismaClient,
+  playerId: string,
+  purchase: { readonly seasonId: string; readonly reference: string },
+): Promise<boolean> {
+  try {
+    await prisma.seasonPass.create({
+      data: {
+        playerId,
+        seasonId: purchase.seasonId,
+        reference: purchase.reference,
+        priceCents: SEASON_PASS_PRICE_CENTS,
+      },
+    });
+    return true;
+  } catch (error) {
+    if (isUniqueViolation(error)) return false;
+    throw error;
+  }
+}
+
+/** Ce qu'un remboursement a retiré, pour le journal. */
+export type RevokedPurchase = "ingots" | "vip" | "season-pass";
+
+/**
+ * Retire un achat remboursé ou contesté (`reference` = celle du crédit). Les
+ * lingots sont repris sans passer sous zéro (ceux déjà dépensés restent
+ * dépensés) ; une période VIP ou une voie payante cesse de compter. Un achat
+ * déjà retiré ne retire rien : renvoie `null`.
+ */
+export async function revokePurchase(
+  prisma: PrismaClient,
+  reference: string,
+): Promise<RevokedPurchase | null> {
+  return prisma.$transaction(async (tx) => {
+    const [ingots] = await tx.$queryRaw<
+      { playerId: string; ingots: number }[]
+    >`UPDATE ingot_purchases SET refunded_at = now()
+      WHERE reference = ${reference} AND refunded_at IS NULL
+      RETURNING player_id AS "playerId", ingots`;
+    if (ingots) {
+      await tx.$executeRaw`UPDATE players
+        SET ingots = greatest(0, ingots - ${ingots.ingots}), updated_at = now()
+        WHERE id = ${ingots.playerId}::uuid`;
+      return "ingots";
+    }
+    const vip =
+      await tx.$executeRaw`UPDATE vip_memberships SET refunded_at = now()
+      WHERE reference = ${reference} AND refunded_at IS NULL`;
+    if (vip > 0) return "vip";
+    const pass =
+      await tx.$executeRaw`UPDATE season_passes SET refunded_at = now()
+      WHERE reference = ${reference} AND refunded_at IS NULL`;
+    return pass > 0 ? "season-pass" : null;
+  });
+}
+
+/** Crédite un produit payé, quel qu'il soit ; `false` s'il l'était déjà. */
+export function creditPurchase(
+  prisma: PrismaClient,
+  playerId: string,
+  product: PurchaseProduct,
+  reference: string,
+  now: Date,
+): Promise<boolean> {
+  switch (product.kind) {
+    case "ingots":
+      return creditIngotPurchase(prisma, playerId, {
+        packId: product.id,
+        reference,
+      });
+    case "vip":
+      return creditVipPurchase(
+        prisma,
+        playerId,
+        { offerId: product.id, reference },
+        now,
+      );
+    case "season-pass":
+      return creditSeasonPassPurchase(prisma, playerId, {
+        seasonId: product.id,
+        reference,
+      });
   }
 }

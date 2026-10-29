@@ -8,7 +8,11 @@ import { postgresPlayerRepository } from "./player-repository";
 export { SeasonOverlapError, type AdminSeason } from "./admin";
 import { createPrismaLeaderboard } from "./leaderboard";
 import { createPostgresRateLimiter } from "./rate-limit";
-import { referralCodeSchema, usernameSchema } from "@/domain";
+import {
+  referralCodeSchema,
+  usernameSchema,
+  type PurchaseProduct,
+} from "@/domain";
 import { ensurePlayerRow, isUniqueViolation } from "./prisma-store";
 
 /**
@@ -112,6 +116,17 @@ export const adminData = {
   grantVip: (playerId: string, adminEmail: string) =>
     admin.grantVip(prisma, playerId, adminEmail, new Date()),
 };
+
+/**
+ * Paiements : à n'appeler que depuis le webhook Stripe signé. `playerId`
+ * vient du paiement créé côté serveur pour la session, jamais du navigateur.
+ */
+export const paymentData = {
+  credit: (playerId: string, product: PurchaseProduct, reference: string) =>
+    purchases.creditPurchase(prisma, playerId, product, reference, new Date()),
+  revoke: (reference: string) => purchases.revokePurchase(prisma, reference),
+};
+import * as purchases from "./purchases";
 
 /** Suppression et export d'un compte (RGPD) : `userId` vient de la session vérifiée. */
 export const accountData = {

@@ -3,20 +3,18 @@
 import Link from "next/link";
 import { ODDS_PATH, TERMS_OF_SALE_PATH } from "@/lib/supabase/routes";
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
-import { Button, ButtonLink } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 import { IngotAmount } from "@/components/ui/reward";
 import { INGOT_PACKS, type IngotPack } from "@/domain";
 import { BoosterOffers } from "@/features/boosters";
 import { GameGate, type ReadyGame } from "@/features/game";
+import { CheckoutButton } from "@/features/payments";
 import { formatEuros } from "@/lib/money";
 import { CosmeticShop } from "./CosmeticShop";
 
 export function ShopScreen() {
   return <GameGate>{(game) => <Shop game={game} />}</GameGate>;
 }
-
-/** Le paiement en ligne n'est pas encore branché (Stripe, issue #48). */
-const PAYMENT_NOTICE_ID = "paiement-bientot";
 
 function Shop({ game }: { readonly game: ReadyGame }) {
   return (
@@ -59,13 +57,9 @@ function Shop({ game }: { readonly game: ReadyGame }) {
           <h2 id="lingots" className="text-2xl font-bold">
             Lingots
           </h2>
-          <p
-            id={PAYMENT_NOTICE_ID}
-            className="text-chalk-muted text-sm text-pretty"
-          >
-            Le paiement en ligne arrive bientôt. Les lingots achetés
-            s&apos;ajoutent à ceux que vous gagnez, et s&apos;échangent contre
-            des boosters. Voir les{" "}
+          <p className="text-chalk-muted text-sm text-pretty">
+            Les lingots achetés s&apos;ajoutent à ceux que vous gagnez, et
+            s&apos;échangent contre des boosters. Voir les{" "}
             <Link
               href={TERMS_OF_SALE_PATH}
               className="underline underline-offset-2"
@@ -108,15 +102,10 @@ function IngotPackCard({ pack }: { readonly pack: IngotPack }) {
     >
       <p className="eyebrow">{pack.label}</p>
       <IngotAmount amount={pack.ingots} className="text-2xl" />
-      <Button
-        variant="secondary"
-        block
-        disabled
-        aria-describedby={PAYMENT_NOTICE_ID}
+      <CheckoutButton
+        product={{ kind: "ingots", id: pack.id }}
         className="mt-auto"
-      >
-        {formatEuros(pack.priceCents)}
-      </Button>
+      />
     </article>
   );
 }

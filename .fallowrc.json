@@ -2,6 +2,14 @@
   "$schema": "./node_modules/fallow/schema.json",
   "dynamicallyLoaded": ["public/sw.js"],
   "ignorePatterns": ["src/generated/**", ".claude/**"],
+  "duplicates": {
+    "ignore": [
+      "src/features/legal/components/LegalNotice.tsx",
+      "src/features/legal/components/PrivacyPolicy.tsx",
+      "src/features/legal/components/TermsOfSale.tsx",
+      "src/features/legal/components/TermsOfUse.tsx"
+    ]
+  },
   "ignoreDependencies": [
     "@tailwindcss/turbopack",
     "fallow",
