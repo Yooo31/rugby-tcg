@@ -21,7 +21,11 @@ describe("boutique de lingots", () => {
     const perEuro = INGOT_PACKS.map(
       ({ ingots, priceCents }) => ingots / priceCents,
     );
-    expect([...perEuro].sort((a, b) => a - b)).toEqual(perEuro);
+    perEuro
+      .slice(1)
+      .forEach((value, index) =>
+        expect(value).toBeGreaterThan(perEuro[index]!),
+      );
   });
 
   it("crédite les lingots d'un paquet, sans toucher aux boosters", () => {

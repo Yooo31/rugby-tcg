@@ -49,6 +49,16 @@ const logWith = (progress: number, claimed: string[] = []): MissionLog => ({
   claimed,
 });
 
+describe("nombre de missions", () => {
+  it("donne deux missions par jour, quatre à un VIP", () => {
+    expect(dailyMissions(day)).toHaveLength(2);
+    expect(missionProgress({ day, progress: {}, claimed: [] })).toHaveLength(2);
+    expect(
+      missionProgress({ day, progress: {}, claimed: [] }, true),
+    ).toHaveLength(4);
+  });
+});
+
 describe("vipMissions", () => {
   it("ajoute deux missions du jour, toujours les mêmes, jamais une commune", () => {
     for (let dayOfMonth = 1; dayOfMonth <= 28; dayOfMonth += 1) {
