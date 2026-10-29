@@ -66,6 +66,13 @@ export interface PlayerRepository {
   /** Équipe un cosmétique possédé. Rejette avec `CosmeticUnavailableError` sinon. */
   equipCosmetic(cosmeticId: CosmeticId): Promise<PlayerSnapshot>;
   /**
+   * Achète un cosmétique en lingots. Rejette avec `InsufficientIngotsError`,
+   * ou `CosmeticUnavailableError` s'il est déjà possédé.
+   */
+  buyCosmetic(cosmeticId: CosmeticId): Promise<PlayerSnapshot>;
+  /** Équipe un cosmétique possédé. Rejette avec `CosmeticUnavailableError` sinon. */
+  equipCosmetic(cosmeticId: CosmeticId): Promise<PlayerSnapshot>;
+  /**
    * Choisit ou change le pseudo (déjà validé par `usernameSchema`).
    * Rejette avec `UsernameTakenError` s'il appartient à un autre joueur.
    */
