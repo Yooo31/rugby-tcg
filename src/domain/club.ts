@@ -88,7 +88,20 @@ export const clubSchema = z.object({
   department: departmentCodeSchema,
   division: divisionIdSchema,
   category: categorySchema,
-  colors: z.object({ primary: hexColorSchema, secondary: hexColorSchema }),
+  colors: z.object({
+    primary: hexColorSchema,
+    secondary: hexColorSchema,
+    /** Troisième couleur d'un club tricolore (liseré du blason). */
+    tertiary: hexColorSchema.optional(),
+  }),
+  /**
+   * Sigle officiel du club (« RCSP »), sinon tiré de son nom. Jusqu'à
+   * quatre lettres ou chiffres.
+   */
+  initials: z
+    .string()
+    .regex(/^[A-Z0-9]{1,4}$/)
+    .optional(),
   /** Du plus ancien au plus récent. */
   recentResults: z.array(matchResultSchema).max(RECENT_RESULTS_WINDOW),
   /** Blason choisi pour ce club (catalogue) ; sinon tiré de son identifiant. */
@@ -101,7 +114,8 @@ export function clubRegion(club: Club): RegionId {
   return regionOfDepartment(club.department);
 }
 
-const MAX_INITIALS = 3;
+/** Longueur maximale d'un sigle sur le blason. */
+const MAX_INITIALS = 4;
 const MINOR_WORDS = new Set([
   "de",
   "du",
@@ -118,7 +132,8 @@ const MINOR_WORDS = new Set([
 const ACRONYM = /^[A-Z]{2,}$/;
 
 /**
- * Initiales affichées sur le blason généré (3 lettres au plus).
+ * Initiales tirées du nom, quand le club n'a pas de sigle officiel
+ * (4 lettres au plus).
  * Un sigle est repris tel quel : « RC Toulonnais » donne « RCT ».
  */
 export function clubInitials(name: string): string {

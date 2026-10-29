@@ -1,0 +1,3049 @@
+{
+  "source": "FFR, pages publiques des clubs (monclubhouse.ffr.fr), avec accord",
+  "generatedAt": "2026-10-29T10:36:43.201Z",
+  "clubs": {
+    "stade-toulousain": {
+      "slug": "stade-toulousain-rugby",
+      "name": "Stade Toulousain Rugby",
+      "colorNames": ["Noir", "Rouge"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#c8102e"
+      },
+      "initials": "ST",
+      "isSure": true
+    },
+    "section-paloise": {
+      "slug": "amicale-des-anciens-de-la-section-paloise",
+      "name": "Amicale Des Anciens de La Section Paloise",
+      "colorNames": [],
+      "colors": null,
+      "initials": "AASP",
+      "isSure": true
+    },
+    "union-bordeaux-begles": {
+      "slug": "union-bordeaux-begles",
+      "name": "Union Bordeaux Begles",
+      "colorNames": ["Blanc", "Bleu", "Bordeaux"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0055a4",
+        "tertiary": "#7a1f3d"
+      },
+      "initials": "UBB",
+      "isSure": true
+    },
+    "stade-rochelais": {
+      "slug": "stade-rochelais",
+      "name": "Stade Rochelais",
+      "colorNames": ["Noir", "Jaune"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#ffd100"
+      },
+      "initials": "SR",
+      "isSure": true
+    },
+    "aviron-bayonnais": {
+      "slug": "aviron-bayonnais",
+      "name": "Aviron Bayonnais",
+      "colorNames": ["Blanc", "Bleu ciel"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#6cace4"
+      },
+      "initials": "AB",
+      "isSure": true
+    },
+    "stade-francais-paris": {
+      "slug": "paris-xo-rugby",
+      "name": "Paris Xo Rugby",
+      "colorNames": ["Chocolat", "Pétrole"],
+      "colors": null,
+      "initials": "PX",
+      "isSure": true
+    },
+    "montpellier-hr": {
+      "slug": "montpellier-herault-rugby",
+      "name": "Montpellier Herault Rugby",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "MH",
+      "isSure": true
+    },
+    "lyon-ou": {
+      "slug": "lyon-ol-u",
+      "name": "Lyon Ol U",
+      "colorNames": ["Rouge", "Noir"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "initials": "LOU",
+      "isSure": true
+    },
+    "usa-perpignan": {
+      "slug": "u-s-a-perpignan",
+      "name": "USA Perpignan",
+      "colorNames": ["Azur"],
+      "colors": null,
+      "initials": "USAP",
+      "isSure": true
+    },
+    "rc-toulon": {
+      "slug": "rugby-club-toulon-provence-mediterranee",
+      "name": "Rugby Club Toulon Provence Mediterranee",
+      "colorNames": ["Noir", "Rouge", "Blanc"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#c8102e",
+        "tertiary": "#f5f5f5"
+      },
+      "initials": "RCTP",
+      "isSure": true
+    },
+    "asm-clermont": {
+      "slug": "clermont-u-c-aubiere-rugby",
+      "name": "Clermont UC Aubiere Rugby",
+      "colorNames": ["Blanc", "Noir"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "CUCA",
+      "isSure": false
+    },
+    "castres-olympique": {
+      "slug": "castres-olympique",
+      "name": "Castres Olympique",
+      "colorNames": ["Blanc", "Bleu roi"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0033a0"
+      },
+      "initials": "CO",
+      "isSure": true
+    },
+    "oyonnax-rugby": {
+      "slug": "u-s-oyonnax",
+      "name": "US Oyonnax",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "USO",
+      "isSure": true
+    },
+    "provence-rugby": {
+      "slug": "provence-rugby",
+      "name": "Provence Rugby",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "P",
+      "isSure": true
+    },
+    "ca-brive": {
+      "slug": "a-s-p-o-brive",
+      "name": "AS P O Brive",
+      "colorNames": ["Jaune", "Noir"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "initials": "ASPO",
+      "isSure": false
+    },
+    "fc-grenoble": {
+      "slug": "f-c-grenoble",
+      "name": "FC Grenoble",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "FCG",
+      "isSure": true
+    },
+    "biarritz-olympique": {
+      "slug": "biarritz-olympique-rugby",
+      "name": "Biarritz Olympique Rugby",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "BO",
+      "isSure": true
+    },
+    "us-montauban": {
+      "slug": "u-s-montauban",
+      "name": "US Montauban",
+      "colorNames": ["Vert"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "USM",
+      "isSure": true
+    },
+    "soyaux-angouleme-xv": {
+      "slug": "soyaux-angouleme-xv-charente",
+      "name": "Soyaux Angouleme XV Charente",
+      "colorNames": ["Violet"],
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SAC",
+      "isSure": true
+    },
+    "us-dax": {
+      "slug": "u-s-dax-rugby",
+      "name": "US Dax Rugby",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "USD",
+      "isSure": true
+    },
+    "valence-romans-dr": {
+      "slug": "valence-romans-drome-rugby",
+      "name": "Valence Romans Drome Rugby",
+      "colorNames": ["Rouge", "Noir", "Blanc"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111",
+        "tertiary": "#f5f5f5"
+      },
+      "initials": "VRD",
+      "isSure": true
+    },
+    "stade-aurillacois": {
+      "slug": "stade-aurillacois",
+      "name": "Stade Aurillacois",
+      "colorNames": ["Rouge", "Parements"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SA",
+      "isSure": true
+    },
+    "nissa-rugby": {
+      "slug": "nissa-seven",
+      "name": "Nissa Seven",
+      "colorNames": [],
+      "colors": null,
+      "initials": "NS",
+      "isSure": true
+    },
+    "su-agen": {
+      "slug": "s-u-agen",
+      "name": "SU Agen",
+      "colorNames": ["Blanc", "Bleu"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0055a4"
+      },
+      "initials": "SUA",
+      "isSure": true
+    },
+    "rc-narbonne": {
+      "slug": "racing-club-narbonne-plage",
+      "name": "Racing Club Narbonne Plage",
+      "colorNames": [],
+      "colors": null,
+      "initials": "RCNP",
+      "isSure": true
+    },
+    "as-beziers": {
+      "slug": "a-s-beziers-herault",
+      "name": "AS Beziers Herault",
+      "colorNames": ["Bleu", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "initials": "ASBH",
+      "isSure": true
+    },
+    "colomiers-rugby": {
+      "slug": "u-s-colomiers",
+      "name": "US Colomiers",
+      "colorNames": ["Blanc", "Bleu nuit", "Bleu roi"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0033a0"
+      },
+      "initials": "USC",
+      "isSure": true
+    },
+    "uso-nevers": {
+      "slug": "u-s-o-n-nevers-rugby",
+      "name": "USON  Nevers Rugby",
+      "colorNames": ["Jaune"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "USON",
+      "isSure": true
+    },
+    "rc-massy": {
+      "slug": "rugby-club-massy-essonne",
+      "name": "Rugby Club Massy Essonne",
+      "colorNames": ["Bleu", "Noir"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#111111"
+      },
+      "initials": "RCME",
+      "isSure": true
+    },
+    "sc-albi": {
+      "slug": "s-c-albi",
+      "name": "SC Albi",
+      "colorNames": ["Jaune", "Noir"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "initials": "SCA",
+      "isSure": true
+    },
+    "rouen-nr": {
+      "slug": "association-rugby-rouen-universite-club",
+      "name": "Association Rugby Rouen Universite Club",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "ARUC",
+      "isSure": true
+    },
+    "stade-montois": {
+      "slug": "stade-montois",
+      "name": "Stade Montois",
+      "colorNames": ["Jaune", "Noir"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "initials": "SM",
+      "isSure": true
+    },
+    "rc-orleans": {
+      "slug": "r-c-orleans",
+      "name": "RC Orleans",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCO",
+      "isSure": true
+    },
+    "cs-bourgoin-jallieu": {
+      "slug": "c-s-bourgoin-jallieu",
+      "name": "CS Bourgoin Jallieu",
+      "colorNames": ["Ciel", "Grenat"],
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#7a1f3d"
+      },
+      "initials": "CSBJ",
+      "isSure": true
+    },
+    "ca-perigueux": {
+      "slug": "c-ol-perigueux-ouest",
+      "name": "C Ol Perigueux Ouest",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "COPO",
+      "isSure": false
+    },
+    "rc-suresnes": {
+      "slug": "rugby-club-de-suresnes-hauts-de-seine",
+      "name": "Rugby Club de Suresnes - Hauts De Seine",
+      "colorNames": ["Vert"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCSH",
+      "isSure": true
+    },
+    "us-bressane": {
+      "slug": "u-s-bressane",
+      "name": "US Bressane",
+      "colorNames": ["Violet"],
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "USB",
+      "isSure": true
+    },
+    "olympique-marcquois": {
+      "slug": "ol-marcquois-rugby",
+      "name": "Ol Marcquois Rugby",
+      "colorNames": ["Jaune"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "OM",
+      "isSure": true
+    },
+    "stade-nantais": {
+      "slug": "stade-nantais",
+      "name": "Stade Nantais",
+      "colorNames": ["Blanc"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "SN",
+      "isSure": true
+    },
+    "stade-langonnais": {
+      "slug": "stade-langonnais",
+      "name": "Stade Langonnais",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SL",
+      "isSure": true
+    },
+    "cs-annonay": {
+      "slug": "c-s-annonay",
+      "name": "CS Annonay",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "CSA",
+      "isSure": true
+    },
+    "rc-drancy": {
+      "slug": "rugby-club-de-drancy",
+      "name": "Rugby Club de Drancy",
+      "colorNames": ["Bleu roi"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCD",
+      "isSure": true
+    },
+    "cm-floirac": {
+      "slug": "club-municipal-de-floirac",
+      "name": "Club Municipal de Floirac",
+      "colorNames": ["Jaune"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "CMF",
+      "isSure": true
+    },
+    "rcs-rumilly": {
+      "slug": "rugby-club-savoie-rumilly",
+      "name": "Rugby Club Savoie Rumilly",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCSR",
+      "isSure": false
+    },
+    "us-marmande": {
+      "slug": "guyenne-gascogne-rugby-feminin-47-casteljaloux-duras-marmande",
+      "name": "Guyenne Gascogne Rugby Feminin 47 Casteljaloux-duras-marmande",
+      "colorNames": [],
+      "colors": null,
+      "initials": "GGF4",
+      "isSure": false
+    },
+    "us-salles": {
+      "slug": "u-s-salles",
+      "name": "US Salles",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "USS",
+      "isSure": true
+    },
+    "saint-medard-rc": {
+      "slug": "st-medard-en-jalles-r-c",
+      "name": "St Medard En Jalles RC",
+      "colorNames": ["Jaune", "Noir"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "initials": "SMJR",
+      "isSure": true
+    },
+    "saint-jean-de-luz-olympique": {
+      "slug": "saint-jean-de-luz-ol",
+      "name": "Saint Jean de Luz Ol",
+      "colorNames": ["Blanc", "Rouge", "Vert"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e",
+        "tertiary": "#00843d"
+      },
+      "initials": "SJLO",
+      "isSure": true
+    },
+    "rc-aubenas": {
+      "slug": "r-c-aubenas-vals",
+      "name": "RC Aubenas Vals",
+      "colorNames": ["Bleu", "Jaune"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#ffd100"
+      },
+      "initials": "RCAV",
+      "isSure": true
+    },
+    "avenir-valencien": {
+      "slug": "avenir-valencien",
+      "name": "Avenir Valencien",
+      "colorNames": ["Bleu ciel"],
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "AV",
+      "isSure": true
+    },
+    "rc-auch": {
+      "slug": "rugby-club-auch",
+      "name": "Rugby Club Auch",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCA",
+      "isSure": true
+    },
+    "sc-graulhet": {
+      "slug": "s-c-graulhet",
+      "name": "SC Graulhet",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SCG",
+      "isSure": true
+    },
+    "us-tyrosse": {
+      "slug": "u-s-tyrosse",
+      "name": "US Tyrosse",
+      "colorNames": [],
+      "colors": null,
+      "initials": "UST",
+      "isSure": true
+    },
+    "peyrehorade-sr": {
+      "slug": "peyrehorade-sports-rugby-pays-dorthe-et-arrigans",
+      "name": "Peyrehorade Sports Rugby Pays D'orthe Et Arrigans",
+      "colorNames": ["Blanc", "Vert"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#00843d"
+      },
+      "initials": "PSPO",
+      "isSure": true
+    },
+    "rc-tricastin": {
+      "slug": "rugby-club-tricastin",
+      "name": "Rugby Club Tricastin",
+      "colorNames": ["Bleu", "Jaune"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#ffd100"
+      },
+      "initials": "RCT",
+      "isSure": true
+    },
+    "us-seynoise": {
+      "slug": "u-s-seynoise",
+      "name": "US Seynoise",
+      "colorNames": ["Bleu", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "initials": "USS",
+      "isSure": true
+    },
+    "sc-royannais": {
+      "slug": "s-c-royannais",
+      "name": "SC Royannais",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SCR",
+      "isSure": true
+    },
+    "us-tours": {
+      "slug": "u-s-tours",
+      "name": "US Tours",
+      "colorNames": ["Orange"],
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "UST",
+      "isSure": true
+    },
+    "cs-nuiton": {
+      "slug": "c-s-nuiton",
+      "name": "CS Nuiton",
+      "colorNames": ["Noisette"],
+      "colors": null,
+      "initials": "CSN",
+      "isSure": true
+    },
+    "rc-courbevoie": {
+      "slug": "rugby-club-de-courbevoie",
+      "name": "Rugby Club de Courbevoie",
+      "colorNames": ["Bleu", "Jaune"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#ffd100"
+      },
+      "initials": "RCC",
+      "isSure": true
+    },
+    "beauvais-rc": {
+      "slug": "beauvais-xv-r-c",
+      "name": "Beauvais XV RC",
+      "colorNames": ["Rouge", "Rouge", "Tomate"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "BRC",
+      "isSure": true
+    },
+    "paris-uc": {
+      "slug": "asptt-grand-paris",
+      "name": "Asptt Grand Paris",
+      "colorNames": ["Bleu", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "initials": "AGP",
+      "isSure": true
+    },
+    "bievre-saint-geoirs-rc": {
+      "slug": "as-bievre-st-geoirs-rugby-club",
+      "name": "AS Bievre St Geoirs Rugby Club",
+      "colorNames": ["Noir", "Rouge"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#c8102e"
+      },
+      "initials": "ASBS",
+      "isSure": true
+    },
+    "us-annecy": {
+      "slug": "u-s-annecy",
+      "name": "US Annecy",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "USA",
+      "isSure": true
+    },
+    "sc-leucate": {
+      "slug": "sporting-club-leucate-corbieres-mediterranee-xv",
+      "name": "Sporting Club Leucate Corbieres Mediterranee XV",
+      "colorNames": ["Blanc", "Bleu"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0055a4"
+      },
+      "initials": "SCLC",
+      "isSure": true
+    },
+    "sc-mazamet": {
+      "slug": "s-c-mazamet",
+      "name": "SC Mazamet",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SCM",
+      "isSure": true
+    },
+    "ceret-sportif": {
+      "slug": "ceret-sportif",
+      "name": "Ceret Sportif",
+      "colorNames": ["Bleu roi"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "CS",
+      "isSure": true
+    },
+    "rcm-palavas": {
+      "slug": "rugby-club-mediterranee-palavas",
+      "name": "Rugby Club Mediterranee Palavas",
+      "colorNames": ["Orange", "Bleu"],
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#0055a4"
+      },
+      "initials": "RCMP",
+      "isSure": false
+    },
+    "xv-du-coudon": {
+      "slug": "xv-du-coudon",
+      "name": "XV Du Coudon",
+      "colorNames": ["Noir", "Vert"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#00843d"
+      },
+      "initials": "XVC",
+      "isSure": true
+    },
+    "co-berre-xv": {
+      "slug": "c-o-berre-xv",
+      "name": "CO Berre XV",
+      "colorNames": ["Noir", "Rouge"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#c8102e"
+      },
+      "initials": "COB",
+      "isSure": true
+    },
+    "sor-agout-xv": {
+      "slug": "sor-agout-xv",
+      "name": "Sor Agout XV",
+      "colorNames": ["Blanc"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "SA",
+      "isSure": true
+    },
+    "as-bedarrides-chateauneuf-du-pape": {
+      "slug": "avenir-sportif-de-bedarrides-chateauneuf-du-pape",
+      "name": "Avenir Sportif de Bedarrides Chateauneuf Du Pape",
+      "colorNames": ["Vert"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "ASBC",
+      "isSure": true
+    },
+    "rc-chateaurenard": {
+      "slug": "r-c-chateaurenard",
+      "name": "RC Chateaurenard",
+      "colorNames": ["Bleu roi", "Rouge", "Parements"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#c8102e"
+      },
+      "initials": "RCC",
+      "isSure": true
+    },
+    "blagnac-scr": {
+      "slug": "blagnac-sporting-club-rugby",
+      "name": "Blagnac Sporting Club Rugby",
+      "colorNames": ["Rouge", "Bleu roi"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#0033a0"
+      },
+      "initials": "BSC",
+      "isSure": false
+    },
+    "cahors-rugby": {
+      "slug": "cahors-rugby-st-cadurcien",
+      "name": "Cahors Rugby St Cadurcien",
+      "colorNames": ["Blanc", "Bleu ciel"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#6cace4"
+      },
+      "initials": "CSC",
+      "isSure": true
+    },
+    "rugby-grenade": {
+      "slug": "grenade-sports",
+      "name": "Grenade Sports",
+      "colorNames": ["Noir", "Jaune"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#ffd100"
+      },
+      "initials": "GS",
+      "isSure": true
+    },
+    "usa-limoges": {
+      "slug": "u-s-a-limoges",
+      "name": "USA Limoges",
+      "colorNames": ["Bleu ciel", "Bleu", "Rouge"],
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#0055a4",
+        "tertiary": "#c8102e"
+      },
+      "initials": "USAL",
+      "isSure": true
+    },
+    "toec-toac-fct": {
+      "slug": "toec-toac-fct-rugby",
+      "name": "Toec Toac Fct Rugby",
+      "colorNames": ["Vert"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "TTF",
+      "isSure": true
+    },
+    "us-l-isle-jourdain": {
+      "slug": "vals-et-villages-en-astarac-l-isle-de-noe-xv",
+      "name": "Vals Et Villages En Astarac L Isle de Noe XV",
+      "colorNames": ["Vert"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "VVAI",
+      "isSure": false
+    },
+    "ro-castelnaudary-xv": {
+      "slug": "r-o-castelnaudary",
+      "name": "RO Castelnaudary",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "ROC",
+      "isSure": true
+    },
+    "saint-girons-sc": {
+      "slug": "saint-girons-sporting-club",
+      "name": "Saint Girons Sporting Club",
+      "colorNames": ["Noir", "Vert"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#00843d"
+      },
+      "initials": "SGSC",
+      "isSure": true
+    },
+    "sc-tulle": {
+      "slug": "sporting-club-tulle-correze",
+      "name": "Sporting Club Tulle Correze",
+      "colorNames": ["Bleu roi"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SCTC",
+      "isSure": true
+    },
+    "anglet-orc": {
+      "slug": "anglet-olympique",
+      "name": "Anglet Olympique",
+      "colorNames": ["Bleu roi"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "AO",
+      "isSure": false
+    },
+    "ua-gujan-mestras": {
+      "slug": "u-ath-gujan-mestras",
+      "name": "U Ath Gujan Mestras",
+      "colorNames": ["Blanc", "Noir"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "UAGM",
+      "isSure": true
+    },
+    "stade-bagnerais": {
+      "slug": "stade-bagnerais",
+      "name": "Stade Bagnerais",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SB",
+      "isSure": true
+    },
+    "fc-oloron": {
+      "slug": "f-c-oloron",
+      "name": "FC Oloron",
+      "colorNames": ["Blanc", "Bleu"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0055a4"
+      },
+      "initials": "FCO",
+      "isSure": true
+    },
+    "as-soustons": {
+      "slug": "a-s-soustons",
+      "name": "AS Soustons",
+      "colorNames": ["Blanc", "Bleu roi"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0033a0"
+      },
+      "initials": "ASS",
+      "isSure": true
+    },
+    "us-nafarroa": {
+      "slug": "u-s-nafarroa",
+      "name": "US Nafarroa",
+      "colorNames": ["Jaune", "Rouge"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#c8102e"
+      },
+      "initials": "USN",
+      "isSure": true
+    },
+    "4-cantons-bhap": {
+      "slug": "4-cantons-bastides-haut-agenais-perigord",
+      "name": "4 Cantons Bastides Haut Agenais Perigord",
+      "colorNames": ["Grenat"],
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "4CBH",
+      "isSure": false
+    },
+    "as-pont-long": {
+      "slug": "a-s-pont-long",
+      "name": "AS Pont Long",
+      "colorNames": ["Vert"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "ASPL",
+      "isSure": true
+    },
+    "fc-lourdes": {
+      "slug": "f-c-lourdes-rugby",
+      "name": "FC Lourdes Rugby",
+      "colorNames": ["Bleu", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "initials": "FCL",
+      "isSure": true
+    },
+    "union-barbezieux-jonzac": {
+      "slug": "union-barbezieux-jonzac",
+      "name": "Union Barbezieux Jonzac",
+      "colorNames": ["Blanc", "Jaune", "Or", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#ffd100",
+        "tertiary": "#f2c14e"
+      },
+      "initials": "UBJ",
+      "isSure": true
+    },
+    "rc-pays-de-meaux": {
+      "slug": "rugby-club-du-pays-de-meaux",
+      "name": "Rugby Club Du Pays de Meaux",
+      "colorNames": ["Blanc", "Blanc", "Cassé", "Bleu roi"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0033a0"
+      },
+      "initials": "RCPM",
+      "isSure": true
+    },
+    "rc-clermont-cournon": {
+      "slug": "rc-clermont-cournon-d-auvergne",
+      "name": "RC Clermont Cournon D Auvergne",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "RCCC",
+      "isSure": true
+    },
+    "bourges-xv": {
+      "slug": "arcay-rugby-club-pays-de-bourges",
+      "name": "Arcay Rugby Club Pays de Bourges",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "ACPB",
+      "isSure": true
+    },
+    "scuf-rugby": {
+      "slug": "asptt-grand-paris",
+      "name": "Asptt Grand Paris",
+      "colorNames": ["Bleu", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "initials": "AGP",
+      "isSure": false
+    },
+    "us-ris-orangis": {
+      "slug": "u-s-ris-orangis",
+      "name": "US Ris Orangis",
+      "colorNames": ["Bleu nuit"],
+      "colors": null,
+      "initials": "USRO",
+      "isSure": true
+    },
+    "rc-vichy": {
+      "slug": "r-c-vichy",
+      "name": "RC Vichy",
+      "colorNames": ["Jaune", "Bleu"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#0055a4"
+      },
+      "initials": "RCV",
+      "isSure": true
+    },
+    "rc-riom": {
+      "slug": "ol-st-bonnet-pres-riom",
+      "name": "Ol St Bonnet Pres Riom",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "OSBP",
+      "isSure": false
+    },
+    "cs-clichy": {
+      "slug": "c-s-clichy",
+      "name": "CS Clichy",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "CSC",
+      "isSure": true
+    },
+    "antony-metro-92": {
+      "slug": "antony-metro-92",
+      "name": "Antony Metro 92",
+      "colorNames": ["Bleu", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "initials": "AM92",
+      "isSure": true
+    },
+    "rc-vincennes": {
+      "slug": "r-c-vincennes",
+      "name": "RC Vincennes",
+      "colorNames": ["Blanc", "Bleu nuit"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "RCV",
+      "isSure": true
+    },
+    "rc-paris-15": {
+      "slug": "r-c-paris-15",
+      "name": "RC Paris 15",
+      "colorNames": ["Jaune", "Noir"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "initials": "RCP",
+      "isSure": true
+    },
+    "saint-priest-rugby": {
+      "slug": "saint-priest-rugby",
+      "name": "Saint Priest Rugby",
+      "colorNames": ["Jaune", "Or", "Sang"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#f2c14e",
+        "tertiary": "#c8102e"
+      },
+      "initials": "SP",
+      "isSure": true
+    },
+    "rugby-tango-chalonnais": {
+      "slug": "rugby-tango-chalonnais",
+      "name": "Rugby Tango Chalonnais",
+      "colorNames": ["Tango"],
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RTC",
+      "isSure": true
+    },
+    "cr-illkirch-graffenstaden": {
+      "slug": "c-r-illkirch-graffenstaden",
+      "name": "CR Illkirch Graffenstaden",
+      "colorNames": ["Blanc", "Noir"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "CRIG",
+      "isSure": true
+    },
+    "us-vinay": {
+      "slug": "u-s-vinay",
+      "name": "US Vinay",
+      "colorNames": ["Bleu roi"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "USV",
+      "isSure": true
+    },
+    "ro-grasse": {
+      "slug": "r-ol-grasse",
+      "name": "R Ol Grasse",
+      "colorNames": ["Grenat", "Bleu nuit"],
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "ROG",
+      "isSure": true
+    },
+    "servian-boujan-rugby": {
+      "slug": "servian-boujan-rugby",
+      "name": "Servian Boujan Rugby",
+      "colorNames": ["Bleu", "Jaune", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#ffd100",
+        "tertiary": "#c8102e"
+      },
+      "initials": "SB",
+      "isSure": true
+    },
+    "avignon-le-pontet-rugby": {
+      "slug": "avignon-le-pontet-rugby",
+      "name": "Avignon Le Pontet Rugby",
+      "colorNames": ["Jaune", "Bleu"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#0055a4"
+      },
+      "initials": "AP",
+      "isSure": true
+    },
+    "so-voiron": {
+      "slug": "stade-olympique-voiron",
+      "name": "Stade Olympique Voiron",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "SOV",
+      "isSure": true
+    },
+    "rc-les-angles": {
+      "slug": "rugby-club-les-angles-gard-rhodanien",
+      "name": "Rugby Club Les Angles Gard Rhodanien",
+      "colorNames": ["Vert"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCAG",
+      "isSure": true
+    },
+    "stade-piscenois": {
+      "slug": "stade-piscenois",
+      "name": "Stade Piscenois",
+      "colorNames": ["Violet"],
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SP",
+      "isSure": true
+    },
+    "ca-saint-raphael-frejus": {
+      "slug": "c-a-st-raphael-frejus",
+      "name": "CA St Raphael Frejus",
+      "colorNames": ["Jaune", "Bleu roi"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#0033a0"
+      },
+      "initials": "CASR",
+      "isSure": true
+    },
+    "stade-marseillais-uc": {
+      "slug": "rugby-club-marseillais",
+      "name": "Rugby Club Marseillais",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCM",
+      "isSure": true
+    },
+    "us-quillan-limoux": {
+      "slug": "us-quillan-limoux-haute-vallee-de-laude",
+      "name": "Us Quillan Limoux Haute Vallee de L'aude",
+      "colorNames": ["Rouge", "Vert", "Bleu"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#00843d",
+        "tertiary": "#0055a4"
+      },
+      "initials": "UQLH",
+      "isSure": true
+    },
+    "stade-beaumontois": {
+      "slug": "st-beaumontois-lomagne-rugby",
+      "name": "St Beaumontois Lomagne Rugby",
+      "colorNames": ["Bleu roi"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SBL",
+      "isSure": true
+    },
+    "corbieres-xv": {
+      "slug": "club-olympique-tauch-corbieres",
+      "name": "Club Olympique Tauch Corbieres",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "COTC",
+      "isSure": true
+    },
+    "avenir-castaneen": {
+      "slug": "avenir-castaneen",
+      "name": "Avenir Castaneen",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "AC",
+      "isSure": true
+    },
+    "fc-villefranche": {
+      "slug": "f-c-villefranche-de-lauragais",
+      "name": "FC Villefranche de Lauragais",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "FCVL",
+      "isSure": true
+    },
+    "as-vaureenne": {
+      "slug": "asv-lavaur",
+      "name": "Asv Lavaur",
+      "colorNames": ["Bleu roi", "Rouge"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#c8102e"
+      },
+      "initials": "AL",
+      "isSure": false
+    },
+    "rc-de-la-saudrune": {
+      "slug": "racing-club-de-la-saudrune",
+      "name": "Racing Club de La Saudrune",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCS",
+      "isSure": true
+    },
+    "salanque-cote-radieuse": {
+      "slug": "r-c-salanque-xv",
+      "name": "RC Salanque XV",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCS",
+      "isSure": true
+    },
+    "oursbelille-borderes-rc": {
+      "slug": "oursbelille-borderes-rugby-club",
+      "name": "Oursbelille Borderes Rugby Club",
+      "colorNames": ["Blanc", "Noir"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "OBC",
+      "isSure": true
+    },
+    "coq-leguevinois": {
+      "slug": "coq-leguevinois",
+      "name": "Coq Leguevinois",
+      "colorNames": ["Rouge", "Parements", "Bleu nuit"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "CL",
+      "isSure": true
+    },
+    "us-coarraze-nay": {
+      "slug": "u-s-coarraze-nay",
+      "name": "US Coarraze Nay",
+      "colorNames": ["Bleu nuit"],
+      "colors": null,
+      "initials": "USCN",
+      "isSure": true
+    },
+    "lombez-samatan-club": {
+      "slug": "lombez-samatan-club",
+      "name": "Lombez Samatan Club",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "LSC",
+      "isSure": true
+    },
+    "stade-navarrais": {
+      "slug": "stade-navarrais",
+      "name": "Stade Navarrais",
+      "colorNames": ["Blanc", "Vert"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#00843d"
+      },
+      "initials": "SN",
+      "isSure": true
+    },
+    "entente-aramits-asasp": {
+      "slug": "entente-aramits-asasp",
+      "name": "Entente Aramits  Asasp",
+      "colorNames": ["Vert"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "EAA",
+      "isSure": true
+    },
+    "usep-ger-seron-bedeille": {
+      "slug": "usep-ger-seron-bedeil",
+      "name": "Usep Ger Seron Bedeil",
+      "colorNames": ["Violet", "Noir"],
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#111111"
+      },
+      "initials": "UGSB",
+      "isSure": false
+    },
+    "gan-olympique": {
+      "slug": "gan-olympique",
+      "name": "Gan Olympique",
+      "colorNames": ["Blanc", "Bleu"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0055a4"
+      },
+      "initials": "GO",
+      "isSure": true
+    },
+    "hasparren-ac": {
+      "slug": "hasparren-a-c",
+      "name": "Hasparren AC",
+      "colorNames": ["Vert"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "HAC",
+      "isSure": true
+    },
+    "as-merignac": {
+      "slug": "a-s-merignac-rugby",
+      "name": "AS Merignac Rugby",
+      "colorNames": ["Bleu roi", "Rouge", "Bleu nuit"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#c8102e"
+      },
+      "initials": "ASM",
+      "isSure": true
+    },
+    "us-mouguerre": {
+      "slug": "u-s-mouguerre",
+      "name": "US Mouguerre",
+      "colorNames": ["Vert"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "USM",
+      "isSure": true
+    },
+    "rion-morcenx-cr": {
+      "slug": "rion-morcenx-club-rugby",
+      "name": "Rion Morcenx Club Rugby",
+      "colorNames": ["Bleu", "Bleu roi"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#0033a0"
+      },
+      "initials": "RMC",
+      "isSure": true
+    },
+    "us-casteljaloux": {
+      "slug": "union-sportive-casteljaloux",
+      "name": "Union Sportive Casteljaloux",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "USC",
+      "isSure": true
+    },
+    "ca-lormont": {
+      "slug": "c-a-lormont-hauts-de-garonne",
+      "name": "CA Lormont Hauts de Garonne",
+      "colorNames": ["Bleu roi"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "CALH",
+      "isSure": true
+    },
+    "emak-hor-rugby": {
+      "slug": "emak-hor-rugby-arcangues-bassussarry",
+      "name": "Emak Hor Rugby Arcangues / Bassussarry",
+      "colorNames": ["Rouge", "Vert"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#00843d"
+      },
+      "initials": "EHAB",
+      "isSure": true
+    },
+    "stade-bordelais": {
+      "slug": "stade-bordelais",
+      "name": "Stade Bordelais",
+      "colorNames": ["Blanc", "Bordeaux", "Noir"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#7a1f3d",
+        "tertiary": "#111111"
+      },
+      "initials": "SB",
+      "isSure": true
+    },
+    "so-millau": {
+      "slug": "millau-rugby-club",
+      "name": "Millau Rugby Club",
+      "colorNames": ["Bleu", "Blanc"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "MC",
+      "isSure": false
+    },
+    "rodez-rugby": {
+      "slug": "rodez-rugby",
+      "name": "Rodez Rugby",
+      "colorNames": ["Jaune", "Rouge"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#c8102e"
+      },
+      "initials": "R",
+      "isSure": true
+    },
+    "ua-vergt": {
+      "slug": "u-a-vernoise-vergt",
+      "name": "UA Vernoise Vergt",
+      "colorNames": ["Blanc", "Vert"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#00843d"
+      },
+      "initials": "UAVV",
+      "isSure": true
+    },
+    "rc-arpajon-veinazes": {
+      "slug": "r-c-arpajon-veinazes",
+      "name": "RC Arpajon Veinazes",
+      "colorNames": ["Bleu ciel"],
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCAV",
+      "isSure": true
+    },
+    "stade-belvesois": {
+      "slug": "stade-belvesois",
+      "name": "Stade Belvesois",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "SB",
+      "isSure": true
+    },
+    "correze-rc": {
+      "slug": "correze-rugby-club",
+      "name": "CORREZE RUGBY CLUB",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "CORR",
+      "isSure": true
+    },
+    "levezou-segala-aveyron-xv": {
+      "slug": "levezou-segala-aveyron-xv",
+      "name": "Levezou Segala Aveyron XV",
+      "colorNames": ["Vert", "Jaune"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#ffd100"
+      },
+      "initials": "LSA",
+      "isSure": true
+    },
+    "rc-roubaix": {
+      "slug": "r-c-roubaix",
+      "name": "RC Roubaix",
+      "colorNames": ["Noir", "Orange"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#ff6a13"
+      },
+      "initials": "RCR",
+      "isSure": true
+    },
+    "plaisir-rc": {
+      "slug": "plaisir-rugby-club",
+      "name": "Plaisir Rugby Club",
+      "colorNames": ["Bleu roi"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "PC",
+      "isSure": true
+    },
+    "rc-sablais": {
+      "slug": "r-c-sablais",
+      "name": "RC Sablais",
+      "colorNames": ["Blanc", "Azur"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "RCS",
+      "isSure": true
+    },
+    "rc-versailles": {
+      "slug": "r-c-versailles",
+      "name": "RC Versailles",
+      "colorNames": ["Bleu roi"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCV",
+      "isSure": true
+    },
+    "evreux-ac": {
+      "slug": "evreux-a-c-rugby",
+      "name": "Evreux AC Rugby",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "EAC",
+      "isSure": true
+    },
+    "aas-sarcelles": {
+      "slug": "a-amicale-s-sarcelles",
+      "name": "A Amicale S Sarcelles",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "ASS",
+      "isSure": false
+    },
+    "rc-montesson-chatou": {
+      "slug": "rugby-club-montesson-chatou",
+      "name": "Rugby Club Montesson Chatou",
+      "colorNames": ["Blanc"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "RCMC",
+      "isSure": true
+    },
+    "stade-caennais-rc": {
+      "slug": "stade-caennais-rugby-club",
+      "name": "Stade Caennais Rugby Club",
+      "colorNames": ["Bleu ciel", "Bleu roi", "Rouge"],
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#0033a0",
+        "tertiary": "#c8102e"
+      },
+      "initials": "SCC",
+      "isSure": true
+    },
+    "paris-xo": {
+      "slug": "asptt-grand-paris",
+      "name": "Asptt Grand Paris",
+      "colorNames": ["Bleu", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "initials": "AGP",
+      "isSure": true
+    },
+    "rugby-aulnay-club": {
+      "slug": "rugby-aulnay-club",
+      "name": "Rugby Aulnay Club",
+      "colorNames": ["Jaune", "Rouge"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#c8102e"
+      },
+      "initials": "RAC",
+      "isSure": true
+    },
+    "lille-rc-iris": {
+      "slug": "lille-rugby-club-iris-1924",
+      "name": "Lille Rugby Club - Iris 1924",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "LCI1",
+      "isSure": true
+    },
+    "rc-arras": {
+      "slug": "rugby-club-arras",
+      "name": "Rugby Club Arras",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCA",
+      "isSure": true
+    },
+    "ac-boulogne-billancourt": {
+      "slug": "a-c-b-b-boulogne-billancourt",
+      "name": "ACBB Boulogne Billancourt",
+      "colorNames": ["Orchidée", "Orange"],
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "ACBB",
+      "isSure": true
+    },
+    "le-havre-ac": {
+      "slug": "havre-a-c",
+      "name": "Havre AC",
+      "colorNames": ["Bleu ciel", "Marine"],
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "HAC",
+      "isSure": true
+    },
+    "rca-cergy-pontoise": {
+      "slug": "racing-club-de-l-agglomeration-cergy-pontoise",
+      "name": "Racing Club de L Agglomeration Cergy Pontoise",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCAC",
+      "isSure": false
+    },
+    "ru-dunkerque-littoral": {
+      "slug": "rugby-union-dunkerque-littoral",
+      "name": "Rugby Union Dunkerque Littoral",
+      "colorNames": ["Jaune", "Or", "Noir"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#f2c14e",
+        "tertiary": "#111111"
+      },
+      "initials": "RUDL",
+      "isSure": true
+    },
+    "sc-bernay": {
+      "slug": "s-c-bernay",
+      "name": "SC Bernay",
+      "colorNames": ["Bleu roi"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SCB",
+      "isSure": true
+    },
+    "gretz-tournan-ozoir-rc-77": {
+      "slug": "gretz-tournan-ozoir-rugby-centre-77",
+      "name": "Gretz Tournan Ozoir Rugby Centre 77",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "GTOC",
+      "isSure": true
+    },
+    "rc-metz": {
+      "slug": "r-c-metz-moselle",
+      "name": "RC Metz Moselle",
+      "colorNames": ["Blanc", "Noir"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "RCMM",
+      "isSure": true
+    },
+    "rc-sucy-en-brie": {
+      "slug": "rugby-club-sucy",
+      "name": "Rugby Club Sucy",
+      "colorNames": ["Bleu", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "initials": "RCS",
+      "isSure": true
+    },
+    "stade-pontellois": {
+      "slug": "stade-pontellois",
+      "name": "Stade Pontellois",
+      "colorNames": ["Jaune", "Bleu"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#0055a4"
+      },
+      "initials": "SP",
+      "isSure": true
+    },
+    "nancy-seichamps-rugby": {
+      "slug": "c-o-villers-les-nancy",
+      "name": "CO Villers Les Nancy",
+      "colorNames": ["Jaune"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "COVN",
+      "isSure": false
+    },
+    "rugby-epernay-champagne": {
+      "slug": "rugby-epernay-champagne",
+      "name": "Rugby Epernay Champagne",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "REC",
+      "isSure": true
+    },
+    "fc-haguenau": {
+      "slug": "rugby-club-haguenau",
+      "name": "Rugby Club Haguenau",
+      "colorNames": ["Blanc", "Bleu"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0055a4"
+      },
+      "initials": "RCH",
+      "isSure": false
+    },
+    "rc-pont-a-mousson": {
+      "slug": "r-c-pont-a-mousson",
+      "name": "RC Pont A Mousson",
+      "colorNames": ["Blanc", "Bleu"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0055a4"
+      },
+      "initials": "RCPM",
+      "isSure": true
+    },
+    "rugby-melun-combs-senart-77": {
+      "slug": "rugby-melun-combs-senart-77",
+      "name": "Rugby Melun Combs Senart 77",
+      "colorNames": ["Blanc", "Noir"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "RMCS",
+      "isSure": true
+    },
+    "rc-strasbourg": {
+      "slug": "association-sportive-des-cheminots-de-strasbourg-rugby",
+      "name": "Association Sportive Des Cheminots de Strasbourg Rugby",
+      "colorNames": ["Jaune", "Impérial", "Bleu"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#0055a4"
+      },
+      "initials": "ASCS",
+      "isSure": false
+    },
+    "grand-dole-rugby": {
+      "slug": "grand-dole-rugby",
+      "name": "Grand Dole Rugby",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "GD",
+      "isSure": true
+    },
+    "stade-dijonnais": {
+      "slug": "r-c-dijonnais",
+      "name": "RC Dijonnais",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCD",
+      "isSure": true
+    },
+    "co-le-creusot": {
+      "slug": "club-ol-creusot-bourgogne",
+      "name": "Club Ol Creusot Bourgogne",
+      "colorNames": ["Bleu roi", "Rouge"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#c8102e"
+      },
+      "initials": "COCB",
+      "isSure": true
+    },
+    "us-bellegarde-coupy": {
+      "slug": "u-s-bellegarde-coupy",
+      "name": "US Bellegarde Coupy",
+      "colorNames": ["Vert", "Blanc"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "USBC",
+      "isSure": true
+    },
+    "ca-pontarlier": {
+      "slug": "c-a-pontarlier",
+      "name": "CA Pontarlier",
+      "colorNames": ["Bleu roi", "Jaune"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#ffd100"
+      },
+      "initials": "CAP",
+      "isSure": true
+    },
+    "rc-montceau-bourgogne": {
+      "slug": "r-c-montceau-bourgogne",
+      "name": "RC Montceau Bourgogne",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "RCMB",
+      "isSure": true
+    },
+    "stade-montchaninois-bourgogne": {
+      "slug": "stade-montchaninois-bourgogne",
+      "name": "Stade Montchaninois Bourgogne",
+      "colorNames": ["Bleu ciel", "Blanc"],
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SMB",
+      "isSure": true
+    },
+    "as-ampuis-cote-rotie": {
+      "slug": "a-s-ampuis-cote-rotie",
+      "name": "AS Ampuis Cote Rotie",
+      "colorNames": ["Noir", "Rouge"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#c8102e"
+      },
+      "initials": "ASAC",
+      "isSure": true
+    },
+    "fc-aix-les-bains": {
+      "slug": "f-c-aix-les-bains",
+      "name": "FC Aix Les Bains",
+      "colorNames": ["Jaune", "Noir"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "initials": "FCAB",
+      "isSure": true
+    },
+    "co-le-puy": {
+      "slug": "c-o-le-puy-rugby",
+      "name": "CO Le Puy Rugby",
+      "colorNames": ["Noir", "Rouge"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#c8102e"
+      },
+      "initials": "COP",
+      "isSure": true
+    },
+    "rc-motterain": {
+      "slug": "r-c-motterain",
+      "name": "RC Motterain",
+      "colorNames": ["Bleu", "Rouge", "Tomate", "Blanc", "Bleu roi", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e",
+        "tertiary": "#f5f5f5"
+      },
+      "initials": "RCM",
+      "isSure": true
+    },
+    "ent-chateauneuf-st-marcel-xv": {
+      "slug": "ent-chateauneuf-st-marcel-xv",
+      "name": "Ent Chateauneuf St Marcel XV",
+      "colorNames": ["Vert", "Blanc", "Noir"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5",
+        "tertiary": "#111111"
+      },
+      "initials": "ECSM",
+      "isSure": true
+    },
+    "us-veore-xv": {
+      "slug": "union-sportive-veore-xv",
+      "name": "Union Sportive Veore XV",
+      "colorNames": ["Violet", "Prune", "Violette", "Jaune", "Violet"],
+      "colors": {
+        "primary": "#6a1b9a",
+        "secondary": "#ffd100"
+      },
+      "initials": "USV",
+      "isSure": true
+    },
+    "bassin-de-crussol-rugby": {
+      "slug": "bassin-de-crussol-rugby",
+      "name": "Bassin de Crussol Rugby",
+      "colorNames": ["Bleu", "Jaune"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#ffd100"
+      },
+      "initials": "BC",
+      "isSure": true
+    },
+    "rc-teillois": {
+      "slug": "r-c-teillois",
+      "name": "RC Teillois",
+      "colorNames": ["Bleu", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "initials": "RCT",
+      "isSure": true
+    },
+    "fc-tournon-tain": {
+      "slug": "f-c-tournon-tain",
+      "name": "FC Tournon Tain",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "FCTT",
+      "isSure": true
+    },
+    "ua-tullins-fures": {
+      "slug": "u-a-tullins-fures",
+      "name": "UA Tullins Fures",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "UATF",
+      "isSure": true
+    },
+    "us-renage-rives": {
+      "slug": "u-s-renage-rives",
+      "name": "US Renage Rives",
+      "colorNames": ["Bleu roi"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "USRR",
+      "isSure": true
+    },
+    "rc-draguignan": {
+      "slug": "rugby-club-draguignan",
+      "name": "Rugby Club Draguignan",
+      "colorNames": ["Vert", "Printemps"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCD",
+      "isSure": true
+    },
+    "es-saint-saturnin": {
+      "slug": "et-sp-st-saturnin-les-avignon",
+      "name": "Et Sp St Saturnin Les Avignon",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SSSA",
+      "isSure": false
+    },
+    "rc-lucciana": {
+      "slug": "r-c-lucciana",
+      "name": "RC Lucciana",
+      "colorNames": ["Noir", "Rouge"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#c8102e"
+      },
+      "initials": "RCL",
+      "isSure": true
+    },
+    "rc-jacou": {
+      "slug": "rugby-club-jacou-montpellier-nord",
+      "name": "Rugby Club Jacou Montpellier Nord",
+      "colorNames": ["Jaune", "Or", "Bleu nuit"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#f2c14e"
+      },
+      "initials": "RCJM",
+      "isSure": true
+    },
+    "marseille-rm": {
+      "slug": "association-de-la-police-municipale-de-marseille",
+      "name": "ASSOCIATION DE LA POLICE MUNICIPALE DE MARSEILLE",
+      "colorNames": ["Blanc", "Bleu"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0055a4"
+      },
+      "initials": "ASSO",
+      "isSure": true
+    },
+    "sc-salon": {
+      "slug": "provence-rugby",
+      "name": "Provence Rugby",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "P",
+      "isSure": false
+    },
+    "rc-vallee-du-gapeau": {
+      "slug": "r-c-de-la-vallee-du-gapeau",
+      "name": "RC de La Vallee Du Gapeau",
+      "colorNames": ["Jaune", "Noir"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "initials": "RCVG",
+      "isSure": true
+    },
+    "ca-bedarieux-gor": {
+      "slug": "club-athletique-bedarieux-grand-orb-rugby",
+      "name": "Club Athletique Bedarieux Grand Orb Rugby",
+      "colorNames": ["Jaune"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "CABG",
+      "isSure": false
+    },
+    "rc-dignois": {
+      "slug": "r-c-dignois",
+      "name": "RC Dignois",
+      "colorNames": ["Bleu", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "initials": "RCD",
+      "isSure": true
+    },
+    "ent-vendres-lespignan": {
+      "slug": "entente-vendres-lespignan-sauvian-xv",
+      "name": "Entente Vendres Lespignan Sauvian XV",
+      "colorNames": ["Vert", "Blanc"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "EVLS",
+      "isSure": false
+    },
+    "rivesaltes-baixas-espira-agly-xv": {
+      "slug": "rivesaltes-baixas-espira-agly-xv",
+      "name": "Rivesaltes Baixas Espira Agly XV",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RBEA",
+      "isSure": true
+    },
+    "ent-vallee-du-girou": {
+      "slug": "ent-la-vallee-du-girou",
+      "name": "Ent La Vallee Du Girou",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "EVG",
+      "isSure": true
+    },
+    "etoile-sportive-catalane": {
+      "slug": "etoile-sportive-catalane",
+      "name": "Etoile Sportive Catalane",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "ESC",
+      "isSure": true
+    },
+    "rc-sete": {
+      "slug": "rugby-club-sete",
+      "name": "Rugby Club Sete",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCS",
+      "isSure": true
+    },
+    "balma-orc": {
+      "slug": "balma-olympique-rugby-club",
+      "name": "Balma Olympique Rugby Club",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "BOC",
+      "isSure": false
+    },
+    "js-illiberienne": {
+      "slug": "jeunesse-sportive-illiberienne-latour-theza",
+      "name": "Jeunesse Sportive Illiberienne / Latour / Theza",
+      "colorNames": ["Bleu roi"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "JSIL",
+      "isSure": true
+    },
+    "us-tarascon-xv": {
+      "slug": "u-s-tarascon-xv",
+      "name": "US Tarascon XV",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "UST",
+      "isSure": true
+    },
+    "magnoac-fc": {
+      "slug": "magnoac-f-c",
+      "name": "Magnoac F C",
+      "colorNames": ["Rouge", "Blanc"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "MFC",
+      "isSure": true
+    },
+    "union-cazeres-le-fousseret": {
+      "slug": "union-cazeres-le-fousseret-xv",
+      "name": "Union Cazeres Le Fousseret XV",
+      "colorNames": ["Bleu", "Noir", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#111111",
+        "tertiary": "#c8102e"
+      },
+      "initials": "UCF",
+      "isSure": true
+    },
+    "us-coteaux-pouyastruc": {
+      "slug": "union-sportive-des-coteaux-pouyastruc",
+      "name": "Union Sportive Des Coteaux Pouyastruc",
+      "colorNames": ["Jaune", "Noir"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "initials": "USCP",
+      "isSure": true
+    },
+    "rc-salvetat-plaisance": {
+      "slug": "racing-club-salvetat-plaisance",
+      "name": "Racing Club Salvetat Plaisance",
+      "colorNames": ["Bleu", "Jaune"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#ffd100"
+      },
+      "initials": "RCSP",
+      "isSure": true
+    },
+    "as-tournefeuille": {
+      "slug": "a-s-tournefeuille",
+      "name": "AS Tournefeuille",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "AST",
+      "isSure": true
+    },
+    "us-vicquoise": {
+      "slug": "u-s-vicquoise",
+      "name": "US Vicquoise",
+      "colorNames": [],
+      "colors": null,
+      "initials": "USV",
+      "isSure": true
+    },
+    "ent-astarac-bigorre": {
+      "slug": "ent-rugby-mielan-mirande-rabastens",
+      "name": "Ent Rugby Mielan  Mirande Rabastens",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "EMMR",
+      "isSure": false
+    },
+    "stade-hendayais": {
+      "slug": "stade-hendayais",
+      "name": "Stade Hendayais",
+      "colorNames": ["Blanc"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "SH",
+      "isSure": true
+    },
+    "barcus-menditte-xiberoa": {
+      "slug": "u-s-menditte",
+      "name": "US Menditte",
+      "colorNames": ["Jaune", "Noir"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "initials": "USM",
+      "isSure": true
+    },
+    "avenir-bizanos": {
+      "slug": "avenir-bizanos",
+      "name": "Avenir Bizanos",
+      "colorNames": ["Jaune", "Noir"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "initials": "AB",
+      "isSure": true
+    },
+    "stado-tarbes-pr": {
+      "slug": "stado-tarbes-pyrenees-rugby",
+      "name": "Stado Tarbes Pyrenees Rugby",
+      "colorNames": ["Rouge", "Tomate"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "STP",
+      "isSure": true
+    },
+    "oo-laruns": {
+      "slug": "ol-ossalois-laruns",
+      "name": "Ol Ossalois Laruns",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "OOL",
+      "isSure": true
+    },
+    "us-josbaig": {
+      "slug": "u-s-josbaig-st-goin",
+      "name": "US Josbaig",
+      "colorNames": ["Jaune", "Or"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#f2c14e"
+      },
+      "initials": "USJ",
+      "isSure": true
+    },
+    "inthalatz-rugby-larressore": {
+      "slug": "inthalatz-larressore",
+      "name": "Inthalatz Larressore",
+      "colorNames": ["Vert", "Blanc"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "IL",
+      "isSure": true
+    },
+    "asso-cote-landes": {
+      "slug": "association-cote-landes-rugby-a-c-l-r",
+      "name": "Association Cote Landes Rugby",
+      "colorNames": ["Bordeaux"],
+      "colors": {
+        "primary": "#7a1f3d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "ACL",
+      "isSure": false
+    },
+    "avenir-aturin": {
+      "slug": "avenir-aturin",
+      "name": "Avenir Aturin",
+      "colorNames": ["Noir", "Rouge"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#c8102e"
+      },
+      "initials": "AA",
+      "isSure": true
+    },
+    "capbreton-hossegor-rugby": {
+      "slug": "capbreton-hossegor-rugby",
+      "name": "Capbreton Hossegor Rugby",
+      "colorNames": ["Jaune", "Or", "Rouge", "Bleu nuit"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#f2c14e",
+        "tertiary": "#c8102e"
+      },
+      "initials": "CH",
+      "isSure": true
+    },
+    "ua-vicoise": {
+      "slug": "u-a-vicoise",
+      "name": "UA Vicoise",
+      "colorNames": ["Tango"],
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "UAV",
+      "isSure": true
+    },
+    "coquelicots-montechois-rugby": {
+      "slug": "coquelicots-montechois-rugby",
+      "name": "Coquelicots Montechois Rugby",
+      "colorNames": ["Bleu", "Rouge"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#c8102e"
+      },
+      "initials": "CM",
+      "isSure": true
+    },
+    "leognan-rugby": {
+      "slug": "leognan-rugby",
+      "name": "Leognan Rugby",
+      "colorNames": ["Bleu ciel", "Bleu nuit"],
+      "colors": {
+        "primary": "#6cace4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "L",
+      "isSure": true
+    },
+    "co-pont-du-casse": {
+      "slug": "club-ovalie-pont-du-casse",
+      "name": "Club Ovalie Pont Du Casse",
+      "colorNames": ["Orange"],
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "COPC",
+      "isSure": true
+    },
+    "avenir-moissagais": {
+      "slug": "avenir-moissagais",
+      "name": "Avenir Moissagais",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "AM",
+      "isSure": true
+    },
+    "rc-bon-encontre-boe": {
+      "slug": "r-c-bon-encontre-boe",
+      "name": "RC Bon Encontre Boe",
+      "colorNames": ["Marine", "Vert"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCBE",
+      "isSure": true
+    },
+    "rc-villeneuve": {
+      "slug": "rugby-club-villeneuve-xv",
+      "name": "Rugby Club Villeneuve XV",
+      "colorNames": ["Rouge", "Noir"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#111111"
+      },
+      "initials": "RCV",
+      "isSure": true
+    },
+    "pessac-rugby": {
+      "slug": "pessac-rugby",
+      "name": "Pessac Rugby",
+      "colorNames": ["Fraise"],
+      "colors": null,
+      "initials": "P",
+      "isSure": true
+    },
+    "rc-gradignan": {
+      "slug": "r-c-gradignan",
+      "name": "RC Gradignan",
+      "colorNames": ["Vert", "ÉMeraude", "Blanc", "Vert"],
+      "colors": {
+        "primary": "#00843d",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCG",
+      "isSure": true
+    },
+    "us-vallee-du-lot": {
+      "slug": "union-sportive-vallee-du-lot-47",
+      "name": "Union Sportive Vallee Du Lot 47",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "USVL",
+      "isSure": true
+    },
+    "us-juillac-objat": {
+      "slug": "union-sportive-juillac-objat",
+      "name": "Union Sportive Juillac Objat",
+      "colorNames": ["Blanc", "Bleu roi", "Rouge", "Tomate"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0033a0",
+        "tertiary": "#c8102e"
+      },
+      "initials": "USJO",
+      "isSure": true
+    },
+    "rc-saint-cernin": {
+      "slug": "racing-club-st-cernin",
+      "name": "Racing Club St Cernin",
+      "colorNames": ["Orange"],
+      "colors": {
+        "primary": "#ff6a13",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCSC",
+      "isSure": false
+    },
+    "st-cere-rugby": {
+      "slug": "st-cere-rugby",
+      "name": "St Cere Rugby",
+      "colorNames": ["Jaune", "Rouge"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#c8102e"
+      },
+      "initials": "SC",
+      "isSure": true
+    },
+    "rc-bretenoux-biars-vayrac": {
+      "slug": "rugby-club-bretenoux-biars-vayrac",
+      "name": "Rugby Club Bretenoux Biars Vayrac",
+      "colorNames": ["Bleu", "Blanc"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCBB",
+      "isSure": true
+    },
+    "rc-buguois": {
+      "slug": "rugby-club-buguois",
+      "name": "Rugby Club Buguois",
+      "colorNames": ["Blanc", "Bleu"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0055a4"
+      },
+      "initials": "RCB",
+      "isSure": true
+    },
+    "us-lalinde": {
+      "slug": "u-s-lalinde",
+      "name": "US Lalinde",
+      "colorNames": ["Noir", "Jaune"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#ffd100"
+      },
+      "initials": "USL",
+      "isSure": true
+    },
+    "rc-saint-flour": {
+      "slug": "r-c-st-flour",
+      "name": "RC St Flour",
+      "colorNames": ["Jaune", "Impérial", "Bleu roi"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#0033a0"
+      },
+      "initials": "RCSF",
+      "isSure": true
+    },
+    "union-saint-astier-neuvic": {
+      "slug": "union-saint-astier-neuvic",
+      "name": "Union Saint Astier Neuvic",
+      "colorNames": ["Blanc", "Noir", "Vert"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111",
+        "tertiary": "#00843d"
+      },
+      "initials": "USAN",
+      "isSure": true
+    },
+    "rc-orleans-la-source": {
+      "slug": "r-c-orleans",
+      "name": "RC Orleans",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCO",
+      "isSure": true
+    },
+    "ja-isle": {
+      "slug": "j-a-isle-rugby",
+      "name": "JA Isle Rugby",
+      "colorNames": ["Blanc", "Bleu", "Bleu ciel"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0055a4",
+        "tertiary": "#6cace4"
+      },
+      "initials": "JAI",
+      "isSure": true
+    },
+    "rc-issoudun": {
+      "slug": "r-c-issoudun",
+      "name": "RC Issoudun",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCI",
+      "isSure": true
+    },
+    "cr-ancizes-comps": {
+      "slug": "c-r-ancizes-comps",
+      "name": "CR Ancizes Comps",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "CRAC",
+      "isSure": true
+    },
+    "clermont-uc-aubiere": {
+      "slug": "clermont-u-c-aubiere-rugby",
+      "name": "Clermont UC Aubiere Rugby",
+      "colorNames": ["Blanc", "Noir"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "CUCA",
+      "isSure": true
+    },
+    "rugby-sancerrois": {
+      "slug": "rugby-sancerrois",
+      "name": "Rugby Sancerrois",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RS",
+      "isSure": true
+    },
+    "niort-rc": {
+      "slug": "c-r-a-niort",
+      "name": "CR A Niort",
+      "colorNames": ["Blanc"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "CRN",
+      "isSure": true
+    },
+    "stade-poitevin": {
+      "slug": "stade-poitevin-rugby",
+      "name": "Stade Poitevin Rugby",
+      "colorNames": ["Blanc", "Noir"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "SP",
+      "isSure": true
+    },
+    "rc-puilboreau": {
+      "slug": "rugby-club-puilboreau",
+      "name": "Rugby Club Puilboreau",
+      "colorNames": ["Bleu roi"],
+      "colors": {
+        "primary": "#0033a0",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCP",
+      "isSure": true
+    },
+    "sa-rochefort": {
+      "slug": "s-a-rochefort-rugby",
+      "name": "SA Rochefort Rugby",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SAR",
+      "isSure": true
+    },
+    "stade-blayais": {
+      "slug": "stade-blayais-rugby-ht-gironde",
+      "name": "Stade Blayais Rugby Ht Gironde",
+      "colorNames": ["Bleu nuit"],
+      "colors": null,
+      "initials": "SBHG",
+      "isSure": true
+    },
+    "us-saintes": {
+      "slug": "u-s-saintes-rugby",
+      "name": "US Saintes Rugby",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "USS",
+      "isSure": true
+    },
+    "stade-foyen": {
+      "slug": "stade-foyen",
+      "name": "Stade Foyen",
+      "colorNames": ["Noir", "Rouge"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#c8102e"
+      },
+      "initials": "SF",
+      "isSure": true
+    },
+    "saint-nazaire-ovalie": {
+      "slug": "saint-nazaire-ovalie",
+      "name": "Saint Nazaire Ovalie",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "SNO",
+      "isSure": true
+    },
+    "xv-de-l-erdre": {
+      "slug": "xv-erdre",
+      "name": "XV Erdre",
+      "colorNames": ["Noir"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "XVE",
+      "isSure": true
+    },
+    "rc-saint-sebastien": {
+      "slug": "r-c-st-sebastien-bse-goulaine",
+      "name": "RC St Sebastien Bse Goulaine",
+      "colorNames": ["Blanc", "Bleu", "Vert"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0055a4",
+        "tertiary": "#00843d"
+      },
+      "initials": "RCSS",
+      "isSure": false
+    },
+    "clamart-rugby-92": {
+      "slug": "clamart-rugby-92",
+      "name": "Clamart Rugby 92",
+      "colorNames": ["Blanc", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#c8102e"
+      },
+      "initials": "C92",
+      "isSure": true
+    },
+    "scorc-angers": {
+      "slug": "sco-rugby-angers",
+      "name": "SCO Rugby Angers",
+      "colorNames": ["Blanc", "Noir"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#111111"
+      },
+      "initials": "SCOA",
+      "isSure": false
+    },
+    "us-olympiades-massif-central": {
+      "slug": "u-s-o-massif-central",
+      "name": "USO Massif Central",
+      "colorNames": ["Bleu"],
+      "colors": {
+        "primary": "#0055a4",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "USOM",
+      "isSure": true
+    },
+    "rcs-bretigny": {
+      "slug": "r-c-epinay-sur-orge",
+      "name": "RC Epinay Sur Orge",
+      "colorNames": ["Blanc", "Bleu", "Rouge"],
+      "colors": {
+        "primary": "#f5f5f5",
+        "secondary": "#0055a4",
+        "tertiary": "#c8102e"
+      },
+      "initials": "RCEO",
+      "isSure": false
+    },
+    "ca-orsay-rc": {
+      "slug": "c-ath-orsay-rugby-club",
+      "name": "C Ath Orsay Rugby Club",
+      "colorNames": ["Noir", "Orange"],
+      "colors": {
+        "primary": "#111111",
+        "secondary": "#ff6a13"
+      },
+      "initials": "CAOC",
+      "isSure": true
+    },
+    "roc-giffois": {
+      "slug": "r-o-c-giffois",
+      "name": "RO C Giffois",
+      "colorNames": ["Jaune", "Noir"],
+      "colors": {
+        "primary": "#ffd100",
+        "secondary": "#111111"
+      },
+      "initials": "ROCG",
+      "isSure": true
+    },
+    "com-bagneux": {
+      "slug": "c-o-multisport-bagneux-rugby",
+      "name": "CO Multisport Bagneux Rugby",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "COMB",
+      "isSure": false
+    },
+    "rc-le-mans": {
+      "slug": "r-c-mans",
+      "name": "RC Mans",
+      "colorNames": ["Rouge"],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#f5f5f5"
+      },
+      "initials": "RCM",
+      "isSure": true
+    }
+  },
+  "unmatched": [
+    "racing-92 (Racing 92, Le Plessis-Robinson, 92)",
+    "rc-vannes (RC Vannes, Vannes, 56)",
+    "so-chambery (SO Chambéry, Chambéry, 73)",
+    "us-carcassonne (US Carcassonne, Carcassonne, 11)",
+    "rennes-ec (Rennes EC, Rennes, 35)",
+    "cs-vienne (CS Vienne, Vienne, 38)",
+    "as-macon (AS Mâcon, Mâcon, 71)",
+    "stade-metropolitain (Stade métropolitain, Villeurbanne, 69)",
+    "rc-nimes (RC Nîmes, Nîmes, 30)",
+    "sa-mauleon (SA Mauléon, Mauléon, 79)",
+    "as-fleurance (AS Fleurance, Fleurance, 32)",
+    "us-montmelian (US Montmélian, Montmélian, 73)",
+    "us-issoire (US Issoire, Issoire, 63)",
+    "rc-auxerre (RC Auxerre, Auxerre, 89)",
+    "xv-corsaire-saint-malo (XV Corsaire Saint-Malo, Saint-Malo, 35)",
+    "ro-agde (RO Agde, Agde, 34)",
+    "as-monaco (AS Monaco, Monaco, 06)",
+    "avenir-gruissanais (Avenir gruissanais, Gruissan, 11)",
+    "ca-sarlat (CA Sarlat, Sarlat-la-Canéda, 24)",
+    "us-saint-sulpice (US Saint-Sulpice, Saint-Sulpice-sur-Lèze, 31)",
+    "ua-gaillac (UA Gaillac, Gaillac, 81)",
+    "as-layrac (AS Layrac, Layrac, 47)",
+    "ca-lannemezan (CA Lannemezan, Lannemezan, 65)",
+    "csm-gennevilliers (CSM Gennevilliers, Gennevilliers, 92)",
+    "rc-rillieux (RC Rillieux, Rillieux-la-Pape, 69)",
+    "cs-lons (CS Lons, Lons-le-Saunier, 39)",
+    "cs-villefranche-sur-saone (CS Villefranche-sur-Saône, Villefranche-sur-Saône, 69)",
+    "fc-saint-claude (FC Saint-Claude, Saint-Claude, 39)",
+    "us-meyzieu (US Meyzieu, Meyzieu, 69)",
+    "rcp-saint-jeannais (RCP Saint-Jeannais, Saint-Jean-de-Bournay, 38)",
+    "xv-de-la-dombes (XV de la Dombes, Villars-les-Dombes, 01)",
+    "us-nantua-hbr (US Nantua HBR, Nantua, 01)",
+    "rc-andrezieux-boutheon (RC Andrézieux-Bouthéon, Andrézieux-Bouthéon, 42)",
+    "rc-aubagne (RC Aubagne, Aubagne, 13)",
+    "su-cavaillon (SU Cavaillon, Cavaillon, 84)",
+    "us-montelimar (US Montélimar, Montélimar, 26)",
+    "ua-saverdun (UA Saverdun, Saverdun, 09)",
+    "jo-prades (JO Prades, Prades, 66)",
+    "ca-castelsarrasin (CA Castelsarrasin, Castelsarrasin, 82)",
+    "us-caussade (US Caussade, Caussade, 82)",
+    "sc-rieumes (SC Rieumes, Rieumes, 31)",
+    "us-morlaas (US Morlaàs, Morlaàs, 64)",
+    "us-argeles (US Argelès, Argelès-Gazost, 65)",
+    "es-gimont (ES Gimont, Gimont, 32)",
+    "us-bazas (US Bazas, Bazas, 33)",
+    "boucau-tarnos-stade (Boucau Tarnos stade, Tarnos, 40)",
+    "us-mugron (US Mugron, Mugron, 40)",
+    "us-castillon (US Castillon, Castillon-la-Bataille, 33)",
+    "us-bergerac (US Bergerac, Bergerac, 24)",
+    "usc-alban (USC Alban, Alban, 81)",
+    "gs-figeac (GS Figeac, Figeac, 46)",
+    "sc-decazeville (SC Decazeville, Decazeville, 12)",
+    "cs-nontron (CS Nontron, Nontron, 24)",
+    "sc-le-rheu (SC Le Rheu, Le Rheu, 35)",
+    "fc-yonnais (FC yonnais, La Roche-sur-Yon, 85)",
+    "mlsgp-rugby (MLSGP Rugby, Maisons-Laffitte, 78)",
+    "rc-amiens (RC Amiens, Amiens, 80)",
+    "rc-yvetot (RC Yvetot, Yvetot, 76)",
+    "cs-beaune (CS Beaune, Beaune, 21)",
+    "rc-louhans (RC Louhans, Louhans-Châteaurenaud, 71)",
+    "rc-viriat (RC Viriat, Viriat, 01)",
+    "as-saint-marcel-isle-d-abeau (AS Saint-Marcel-Isle d'Abeau, Saint-Marcel-Bel-Accueil, 38)",
+    "us-beaurepaire (US Beaurepaire, Beaurepaire, 38)",
+    "sc-tarare (SC Tarare, Tarare, 69)",
+    "rc-belleville-beaujolais (RC Belleville Beaujolais, Belleville-en-Beaujolais, 69)",
+    "saint-savin-sportif (Saint-Savin sportif, Saint-Savin, 38)",
+    "rc-des-vallons-de-la-tour (RC des Vallons-de-la-Tour, La Tour-du-Pin, 38)",
+    "ent-vaulnaveys-vizille (Ent. Vaulnaveys Vizille, Vaulnaveys-le-Haut, 38)",
+    "saint-marcellin-sports (Saint-Marcellin sports, Saint-Marcellin, 38)",
+    "rc-seyssins (RC Seyssins, Seyssins, 38)",
+    "us-valreas (US Valréas, Valréas, 84)",
+    "us-thuir (US Thuir, Thuir, 66)",
+    "saint-juery-aoxv (Saint-Juéry AOXV, Saint-Juéry, 81)",
+    "as-olonzac-minervois (AS Olonzac Minervois, Olonzac, 34)",
+    "sc-pamiers (SC Pamiers, Pamiers, 09)",
+    "us-l-isle-en-dodon (US L'Isle-en-Dodon, L'Isle-en-Dodon, 31)",
+    "es-arudy (ES Arudy, Arudy, 64)",
+    "as-bayonne (AS Bayonne, Bayonne, 64)",
+    "us-saint-palais (US Saint-Palais, Saint-Palais, 64)",
+    "ua-mimizan (UA Mimizan, Mimizan, 40)",
+    "sa-hagetmau (SA Hagetmau, Hagetmau, 40)",
+    "saint-paul-sr (Saint-Paul SR, Saint-Paul-lès-Dax, 40)",
+    "aa-nogaro (AA Nogaro, Nogaro, 32)",
+    "sa-saint-sever (SA Saint-Sever, Saint-Sever, 40)",
+    "rc-bassin-d-arcachon (RC bassin d'Arcachon, La Teste-de-Buch, 33)",
+    "us-nerac (US Nérac, Nérac, 47)",
+    "us-argentat (US Argentat, Argentat, 19)",
+    "rc-mussidan (RC Mussidan, Mussidan, 24)",
+    "rc-gueret (RC Guéret, Guéret, 23)",
+    "oc-montlucon (OC Montluçon, Saint-Victor, 03)",
+    "asf-commentry (ASF Commentry, Commentry, 03)",
+    "us-pithiviers (US Pithiviers, Pithiviers, 45)",
+    "sc-surgeres (SC Surgères, Surgères, 17)",
+    "sa-parthenay (SA Parthenay, Parthenay, 79)",
+    "sc-chinon (SC Chinon, Chinon, 37)",
+    "plouzane-ac (Plouzané AC, Plouzané, 29)",
+    "pays-auray-rc (Pays Auray RC, Auray, 56)",
+    "rc-quimper (RC Quimper, Quimper, 29)",
+    "rup-lorient (RUP Lorient, Lorient, 56)",
+    "sac-clisson-rugby (SAC Clisson Rugby, Clisson, 44)",
+    "rc-concarneau (RC Concarneau, Concarneau, 29)",
+    "rc-trignac (RC Trignac, Trignac, 44)",
+    "us-vendome (US Vendôme, Vendôme, 41)",
+    "c-chartres-rugby (C' Chartres Rugby, Chartres, 28)"
+  ],
+  "unknownColors": [
+    "Azur",
+    "Bleu nuit",
+    "Cassé",
+    "Chocolat",
+    "Fraise",
+    "Impérial",
+    "Marine",
+    "Noisette",
+    "Orchidée",
+    "Parements",
+    "Printemps",
+    "Prune",
+    "Pétrole",
+    "Tomate",
+    "Violette",
+    "ÉMeraude"
+  ]
+}
