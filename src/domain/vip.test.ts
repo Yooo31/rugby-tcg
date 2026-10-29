@@ -1,6 +1,8 @@
 import { RewardNotClaimableError } from "./reward";
 import {
   claimVipBooster,
+  extendVip,
+  getVipOffer,
   VIP_MAX_FREE_BOOSTERS,
   VIP_OFFERS,
   vipStatus,
@@ -25,6 +27,17 @@ describe("pass VIP", () => {
     expect(vipUntil([membership], membership.endsAt)).toBeNull();
     const longer = { startsAt: now - 2 * DAY_MS, endsAt: now + 60 * DAY_MS };
     expect(vipUntil([membership, longer], now)).toBe(longer.endsAt);
+  });
+
+  it("prolonge à partir de la fin de l'adhésion en cours, ou de maintenant", () => {
+    expect(extendVip([], now, 30)).toEqual({
+      startsAt: now,
+      endsAt: now + 30 * DAY_MS,
+    });
+    expect(extendVip([membership], now, getVipOffer("vip-year").days)).toEqual({
+      startsAt: membership.endsAt,
+      endsAt: membership.endsAt + 365 * DAY_MS,
+    });
   });
 
   it("offre un booster par jour à un VIP, à prendre le jour même", () => {

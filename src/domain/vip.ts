@@ -28,6 +28,14 @@ const VIP_DAILY_REWARD: Reward = { ingots: 0, boosters: 1 };
 /** Jours offerts par l'administration (tests, geste commercial). */
 export const VIP_GRANT_DAYS = 30;
 
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+export function getVipOffer(offerId: VipOffer["id"]): VipOffer {
+  const offer = VIP_OFFERS.find(({ id }) => id === offerId);
+  if (!offer) throw new Error(`Offre VIP inconnue : ${offerId}`);
+  return offer;
+}
+
 /** Une période d'adhésion : début inclus, fin exclue (millisecondes Unix). */
 export const vipMembershipSchema = z.object({
   startsAt: z.number(),
@@ -47,6 +55,19 @@ export function vipUntil(
   return current.length > 0
     ? Math.max(...current.map(({ endsAt }) => endsAt))
     : null;
+}
+
+/**
+ * Nouvelle période de `days` jours : elle commence maintenant, ou à la fin de
+ * l'adhésion en cours, pour ne jamais faire perdre de jours déjà payés.
+ */
+export function extendVip(
+  memberships: readonly VipMembership[],
+  now: number,
+  days: number,
+): VipMembership {
+  const startsAt = vipUntil(memberships, now) ?? now;
+  return { startsAt, endsAt: startsAt + days * DAY_MS };
 }
 
 /** Statut VIP du joueur, vu par lui. */
