@@ -1,7 +1,7 @@
 "use client";
 
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { IngotAmount } from "@/components/ui/reward";
 import {
   boosterPriceCents,
@@ -37,6 +37,24 @@ function Shop({ game }: { readonly game: ReadyGame }) {
           Votre solde
         </h2>
         <IngotAmount amount={game.ingots} className="text-3xl" />
+      </section>
+
+      <section
+        aria-labelledby="vip"
+        className="panel border-gold/40 flex flex-wrap items-center justify-between gap-4 p-5"
+      >
+        <div className="min-w-0 flex-1">
+          <p className="eyebrow text-gold">Pass VIP</p>
+          <h2 id="vip" className="text-2xl font-bold">
+            {game.vip.isActive ? "Vous êtes VIP" : "5 boosters en réserve"}
+          </h2>
+          <p className="text-chalk-muted mt-1 text-sm text-pretty">
+            Un booster de plus par jour et deux missions VIP.
+          </p>
+        </div>
+        <ButtonLink href="/vip" variant="secondary">
+          {game.vip.isActive ? "Mon pass" : "Découvrir"}
+        </ButtonLink>
       </section>
 
       <section aria-labelledby="lingots" className="flex flex-col gap-3">

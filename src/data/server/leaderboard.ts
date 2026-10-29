@@ -15,6 +15,7 @@ interface RankedRow {
   readonly username: string;
   readonly clubs: number;
   readonly rank: bigint;
+  readonly isVip: boolean;
 }
 
 /**
@@ -47,7 +48,14 @@ export function createPrismaLeaderboard(
         ranked AS (
           SELECT *, rank() OVER (ORDER BY clubs DESC) AS rank FROM scores
         )
-        SELECT id, username, clubs, rank FROM ranked
+        SELECT id, username, clubs, rank,
+          -- Les périodes se suivent sans trou : l'une d'elles couvre l'instant.
+          EXISTS (
+            SELECT 1 FROM vip_memberships v
+            WHERE v.player_id = ranked.id
+              AND v.starts_at <= now() AND now() < v.ends_at
+          ) AS "isVip"
+        FROM ranked
         WHERE rank <= ${LEADERBOARD_SIZE} OR id = ${playerId}::uuid
         ORDER BY rank, lower(username)`;
 
@@ -56,6 +64,7 @@ export function createPrismaLeaderboard(
         username: row.username,
         clubs: row.clubs,
         isMe: row.id === playerId,
+        isVip: row.isVip,
       });
       const mine = rows.find((row) => row.id === playerId);
       return {

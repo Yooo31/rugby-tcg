@@ -11,6 +11,7 @@ import { UsernameSettings } from "@/features/game";
 import { NotificationsToggle } from "@/features/notifications";
 import { CosmeticSettings } from "@/features/shop";
 import { ReferralPanel } from "@/features/referral/server";
+import { VipSettings } from "@/features/vip";
 import {
   LEGAL_NOTICE_PATH,
   PRIVACY_PATH,
@@ -56,6 +57,11 @@ export default function AccountPage() {
           <AdminLink />
         </Suspense>
         <SignOutButton />
+      </section>
+
+      <section className="panel flex flex-col gap-3 p-5">
+        <p className="eyebrow">Pass VIP</p>
+        <VipSettings />
       </section>
 
       <section className="panel flex flex-col gap-3 p-5">

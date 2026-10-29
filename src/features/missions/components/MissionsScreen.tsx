@@ -3,6 +3,7 @@
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { ButtonLink } from "@/components/ui/button";
 import { IngotAmount } from "@/components/ui/reward";
+import { VIP_MISSION_COUNT } from "@/domain";
 import { GameGate, type ReadyGame } from "@/features/game";
 import { MissionCard } from "./MissionCard";
 
@@ -32,6 +33,17 @@ function Missions({ game }: { readonly game: ReadyGame }) {
           </li>
         ))}
       </ul>
+
+      {game.vip.isActive ? null : (
+        <section className="panel border-gold/40 flex flex-wrap items-center justify-between gap-4 p-5">
+          <p className="text-chalk-muted min-w-0 flex-1 text-sm text-pretty">
+            Avec le pass VIP, {VIP_MISSION_COUNT} missions de plus chaque jour.
+          </p>
+          <ButtonLink href="/vip" variant="secondary">
+            Découvrir le VIP
+          </ButtonLink>
+        </section>
+      )}
 
       <section className="panel flex flex-wrap items-center justify-between gap-4 p-5">
         <div>

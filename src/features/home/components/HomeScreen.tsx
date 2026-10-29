@@ -14,6 +14,7 @@ import { ClubCard } from "@/features/cards";
 import { GameGate, type ReadyGame } from "@/features/game";
 import { featuredAlbums } from "../lib/featuredAlbums";
 import { SeasonTeaser } from "@/features/season";
+import { VipBoosterCard } from "@/features/vip";
 import { GiveawayBanner } from "./GiveawayBanner";
 import { LeaderboardTeaser } from "./LeaderboardTeaser";
 import { MissionsSummary } from "./MissionsSummary";
@@ -47,6 +48,7 @@ function Home({ game }: { readonly game: ReadyGame }) {
       <ScreenHeader eyebrow="Club-house" title="Jour de match" />
 
       <StreakCard streak={game.streak} onClaim={game.claimStreak} />
+      <VipBoosterCard vip={game.vip} onClaim={game.claimVipBooster} />
 
       <GiveawayBanner giveaways={game.giveaways} onClaim={game.claimGiveaway} />
       <SeasonTeaser progress={game.season} />

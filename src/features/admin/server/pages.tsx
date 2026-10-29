@@ -13,6 +13,7 @@ import {
   RARITIES,
   RARITY_ODDS,
   totalCards,
+  VIP_GRANT_DAYS,
 } from "@/domain";
 import { toDayKey } from "@/lib/dates";
 import { cn } from "@/lib/utils";
@@ -26,6 +27,7 @@ import {
   endGiveawayAction,
   endSeasonAction,
   grantSeasonPassAction,
+  grantVipAction,
   resetUsernameAction,
 } from "./actions";
 import { requireAdmin } from "./guard";
@@ -392,6 +394,23 @@ export async function AdminPlayerPage({
           </form>
         </Section>
       ) : null}
+
+      <Section title="Pass VIP">
+        <p className="text-chalk-muted text-sm">
+          {snapshot.vip.isActive && snapshot.vip.until !== null
+            ? `VIP jusqu'au ${formatDateTime(new Date(snapshot.vip.until))}.`
+            : "Pas VIP."}
+        </p>
+        <form action={grantVipAction}>
+          <input type="hidden" name="playerId" value={detail.id} />
+          <button
+            type="submit"
+            className="border-line-strong rounded-control min-h-11 border px-4 text-sm font-medium"
+          >
+            Offrir {VIP_GRANT_DAYS} jours de VIP
+          </button>
+        </form>
+      </Section>
 
       {snapshot.season ? (
         <Section title="Passe de saison">

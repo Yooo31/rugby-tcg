@@ -18,6 +18,7 @@ import {
   type Giveaway,
   type Season,
   vipMembershipSchema,
+  vipUntil,
   type VipMembership,
 } from "@/domain";
 import type { Rng } from "@/lib/rng";
@@ -184,7 +185,9 @@ export function createMockRepositories({
     // Un seul joueur dans le mock : il est seul au classement, s'il a un pseudo.
     leaderboard: {
       get: async (region) => {
-        const { username, collection } = await playerStore.read();
+        const { username, collection, vipMemberships } =
+          await playerStore.read();
+        const isVip = vipUntil(vipMemberships, now().getTime()) !== null;
         const owned = new Set(
           collection
             .map((card) => clubsById.get(card.clubId))
@@ -193,7 +196,7 @@ export function createMockRepositories({
             .map((club) => club.id),
         );
         const scores = username
-          ? [{ playerId: MOCK_PLAYER_ID, username, clubs: owned.size }]
+          ? [{ playerId: MOCK_PLAYER_ID, username, clubs: owned.size, isVip }]
           : [];
         return rankScores(scores, MOCK_PLAYER_ID);
       },
