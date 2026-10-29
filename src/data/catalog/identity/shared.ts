@@ -5,7 +5,7 @@ export type { ClubIdentity };
 
 export const WIKI = "Wikipédia (infobox)";
 
-export const ONE_COLOR =
+const ONE_COLOR =
   "La FFR ne donne qu'une couleur : la seconde est à confirmer.";
 
 /** Club dont une seule couleur est connue : le blanc complète, à confirmer. */

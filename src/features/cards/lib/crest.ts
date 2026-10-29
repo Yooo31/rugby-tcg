@@ -172,11 +172,11 @@ interface InitialsLayout {
 /** Sigle au cœur du blason quand il n'y a pas de symbole… */
 const CENTER_INITIALS = { withStars: 66, withoutStars: 60, size: 38 };
 /** …sinon plus petit, dans la pointe, sous le symbole. */
-const FOOT_INITIALS = { y: 95, size: 15 };
+const FOOT_INITIALS = { y: 92, size: 14 };
 /** Sigle de trois lettres ou plus : un peu plus petit, pour tenir. */
-const LONG_INITIALS_RATIO = 0.8;
+const LONG_INITIALS_RATIO = 0.72;
 /** Sigle de quatre signes : plus petit encore. */
-const LONGEST_INITIALS_RATIO = 0.66;
+const LONGEST_INITIALS_RATIO = 0.56;
 
 export interface CrestDesign {
   readonly shield: string;
@@ -245,11 +245,19 @@ export function crestDesign(club: Club): CrestDesign {
  * Liseré d'un club tricolore : un trait sur le bord de l'écu, coupé par le
  * contour, dont seule la moitié intérieure reste visible.
  */
-export const TRIM_WIDTH = 9;
+export const TRIM_WIDTH = 6;
+
+/**
+ * Les symboles sont dessinés dans le carré 26–74 × 38–86 ; on les réduit
+ * autour de leur centre pour qu'ils restent loin des bords de l'écu, quelle
+ * que soit sa forme, et ne touchent ni les étoiles ni le sigle.
+ */
+export const SYMBOL_TRANSFORM =
+  "translate(50 60) scale(0.74) translate(-50 -62)";
 
 /** Épaisseurs des traits du symbole : le contour le détache du motif. */
 const SYMBOL_STROKE = 6;
-const SYMBOL_OUTLINE = 4;
+const SYMBOL_OUTLINE = 3;
 const DETAIL_STROKE = 2.5;
 
 /**
@@ -306,5 +314,5 @@ export function crestSvgMarkup(design: CrestDesign): string {
         `<path d="${d}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>`,
     )
     .join("");
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${CREST_VIEWBOX}"><defs><clipPath id="c"><path d="${design.shield}"/></clipPath></defs><g clip-path="url(#c)"><rect width="100" height="116" fill="${design.field}"/><path d="${design.pattern}" fill="${design.charge}"/><rect width="50" height="116" fill="#000" opacity="0.12"/>${symbol}${design.trim ? `<path d="${design.shield}" fill="none" stroke="${design.trim}" stroke-width="${TRIM_WIDTH}"/>` : ""}</g><path d="${design.shield}" fill="none" stroke="#fff" stroke-opacity="0.85" stroke-width="3" stroke-linejoin="round"/>${stars}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${CREST_VIEWBOX}"><defs><clipPath id="c"><path d="${design.shield}"/></clipPath></defs><g clip-path="url(#c)"><rect width="100" height="116" fill="${design.field}"/><path d="${design.pattern}" fill="${design.charge}"/><rect width="50" height="116" fill="#000" opacity="0.12"/><g transform="${SYMBOL_TRANSFORM}">${symbol}</g>${design.trim ? `<path d="${design.shield}" fill="none" stroke="${design.trim}" stroke-width="${TRIM_WIDTH}"/>` : ""}</g><path d="${design.shield}" fill="none" stroke="#fff" stroke-opacity="0.85" stroke-width="3" stroke-linejoin="round"/>${stars}</svg>`;
 }

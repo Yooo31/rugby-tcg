@@ -3,6 +3,7 @@ import type { Club } from "@/domain";
 import {
   CREST_VIEWBOX,
   crestDesign,
+  SYMBOL_TRANSFORM,
   symbolLayers,
   TRIM_WIDTH,
 } from "../lib/crest";
@@ -28,14 +29,16 @@ export function ClubCrest({ club }: { readonly club: Club }) {
         <rect width="100" height="116" fill={design.field} />
         <path d={design.pattern} fill={design.charge} />
         <rect width="50" height="116" fill="#000" opacity="0.12" />
-        {symbolLayers(design).map((layer, index) => (
-          <path
-            key={index}
-            {...layer}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        ))}
+        <g transform={SYMBOL_TRANSFORM}>
+          {symbolLayers(design).map((layer, index) => (
+            <path
+              key={index}
+              {...layer}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          ))}
+        </g>
         {design.trim ? (
           <path
             d={design.shield}

@@ -1,4 +1,4 @@
-import { ONE_COLOR, type ClubIdentity, WIKI } from "./shared";
+import { type ClubIdentity, WIKI } from "./shared";
 /** Nationale 2 : relue club par club. */
 export const NATIONALE_2_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
   "stade-nantais": {
@@ -12,10 +12,9 @@ export const NATIONALE_2_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `${WIKI} ; FFR : Rouge`,
   },
   "cs-annonay": {
-    colors: ["rouge"],
+    colors: ["rouge", "noir"],
     initials: "CSA",
-    source: "FFR : Rouge",
-    toConfirm: ONE_COLOR,
+    source: `FFR : Rouge ; logo du club (page FFR)`,
   },
   "rc-drancy": {
     colors: ["bleu", "jaune"],
@@ -23,10 +22,9 @@ export const NATIONALE_2_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `${WIKI} ; FFR : Bleu roi`,
   },
   "cm-floirac": {
-    colors: ["jaune"],
+    colors: ["jaune", "rouge"],
     initials: "CMF",
-    source: "FFR : Jaune ; sigle usuel CMF Rugby",
-    toConfirm: ONE_COLOR,
+    source: `FFR : Jaune ; sigle usuel CMF Rugby ; logo du club (page FFR)`,
   },
   "rcs-rumilly": {
     colors: ["rouge", "noir"],
@@ -49,10 +47,9 @@ export const NATIONALE_2_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `${WIKI} ; FFR : Blanc, Rouge`,
   },
   "stade-metropolitain": {
-    colors: ["blanc"],
+    colors: ["bleu", "blanc"],
     initials: "SM",
-    source: "FFR : Blanc",
-    toConfirm: ONE_COLOR,
+    source: `FFR : Blanc ; logo du club (page FFR)`,
   },
   "saint-medard-rc": {
     colors: ["jaune", "noir"],

@@ -42,13 +42,21 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "RUDL",
     source: `FFR : Jaune, Or, Noir`,
   },
-  "sc-bernay": oneColor("bleu", "SCB", `FFR : Bleu roi`),
+  "sc-bernay": {
+    colors: ["bleu", "blanc"],
+    initials: "SCB",
+    source: `FFR : Bleu roi ; logo du club (page FFR)`,
+  },
   "rc-yvetot": {
     colors: ["blanc", "bleu roi"],
     initials: "RCY",
     source: `FFR (RC Yvetotais) : Blanc, Bleu roi`,
   },
-  "gretz-tournan-ozoir-rc-77": oneColor("noir", "GTO", `FFR : Noir`),
+  "gretz-tournan-ozoir-rc-77": {
+    colors: ["noir", "bleu", "vert"],
+    initials: "GTO",
+    source: `FFR : Noir ; logo du club (page FFR)`,
+  },
   "rc-metz": {
     colors: ["noir", "blanc"],
     initials: "RCM",
@@ -71,10 +79,9 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `${WIKI} ; FFR : Bleu`,
   },
   "fc-haguenau": {
-    colors: ["blanc", "bleu"],
+    colors: ["bleu", "blanc"],
     initials: "FCH",
-    source: `FFR (Rugby Club Haguenau) : Blanc, Bleu`,
-    toConfirm: "Page FFR à confirmer (RC Haguenau).",
+    source: `FFR (Rugby Club Haguenau) : Blanc, Bleu ; logo du club (page FFR)`,
   },
   "rc-pont-a-mousson": {
     colors: ["blanc", "bleu"],
@@ -91,7 +98,11 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "RCS",
     source: `${WIKI} : bleu marine, blanc et rose`,
   },
-  "grand-dole-rugby": oneColor("rouge", "GDR", `FFR : Rouge`),
+  "grand-dole-rugby": {
+    colors: ["rouge", "blanc"],
+    initials: "GDR",
+    source: `FFR : Rouge ; logo du club (page FFR)`,
+  },
   "stade-dijonnais": {
     colors: ["rouge", "bleu"],
     initials: "SD",
@@ -149,8 +160,16 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "SCT",
     source: `FFR : Blanc, Bleu`,
   },
-  "rc-belleville-beaujolais": unknownColors("RCBB"),
-  "saint-savin-sportif": oneColor("jaune", "SSS", `FFR : Jaune`),
+  "rc-belleville-beaujolais": {
+    colors: ["rouge", "blanc", "noir"],
+    initials: "RCBB",
+    source: `FFR (RC Bellevillois) ; logo du club (page FFR)`,
+  },
+  "saint-savin-sportif": {
+    colors: ["jaune", "noir"],
+    initials: "SSS",
+    source: `FFR : Jaune ; logo du club (page FFR)`,
+  },
   "fc-aix-les-bains": {
     colors: ["jaune", "noir"],
     initials: "FCAB",
@@ -163,10 +182,9 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `FFR : Noir, Rouge`,
   },
   "rc-motterain": {
-    colors: ["bleu", "rouge", "blanc"],
+    colors: ["bleu marine", "rouge", "blanc"],
     initials: "RCM",
-    source: `FFR : Bleu, Rouge, Tomate, Blanc, Bleu roi, Rouge`,
-    toConfirm: "Six couleurs selon la FFR : les trois retenues à confirmer.",
+    source: `FFR : Bleu, Rouge, Tomate, Blanc, Bleu roi, Rouge ; logo du club (page FFR)`,
   },
   "ent-chateauneuf-st-marcel-xv": {
     colors: ["vert", "blanc", "noir"],
@@ -179,11 +197,9 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `FFR : Violet, Prune, Violette, Jaune`,
   },
   "ent-vaulnaveys-vizille": {
-    colors: ["violet"],
+    colors: ["violet", "blanc"],
     initials: "EVV",
-    source: `FFR (ES Vaulnaveys) : Violet`,
-    toConfirm:
-      "Une seule couleur, et page FFR d'un des deux clubs de l'entente.",
+    source: `FFR (ES Vaulnaveys) : Violet ; logo du club (page FFR)`,
   },
   "bassin-de-crussol-rugby": {
     colors: ["bleu", "jaune"],
@@ -195,18 +211,46 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "RCT",
     source: `FFR : Bleu, Rouge`,
   },
-  "saint-marcellin-sports": oneColor("bleu ciel", "SMS", `FFR : Bleu ciel`),
-  "fc-tournon-tain": oneColor("rouge", "FCTT", `FFR : Rouge`),
-  "ua-tullins-fures": oneColor("rouge", "UATF", `FFR : Rouge`),
-  "rc-seyssins": unknownColors("RCS"),
-  "us-renage-rives": oneColor("bleu", "USRR", `FFR : Bleu roi`),
+  "saint-marcellin-sports": {
+    colors: ["bleu marine", "bleu ciel"],
+    initials: "SMS",
+    source: `FFR : Bleu ciel ; logo du club (page FFR)`,
+  },
+  "fc-tournon-tain": {
+    colors: ["rouge", "blanc"],
+    initials: "FCTT",
+    source: `FFR : Rouge ; logo du club (page FFR)`,
+  },
+  "ua-tullins-fures": {
+    colors: ["rouge", "blanc"],
+    initials: "UATF",
+    source: `FFR : Rouge ; logo du club (page FFR)`,
+  },
+  "rc-seyssins": {
+    colors: ["noir", "blanc"],
+    initials: "RCS",
+    source: `FFR (RC Seyssinois) ; logo du club (page FFR)`,
+  },
+  "us-renage-rives": {
+    colors: ["jaune", "bleu"],
+    initials: "USRR",
+    source: `FFR : Bleu roi ; logo du club (page FFR)`,
+  },
   "rc-draguignan": {
     colors: ["vert", "vert clair"],
     initials: "RCD",
     source: `FFR : Vert, Printemps`,
   },
-  "us-valreas": oneColor("noir", "USV", `FFR (US Valréassienne) : Noir`),
-  "es-saint-saturnin": oneColor("rouge", "ESS", `FFR : Rouge`),
+  "us-valreas": {
+    colors: ["rouge", "noir"],
+    initials: "USV",
+    source: `FFR (US Valréassienne) : Noir ; logo du club (page FFR)`,
+  },
+  "es-saint-saturnin": {
+    colors: ["rouge", "jaune"],
+    initials: "ESSS",
+    source: `FFR : Rouge ; logo du club (page FFR)`,
+  },
   "rc-lucciana": {
     colors: ["noir", "rouge"],
     initials: "RCL",
@@ -232,7 +276,11 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "RCVG",
     source: `FFR : Jaune, Noir`,
   },
-  "ca-bedarieux-gor": oneColor("jaune", "CABG", `FFR : Jaune`),
+  "ca-bedarieux-gor": {
+    colors: ["bleu", "jaune"],
+    initials: "CABG",
+    source: `FFR : Jaune ; logo du club (page FFR)`,
+  },
   "rc-dignois": {
     colors: ["bleu", "rouge"],
     initials: "RCD",
@@ -248,7 +296,11 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "UST",
     source: `${WIKI} ; FFR (US Thuirinoise) : Vert`,
   },
-  "rivesaltes-baixas-espira-agly-xv": oneColor("bleu", "RBEA", `FFR : Bleu`),
+  "rivesaltes-baixas-espira-agly-xv": {
+    colors: ["rouge", "jaune", "bleu"],
+    initials: "RBEA",
+    source: `FFR : Bleu ; logo du club (page FFR)`,
+  },
   "ent-vallee-du-girou": {
     colors: ["bleu", "blanc"],
     initials: "EVG",
@@ -259,13 +311,21 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "ESC",
     source: `${WIKI} ; FFR : Rouge`,
   },
-  "rc-sete": oneColor("bleu", "RCS", `FFR : Bleu`),
+  "rc-sete": {
+    colors: ["bleu", "blanc"],
+    initials: "RCS",
+    source: `FFR : Bleu ; logo du club (page FFR)`,
+  },
   "balma-orc": {
     colors: ["blanc", "rouge"],
     initials: "BORC",
     source: `FFR (Balma Olympique RC) : Blanc, Rouge`,
   },
-  "js-illiberienne": oneColor("bleu", "JSI", `FFR : Bleu roi`),
+  "js-illiberienne": {
+    colors: ["bleu ciel", "jaune"],
+    initials: "JSI",
+    source: `FFR : Bleu roi ; logo du club (page FFR)`,
+  },
   "saint-juery-aoxv": {
     colors: ["blanc", "rouge", "vert"],
     initials: "SJAO",
@@ -314,10 +374,9 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
   "us-vicquoise": unknownColors("USV"),
   "us-l-isle-en-dodon": unknownColors("USID"),
   "ent-astarac-bigorre": {
-    colors: ["bleu"],
+    colors: ["bleu", "blanc"],
     initials: "EAB",
-    source: `FFR (Ent. Rugby Miélan Mirande Rabastens) : Bleu`,
-    toConfirm: "Une seule couleur, et page FFR à confirmer.",
+    source: `FFR (Ent. Rugby Miélan Mirande Rabastens) : Bleu ; logo du club (page FFR)`,
   },
   "stade-hendayais": {
     colors: ["blanc", "noir"],
@@ -325,10 +384,9 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `${WIKI} ; FFR : Blanc`,
   },
   "barcus-menditte-xiberoa": {
-    colors: ["jaune", "noir"],
+    colors: ["noir", "jaune"],
     initials: "BMX",
-    source: `FFR (US Menditte) : Jaune, Noir`,
-    toConfirm: "Page FFR à confirmer (US Menditte).",
+    source: `FFR (US Menditte) : Jaune, Noir ; logo du club (page FFR)`,
   },
   "avenir-bizanos": {
     colors: ["jaune", "noir"],
@@ -340,14 +398,26 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "STPR",
     source: `${WIKI} ; FFR : Rouge, Tomate`,
   },
-  "oo-laruns": oneColor("bleu", "OOL", `FFR : Bleu`),
-  "us-josbaig": oneColor("jaune", "USJ", `FFR : Jaune, Or`),
+  "oo-laruns": {
+    colors: ["bleu", "blanc"],
+    initials: "OOL",
+    source: `FFR : Bleu ; logo du club (page FFR)`,
+  },
+  "us-josbaig": {
+    colors: ["jaune", "noir"],
+    initials: "USJ",
+    source: `FFR : Jaune, Or ; logo du club (page FFR)`,
+  },
   "es-arudy": {
     colors: ["bleu", "jaune"],
     initials: "ESA",
     source: `FFR (ES Arudyenne) : Bleu roi, Jaune`,
   },
-  "as-bayonne": oneColor("violet", "ASB", `FFR (AS Bayonnaise) : Violet`),
+  "as-bayonne": {
+    colors: ["violet", "vert"],
+    initials: "ASB",
+    source: `FFR (AS Bayonnaise) : Violet ; logo du club (page FFR)`,
+  },
   "us-saint-palais": {
     colors: ["blanc", "bleu"],
     initials: "USSP",
@@ -358,7 +428,11 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "IRL",
     source: `FFR : Vert, Blanc`,
   },
-  "asso-cote-landes": oneColor("bordeaux", "ACLR", `FFR : Bordeaux`),
+  "asso-cote-landes": {
+    colors: ["bordeaux", "blanc"],
+    initials: "ACLR",
+    source: `FFR : Bordeaux ; logo du club (page FFR)`,
+  },
   "ua-mimizan": {
     colors: ["noir", "blanc"],
     initials: "UAM",
@@ -379,19 +453,26 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "SPSR",
     source: `${WIKI} ; FFR : Bleu`,
   },
-  "aa-nogaro": oneColor("orange", "AAN", `FFR : Tango`),
+  "aa-nogaro": {
+    colors: ["orange", "noir"],
+    initials: "AAN",
+    source: `FFR : Tango ; logo du club (page FFR)`,
+  },
   "capbreton-hossegor-rugby": {
     colors: ["jaune", "rouge", "bleu marine"],
     initials: "CHR",
-    source: `FFR : Jaune, Or, Rouge, Bleu nuit`,
-    toConfirm: "Quatre couleurs selon la FFR : les trois retenues à confirmer.",
+    source: `FFR : Jaune, Or, Rouge, Bleu nuit ; logo du club (page FFR)`,
   },
   "sa-saint-sever": {
     colors: ["noir", "blanc"],
     initials: "SASS",
     source: `${WIKI} ; FFR (SA St Séverin) : Blanc, Noir`,
   },
-  "ua-vicoise": oneColor("orange", "UAV", `FFR : Tango`),
+  "ua-vicoise": {
+    colors: ["noir", "orange"],
+    initials: "UAV",
+    source: `FFR : Tango ; logo du club (page FFR)`,
+  },
   "rc-bassin-d-arcachon": {
     colors: ["noir", "bleu", "jaune"],
     initials: "RCBA",
@@ -407,9 +488,21 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "LR",
     source: `FFR : Bleu ciel, Bleu nuit`,
   },
-  "co-pont-du-casse": oneColor("orange", "COPC", `FFR : Orange`),
-  "us-nerac": oneColor("jaune", "USN", `FFR (US Néracaise) : Jaune`),
-  "avenir-moissagais": oneColor("bleu", "AM", `FFR : Bleu`),
+  "co-pont-du-casse": {
+    colors: ["orange", "noir"],
+    initials: "COP",
+    source: `FFR : Orange ; logo du club (page FFR)`,
+  },
+  "us-nerac": {
+    colors: ["jaune", "noir"],
+    initials: "USN",
+    source: `FFR (US Néracaise) : Jaune ; logo du club (page FFR)`,
+  },
+  "avenir-moissagais": {
+    colors: ["bleu", "blanc"],
+    initials: "AM",
+    source: `FFR : Bleu ; logo du club (page FFR)`,
+  },
   "rc-bon-encontre-boe": {
     colors: ["bleu marine", "vert"],
     initials: "RCBE",
@@ -420,7 +513,11 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "RCV",
     source: `FFR : Rouge, Noir`,
   },
-  "pessac-rugby": oneColor("fraise", "PR", `FFR : Fraise`),
+  "pessac-rugby": {
+    colors: ["vert", "rouge"],
+    initials: "PR",
+    source: `FFR : Fraise ; logo du club (page FFR)`,
+  },
   "rc-gradignan": {
     colors: ["vert", "blanc"],
     initials: "RCG",
@@ -442,7 +539,11 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "SCR",
     source: `${WIKI} : sang et or ; FFR : Jaune, Rouge`,
   },
-  "us-argentat": unknownColors("USA"),
+  "us-argentat": {
+    colors: ["bleu marine", "blanc"],
+    initials: "USA",
+    source: `FFR (US Argentacoise) ; logo du club (page FFR)`,
+  },
   "rc-bretenoux-biars-vayrac": {
     colors: ["bleu", "blanc"],
     initials: "RCBB",
@@ -468,7 +569,11 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "USAN",
     source: `FFR : Blanc, Noir, Vert`,
   },
-  "rc-mussidan": oneColor("rouge", "RCM", `FFR (RC Mussidanais) : Rouge`),
+  "rc-mussidan": {
+    colors: ["rouge", "blanc"],
+    initials: "RCM",
+    source: `FFR (RC Mussidanais) : Rouge ; logo du club (page FFR)`,
+  },
   "rc-orleans-la-source": {
     colors: ["blanc", "noir"],
     initials: "RCOS",
@@ -489,13 +594,21 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "OCM",
     source: `${WIKI}`,
   },
-  "rc-issoudun": oneColor("bleu", "RCI", `FFR : Bleu`),
-  "asf-commentry": oneColor(
-    "rouge",
-    "ASFC",
-    `FFR (AS Forgeron Commentryens) : Rouge`,
-  ),
-  "cr-ancizes-comps": oneColor("noir", "CRAC", `FFR : Noir`),
+  "rc-issoudun": {
+    colors: ["jaune", "bleu"],
+    initials: "RCI",
+    source: `FFR : Bleu ; logo du club (page FFR)`,
+  },
+  "asf-commentry": {
+    colors: ["rouge", "blanc"],
+    initials: "ASFC",
+    source: `FFR (AS Forgeron Commentryens) : Rouge ; logo du club (page FFR)`,
+  },
+  "cr-ancizes-comps": {
+    colors: ["noir", "orange"],
+    initials: "CRAC",
+    source: `FFR : Noir ; logo du club (page FFR)`,
+  },
   "us-pithiviers": {
     colors: ["noir", "rouge"],
     initials: "USP",
@@ -522,14 +635,26 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "SCS",
     source: `FFR (SC Surgérien) : Rouge, Noir`,
   },
-  "rc-puilboreau": oneColor("bleu", "RCP", `FFR : Bleu roi`),
+  "rc-puilboreau": {
+    colors: ["bleu", "noir"],
+    initials: "RCP",
+    source: `FFR : Bleu roi ; logo du club (page FFR)`,
+  },
   "sa-rochefort": {
     colors: ["rouge", "noir"],
     initials: "SAR",
     source: `${WIKI} ; FFR : Noir`,
   },
-  "stade-blayais": oneColor("bleu marine", "SB", `FFR : Bleu nuit`),
-  "us-saintes": oneColor("bleu", "USS", `FFR : Bleu`),
+  "stade-blayais": {
+    colors: ["bleu", "blanc"],
+    initials: "SB",
+    source: `FFR : Bleu nuit ; logo du club (page FFR)`,
+  },
+  "us-saintes": {
+    colors: ["bleu", "blanc", "rouge"],
+    initials: "USS",
+    source: `FFR : Bleu ; logo du club (page FFR)`,
+  },
   "sa-parthenay": {
     colors: ["blanc", "rouge"],
     initials: "SAP",
@@ -551,12 +676,32 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `FFR : Blanc, Bleu ciel`,
   },
   "pays-auray-rc": unknownColors("PARC"),
-  "rc-quimper": oneColor("bleu ciel", "RCQ", `FFR (RC Quimperois) : Bleu ciel`),
-  "saint-nazaire-ovalie": oneColor("rouge", "SNO", `FFR : Rouge`),
+  "rc-quimper": {
+    colors: ["bleu ciel", "noir", "blanc"],
+    initials: "RCQ",
+    source: `FFR (RC Quimperois) : Bleu ciel ; logo du club (page FFR)`,
+  },
+  "saint-nazaire-ovalie": {
+    colors: ["rouge", "noir"],
+    initials: "SNO",
+    source: `FFR : Rouge ; logo du club (page FFR)`,
+  },
   "xv-de-l-erdre": oneColor("noir", "XVE", `FFR : Noir`),
-  "rup-lorient": unknownColors("RUPL"),
-  "sac-clisson-rugby": oneColor("vert", "SACC", `FFR : Vert`),
-  "rc-concarneau": unknownColors("RCC"),
+  "rup-lorient": {
+    colors: ["noir", "orange"],
+    initials: "RUPL",
+    source: `FFR (Rugby Union Pays de Lorient) ; logo du club (page FFR)`,
+  },
+  "sac-clisson-rugby": {
+    colors: ["vert", "rouge"],
+    initials: "SACC",
+    source: `FFR : Vert ; logo du club (page FFR)`,
+  },
+  "rc-concarneau": {
+    colors: ["noir", "blanc", "rouge"],
+    initials: "RCC",
+    source: `FFR (RC Concarnois) ; logo du club (page FFR)`,
+  },
   "rc-saint-sebastien": {
     colors: ["blanc", "bleu", "vert"],
     initials: "RCSS",
@@ -570,17 +715,20 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `${WIKI} : sang et neige ; FFR : Blanc, Rouge`,
   },
   "scorc-angers": {
-    colors: ["blanc", "noir"],
+    colors: ["noir", "blanc"],
     initials: "SCO",
-    source: `FFR (SCO Rugby Angers) : Blanc, Noir`,
-    toConfirm: "Page FFR à confirmer.",
+    source: `FFR (SCO Rugby Angers) : Blanc, Noir ; logo du club (page FFR)`,
   },
-  "us-olympiades-massif-central": oneColor("bleu", "USOM", `FFR : Bleu`),
-  "rcs-bretigny": oneColor(
-    "bleu",
-    "RCSB",
-    `FFR (Entente RC CS Brétigny) : Bleu roi`,
-  ),
+  "us-olympiades-massif-central": {
+    colors: ["bleu marine", "rouge"],
+    initials: "USOM",
+    source: `FFR : Bleu ; logo du club (page FFR)`,
+  },
+  "rcs-bretigny": {
+    colors: ["rouge", "blanc"],
+    initials: "RCSB",
+    source: `FFR (Entente RC CS Brétigny) : Bleu roi ; logo du club (page FFR)`,
+  },
   "ca-orsay-rc": {
     colors: ["noir", "orange"],
     initials: "CAO",
@@ -596,15 +744,19 @@ export const FEDERALE_3_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     initials: "USV",
     source: `FFR (US Vendômoise) : Blanc, Bleu`,
   },
-  "com-bagneux": oneColor(
-    "rouge",
-    "COMB",
-    `FFR (CO Multisport Bagneux) : Rouge`,
-  ),
-  "c-chartres-rugby": oneColor(
-    "bleu",
-    "CCR",
-    `${WIKI} : bleu de Chartres ; FFR : Bleu`,
-  ),
-  "rc-le-mans": oneColor("rouge", "RCM", `FFR : Rouge`),
+  "com-bagneux": {
+    colors: ["noir", "rouge"],
+    initials: "COMB",
+    source: `FFR (CO Multisport Bagneux) : Rouge ; logo du club (page FFR)`,
+  },
+  "c-chartres-rugby": {
+    colors: ["bleu", "bleu ciel"],
+    initials: "CCR",
+    source: `${WIKI} : bleu de Chartres ; FFR : Bleu ; logo du club (page FFR)`,
+  },
+  "rc-le-mans": {
+    colors: ["rouge", "jaune"],
+    initials: "RCM",
+    source: `FFR : Rouge ; logo du club (page FFR)`,
+  },
 };

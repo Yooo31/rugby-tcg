@@ -1,11 +1,10 @@
-import { ONE_COLOR, type ClubIdentity, WIKI } from "./shared";
+import { type ClubIdentity, WIKI } from "./shared";
 /** Fédérale 1 : relue club par club. */
 export const FEDERALE_1_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
   "sc-royannais": {
-    colors: ["rouge"],
+    colors: ["noir", "rouge"],
     initials: "SCR",
-    source: "FFR : Rouge",
-    toConfirm: ONE_COLOR,
+    source: `FFR : Rouge ; logo du club (page FFR)`,
   },
   "us-tours": {
     colors: ["orange", "bleu"],
@@ -13,10 +12,9 @@ export const FEDERALE_1_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `${WIKI} : orange tango et bleu ; FFR : Orange`,
   },
   "cs-nuiton": {
-    colors: ["noisette"],
+    colors: ["noir", "blanc"],
     initials: "CSN",
-    source: "FFR : Noisette",
-    toConfirm: ONE_COLOR,
+    source: `FFR : Noisette ; logo du club (page FFR)`,
   },
   "us-montmelian": {
     colors: ["vert", "noir"],
@@ -34,10 +32,9 @@ export const FEDERALE_1_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: "FFR : Bleu, Jaune",
   },
   "beauvais-rc": {
-    colors: ["rouge"],
+    colors: ["rouge", "blanc"],
     initials: "BRC",
-    source: "FFR (Beauvais XV RC) : Rouge, Rouge tomate",
-    toConfirm: ONE_COLOR,
+    source: `FFR (Beauvais XV RC) : Rouge, Rouge tomate ; logo du club (page FFR)`,
   },
   "paris-uc": {
     colors: ["violet", "blanc"],
@@ -50,10 +47,9 @@ export const FEDERALE_1_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: "FFR (RC Auxerrois) : Vert, Rouge",
   },
   "xv-corsaire-saint-malo": {
-    colors: ["blanc", "noir"],
-    initials: "XVC",
-    source: "Aucune source trouvée (ni FFR ni Wikipédia)",
-    toConfirm: "Couleurs inconnues : à confirmer.",
+    colors: ["bleu", "blanc", "rouge"],
+    initials: "XVCS",
+    source: `FFR (XV Corsaire Saint-Malo Rugby) ; logo du club (page FFR)`,
   },
   "bievre-saint-geoirs-rc": {
     colors: ["noir", "rouge"],
@@ -61,11 +57,9 @@ export const FEDERALE_1_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: "FFR (AS Bièvre St Geoirs Rugby Club) : Noir, Rouge",
   },
   "us-annecy": {
-    colors: ["rouge", "blanc"],
-    initials: "USA",
-    source: `FFR : Rouge ; ${WIKI} : bleu et blanc`,
-    toConfirm:
-      "Les sources se contredisent (FFR : rouge ; Wikipédia : bleu et blanc).",
+    colors: ["bleu marine", "blanc"],
+    initials: "USAR",
+    source: `FFR : Rouge ; ${WIKI} : bleu et blanc ; logo du club (page FFR)`,
   },
   "ro-agde": {
     colors: ["jaune", "bleu"],
@@ -88,11 +82,9 @@ export const FEDERALE_1_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `${WIKI} ; FFR : Bleu`,
   },
   "ceret-sportif": {
-    colors: ["bleu", "blanc", "rouge"],
-    initials: "CS",
-    source: `${WIKI} : bleu, blanc, rouge et jaune ; FFR : Bleu roi`,
-    toConfirm:
-      "Quatre couleurs selon Wikipédia : les trois retenues à confirmer.",
+    colors: ["bleu marine", "jaune", "rouge"],
+    initials: "CSV",
+    source: `${WIKI} : bleu, blanc, rouge et jaune ; FFR : Bleu roi ; logo du club (page FFR)`,
   },
   "rcm-palavas": {
     colors: ["orange", "bleu"],
@@ -105,10 +97,9 @@ export const FEDERALE_1_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `${WIKI} ; FFR : Noir, Vert`,
   },
   "avenir-gruissanais": {
-    colors: ["rouge"],
-    initials: "AG",
-    source: "FFR (Aviron Gruissanais) : Rouge",
-    toConfirm: ONE_COLOR,
+    colors: ["rouge", "blanc", "bleu ciel"],
+    initials: "AGR",
+    source: `FFR (Aviron Gruissanais) : Rouge ; logo du club (page FFR)`,
   },
   "co-berre-xv": {
     colors: ["noir", "rouge"],
@@ -116,10 +107,9 @@ export const FEDERALE_1_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: "FFR : Noir, Rouge",
   },
   "sor-agout-xv": {
-    colors: ["blanc"],
+    colors: ["bleu ciel", "rouge"],
     initials: "SAXV",
-    source: "FFR : Blanc",
-    toConfirm: ONE_COLOR,
+    source: `FFR : Blanc ; logo du club (page FFR)`,
   },
   "as-bedarrides-chateauneuf-du-pape": {
     colors: ["vert", "noir", "rouge"],
@@ -164,9 +154,7 @@ export const FEDERALE_1_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
   "toec-toac-fct": {
     colors: ["vert", "bleu", "blanc"],
     initials: "TTF",
-    source: `${WIKI} : vert, bleu, violet et blanc ; FFR : Vert`,
-    toConfirm:
-      "Quatre couleurs selon Wikipédia : les trois retenues à confirmer.",
+    source: `${WIKI} : vert, bleu, violet et blanc ; FFR : Vert ; logo du club (page FFR)`,
   },
   "ua-gaillac": {
     colors: ["rouge", "noir"],
@@ -224,16 +212,14 @@ export const FEDERALE_1_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `${WIKI} ; FFR : Jaune, Rouge`,
   },
   "4-cantons-bhap": {
-    colors: ["grenat"],
+    colors: ["grenat", "blanc"],
     initials: "4C",
-    source: "FFR : Grenat",
-    toConfirm: ONE_COLOR,
+    source: `FFR : Grenat ; logo du club (page FFR)`,
   },
   "as-pont-long": {
-    colors: ["vert"],
+    colors: ["vert", "noir"],
     initials: "ASPL",
-    source: "FFR : Vert",
-    toConfirm: ONE_COLOR,
+    source: `FFR : Vert ; logo du club (page FFR)`,
   },
   "fc-lourdes": {
     colors: ["rouge", "bleu"],
@@ -241,16 +227,14 @@ export const FEDERALE_1_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
     source: `${WIKI} ; FFR : Bleu, Rouge`,
   },
   "union-barbezieux-jonzac": {
-    colors: ["jaune", "rouge", "blanc"],
+    colors: ["rouge", "jaune", "noir"],
     initials: "UBJ",
-    source: "FFR : Blanc, Jaune, Or, Rouge",
-    toConfirm: "Quatre couleurs selon la FFR : les trois retenues à confirmer.",
+    source: `FFR : Blanc, Jaune, Or, Rouge ; logo du club (page FFR)`,
   },
   "as-layrac": {
-    colors: ["bleu"],
+    colors: ["bleu", "blanc"],
     initials: "ASL",
-    source: "FFR (AS Layracaise) : Bleu roi",
-    toConfirm: ONE_COLOR,
+    source: `FFR (AS Layracaise) : Bleu roi ; logo du club (page FFR)`,
   },
   "ca-lannemezan": {
     colors: ["rouge", "blanc"],

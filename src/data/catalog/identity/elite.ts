@@ -3,10 +3,11 @@ import { type ClubIdentity, WIKI } from "./shared";
 export const ELITE_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
   // ——— Top 14 ———
   "stade-toulousain": {
-    colors: ["rouge", "noir"],
+    colors: ["noir", "rouge"],
     initials: "ST",
-    crest: { pattern: "chief", symbol: "cross" }, // croix occitane
-    source: `${WIKI} ; FFR : Noir, Rouge`,
+    // Variante choisie par l'éditeur : écu noir à pal rouge, ballon.
+    crest: { shape: "notched", pattern: "pale", symbol: "ball" },
+    source: `${WIKI} ; FFR : Noir, Rouge ; blason choisi par l'éditeur`,
   },
   "section-paloise": {
     colors: ["vert", "blanc"],
