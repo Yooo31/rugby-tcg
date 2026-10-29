@@ -1,7 +1,4 @@
-import type { ClubIdentity } from "./index";
-
-const WIKI = "Wikipédia (infobox)";
-
+import { type ClubIdentity, WIKI } from "./shared";
 /** Top 14, Pro D2 et Nationale : relus club par club. */
 export const ELITE_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
   // ——— Top 14 ———

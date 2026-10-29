@@ -1,0 +1,378 @@
+import { oneColor, unknownColors, WIKI, type ClubIdentity } from "./shared";
+
+/** Fédérale 2 : relue club par club. */
+export const FEDERALE_2_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
+  "csm-gennevilliers": {
+    colors: ["noir", "blanc"],
+    initials: "CSMG",
+    source: `${WIKI} ; FFR (CS M Gennevillois) : Noir`,
+  },
+  "rc-pays-de-meaux": {
+    colors: ["blanc", "bleu roi"],
+    initials: "RCPM",
+    source: `FFR : Blanc, Blanc cassé, Bleu roi`,
+  },
+  "rc-clermont-cournon": {
+    colors: ["blanc", "rouge"],
+    initials: "RCCC",
+    source: `FFR : Blanc, Rouge`,
+  },
+  "bourges-xv": oneColor("noir", "BXV", `FFR : Noir`),
+  "scuf-rugby": {
+    colors: ["noir", "blanc"],
+    initials: "SCUF",
+    source: `${WIKI} ; FFR : Blanc, Noir`,
+  },
+  "us-ris-orangis": oneColor("bleu marine", "USRO", `FFR : Bleu nuit`),
+  "rc-vichy": {
+    colors: ["jaune", "bleu"],
+    initials: "RCV",
+    source: `${WIKI} ; FFR : Jaune, Bleu`,
+  },
+  "rc-riom": {
+    colors: ["bleu", "jaune"],
+    initials: "RCR",
+    source: `FFR (Rugby Club Riomois) : Bleu, Jaune, Or, Bleu roi`,
+  },
+  "cs-clichy": {
+    colors: ["blanc", "rouge"],
+    initials: "CSC",
+    source: `FFR : Blanc, Rouge`,
+  },
+  "antony-metro-92": {
+    colors: ["bleu", "rouge"],
+    initials: "AM92",
+    source: `FFR : Bleu, Rouge`,
+  },
+  "rc-vincennes": {
+    colors: ["blanc", "bleu marine"],
+    initials: "RCV",
+    source: `FFR : Blanc, Bleu nuit`,
+  },
+  "rc-paris-15": {
+    colors: ["jaune", "noir"],
+    initials: "RCP",
+    source: `FFR : Jaune, Noir`,
+  },
+  "rc-rillieux": {
+    colors: ["blanc", "rouge"],
+    initials: "RCR",
+    source: `FFR : Blanc, Rouge`,
+  },
+  "saint-priest-rugby": {
+    colors: ["jaune", "rouge"],
+    initials: "SPR",
+    source: `FFR : Jaune, Or, Sang`,
+  },
+  "cs-lons": {
+    colors: ["rouge", "or"],
+    initials: "CSL",
+    source: `${WIKI} : sang et or`,
+  },
+  "cs-villefranche-sur-saone": {
+    colors: ["bleu ciel", "blanc"],
+    initials: "CSVS",
+    source: `${WIKI} : bleu et blanc ; FFR : Blanc, Bleu ciel`,
+  },
+  "fc-saint-claude": {
+    colors: ["bleu ciel", "blanc"],
+    initials: "FCSC",
+    source: `${WIKI} : ciel et blanc`,
+  },
+  "us-meyzieu": oneColor("bleu ciel", "USM", `FFR : Bleu ciel`),
+  "rcp-saint-jeannais": unknownColors("RCPS"),
+  "xv-de-la-dombes": oneColor("rouge", "XVD", `FFR : Rouge`),
+  "rugby-tango-chalonnais": oneColor("orange", "RTC", `FFR : Tango`),
+  "us-nantua-hbr": unknownColors("USN"),
+  "rc-andrezieux-boutheon": unknownColors("RCAB"),
+  "cr-illkirch-graffenstaden": {
+    colors: ["blanc", "noir"],
+    initials: "CRIG",
+    source: `FFR : Blanc, Noir`,
+  },
+  "us-vinay": {
+    colors: ["bleu", "noir"],
+    initials: "USV",
+    source: `${WIKI} ; FFR : Bleu roi`,
+  },
+  "ro-grasse": {
+    colors: ["grenat", "bleu"],
+    initials: "ROG",
+    source: `${WIKI} ; FFR : Grenat, Bleu nuit`,
+  },
+  "rc-aubagne": oneColor("noir", "RCA", `FFR (Rugby Club Aubagnais) : Noir`),
+  "servian-boujan-rugby": {
+    colors: ["bleu", "jaune", "rouge"],
+    initials: "SBR",
+    source: `FFR : Bleu, Jaune, Rouge`,
+  },
+  "su-cavaillon": {
+    colors: ["rouge", "bleu"],
+    initials: "SUC",
+    source: `${WIKI} ; FFR (Stade Union Cavaillonnais) : Bleu, Rouge`,
+  },
+  "avignon-le-pontet-rugby": {
+    colors: ["jaune", "bleu"],
+    initials: "ALPR",
+    source: `FFR : Jaune, Bleu`,
+  },
+  "so-voiron": {
+    colors: ["rouge", "blanc"],
+    initials: "SOV",
+    source: `${WIKI} ; FFR : Blanc, Rouge`,
+  },
+  "rc-les-angles": oneColor("vert", "RCLA", `FFR : Vert`),
+  "stade-piscenois": oneColor("violet", "SP", `FFR : Violet`),
+  "ca-saint-raphael-frejus": {
+    colors: ["jaune", "bleu"],
+    initials: "CASR",
+    source: `FFR : Jaune, Bleu roi`,
+  },
+  "us-montelimar": {
+    colors: ["rouge", "bleu"],
+    initials: "USM",
+    source: `${WIKI}`,
+  },
+  "stade-marseillais-uc": {
+    colors: ["noir", "gris"],
+    initials: "SMUC",
+    source: `${WIKI} : noir et gris`,
+  },
+  "us-quillan-limoux": {
+    colors: ["rouge", "noir", "bleu"],
+    initials: "USQL",
+    source: `${WIKI} : rouge, noir et bleu ; FFR : Rouge, Vert, Bleu`,
+    toConfirm: "Les sources hésitent entre noir (Wikipédia) et vert (FFR).",
+  },
+  "stade-beaumontois": {
+    colors: ["bleu", "blanc"],
+    initials: "SB",
+    source: `${WIKI} ; FFR : Bleu roi`,
+  },
+  "corbieres-xv": {
+    colors: ["rouge"],
+    initials: "CXV",
+    source: `FFR (Club Olympique Tauch Corbières ?) : Rouge`,
+    toConfirm: "Une seule couleur, et page FFR à confirmer.",
+  },
+  "ua-saverdun": {
+    colors: ["rouge", "noir"],
+    initials: "UAS",
+    source: `${WIKI} ; FFR (UA Saverdunoise) : Noir, Rouge`,
+  },
+  "jo-prades": {
+    colors: ["bleu", "blanc"],
+    initials: "JOP",
+    source: `${WIKI}`,
+  },
+  "avenir-castaneen": {
+    colors: ["rouge", "blanc"],
+    initials: "AC",
+    source: `${WIKI} ; FFR : Blanc, Rouge`,
+  },
+  "fc-villefranche": {
+    colors: ["rouge", "blanc"],
+    initials: "FCV",
+    source: `${WIKI} ; FFR : Rouge`,
+  },
+  "as-vaureenne": {
+    colors: ["rouge", "bleu"],
+    initials: "ASV",
+    source: `${WIKI} ; FFR : Bleu roi, Rouge`,
+  },
+  "ca-castelsarrasin": {
+    colors: ["rouge", "blanc"],
+    initials: "CAC",
+    source: `${WIKI} ; FFR : Blanc, Rouge`,
+  },
+  "rc-de-la-saudrune": oneColor("noir", "RCS", `FFR : Noir`),
+  "us-caussade": oneColor("bleu", "USC", `FFR (US Caussadaise) : Bleu roi`),
+  "salanque-cote-radieuse": oneColor(
+    "bleu",
+    "SCR",
+    `FFR (RC Salanque XV) : Bleu`,
+  ),
+  "sc-rieumes": unknownColors("SCR"),
+  "us-morlaas": {
+    colors: ["bleu", "blanc"],
+    initials: "USM",
+    source: `${WIKI} ; FFR (US Morlanaise) : Blanc, Bleu`,
+  },
+  "oursbelille-borderes-rc": {
+    colors: ["blanc", "noir"],
+    initials: "OBRC",
+    source: `FFR : Blanc, Noir`,
+  },
+  "coq-leguevinois": {
+    colors: ["rouge", "bleu marine"],
+    initials: "CL",
+    source: `FFR : Rouge, Bleu nuit`,
+  },
+  "us-argeles": oneColor("bleu", "USA", `FFR (US Argelésienne) : Bleu roi`),
+  "us-coarraze-nay": {
+    colors: ["rouge", "bleu"],
+    initials: "USCN",
+    source: `${WIKI} ; FFR : Bleu nuit`,
+  },
+  "lombez-samatan-club": {
+    colors: ["rouge", "blanc"],
+    initials: "LSC",
+    source: `${WIKI} ; FFR : Blanc, Rouge`,
+  },
+  "es-gimont": {
+    colors: ["rouge", "blanc", "vert"],
+    initials: "ESG",
+    source: `${WIKI} : rouge et blanc ; FFR (ES Gimontoise) : Blanc, Rouge, Vert`,
+  },
+  "stade-navarrais": {
+    colors: ["vert", "blanc"],
+    initials: "SN",
+    source: `FFR : Blanc, Vert`,
+  },
+  "entente-aramits-asasp": oneColor("vert", "EAA", `FFR : Vert`),
+  "usep-ger-seron-bedeille": {
+    colors: ["violet", "noir"],
+    initials: "USEP",
+    source: `FFR : Violet, Noir`,
+  },
+  "gan-olympique": {
+    colors: ["bleu", "blanc"],
+    initials: "GO",
+    source: `FFR : Blanc, Bleu`,
+  },
+  "hasparren-ac": oneColor("vert", "HAC", `FFR : Vert`),
+  "us-bazas": unknownColors("USB"),
+  "as-merignac": {
+    colors: ["rouge", "bleu"],
+    initials: "ASM",
+    source: `${WIKI} ; FFR : Bleu roi, Rouge, Bleu nuit`,
+  },
+  "us-mouguerre": oneColor("vert", "USM", `FFR : Vert`),
+  "boucau-tarnos-stade": {
+    colors: ["noir", "blanc"],
+    initials: "BTS",
+    source: `${WIKI} ; FFR : Noir`,
+  },
+  "rion-morcenx-cr": oneColor("bleu", "RMCR", `FFR : Bleu, Bleu roi`),
+  "us-casteljaloux": {
+    colors: ["rouge", "blanc"],
+    initials: "USC",
+    source: `FFR : Blanc, Rouge`,
+  },
+  "ca-lormont": {
+    colors: ["orange", "bleu"],
+    initials: "CAL",
+    source: `${WIKI} : orange et bleu ; FFR : Bleu roi`,
+  },
+  "emak-hor-rugby": {
+    colors: ["rouge", "vert"],
+    initials: "EHR",
+    source: `FFR : Rouge, Vert`,
+  },
+  "stade-bordelais": {
+    colors: ["bordeaux", "blanc"],
+    initials: "SB",
+    source: `${WIKI} ; FFR : Blanc, Bordeaux, Noir`,
+  },
+  "us-mugron": {
+    colors: ["bleu", "rouge"],
+    initials: "USM",
+    source: `FFR (US Mugronnaise) : Bleu roi, Rouge`,
+  },
+  "us-castillon": oneColor("bleu", "USC", `FFR (US Castillonnaise) : Bleu`),
+  "so-millau": {
+    colors: ["rouge", "jaune"],
+    initials: "SOM",
+    source: `${WIKI} : rouge et jaune ; FFR (Millau Rugby Club) : Bleu, Blanc`,
+    toConfirm:
+      "Les sources se contredisent (Wikipédia : rouge et jaune ; FFR : bleu et blanc).",
+  },
+  "rodez-rugby": {
+    colors: ["rouge", "or"],
+    initials: "RR",
+    source: `${WIKI} : sang et or ; FFR : Jaune, Rouge`,
+  },
+  "ua-vergt": {
+    colors: ["vert", "blanc"],
+    initials: "UAV",
+    source: `FFR : Blanc, Vert`,
+  },
+  "us-bergerac": {
+    colors: ["noir", "blanc"],
+    initials: "USB",
+    source: `${WIKI} ; FFR : Noir`,
+  },
+  "usc-alban": {
+    colors: ["rouge", "blanc"],
+    initials: "USCA",
+    source: `FFR (US Canton d'Alban) : Blanc, Rouge`,
+  },
+  "rc-arpajon-veinazes": oneColor("bleu ciel", "RCAV", `FFR : Bleu ciel`),
+  "stade-belvesois": {
+    colors: ["rouge", "blanc"],
+    initials: "SB",
+    source: `FFR : Blanc, Rouge`,
+  },
+  "gs-figeac": {
+    colors: ["rouge", "noir"],
+    initials: "GSF",
+    source: `${WIKI} ; FFR : Rouge`,
+  },
+  "sc-decazeville": {
+    colors: ["bleu ciel", "blanc"],
+    initials: "SCD",
+    source: `${WIKI} : bleu et blanc ; FFR : Bleu ciel`,
+  },
+  "correze-rc": oneColor("noir", "CRC", `FFR : Noir`),
+  "cs-nontron": {
+    colors: ["rouge"],
+    initials: "CSN",
+    source: `FFR : Rouge, Acajou, Aqua, Argent`,
+    toConfirm: "Une couleur sûre (rouge) ; les autres sont à confirmer.",
+  },
+  "levezou-segala-aveyron-xv": {
+    colors: ["vert", "jaune"],
+    initials: "LSA",
+    source: `FFR : Vert, Jaune`,
+  },
+  "rc-roubaix": {
+    colors: ["noir", "orange"],
+    initials: "RCR",
+    source: `FFR : Noir, Orange`,
+  },
+  "sc-le-rheu": {
+    colors: ["jaune", "noir"],
+    initials: "SCR",
+    source: `${WIKI} ; FFR : Jaune, Noir`,
+  },
+  "fc-yonnais": {
+    colors: ["rouge", "blanc"],
+    initials: "FCY",
+    source: `Presse locale : rouge et blanc`,
+  },
+  "plaisir-rc": oneColor("bleu", "PRC", `FFR : Bleu roi`),
+  "mlsgp-rugby": {
+    colors: ["bleu ciel", "bleu marine"],
+    initials: "MLSG",
+    source: `FFR (M Laffitte St Germain Poissy) : Bleu ciel, Bleu nuit`,
+  },
+  "rc-amiens": unknownColors("RCA"),
+  "rc-sablais": {
+    colors: ["blanc", "bleu ciel"],
+    initials: "RCS",
+    source: `FFR : Blanc, Azur`,
+  },
+  "rc-versailles": oneColor("bleu", "RCV", `FFR : Bleu roi`),
+  "evreux-ac": {
+    colors: ["blanc", "rouge"],
+    initials: "EAC",
+    source: `FFR : Blanc, Rouge`,
+  },
+  "aas-sarcelles": oneColor("bleu", "AASS", `FFR : Bleu`),
+  "rc-montesson-chatou": oneColor("blanc", "RCMC", `FFR : Blanc`),
+  "stade-caennais-rc": {
+    colors: ["bleu ciel", "bleu", "rouge"],
+    initials: "SCRC",
+    source: `FFR : Bleu ciel, Bleu roi, Rouge`,
+  },
+};

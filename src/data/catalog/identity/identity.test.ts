@@ -13,6 +13,7 @@ const REVIEWED_DIVISIONS: readonly DivisionId[] = [
   "nationale",
   "nationale2",
   "federale1",
+  "federale2",
 ];
 
 describe("identité des clubs", () => {

@@ -1,9 +1,4 @@
-import type { ClubIdentity } from "./index";
-
-const WIKI = "Wikipédia (infobox)";
-const ONE_COLOR =
-  "La FFR ne donne qu'une couleur : la seconde est à confirmer.";
-
+import { ONE_COLOR, type ClubIdentity, WIKI } from "./shared";
 /** Nationale 2 : relue club par club. */
 export const NATIONALE_2_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
   "stade-nantais": {
