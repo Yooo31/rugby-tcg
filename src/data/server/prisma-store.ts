@@ -150,6 +150,17 @@ async function saveEvents(
           },
         });
         break;
+      case "ingots-purchased":
+        await db.ingotPurchase.create({
+          data: {
+            playerId,
+            packId: event.packId,
+            ingots: event.ingots,
+            priceCents: event.priceCents,
+            reference: event.reference,
+          },
+        });
+        break;
       case "admin-adjusted":
         await db.adminAdjustment.create({
           data: {

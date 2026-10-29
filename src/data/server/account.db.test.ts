@@ -17,6 +17,15 @@ describe("compte (RGPD)", () => {
     await prisma.ownedSpecialCard.create({
       data: { playerId: id, specialId: "equipe-de-france" },
     });
+    await prisma.ingotPurchase.create({
+      data: {
+        playerId: id,
+        packId: "bag",
+        ingots: 650,
+        priceCents: 599,
+        reference: `export-${id}`,
+      },
+    });
     await prisma.adminAdjustment.create({
       data: {
         playerId: id,
@@ -31,6 +40,9 @@ describe("compte (RGPD)", () => {
     expect(data.player?.ownedCards).toMatchObject([{ rarity: "rare" }]);
     expect(data.player?.ownedSpecialCards).toMatchObject([
       { specialId: "equipe-de-france", count: 1 },
+    ]);
+    expect(data.player?.ingotPurchases).toMatchObject([
+      { packId: "bag", ingots: 650, priceCents: 599 },
     ]);
     expect(
       JSON.stringify(data, (_key, value: unknown) =>

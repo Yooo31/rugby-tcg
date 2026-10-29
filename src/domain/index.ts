@@ -7,6 +7,7 @@ export * from "./club";
 export * from "./crest";
 export * from "./collection";
 export * from "./special-card";
+export * from "./shop";
 export * from "./geo";
 export * from "./giveaway";
 export * from "./mission";

@@ -1,16 +1,15 @@
 "use client";
 
 import { motion } from "motion/react";
+import Link from "next/link";
 import { useState } from "react";
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
-import { AsyncButton } from "@/components/ui/async-button";
 import { Button } from "@/components/ui/button";
-import { IngotAmount } from "@/components/ui/reward";
-import { BOOSTER_OFFERS, canAfford, offerDiscountPercent } from "@/domain";
 import { GameGate, type OpenedBooster, type ReadyGame } from "@/features/game";
 import { BoosterPack } from "./BoosterPack";
 import { BoosterReveal } from "./BoosterReveal";
 import { BoosterSummary } from "./BoosterSummary";
+import { BoosterOffers } from "./BoosterOffers";
 import { BoosterPips } from "./BoosterPips";
 import { NextBoosterCountdown } from "./NextBoosterCountdown";
 
@@ -119,47 +118,15 @@ function BoosterFlow({ game }: { readonly game: ReadyGame }) {
             </p>
           ) : null}
 
-          <ExtraBoosterOffer game={game} disabled={isOpening} />
+          <BoosterOffers game={game} disabled={isOpening} />
+          <Link
+            href="/boutique"
+            className="text-chalk-muted hover:text-chalk min-h-11 content-center text-sm underline-offset-4 hover:underline"
+          >
+            Plus de lingots ? La boutique
+          </Link>
         </div>
       </div>
-    </div>
-  );
-}
-
-/** Boutique : un booster ou un lot de dix, contre des lingots. */
-function ExtraBoosterOffer({
-  game,
-  disabled,
-}: {
-  readonly game: ReadyGame;
-  readonly disabled: boolean;
-}) {
-  const wallet = { ingots: game.ingots, bonusBoosters: game.boosters.bonus };
-
-  return (
-    <div className="grid w-full grid-cols-2 gap-2">
-      {BOOSTER_OFFERS.map((offer) => {
-        const discount = offerDiscountPercent(offer);
-        return (
-          <AsyncButton
-            key={offer.id}
-            variant="secondary"
-            onAction={() => game.buyBoosters(offer.id)}
-            disabled={disabled || !canAfford(wallet, offer)}
-            className="relative min-h-16 flex-col gap-0.5 px-2"
-          >
-            <span className="text-base">
-              +{offer.boosters} booster{offer.boosters > 1 ? "s" : ""}
-            </span>
-            <IngotAmount amount={offer.price} />
-            {discount > 0 ? (
-              <span className="bg-gold text-night absolute -top-2 right-2 rounded-full px-2 text-xs leading-5">
-                −{discount} %
-              </span>
-            ) : null}
-          </AsyncButton>
-        );
-      })}
     </div>
   );
 }
