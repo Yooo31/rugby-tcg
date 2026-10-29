@@ -311,6 +311,19 @@ describe("cosmétiques", () => {
     const equipped = await player.equipCosmetic("back-chalk");
     expect(equipped.cosmetics.equipped["card-back"]).toBe("back-chalk");
   });
+
+  it("enregistre aussi un cosmétique gagné à l'ouverture d'un booster", async () => {
+    // Série atteinte avant l'arrivée des cosmétiques : rien n'est encore stocké.
+    const { player, store } = setup();
+    store.setItem(
+      "rugby-tcg:streak",
+      JSON.stringify({ count: 30, lastDay: "2026-10-13" }),
+    );
+    await player.openBooster();
+    expect(
+      readJson(store, "rugby-tcg:owned-cosmetics", z.array(z.string()), []),
+    ).toContain("back-chalk");
+  });
 });
 
 describe("divisions masquées", () => {

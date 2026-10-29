@@ -259,7 +259,9 @@ export function createPlayerRepository({
     openBooster: async () => {
       const context = await loadContext();
       const openedAt = context.at;
-      return store.update<BoosterOpening>((record) => {
+      return store.update<BoosterOpening>((stored) => {
+        // Comme les autres actions : un cosmétique gagné est enregistré.
+        const record = grantEarnedCosmetics(stored);
         const spending = spendBooster(
           record.reserve,
           record.wallet,
