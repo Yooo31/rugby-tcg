@@ -4,9 +4,11 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { EmptyState } from "@/components/ui/empty-state";
 import { RewardLabel } from "@/components/ui/reward";
-import { adminData } from "@/data/server";
+import { adminData, type AdminSeason } from "@/data/server";
 import {
   isGiveawayActive,
+  isSeasonActive,
+  type Season,
   ownedClubIds,
   RARITIES,
   RARITY_ODDS,
@@ -16,10 +18,16 @@ import { toDayKey } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import { AdjustmentForm } from "../components/AdjustmentForm";
 import { GiveawayForm } from "../components/GiveawayForm";
+import { SeasonForm } from "../components/SeasonForm";
 import { SentryTestButton } from "../components/SentryTestButton";
 import { formatDateTime, formatDay, formatPercent } from "../lib/format";
 import { lastDays, retention, RETENTION_DAYS } from "../lib/retention";
-import { endGiveawayAction, resetUsernameAction } from "./actions";
+import {
+  endGiveawayAction,
+  endSeasonAction,
+  grantSeasonPassAction,
+  resetUsernameAction,
+} from "./actions";
 import { requireAdmin } from "./guard";
 
 /** Chaque page revérifie les droits : le garde du layout n'est pas une barrière suffisante. */
@@ -385,6 +393,33 @@ export async function AdminPlayerPage({
         </Section>
       ) : null}
 
+      {snapshot.season ? (
+        <Section title="Passe de saison">
+          <p className="text-chalk-muted text-sm">
+            {snapshot.season.season.title} · palier {snapshot.season.tier} ·{" "}
+            {snapshot.season.xp} points
+          </p>
+          {snapshot.season.hasPremium ? (
+            <p className="text-sm">Voie payante : oui.</p>
+          ) : (
+            <form action={grantSeasonPassAction}>
+              <input type="hidden" name="playerId" value={detail.id} />
+              <input
+                type="hidden"
+                name="seasonId"
+                value={snapshot.season.season.id}
+              />
+              <button
+                type="submit"
+                className="border-line-strong rounded-control min-h-11 border px-4 text-sm font-medium"
+              >
+                Donner la voie payante
+              </button>
+            </form>
+          )}
+        </Section>
+      ) : null}
+
       <Section title="Corriger">
         <AdjustmentForm playerId={detail.id} />
       </Section>
@@ -497,5 +532,95 @@ export async function AdminGiveawaysPage() {
         )}
       </Section>
     </div>
+  );
+}
+
+/** Huit semaines, durée conseillée d'une saison. */
+const SEASON_DEFAULT_DAYS = 56;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** Saisons et heure de la requête, lues hors du rendu (qui doit rester pur). */
+async function loadSeasons() {
+  const seasons = await adminData.listSeasons();
+  return { seasons, now: Date.now() };
+}
+
+export async function AdminSeasonsPage() {
+  await requireAdmin();
+  const { seasons, now } = await loadSeasons();
+
+  return (
+    <div className="flex flex-col gap-6">
+      <Section title="Nouvelle saison">
+        <SeasonForm
+          today={toDayKey(new Date(now))}
+          inEightWeeks={toDayKey(
+            new Date(now + (SEASON_DEFAULT_DAYS - 1) * DAY_MS),
+          )}
+        />
+      </Section>
+
+      <Section title="Saisons">
+        {seasons.length === 0 ? (
+          <p className="text-chalk-muted text-sm">Aucune saison programmée.</p>
+        ) : (
+          <ul className="flex flex-col gap-3">
+            {seasons.map((entry) => (
+              <SeasonRow key={entry.season.id} entry={entry} now={now} />
+            ))}
+          </ul>
+        )}
+      </Section>
+    </div>
+  );
+}
+
+type PeriodStatus = "En cours" | "À venir" | "Terminée";
+
+function seasonStatus(season: Season, now: number): PeriodStatus {
+  if (isSeasonActive(season, now)) return "En cours";
+  return season.startsAt > now ? "À venir" : "Terminée";
+}
+
+function SeasonRow({
+  entry: { season, passes, createdBy },
+  now,
+}: {
+  readonly entry: AdminSeason;
+  readonly now: number;
+}) {
+  const status = seasonStatus(season, now);
+  return (
+    <li className="border-line flex flex-wrap items-center gap-3 border-t pt-3">
+      <div className="min-w-0 flex-1">
+        <p className="font-medium">
+          {season.title}{" "}
+          <span
+            className={cn(
+              "text-sm",
+              status === "En cours" ? "text-pitch" : "text-chalk-muted",
+            )}
+          >
+            · {status}
+          </span>
+        </p>
+        <p className="text-chalk-muted text-sm">
+          Du {formatDateTime(season.startsAt)} au{" "}
+          {formatDateTime(season.endsAt)} · {passes} voie(s) payante(s) ·{" "}
+          {createdBy}
+        </p>
+      </div>
+      {status !== "Terminée" ? (
+        <form action={endSeasonAction}>
+          <input type="hidden" name="seasonId" value={season.id} />
+          <button
+            type="submit"
+            className="border-line-strong rounded-control min-h-11 border px-4 text-sm font-medium"
+          >
+            {status === "À venir" ? "Annuler" : "Arrêter"}
+          </button>
+        </form>
+      ) : null}
+    </li>
   );
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/fallow/schema.json",
   "dynamicallyLoaded": ["public/sw.js"],
-  "ignorePatterns": ["src/generated/**"],
+  "ignorePatterns": ["src/generated/**", ".claude/**"],
   "ignoreDependencies": [
     "@tailwindcss/turbopack",
     "fallow",

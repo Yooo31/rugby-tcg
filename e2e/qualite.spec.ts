@@ -10,6 +10,7 @@ const GAME_PAGES = [
   "/missions",
   "/classement",
   "/boutique",
+  "/saison",
   "/compte",
 ];
 const PUBLIC_PAGES = [

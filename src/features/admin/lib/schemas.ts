@@ -31,52 +31,88 @@ const MAX_GIVEAWAY_BOOSTERS = 50;
 
 const dayKey = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Choisissez une date.");
 
+/** Titre d'un cadeau ou d'une saison. */
+const titleField = (missing: string) =>
+  z
+    .string()
+    .trim()
+    .min(3, missing)
+    .max(80, "Titre trop long (80 caractères au plus).");
+
+const period = { startDay: dayKey, endDay: dayKey };
+
+/** Le dernier jour suit le premier. */
+const endsAfterStart = ({
+  startDay,
+  endDay,
+}: {
+  readonly startDay: string;
+  readonly endDay: string;
+}) => endDay >= startDay;
+const ENDS_AFTER_START = {
+  message: "Le dernier jour doit suivre le premier.",
+  path: ["endDay"],
+};
+
 /**
- * Formulaire de cadeau. Les dates sont des jours entiers à l'heure de Paris :
- * du premier jour à minuit jusqu'au lendemain du dernier jour à minuit.
+ * Jours entiers à l'heure de Paris : du premier jour à minuit jusqu'au
+ * lendemain du dernier jour à minuit. `null` (avec une erreur) si une date
+ * est invalide.
  */
+function parisPeriod(
+  form: { readonly startDay: string; readonly endDay: string },
+  context: z.RefinementCtx,
+): { readonly startsAt: number; readonly endsAt: number } | null {
+  const startsAt = parisMidnight(form.startDay);
+  const endsAt = parisMidnight(nextDayKey(form.endDay));
+  if (startsAt !== null && endsAt !== null) return { startsAt, endsAt };
+  context.addIssue({
+    code: "custom",
+    message: "Date invalide.",
+    path: ["startDay"],
+  });
+  return null;
+}
+
+/** Formulaire de cadeau, sur des jours entiers à l'heure de Paris. */
 export const giveawayFormSchema = z
   .object({
-    title: z
-      .string()
-      .trim()
-      .min(3, "Donnez un titre au cadeau.")
-      .max(80, "Titre trop long (80 caractères au plus)."),
+    title: titleField("Donnez un titre au cadeau."),
     ingots: formInteger(MAX_GIVEAWAY_INGOTS).pipe(
       z.number().min(0, "Pas de cadeau négatif."),
     ),
     boosters: formInteger(MAX_GIVEAWAY_BOOSTERS).pipe(
       z.number().min(0, "Pas de cadeau négatif."),
     ),
-    startDay: dayKey,
-    endDay: dayKey,
+    ...period,
   })
   .refine(({ ingots, boosters }) => ingots + boosters > 0, {
     message: "Offrez des lingots ou des boosters.",
     path: ["ingots"],
   })
-  .refine(({ startDay, endDay }) => endDay >= startDay, {
-    message: "Le dernier jour doit suivre le premier.",
-    path: ["endDay"],
-  })
+  .refine(endsAfterStart, ENDS_AFTER_START)
   .transform((form, context) => {
-    const startsAt = parisMidnight(form.startDay);
-    const endsAt = parisMidnight(nextDayKey(form.endDay));
-    if (startsAt === null || endsAt === null) {
-      context.addIssue({
-        code: "custom",
-        message: "Date invalide.",
-        path: ["startDay"],
-      });
-      return z.NEVER;
-    }
+    const dates = parisPeriod(form, context);
+    if (!dates) return z.NEVER;
     return {
       title: form.title,
       ingots: form.ingots,
       boosters: form.boosters,
-      startsAt,
-      endsAt,
+      ...dates,
     };
+  });
+
+/**
+ * Formulaire de saison : un titre et des jours entiers à l'heure de Paris,
+ * comme un cadeau (huit semaines conseillées).
+ */
+export const seasonFormSchema = z
+  .object({ title: titleField("Donnez un titre à la saison."), ...period })
+  .refine(endsAfterStart, ENDS_AFTER_START)
+  .transform((form, context) => {
+    const dates = parisPeriod(form, context);
+    if (!dates) return z.NEVER;
+    return { title: form.title, ...dates };
   });
 
 /** État d'un formulaire d'administration, renvoyé par son action serveur. */
