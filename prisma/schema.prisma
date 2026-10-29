@@ -66,6 +66,8 @@ model Player {
 
   ownedCards        OwnedCard[]
   ownedSpecialCards OwnedSpecialCard[]
+  seasonLog         SeasonLog?
+  seasonPasses      SeasonPass[]
   missionLog        MissionLog?
   claimedAlbums     ClaimedAlbum[]
   boosterOpenings   BoosterOpening[]
@@ -228,4 +230,49 @@ model PushSubscription {
 
   @@index([playerId])
   @@map("push_subscriptions")
+}
+
+/// Saison du passe de saison, programmée dans l'administration. Début inclus,
+/// fin exclue, comme les cadeaux.
+model Season {
+  id        String   @id @default(uuid()) @db.Uuid
+  title     String
+  startsAt  DateTime @map("starts_at") @db.Timestamptz
+  endsAt    DateTime @map("ends_at") @db.Timestamptz
+  createdBy String   @map("created_by")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  passes SeasonPass[]
+
+  @@index([startsAt, endsAt])
+  @@map("seasons")
+}
+
+/// Avancement du joueur dans la dernière saison jouée. Une seule ligne par
+/// joueur : elle repart de zéro quand la saison change.
+model SeasonLog {
+  playerId       String   @id @map("player_id") @db.Uuid
+  seasonId       String   @map("season_id")
+  xp             Int      @default(0)
+  claimedFree    Int[]    @map("claimed_free")
+  claimedPremium Int[]    @map("claimed_premium")
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@map("season_logs")
+}
+
+/// Voie payante d'une saison pour un joueur (achetée, ou donnée par l'admin).
+model SeasonPass {
+  playerId  String   @map("player_id") @db.Uuid
+  seasonId  String   @map("season_id") @db.Uuid
+  grantedBy String   @map("granted_by")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  season Season @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+
+  @@id([playerId, seasonId])
+  @@map("season_passes")
 }

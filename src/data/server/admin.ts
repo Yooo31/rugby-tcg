@@ -12,6 +12,7 @@ import { secureRng } from "@/lib/rng";
 import { CATALOG_ALBUMS, CLUB_CATALOG } from "../catalog";
 import { createPlayerRepository } from "../player/repository";
 import { activeGiveaways, toGiveaway } from "./giveaways";
+import { activeSeason } from "./seasons";
 import { createPrismaPlayerStore } from "./prisma-store";
 
 /**
@@ -86,6 +87,7 @@ function playerRepository(prisma: PrismaClient, playerId: string) {
     rng: secureRng,
     now: () => new Date(),
     giveaways: () => activeGiveaways(prisma, new Date()),
+    season: () => activeSeason(prisma, new Date()),
   });
 }
 

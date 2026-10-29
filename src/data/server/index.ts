@@ -5,6 +5,7 @@ import { secureRng } from "@/lib/rng";
 import { CATALOG_ALBUMS, CLUB_CATALOG } from "../catalog";
 import { createPlayerRepository } from "../player/repository";
 import type { LeaderboardRepository, PlayerRepository } from "../repositories";
+import { activeSeason } from "./seasons";
 import { activeGiveaways } from "./giveaways";
 import { createPrismaLeaderboard } from "./leaderboard";
 import { createPostgresRateLimiter } from "./rate-limit";
@@ -35,6 +36,7 @@ export function createServerPlayerRepository(
     rng: secureRng,
     now: () => new Date(),
     giveaways: () => activeGiveaways(prisma, new Date()),
+    season: () => activeSeason(prisma, new Date()),
   });
 }
 
