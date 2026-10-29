@@ -52,6 +52,7 @@ export async function signUp(
   await page.getByLabel("Pseudo").fill(player.username);
   await page.getByLabel("Adresse e-mail").fill(player.email);
   await page.getByLabel("Mot de passe").fill(PASSWORD);
+  await page.getByLabel(/J'ai 15 ans ou plus/).check();
   await page.getByRole("button", { name: "Créer mon compte" }).click();
   await expect(
     page.getByRole("heading", { name: "Jour de match" }),

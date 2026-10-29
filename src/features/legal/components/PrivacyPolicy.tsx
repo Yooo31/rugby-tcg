@@ -1,17 +1,16 @@
-import { LegalPage, ToComplete } from "./LegalPage";
+import { INACTIVE_ACCOUNT_YEARS, MINIMUM_AGE } from "@/domain";
+import { EDITOR } from "../lib/editor";
+import { LegalPage } from "./LegalPage";
 
-/** Politique de confidentialité (RGPD). Les mentions « À compléter » sont à remplir par l'éditeur. */
+/** Politique de confidentialité (RGPD). */
 export function PrivacyPolicy() {
   return (
-    <LegalPage title="Confidentialité" updatedOn="23 octobre 2026">
+    <LegalPage title="Confidentialité" updatedOn="29 octobre 2026">
       <section>
         <h2>Qui est responsable de vos données ?</h2>
         <p>
-          <ToComplete>
-            nom ou raison sociale de l&apos;éditeur, adresse
-          </ToComplete>
-          . Pour toute question ou demande :{" "}
-          <ToComplete>adresse e-mail de contact</ToComplete>.
+          {EDITOR.name}, {EDITOR.status}, {EDITOR.town}. Pour toute question ou
+          demande : <a href={`mailto:${EDITOR.email}`}>{EDITOR.email}</a>.
         </p>
       </section>
 
@@ -28,7 +27,13 @@ export function PrivacyPolicy() {
           </li>
           <li>
             Votre partie : cartes, lingots, boosters, missions, série de
-            connexion, récompenses, et l&apos;historique des boosters ouverts.
+            connexion, passe de saison, cosmétiques, pass VIP, récompenses, et
+            l&apos;historique des boosters ouverts.
+          </li>
+          <li>
+            Vos achats : contenu acheté, prix, date et référence du paiement.
+            Vos coordonnées bancaires sont saisies chez notre prestataire de
+            paiement et ne nous parviennent jamais.
           </li>
           <li>
             Votre parrain ou vos filleuls, si vous utilisez le parrainage.
@@ -48,13 +53,16 @@ export function PrivacyPolicy() {
         <h2>Pourquoi</h2>
         <ul>
           <li>
-            Faire fonctionner le jeu et votre compte (exécution du service que
-            vous demandez).
+            Faire fonctionner le jeu, votre compte et vos achats (exécution du
+            service que vous demandez).
           </li>
           <li>Afficher les classements, sous votre seul pseudo.</li>
           <li>
             Protéger le jeu contre la triche et les abus (limite du nombre
             d&apos;actions).
+          </li>
+          <li>
+            Tenir notre comptabilité, pour les achats (obligation légale).
           </li>
           <li>
             Mesurer, en chiffres globaux, si le jeu plaît (nombre de joueurs qui
@@ -73,24 +81,52 @@ export function PrivacyPolicy() {
       </section>
 
       <section>
-        <h2>Où et combien de temps</h2>
+        <h2>Qui les traite pour nous</h2>
+        <ul>
+          <li>
+            Supabase Pte. Ltd. : base de données et comptes, sur des serveurs
+            situés à Paris.
+          </li>
+          <li>
+            Vercel Inc. (États-Unis) : hébergement du site. Les traitements côté
+            serveur s&apos;exécutent à Paris ; les fichiers sans donnée
+            personnelle (images, code du jeu) sont distribués par son réseau
+            mondial.
+          </li>
+          <li>
+            Stripe (Irlande) : paiements. Stripe reçoit vos coordonnées
+            bancaires et votre adresse e-mail, et agit aussi en responsable de
+            traitement pour la lutte contre la fraude (stripe.com/privacy).
+          </li>
+          <li>
+            Sentry (Functional Software Inc.) : signalement des erreurs
+            techniques, pour les corriger. Page concernée et message
+            d&apos;erreur seulement, sans adresse e-mail, adresse IP ni cookie.
+          </li>
+          <li>
+            Le service de notification de votre navigateur (Google, Apple ou
+            Mozilla), qui ne reçoit que le contenu des notifications.
+          </li>
+        </ul>
         <p>
-          Les données sont hébergées par Supabase (base de données et comptes),
-          région <ToComplete>région du projet Supabase</ToComplete>, et le site
-          par Vercel Inc. (société américaine) : les traitements côté serveur
-          s&apos;exécutent à Paris, les fichiers statiques sont distribués par
-          son réseau mondial. Les notifications passent par le service de votre
-          navigateur (Google, Apple ou Mozilla), qui ne reçoit que leur contenu.
-          Les erreurs techniques du jeu sont signalées à Sentry (Functional
-          Software Inc.) pour être corrigées : page concernée et message
-          d&apos;erreur, sans adresse e-mail, adresse IP ni cookie.
+          Les transferts hors de l&apos;Union européenne (Vercel, Sentry) sont
+          encadrés par les clauses contractuelles types de la Commission
+          européenne.
         </p>
+      </section>
+
+      <section>
+        <h2>Combien de temps</h2>
         <p>
           Nous gardons vos données tant que votre compte existe. Quand vous le
-          supprimez, tout est effacé immédiatement.{" "}
-          <ToComplete>
-            durée après laquelle un compte inactif est supprimé
-          </ToComplete>
+          supprimez, tout est effacé immédiatement. Un compte sans aucune
+          activité pendant {INACTIVE_ACCOUNT_YEARS} ans est supprimé, avec tout
+          son contenu.
+        </p>
+        <p>
+          Seules les pièces comptables de vos achats (montant, date, référence)
+          sont gardées dix ans, comme la loi l&apos;impose, chez notre
+          prestataire de paiement et dans notre comptabilité.
         </p>
       </section>
 
@@ -103,9 +139,8 @@ export function PrivacyPolicy() {
           pouvez aussi saisir la CNIL (cnil.fr).
         </p>
         <p>
-          Le jeu s&apos;adresse aux personnes de 15 ans et plus ; en dessous,
-          l&apos;accord d&apos;un parent est nécessaire.{" "}
-          <ToComplete>à valider</ToComplete>
+          Le jeu est réservé aux personnes de {MINIMUM_AGE} ans et plus : chaque
+          joueur le confirme à son inscription.
         </p>
       </section>
     </LegalPage>

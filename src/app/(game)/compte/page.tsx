@@ -8,15 +8,12 @@ import { AdminLink } from "@/features/admin/server";
 import { DeleteAccountForm, SignOutButton } from "@/features/auth";
 import { requireAuthUser } from "@/features/auth/server";
 import { UsernameSettings } from "@/features/game";
+import { LegalLinks } from "@/features/legal";
 import { NotificationsToggle } from "@/features/notifications";
 import { CosmeticSettings } from "@/features/shop";
 import { ReferralPanel } from "@/features/referral/server";
 import { VipSettings } from "@/features/vip";
-import {
-  LEGAL_NOTICE_PATH,
-  PRIVACY_PATH,
-  UPDATE_PASSWORD_PATH,
-} from "@/lib/supabase/routes";
+import { UPDATE_PASSWORD_PATH } from "@/lib/supabase/routes";
 
 export const metadata: Metadata = { title: "Compte" };
 
@@ -91,18 +88,7 @@ export default function AccountPage() {
           Télécharger mes données
           <Download aria-hidden className="text-chalk-faint size-5" />
         </a>
-        <p className="text-chalk-muted text-sm">
-          <Link href={PRIVACY_PATH} className="underline underline-offset-2">
-            Confidentialité
-          </Link>
-          {" · "}
-          <Link
-            href={LEGAL_NOTICE_PATH}
-            className="underline underline-offset-2"
-          >
-            Mentions légales
-          </Link>
-        </p>
+        <LegalLinks className="text-chalk-muted text-sm" />
         <DeleteAccountForm />
       </section>
 

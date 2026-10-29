@@ -24,3 +24,4 @@ export * from "./moderation";
 export * from "./streak";
 export * from "./referral";
 export * from "./notification";
+export * from "./account";

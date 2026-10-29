@@ -73,7 +73,12 @@ export async function signUp(
     options: {
       emailRedirectTo: callbackUrl(HOME_PATH),
       // Gardé dans le compte jusqu'à la création du joueur (voir ensurePlayer).
-      data: { username, referralCode: referralCode ?? null },
+      // Date d'acceptation des CGU et de la déclaration d'âge, comme preuve.
+      data: {
+        username,
+        referralCode: referralCode ?? null,
+        termsAcceptedAt: new Date().toISOString(),
+      },
     },
   });
   if (error) {

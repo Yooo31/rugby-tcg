@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { referralCodeSchema, usernameSchema } from "@/domain";
+import { MINIMUM_AGE, referralCodeSchema, usernameSchema } from "@/domain";
 
 /** Longueur minimale du mot de passe, rappelée à l'écran. */
 export const MIN_PASSWORD_LENGTH = 8;
@@ -33,6 +33,10 @@ export const signUpSchema = z.object({
     .optional()
     .transform((value) => value?.trim() || undefined)
     .pipe(referralCodeSchema.optional()),
+  /** Case cochée : le joueur a l'âge minimum et accepte les CGU. */
+  acceptsTerms: z.literal("on", {
+    error: `Confirmez avoir ${MINIMUM_AGE} ans ou plus et accepter les conditions d'utilisation.`,
+  }),
 });
 
 export const forgotPasswordSchema = z.object({ email });

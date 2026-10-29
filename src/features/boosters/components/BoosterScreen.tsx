@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import Link from "next/link";
 import { useState } from "react";
+import { ODDS_PATH } from "@/lib/supabase/routes";
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { Button } from "@/components/ui/button";
 import { GameGate, type OpenedBooster, type ReadyGame } from "@/features/game";
@@ -124,6 +125,12 @@ function BoosterFlow({ game }: { readonly game: ReadyGame }) {
             className="text-chalk-muted hover:text-chalk min-h-11 content-center text-sm underline-offset-4 hover:underline"
           >
             Plus de lingots ? La boutique
+          </Link>
+          <Link
+            href={ODDS_PATH}
+            className="text-chalk-muted hover:text-chalk min-h-11 content-center text-xs underline-offset-4 hover:underline"
+          >
+            Probabilités du tirage
           </Link>
         </div>
       </div>
