@@ -1,20 +1,7 @@
-import { clubSchema, type DivisionId } from "@/domain";
+import { clubSchema } from "@/domain";
 import { CLUB_CATALOG, FULL_CLUB_CATALOG } from "../index";
 import { CLUB_PALETTE } from "../palette";
 import { CLUB_IDENTITIES, withIdentity } from "./index";
-
-/**
- * Divisions dont chaque club a sa fiche relue. Quand toutes y sont, plus aucun
- * club ne peut sortir avec des couleurs devinées.
- */
-const REVIEWED_DIVISIONS: readonly DivisionId[] = [
-  "top14",
-  "prod2",
-  "nationale",
-  "nationale2",
-  "federale1",
-  "federale2",
-];
 
 describe("identité des clubs", () => {
   it("ne vise que des clubs du catalogue, avec un sigle et une source", () => {
@@ -31,11 +18,9 @@ describe("identité des clubs", () => {
       expect(clubSchema.safeParse(club).success, club.id).toBe(true);
   });
 
-  it("donne une fiche relue à chaque club des divisions revues", () => {
+  it("donne une fiche relue à chaque club du jeu : rien n'est deviné", () => {
     const missing = CLUB_CATALOG.filter(
-      (club) =>
-        REVIEWED_DIVISIONS.includes(club.division) &&
-        !(club.id in CLUB_IDENTITIES),
+      (club) => !(club.id in CLUB_IDENTITIES),
     ).map((club) => club.id);
     expect(missing).toEqual([]);
   });

@@ -3,6 +3,7 @@ import { CLUB_PALETTE, type ClubColorName } from "../palette";
 import { ELITE_IDENTITIES } from "./elite";
 import { FEDERALE_1_IDENTITIES } from "./federale1";
 import { FEDERALE_2_IDENTITIES } from "./federale2";
+import { FEDERALE_3_IDENTITIES } from "./federale3";
 import { NATIONALE_2_IDENTITIES } from "./nationale2";
 
 /**
@@ -43,6 +44,7 @@ export const CLUB_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
   ...NATIONALE_2_IDENTITIES,
   ...FEDERALE_1_IDENTITIES,
   ...FEDERALE_2_IDENTITIES,
+  ...FEDERALE_3_IDENTITIES,
 };
 
 /** Une couleur seule reçoit du blanc en seconde (du noir si elle est blanche). */

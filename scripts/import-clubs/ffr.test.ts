@@ -2,6 +2,8 @@ import {
   candidateSlugs,
   clubSlugsFromSitemap,
   departmentOfPostalCode,
+  ffrClubEntry,
+  findClubPage,
   nameSimilarity,
   officialInitials,
   parseClubPage,
@@ -145,5 +147,70 @@ describe("sigle tiré du nom officiel", () => {
     ["USA Perpignan", "USAP"],
   ])("%s → %s", (name, initials) => {
     expect(officialInitials(name)).toBe(initials);
+  });
+});
+
+describe("fiche retenue pour la relecture", () => {
+  it("traduit les couleurs, tire le sigle et signale les noms inconnus", () => {
+    const page: FfrClubPage = {
+      slug: "racing-club-salvetat-plaisance",
+      name: "Racing Club Salvetat Plaisance",
+      colors: ["Bleu", "Jaune", "Parements"],
+      postalCode: "31880",
+      city: "La Salvetat-saint-gilles",
+    };
+    expect(ffrClubEntry({ page, isSure: true })).toEqual({
+      slug: page.slug,
+      name: page.name,
+      colorNames: ["Bleu", "Jaune", "Parements"],
+      colors: { primary: "#0055a4", secondary: "#ffd100" },
+      unknownColors: ["Parements"],
+      initials: "RCSP",
+      isSure: true,
+    });
+  });
+});
+
+describe("recherche de la page d'un club", () => {
+  const club = {
+    name: "ASM Clermont",
+    city: "Clermont-Ferrand",
+    department: "63",
+  };
+  const pages: Record<string, FfrClubPage> = {
+    "asm-clermont-auvergne": {
+      slug: "asm-clermont-auvergne",
+      name: "Association Sportive Montferrandaise Clermont Auvergne",
+      colors: ["Jaune", "Bleu"],
+      postalCode: "63100",
+      city: "Clermont-ferrand",
+    },
+    "clermont-u-c-aubiere": {
+      slug: "clermont-u-c-aubiere",
+      name: "Clermont Universite Club Aubiere",
+      colors: ["Blanc", "Noir"],
+      postalCode: "63170",
+      city: "Aubiere",
+    },
+  };
+
+  it("s'arrête à la première page sûre", async () => {
+    const read = vi.fn(async (slug: string) => pages[slug] ?? null);
+    const match = await findClubPage(club, Object.keys(pages), 4, read);
+    expect(match?.page.slug).toBe("asm-clermont-auvergne");
+    expect(read).toHaveBeenCalledTimes(1);
+  });
+
+  it("garde la meilleure page à vérifier, ou rien", async () => {
+    const onlyOther = await findClubPage(
+      club,
+      ["clermont-u-c-aubiere", "inconnu"],
+      4,
+      async (slug) => pages[slug] ?? null,
+    );
+    expect(onlyOther).toMatchObject({ isSure: false });
+    expect(
+      await findClubPage(club, ["rc-auch"], 4, async () => null),
+    ).toBeNull();
   });
 });

@@ -78,6 +78,7 @@ export const ELITE_IDENTITIES: Readonly<Record<string, ClubIdentity>> = {
   "castres-olympique": {
     colors: ["bleu", "blanc"],
     initials: "CO",
+    place: { city: "Castres", department: "81" },
     crest: { pattern: "pale", symbol: "tower" },
     source: `${WIKI} ; FFR : Blanc, Bleu roi`,
   },

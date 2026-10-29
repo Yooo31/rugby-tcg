@@ -115,7 +115,7 @@ export function clubRegion(club: Club): RegionId {
 }
 
 /** Longueur maximale d'un sigle sur le blason. */
-export const MAX_INITIALS = 4;
+const MAX_INITIALS = 4;
 const MINOR_WORDS = new Set([
   "de",
   "du",

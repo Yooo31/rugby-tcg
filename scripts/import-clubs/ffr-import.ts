@@ -8,17 +8,15 @@
 import { writeFile } from "node:fs/promises";
 import { CLUB_CATALOG } from "../../src/data/catalog";
 import {
-  candidateSlugs,
+  findClubPage,
   CLUB_PAGE_BASE,
   clubSlugsFromSitemap,
   LEAGUE_HOSTS,
-  officialInitials,
+  ffrClubEntry,
   parseClubPage,
-  pickClubPage,
-  type ClubPageMatch,
+  type FfrClub,
   type FfrClubPage,
 } from "./ffr";
-import { ffrColors, type ClubColors } from "./colors";
 import { getText } from "./http";
 
 /** Aide à la revue des fiches d'identité : le catalogue ne le lit pas. */
@@ -40,27 +38,16 @@ async function leagueSlugs(host: string): Promise<string[]> {
   return slugs;
 }
 
-/** Ce que le catalogue retient d'un club rapproché. */
-interface FfrClub {
-  readonly slug: string;
-  readonly name: string;
-  /** Couleurs telles que la FFR les écrit, pour vérifier la traduction. */
-  readonly colorNames: readonly string[];
-  /** `null` si la FFR n'en donne pas ou si on ne sait pas les traduire. */
-  readonly colors: ClubColors | null;
-  readonly initials: string;
-  /** Faux : rapprochement à vérifier à la main (nom ou sigle différents). */
-  readonly isSure: boolean;
-}
-
+/** Page d'un club ; `null` si elle est vide ou injoignable. */
 async function readPage(slug: string): Promise<FfrClubPage | null> {
-  return parseClubPage(
-    slug,
-    await getText(`${CLUB_PAGE_BASE}${slug}`, "text/html"),
+  const html = await getText(`${CLUB_PAGE_BASE}${slug}`, "text/html").catch(
+    () => "",
   );
+  return parseClubPage(slug, html);
 }
 
-async function main() {
+/** Identifiants de tous les clubs listés par les ligues. */
+async function allLeagueSlugs(): Promise<string[]> {
   const slugs = new Set<string>();
   for (const host of LEAGUE_HOSTS) {
     const found = await leagueSlugs(host).catch((error: unknown) => {
@@ -70,57 +57,37 @@ async function main() {
     console.log(`${host.padEnd(30)} ${found.length} clubs`);
     for (const slug of found) slugs.add(slug);
   }
-  const allSlugs = [...slugs];
+  return [...slugs];
+}
 
+async function main() {
+  const slugs = await allLeagueSlugs();
   const clubs: Record<string, FfrClub> = {};
-  const unknownColors = new Set<string>();
   const unmatched: string[] = [];
   for (const [index, club] of CLUB_CATALOG.entries()) {
-    const pages: FfrClubPage[] = [];
-    let match: ClubPageMatch | null = null;
-    // On lit les candidates une à une ; on s'arrête dès qu'un rapprochement
-    // est sûr, sinon on garde le meilleur et on le signale.
-    for (const slug of candidateSlugs(club, allSlugs, MAX_CANDIDATES)) {
-      const page = await readPage(slug).catch(() => null);
-      if (page) pages.push(page);
-      match = pickClubPage(club, pages);
-      if (match?.isSure) break;
-    }
-    if (match) {
-      const { colors, unknown } = ffrColors(match.page.colors);
-      for (const name of unknown) unknownColors.add(name);
-      clubs[club.id] = {
-        slug: match.page.slug,
-        name: match.page.name,
-        colorNames: match.page.colors,
-        colors,
-        initials: officialInitials(match.page.name),
-        isSure: match.isSure,
-      };
-    } else
+    const match = await findClubPage(club, slugs, MAX_CANDIDATES, readPage);
+    if (match) clubs[club.id] = ffrClubEntry(match);
+    else
       unmatched.push(
         `${club.id} (${club.name}, ${club.city}, ${club.department})`,
       );
     console.log(
-      `${String(index + 1).padStart(3)}/${CLUB_CATALOG.length} ${club.id} → ${match?.page.slug ?? "?"}${match && !match.isSure ? " (à vérifier)" : ""} ${match?.page.colors.join(", ") ?? ""}`,
+      `${index + 1}/${CLUB_CATALOG.length} ${club.id} → ${match?.page.slug ?? "?"}`,
     );
   }
-
-  await writeFile(
-    OUTPUT,
-    `${JSON.stringify(
-      {
-        source:
-          "FFR, pages publiques des clubs (monclubhouse.ffr.fr), avec accord",
-        generatedAt: new Date().toISOString(),
-        clubs,
-        unmatched,
-        unknownColors: [...unknownColors].sort(),
-      },
-      null,
-      2,
-    )}\n`,
-  );
+  const unknownColors = [
+    ...new Set(
+      Object.values(clubs).flatMap(({ unknownColors }) => unknownColors),
+    ),
+  ].sort();
+  const document = {
+    source: "FFR, pages publiques des clubs (monclubhouse.ffr.fr), avec accord",
+    generatedAt: new Date().toISOString(),
+    clubs,
+    unmatched,
+    unknownColors,
+  };
+  await writeFile(OUTPUT, `${JSON.stringify(document, null, 2)}\n`);
   console.log(
     `\n${Object.keys(clubs).length} clubs rapprochés, ${unmatched.length} à rapprocher à la main.`,
   );

@@ -26,6 +26,8 @@ export const CLUB_PALETTE = {
   mauve: "#9b6bc9",
   marron: "#6b3e26",
   noisette: "#9c6b3f",
+  fraise: "#d61f4f",
+  pétrole: "#005f6a",
 } as const;
 
 export type ClubColorName = keyof typeof CLUB_PALETTE;

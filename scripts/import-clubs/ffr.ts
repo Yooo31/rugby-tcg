@@ -5,6 +5,7 @@
 // Jamais les logos : ils appartiennent aux clubs.
 //
 // Lecture pure ici (testée) ; les requêtes passent par `http.ts` (cache, pause).
+import { ffrColors, type ClubColors } from "./colors";
 import { slugify } from "./parse";
 
 /** Sites des ligues régionales, qui publient chacune la liste de leurs clubs. */
@@ -130,7 +131,7 @@ const ABBREVIATIONS = new Set([
 const MAX_AMBIGUOUS_LENGTH = 2;
 
 /** Mots significatifs d'un nom ou d'un identifiant, sans accents. */
-export function nameTokens(text: string): Set<string> {
+function nameTokens(text: string): Set<string> {
   return new Set(
     slugify(text)
       .split("-")
@@ -160,7 +161,7 @@ export function nameSimilarity(a: string, b: string): number {
 }
 
 /** Sigle en tête du nom d'un club (« ASM Clermont » → « asm »), sinon `null`. */
-export function leadingAbbreviation(name: string): string | null {
+function leadingAbbreviation(name: string): string | null {
   const first = name.trim().split(/\s+/)[0] ?? "";
   return /^[A-Z]{2,4}$/.test(first) ? first.toLowerCase() : null;
 }
@@ -226,7 +227,7 @@ export function candidateSlugs(
 }
 
 /** Similarité minimale pour accepter une page dont le département concorde. */
-export const MIN_MATCH_SIMILARITY = 0.5;
+const MIN_MATCH_SIMILARITY = 0.5;
 
 export interface ClubPageMatch {
   readonly page: FfrClubPage;
@@ -315,4 +316,57 @@ export function officialInitials(name: string): string {
     .normalize("NFD")
     .replace(/[^A-Z0-9]/g, "")
     .slice(0, MAX_SIGLE_LENGTH);
+}
+
+/** Ce que la relecture retient d'un club rapproché de sa page FFR. */
+export interface FfrClub {
+  readonly slug: string;
+  readonly name: string;
+  /** Couleurs telles que la FFR les écrit, pour vérifier la traduction. */
+  readonly colorNames: readonly string[];
+  /** `null` si la FFR n'en donne pas ou si on ne sait pas les traduire. */
+  readonly colors: ClubColors | null;
+  /** Noms de couleurs qu'on ne sait pas encore traduire. */
+  readonly unknownColors: readonly string[];
+  readonly initials: string;
+  /** Faux : rapprochement à vérifier à la main (nom ou sigle différents). */
+  readonly isSure: boolean;
+}
+
+export function ffrClubEntry({ page, isSure }: ClubPageMatch): FfrClub {
+  const { colors, unknown } = ffrColors(page.colors);
+  return {
+    slug: page.slug,
+    name: page.name,
+    colorNames: page.colors,
+    colors,
+    unknownColors: unknown,
+    initials: officialInitials(page.name),
+    isSure,
+  };
+}
+
+/**
+ * Lit les pages candidates une à une (`read` les récupère) ; s'arrête dès
+ * qu'un rapprochement est sûr, sinon garde le meilleur, à vérifier.
+ */
+export async function findClubPage(
+  club: {
+    readonly name: string;
+    readonly city: string;
+    readonly department: string;
+  },
+  slugs: readonly string[],
+  limit: number,
+  read: (slug: string) => Promise<FfrClubPage | null>,
+): Promise<ClubPageMatch | null> {
+  const pages: FfrClubPage[] = [];
+  let match: ClubPageMatch | null = null;
+  for (const slug of candidateSlugs(club, slugs, limit)) {
+    const page = await read(slug);
+    if (page) pages.push(page);
+    match = pickClubPage(club, pages);
+    if (match?.isSure) break;
+  }
+  return match;
 }
