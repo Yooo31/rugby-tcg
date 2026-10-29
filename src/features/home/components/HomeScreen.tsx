@@ -13,6 +13,7 @@ import {
 import { ClubCard } from "@/features/cards";
 import { GameGate, type ReadyGame } from "@/features/game";
 import { featuredAlbums } from "../lib/featuredAlbums";
+import { SeasonTeaser } from "@/features/season";
 import { GiveawayBanner } from "./GiveawayBanner";
 import { LeaderboardTeaser } from "./LeaderboardTeaser";
 import { MissionsSummary } from "./MissionsSummary";
@@ -48,6 +49,7 @@ function Home({ game }: { readonly game: ReadyGame }) {
       <StreakCard streak={game.streak} onClaim={game.claimStreak} />
 
       <GiveawayBanner giveaways={game.giveaways} onClaim={game.claimGiveaway} />
+      <SeasonTeaser progress={game.season} />
 
       <section className="panel relative overflow-hidden p-5 sm:p-7">
         <div className="relative z-10 flex max-w-[62%] flex-col gap-4 sm:max-w-sm">

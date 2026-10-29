@@ -4,6 +4,7 @@ import {
   claimAlbumReward,
   claimGiveaway,
   claimMission,
+  claimSeasonTier,
   claimStreak,
   getLeaderboard,
   getPlayer,
@@ -29,6 +30,8 @@ export function createServerRepositories(): Repositories {
         unwrap(await claimAlbumReward(albumId)),
       claimGiveaway: async (giveawayId) =>
         unwrap(await claimGiveaway(giveawayId)),
+      claimSeasonTier: async (tier, track) =>
+        unwrap(await claimSeasonTier(tier, track)),
       claimStreak: async () => unwrap(await claimStreak()),
       setUsername: async (username) => unwrap(await setUsername(username)),
     },

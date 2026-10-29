@@ -1,19 +1,15 @@
 import "server-only";
 import { prisma } from "@/lib/db";
 import type { RateLimiter } from "@/lib/rate-limit";
-import { secureRng } from "@/lib/rng";
-import { CATALOG_ALBUMS, CLUB_CATALOG } from "../catalog";
-import { createPlayerRepository } from "../player/repository";
+import { CLUB_CATALOG } from "../catalog";
 import type { LeaderboardRepository, PlayerRepository } from "../repositories";
-import { activeGiveaways } from "./giveaways";
+import { postgresPlayerRepository } from "./player-repository";
+
+export { SeasonOverlapError, type AdminSeason } from "./admin";
 import { createPrismaLeaderboard } from "./leaderboard";
 import { createPostgresRateLimiter } from "./rate-limit";
 import { referralCodeSchema, usernameSchema } from "@/domain";
-import {
-  createPrismaPlayerStore,
-  ensurePlayerRow,
-  isUniqueViolation,
-} from "./prisma-store";
+import { ensurePlayerRow, isUniqueViolation } from "./prisma-store";
 
 /**
  * Dépôt du joueur `playerId`, arbitré par le serveur : état en base, heure du
@@ -28,14 +24,7 @@ import {
 export function createServerPlayerRepository(
   playerId: string,
 ): PlayerRepository {
-  return createPlayerRepository({
-    store: createPrismaPlayerStore(prisma, playerId),
-    clubs: CLUB_CATALOG,
-    albums: CATALOG_ALBUMS,
-    rng: secureRng,
-    now: () => new Date(),
-    giveaways: () => activeGiveaways(prisma, new Date()),
-  });
+  return postgresPlayerRepository(prisma, playerId);
 }
 
 /** Limite de débit partagée par toutes les instances du serveur. */
@@ -113,6 +102,13 @@ export const adminData = {
     admin.createGiveaway(prisma, giveaway, adminEmail),
   endGiveaway: (giveawayId: string) =>
     admin.endGiveaway(prisma, giveawayId, new Date()),
+  listSeasons: () => admin.listSeasons(prisma),
+  createSeason: (season: admin.NewSeason, adminEmail: string) =>
+    admin.createSeason(prisma, season, adminEmail),
+  endSeason: (seasonId: string) =>
+    admin.endSeason(prisma, seasonId, new Date()),
+  grantSeasonPass: (playerId: string, seasonId: string, adminEmail: string) =>
+    admin.grantSeasonPass(prisma, playerId, seasonId, adminEmail),
 };
 
 /** Suppression et export d'un compte (RGPD) : `userId` vient de la session vérifiée. */

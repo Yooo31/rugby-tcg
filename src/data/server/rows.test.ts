@@ -17,6 +17,8 @@ const NEW_PLAYER: PlayerRows = {
   missionLog: null,
   claimedAlbumIds: [],
   claimedGiveawayIds: [],
+  seasonLog: null,
+  seasonPassIds: [],
 };
 
 const since = new Date("2026-10-22T08:00:00Z");
@@ -44,6 +46,8 @@ const PLAYING: PlayerRows = {
   },
   claimedAlbumIds: ["division-top14"],
   claimedGiveawayIds: ["cadeau-1"],
+  seasonLog: { seasonId: "s1", xp: 60, claimedFree: [], claimedPremium: [] },
+  seasonPassIds: ["s1"],
 };
 
 describe("recordFromRows", () => {
@@ -79,6 +83,13 @@ describe("recordFromRows", () => {
       claimedAlbumIds: ["division-top14"],
       claimedGiveawayIds: ["cadeau-1"],
       streak: { count: 3, lastDay: "2026-10-21" },
+      season: {
+        seasonId: "s1",
+        xp: 60,
+        claimedFree: [],
+        claimedPremium: [],
+      },
+      seasonPasses: ["s1"],
     });
   });
 
@@ -118,6 +129,7 @@ describe("recordChanges", () => {
       cards: [],
       specialCards: [],
       missionLog: null,
+      seasonLog: null,
       newClaimedAlbumIds: [],
       newClaimedGiveawayIds: [],
     });
@@ -147,6 +159,8 @@ describe("recordChanges", () => {
       claimedAlbumIds: ["division-top14", "france"],
       claimedGiveawayIds: ["cadeau-1", "cadeau-2"],
       streak: { count: 4, lastDay: "2026-10-22" },
+      season: { ...before.season!, xp: 70, claimedFree: [1] },
+      seasonPasses: ["s1"],
     };
 
     expect(recordChanges(before, after)).toEqual({
@@ -172,6 +186,7 @@ describe("recordChanges", () => {
         { specialId: "equipe-de-france", count: 2, firstObtainedAt: since },
       ],
       missionLog: after.missions,
+      seasonLog: after.season,
       newClaimedAlbumIds: ["france"],
       newClaimedGiveawayIds: ["cadeau-2"],
     });

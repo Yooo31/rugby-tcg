@@ -1,6 +1,7 @@
 import type { Collection } from "./collection";
 import type { GiveawayProgress } from "./giveaway";
 import type { MissionProgress } from "./mission";
+import type { SeasonProgress } from "./season";
 import type { SpecialCollection } from "./special-card";
 import type { StreakProgress } from "./streak";
 import type { BoosterStock } from "./wallet";
@@ -21,4 +22,6 @@ export interface PlayerSnapshot {
   readonly giveaways: readonly GiveawayProgress[];
   /** Série de connexion : la récompense du jour. */
   readonly streak: StreakProgress;
+  /** Saison en cours et avancement du joueur ; `null` hors saison. */
+  readonly season: SeasonProgress | null;
 }

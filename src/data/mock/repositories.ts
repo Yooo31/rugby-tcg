@@ -9,10 +9,12 @@ import {
   missionLogSchema,
   ownedSpecialCardSchema,
   rankScores,
+  seasonLogSchema,
   streakSchema,
   walletSchema,
   type Club,
   type Giveaway,
+  type Season,
 } from "@/domain";
 import type { Rng } from "@/lib/rng";
 import type { Repositories } from "../repositories";
@@ -34,6 +36,8 @@ const KEYS = {
   claimedAlbums: "rugby-tcg:claimed-albums",
   claimedGiveaways: "rugby-tcg:claimed-giveaways",
   streak: "rugby-tcg:streak",
+  season: "rugby-tcg:season",
+  seasonPasses: "rugby-tcg:season-passes",
 } as const;
 
 /** Identifiant du seul joueur du mock. */
@@ -71,6 +75,8 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
       [],
     ),
     streak: readJson(store, KEYS.streak, streakSchema, EMPTY_STREAK),
+    season: readJson(store, KEYS.season, seasonLogSchema.nullable(), null),
+    seasonPasses: readJson(store, KEYS.seasonPasses, z.array(z.string()), []),
   });
 
   const write = (record: PlayerRecord): void => {
@@ -83,6 +89,8 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
     writeJson(store, KEYS.claimedAlbums, record.claimedAlbumIds);
     writeJson(store, KEYS.claimedGiveaways, record.claimedGiveawayIds);
     writeJson(store, KEYS.streak, record.streak);
+    writeJson(store, KEYS.season, record.season);
+    writeJson(store, KEYS.seasonPasses, record.seasonPasses);
   };
 
   return {
@@ -101,6 +109,8 @@ interface MockDependencies {
   readonly rng?: Rng;
   readonly now?: () => Date;
   readonly giveaways?: readonly Giveaway[];
+  /** Saison en cours, pour les tests du passe de saison. */
+  readonly season?: Season | null;
 }
 
 /**
@@ -113,6 +123,7 @@ export function createMockRepositories({
   rng = Math.random,
   now = () => new Date(),
   giveaways = [],
+  season = null,
 }: MockDependencies): Repositories {
   const albums = buildPermanentAlbums(clubs);
   const clubsById = new Map(clubs.map((club) => [club.id, club]));
@@ -127,6 +138,7 @@ export function createMockRepositories({
       rng,
       now,
       giveaways: async () => giveaways,
+      season: async () => season,
     }),
     // Un seul joueur dans le mock : il est seul au classement, s'il a un pseudo.
     leaderboard: {
