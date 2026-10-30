@@ -155,6 +155,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 
 ## Accessibilité et mobile
 
+- **Navigation** : 5 onglets au plus en bas (Accueil, Boosters, Collection, Albums, Missions). Le reste passe par l'en-tête : pastille boutique (chariot et lingots), classement (trophée, doré sur sa page), compte. Sous 400 px de large, la marque et les espacements se resserrent pour que l'en-tête tienne avec un solde à 5 chiffres.
 - Mobile d'abord, cibles tactiles ≥ 44 px, pas de défilement horizontal de page, encoches respectées (`pb-safe-nav`).
 - Tout effet animé respecte `prefers-reduced-motion`.
 - **Installer l'application** (`InstallAppCard`) : sur l'accueil (masquable, choix gardé sur l'appareil) et dans Compte. Invite native quand le navigateur en fournit une (`beforeinstallprompt`, gardée dès le chargement), marche à suivre sur iPhone et iPad (Partager → Sur l'écran d'accueil, condition des notifications), rien une fois le jeu ouvert en mode application.
