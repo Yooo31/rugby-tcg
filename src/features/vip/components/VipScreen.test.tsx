@@ -29,7 +29,7 @@ describe("VipScreen", () => {
       await screen.findByRole("heading", { name: "Pas encore VIP" }),
     ).toBeInTheDocument();
     const offers = within(
-      screen.getByRole("region", { name: "S'abonner" }),
+      screen.getByRole("region", { name: "Devenir VIP" }),
     ).getAllByRole("article");
     expect(offers.map((offer) => offer.getAttribute("aria-label"))).toEqual([
       `Un mois de pass VIP pour ${formatEuros(599)}`,
@@ -37,7 +37,7 @@ describe("VipScreen", () => {
     ]);
     expect(within(offers[1]!).getByText("30 % d'économie")).toBeInTheDocument();
     for (const offer of offers)
-      expect(within(offer).getByRole("button")).toBeDisabled();
+      expect(within(offer).getByRole("button")).toBeEnabled();
     expect(
       screen.getByRole("row", { name: /Réserve de boosters gratuits 3 5/ }),
     ).toBeInTheDocument();

@@ -21,6 +21,9 @@ export const seasonSchema = z.object({
 
 export type Season = z.infer<typeof seasonSchema>;
 
+/** Prix de la voie payante d'une saison, en centimes TTC (docs/economie.md, 3.4). */
+export const SEASON_PASS_PRICE_CENTS = 599;
+
 /** Nombre de paliers d'une saison. */
 export const SEASON_TIERS = 30;
 /** Points de saison pour passer un palier. */

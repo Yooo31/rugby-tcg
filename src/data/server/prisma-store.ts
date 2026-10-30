@@ -62,12 +62,13 @@ async function loadRecord(db: Db, playerId: string): Promise<PlayerRecord> {
     orderBy: { obtainedAt: "asc" },
   });
   const seasonLog = await db.seasonLog.findUnique({ where: { playerId } });
+  // Un achat remboursé ne donne plus rien.
   const seasonPasses = await db.seasonPass.findMany({
-    where: { playerId },
+    where: { playerId, refundedAt: null },
     select: { seasonId: true },
   });
   const vipMemberships = await db.vipMembership.findMany({
-    where: { playerId },
+    where: { playerId, refundedAt: null },
     select: { startsAt: true, endsAt: true },
     orderBy: { startsAt: "asc" },
   });

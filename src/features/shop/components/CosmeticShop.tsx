@@ -1,7 +1,8 @@
 "use client";
 
+import { useModalDialog } from "@/components/ui/use-modal-dialog";
 import { X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { AsyncButton } from "@/components/ui/async-button";
 import { Button } from "@/components/ui/button";
 import { IngotAmount } from "@/components/ui/reward";
@@ -146,23 +147,11 @@ function CosmeticPreviewDialog({
   readonly sample: Club | undefined;
   readonly onClose: () => void;
 }) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    if (cosmetic && !dialog.open) dialog.showModal();
-    if (!cosmetic && dialog.open) dialog.close();
-  }, [cosmetic]);
+  const dialogProps = useModalDialog(cosmetic !== null, onClose);
 
   return (
     <dialog
-      ref={dialogRef}
-      onClose={onClose}
-      onClick={(event) => {
-        // Un clic sur le fond (le <dialog> lui-même) ferme la fenêtre.
-        if (event.target === event.currentTarget) onClose();
-      }}
+      {...dialogProps}
       aria-label={cosmetic ? `Aperçu : ${cosmetic.name}` : undefined}
       className="text-chalk m-auto w-full max-w-sm bg-transparent p-4 backdrop:bg-black/80 backdrop:backdrop-blur-sm"
     >

@@ -53,6 +53,7 @@ export function createPrismaLeaderboard(
           EXISTS (
             SELECT 1 FROM vip_memberships v
             WHERE v.player_id = ranked.id
+              AND v.refunded_at IS NULL
               AND v.starts_at <= now() AND now() < v.ends_at
           ) AS "isVip"
         FROM ranked

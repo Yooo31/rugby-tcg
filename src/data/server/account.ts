@@ -39,7 +39,7 @@ export async function deleteInactiveAccounts(
       ) < ${limit}
       AND NOT EXISTS (
         SELECT 1 FROM vip_memberships v
-        WHERE v.player_id = u.id AND v.ends_at > ${now}
+        WHERE v.player_id = u.id AND v.refunded_at IS NULL AND v.ends_at > ${now}
       )`;
 }
 

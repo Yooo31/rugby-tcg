@@ -21,8 +21,9 @@ describe("ShopScreen", () => {
       "Coffre : 1400 lingots pour 11,99 €",
       "Malle : 3000 lingots pour 24,99 €",
     ]);
-    for (const pack of packs)
-      expect(within(pack).getByRole("button")).toBeDisabled();
+    expect(
+      within(packs[1]!).getByRole("button", { name: /Acheter 650 lingots/ }),
+    ).toBeEnabled();
     expect(
       screen.getByRole("region", { name: "Échanger des lingots" }),
     ).toBeInTheDocument();
