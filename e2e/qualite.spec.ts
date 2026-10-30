@@ -62,7 +62,11 @@ test("les pages publiques sont accessibles et sans erreur", async ({
   expect(errors).toEqual([]);
 });
 
+/** Une douzaine de pages, chacune contrôlée par axe : plus que les 30 s par défaut. */
+const GAME_PAGES_TIMEOUT_MS = 90_000;
+
 test("les pages du jeu sont accessibles et sans erreur", async ({ page }) => {
+  test.setTimeout(GAME_PAGES_TIMEOUT_MS);
   const errors = collectConsoleErrors(page);
   await signUp(page, uniquePlayer());
   for (const path of GAME_PAGES) {

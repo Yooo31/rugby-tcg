@@ -13,6 +13,7 @@ import {
 import { ClubCard } from "@/features/cards";
 import { GameGate, type ReadyGame } from "@/features/game";
 import { InstallAppCard } from "@/features/install";
+import { WelcomeOfferCard } from "@/features/payments";
 import { featuredAlbums } from "../lib/featuredAlbums";
 import { SeasonTeaser } from "@/features/season";
 import { VipBoosterCard } from "@/features/vip";
@@ -54,6 +55,7 @@ function Home({ game }: { readonly game: ReadyGame }) {
       <VipBoosterCard vip={game.vip} onClaim={game.claimVipBooster} />
 
       <GiveawayBanner giveaways={game.giveaways} onClaim={game.claimGiveaway} />
+      <WelcomeOfferCard isAvailable={game.welcomeOffer} />
       <SeasonTeaser progress={game.season} />
 
       <section className="panel relative overflow-hidden p-5 sm:p-7">

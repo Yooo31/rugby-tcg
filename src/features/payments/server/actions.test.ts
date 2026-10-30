@@ -33,6 +33,7 @@ function withState(
   state: {
     hasPremium?: boolean;
     promotion?: { percentOff: number } | null;
+    welcomeOffer?: boolean;
   } = {},
 ) {
   vi.mocked(createServerPlayerRepository).mockReturnValue({
@@ -43,6 +44,7 @@ function withState(
             ? null
             : { season: { id: SEASON }, hasPremium: state.hasPremium },
         promotion: state.promotion ?? null,
+        welcomeOffer: state.welcomeOffer ?? true,
       }) as unknown as PlayerSnapshot,
   } as unknown as ReturnType<typeof createServerPlayerRepository>);
 }
@@ -122,5 +124,15 @@ describe("ouverture d'un paiement", () => {
         metadata: expect.objectContaining({ priceCents: "419" }),
       }),
     );
+  });
+
+  it("ne vend l'offre de bienvenue qu'une fois", async () => {
+    const welcome = { kind: "welcome", id: "welcome" };
+    expect(await startCheckout(welcome, true)).toMatchObject({ ok: true });
+    withState({ welcomeOffer: false });
+    expect(await startCheckout(welcome, true)).toEqual({
+      ok: false,
+      error: "already-owned",
+    });
   });
 });

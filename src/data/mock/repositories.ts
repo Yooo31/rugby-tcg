@@ -47,6 +47,7 @@ const KEYS = {
   seasonPasses: "rugby-tcg:season-passes",
   vipMemberships: "rugby-tcg:vip-memberships",
   vipBoosterDay: "rugby-tcg:vip-booster-day",
+  welcomeOfferTaken: "rugby-tcg:welcome-offer-taken",
 } as const;
 
 /** Équipement tel que stocké : un identifiant par sorte, validé à la lecture. */
@@ -111,6 +112,12 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
       z.string().nullable(),
       null,
     ),
+    welcomeOfferTaken: readJson(
+      store,
+      KEYS.welcomeOfferTaken,
+      z.boolean(),
+      false,
+    ),
   });
 
   const write = (record: PlayerRecord): void => {
@@ -129,6 +136,7 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
     writeJson(store, KEYS.seasonPasses, record.seasonPasses);
     writeJson(store, KEYS.vipMemberships, record.vipMemberships);
     writeJson(store, KEYS.vipBoosterDay, record.vipBoosterDay);
+    writeJson(store, KEYS.welcomeOfferTaken, record.welcomeOfferTaken);
   };
 
   return {

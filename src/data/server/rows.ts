@@ -67,6 +67,8 @@ export interface PlayerRows {
   readonly seasonPassIds: readonly string[];
   /** Périodes de pass VIP. */
   readonly vipMemberships: readonly VipMembershipRow[];
+  /** L'offre de bienvenue a déjà été achetée. */
+  readonly welcomeOfferTaken: boolean;
 }
 
 export interface VipMembershipRow {
@@ -151,6 +153,7 @@ export function recordFromRows(rows: PlayerRows): PlayerRecord {
       endsAt: endsAt.getTime(),
     })),
     vipBoosterDay: player.vipBoosterDay,
+    welcomeOfferTaken: rows.welcomeOfferTaken,
   };
 }
 

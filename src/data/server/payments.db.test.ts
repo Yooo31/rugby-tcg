@@ -141,3 +141,47 @@ describe("paiements en base", () => {
     await prisma.season.delete({ where: { id: season.id } });
   });
 });
+
+describe("offre de bienvenue en base", () => {
+  it("crédite lingots et 7 jours de VIP une seule fois, et retire tout au remboursement", async () => {
+    const playerId = await newPlayer();
+    const welcome = { kind: "welcome", id: "welcome" } as const;
+    const now = new Date();
+    expect(
+      await creditPurchase(
+        prisma,
+        playerId,
+        welcome,
+        `bienvenue-${playerId}`,
+        now,
+      ),
+    ).toBe(true);
+    const player = postgresPlayerRepository(prisma, playerId);
+    const snapshot = await player.get();
+    expect(snapshot.ingots).toBe(500);
+    expect(snapshot.vip.isActive).toBe(true);
+    expect(snapshot.welcomeOffer).toBe(false);
+
+    // Un second paiement de l'offre : signalé, rien de plus.
+    const error = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+    expect(
+      await creditPurchase(
+        prisma,
+        playerId,
+        welcome,
+        `bienvenue-2-${playerId}`,
+        now,
+      ),
+    ).toBe(false);
+    expect(error).toHaveBeenCalled();
+    error.mockRestore();
+    expect((await player.get()).ingots).toBe(500);
+
+    await revokePurchase(prisma, `bienvenue-${playerId}`);
+    const refunded = await player.get();
+    expect(refunded.ingots).toBe(0);
+    expect(refunded.vip.isActive).toBe(false);
+  });
+});

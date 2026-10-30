@@ -15,7 +15,7 @@ import {
 } from "@/domain";
 import { BoosterOffers } from "@/features/boosters";
 import { GameGate, type ReadyGame } from "@/features/game";
-import { CheckoutButton } from "@/features/payments";
+import { CheckoutButton, WelcomeOfferCard } from "@/features/payments";
 import { formatEuros } from "@/lib/money";
 import { cn } from "@/lib/utils";
 import { CosmeticShop } from "./CosmeticShop";
@@ -31,6 +31,8 @@ function Shop({ game }: { readonly game: ReadyGame }) {
         eyebrow="Boutique"
         title="Lingots, boosters et cosmétiques"
       />
+
+      <WelcomeOfferCard isAvailable={game.welcomeOffer} />
 
       {game.promotion ? <PromotionBanner promotion={game.promotion} /> : null}
 

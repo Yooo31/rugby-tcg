@@ -45,4 +45,16 @@ describe("produits payants", () => {
       productPrice({ kind: "vip", id: "vip-year" }, { percentOff: 20 }),
     ).toEqual({ priceCents: 3_999, regularCents: 4_999 });
   });
+
+  it("vend l'offre de bienvenue à 2,99 €, sans promotion en plus", () => {
+    const welcome = { kind: "welcome", id: "welcome" } as const;
+    expect(productLabel(welcome)).toBe(
+      "Offre de bienvenue : 500 lingots et 7 jours de VIP",
+    );
+    expect(productPrice(welcome, { percentOff: 30 })).toEqual({
+      priceCents: 299,
+      regularCents: 299,
+    });
+    expect(purchaseProductSchema.safeParse(welcome).success).toBe(true);
+  });
 });

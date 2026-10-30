@@ -3,6 +3,7 @@ import { getIngotPack, INGOT_PACKS, type IngotPackId } from "./shop";
 import { discountedCents, type Promotion } from "./promotion";
 import { SEASON_PASS_PRICE_CENTS } from "./season";
 import { getVipOffer, VIP_OFFERS, type VipOffer } from "./vip";
+import { WELCOME_OFFER } from "./welcome";
 
 /**
  * Ce qui se paie en euros (Stripe) : un paquet de lingots, une période de
@@ -24,6 +25,8 @@ export const purchaseProductSchema = z.discriminatedUnion("kind", [
   }),
   /** La voie payante de la saison `id`. */
   z.object({ kind: z.literal("season-pass"), id: z.uuid() }),
+  /** L'offre de bienvenue, une seule fois par compte. */
+  z.object({ kind: z.literal("welcome"), id: z.literal(WELCOME_OFFER.id) }),
 ]);
 
 export type PurchaseProduct = z.infer<typeof purchaseProductSchema>;
@@ -37,6 +40,8 @@ export function productPriceCents(product: PurchaseProduct): number {
       return getVipOffer(product.id).priceCents;
     case "season-pass":
       return SEASON_PASS_PRICE_CENTS;
+    case "welcome":
+      return WELCOME_OFFER.priceCents;
   }
 }
 
@@ -49,6 +54,8 @@ export function productLabel(product: PurchaseProduct): string {
       return `Pass VIP, ${getVipOffer(product.id).label.toLowerCase()}`;
     case "season-pass":
       return "Passe de saison, voie payante";
+    case "welcome":
+      return `${WELCOME_OFFER.label} : ${WELCOME_OFFER.ingots} lingots et ${WELCOME_OFFER.vipDays} jours de VIP`;
   }
 }
 
@@ -64,8 +71,10 @@ export function productPrice(
   promotion: Pick<Promotion, "percentOff"> | null,
 ): ProductPrice {
   const regularCents = productPriceCents(product);
+  // L'offre de bienvenue a déjà son petit prix : pas de promotion en plus.
+  const applies = promotion !== null && product.kind !== "welcome";
   return {
-    priceCents: promotion
+    priceCents: applies
       ? discountedCents(regularCents, promotion.percentOff)
       : regularCents,
     regularCents,

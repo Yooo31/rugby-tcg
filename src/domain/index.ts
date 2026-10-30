@@ -27,3 +27,4 @@ export * from "./notification";
 export * from "./account";
 export * from "./purchase";
 export * from "./promotion";
+export * from "./welcome";
