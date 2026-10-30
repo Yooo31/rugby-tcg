@@ -63,10 +63,10 @@ export function AppShell({ children, badges = {}, headerEnd }: AppShellProps) {
 
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-6xl flex-col px-4 sm:px-6">
-      <header className="flex h-14 items-center gap-4 md:h-16">
+      <header className="flex h-14 items-center gap-2 min-[400px]:gap-4 md:h-16">
         <Link
           href="/"
-          className="font-display mr-auto flex items-center gap-2 text-2xl font-extrabold tracking-wide uppercase"
+          className="font-display mr-auto flex shrink-0 items-center gap-2 text-xl font-extrabold tracking-wide uppercase min-[400px]:text-2xl"
         >
           <span
             aria-hidden
