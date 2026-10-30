@@ -66,8 +66,8 @@ model Player {
   cardBack           String?   @map("card_back")
   cardFrame          String?   @map("card_frame")
   albumTheme         String?   @map("album_theme")
-  /// Dernier jour (AAAA-MM-JJ, Paris) où le booster VIP du jour a été pris.
-  vipBoosterDay      String?   @map("vip_booster_day")
+  /// Dernier booster VIP ouvert : le suivant est disponible 48 h plus tard.
+  vipBoosterAt       DateTime? @map("vip_booster_at") @db.Timestamptz
   createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz
   updatedAt          DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 

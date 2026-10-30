@@ -10,6 +10,9 @@ import {
   PREMIUM_MAX_FREE_BOOSTERS,
   nextFreeBoosterAt,
   atLeastOnePerBooster,
+  drawVipBooster,
+  VIP_GUARANTEED_ODDS,
+  VIP_SLOT_ODDS,
   RARITY_ODDS,
   rollRarity,
   takeFreeBooster,
@@ -179,5 +182,38 @@ describe("atLeastOnePerBooster", () => {
     expect(atLeastOnePerBooster(0)).toBe(0);
     expect(atLeastOnePerBooster(1)).toBe(1);
     expect(atLeastOnePerBooster(RARITY_ODDS.legendary)).toBeCloseTo(0.049, 3);
+  });
+});
+
+describe("booster VIP", () => {
+  it("n'a aucune commune et toujours une épique ou mieux en premier", () => {
+    const clubs = makeClubs(20);
+    const rng = createSeededRng(7);
+    const counts = { common: 0, rare: 0, epic: 0, legendary: 0 };
+    for (let index = 0; index < 2_000; index += 1) {
+      const cards = drawVipBooster(clubs, rng);
+      expect(new Set(cards.map(({ clubId }) => clubId)).size).toBe(
+        BOOSTER_SIZE,
+      );
+      expect(["epic", "legendary"]).toContain(cards[0]!.rarity);
+      for (const card of cards) counts[card.rarity] += 1;
+    }
+    expect(counts.common).toBe(0);
+    // 4 cartes sur 5 à 75 % de rares : environ 60 % du total.
+    expect(counts.rare / 10_000).toBeGreaterThan(0.55);
+    expect(counts.rare / 10_000).toBeLessThan(0.65);
+  });
+
+  it("publie des probabilités de somme 1", () => {
+    const sum = (odds: Record<string, number | undefined>) =>
+      Object.values(odds).reduce<number>(
+        (total, part) => total + (part ?? 0),
+        0,
+      );
+    expect(sum(VIP_GUARANTEED_ODDS)).toBeCloseTo(1);
+    expect(sum(VIP_SLOT_ODDS)).toBeCloseTo(1);
+    expect(rollRarity(() => 0.999_999_9, { rare: 0.5, epic: 0.4 })).toBe(
+      "rare",
+    );
   });
 });

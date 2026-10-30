@@ -29,7 +29,11 @@ const ADVANTAGES = [
     free: `${MAX_FREE_BOOSTERS}`,
     vip: `${VIP_MAX_FREE_BOOSTERS}`,
   },
-  { label: "Booster VIP du jour", free: "—", vip: "+1 par jour" },
+  {
+    label: "Booster VIP : aucune commune, une épique au moins",
+    free: "—",
+    vip: "1 toutes les 48 h",
+  },
   {
     label: "Missions du jour",
     free: `${DAILY_MISSION_COUNT}`,

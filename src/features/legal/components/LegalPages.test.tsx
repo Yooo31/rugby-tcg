@@ -10,9 +10,16 @@ import { TermsOfUse } from "./TermsOfUse";
 describe("pages légales", () => {
   it("affiche les probabilités du tirage, lues dans le code", () => {
     render(<OddsPage />);
-    const legendary = screen.getByRole("row", { name: /Légendaire/ });
-    expect(within(legendary).getByText(/^1\s?%$/)).toBeInTheDocument();
-    expect(within(legendary).getByText(/^4,9\d*\s?%$/)).toBeInTheDocument();
+    const [legendary, vipLegendary] = screen.getAllByRole("row", {
+      name: /Légendaire/,
+    });
+    expect(within(legendary!).getByText(/^1\s?%$/)).toBeInTheDocument();
+    expect(within(legendary!).getByText(/^4,9\d*\s?%$/)).toBeInTheDocument();
+    // Booster VIP : 5 % en première carte comme sur les quatre autres.
+    expect(within(vipLegendary!).getAllByText(/^5\s?%$/)).toHaveLength(2);
+    expect(
+      screen.queryByRole("row", { name: /Commune 0/ }),
+    ).not.toBeInTheDocument();
     expect(screen.getByText(/une chance sur 100\s000/)).toBeInTheDocument();
   });
 

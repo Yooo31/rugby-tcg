@@ -141,7 +141,7 @@ export interface GameStats {
   readonly activePlayers24h: number;
   readonly openings: number;
   readonly openings24h: number;
-  /** Cartes tirées par rareté, depuis le début. */
+  /** Cartes tirées par rareté, depuis le début, hors boosters VIP. */
   readonly drawnByRarity: Readonly<Record<Rarity, number>>;
 }
 
@@ -165,6 +165,8 @@ export async function gameStats(
       prisma.$queryRaw<{ rarity: string; count: number }[]>`
         SELECT card->>'rarity' AS rarity, count(*)::int AS count
         FROM booster_openings, jsonb_array_elements(cards) AS card
+        -- Les boosters VIP ont leurs propres probabilités : hors comparaison.
+        WHERE source <> 'vip'
         GROUP BY 1`,
     ]);
 

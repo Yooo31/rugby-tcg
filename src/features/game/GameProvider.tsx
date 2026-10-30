@@ -39,7 +39,8 @@ interface GameActions {
   readonly claimGiveaway: (giveawayId: string) => Promise<void>;
   readonly claimSeasonTier: (tier: number, track: SeasonTrack) => Promise<void>;
   readonly claimStreak: () => Promise<void>;
-  readonly claimVipBooster: () => Promise<void>;
+  /** Booster VIP (toutes les 48 h, sans commune) : mêmes cartes en retour. */
+  readonly openVipBooster: () => Promise<OpenedBooster>;
   readonly buyCosmetic: (cosmeticId: CosmeticId) => Promise<void>;
   readonly equipCosmetic: (cosmeticId: CosmeticId) => Promise<void>;
   readonly setUsername: (username: string) => Promise<void>;
@@ -150,8 +151,11 @@ export function GameProvider({
         setPlayer(await repositories.player.claimSeasonTier(tier, track)),
       claimStreak: async () =>
         setPlayer(await repositories.player.claimStreak()),
-      claimVipBooster: async () =>
-        setPlayer(await repositories.player.claimVipBooster()),
+      openVipBooster: async () => {
+        const opening = await repositories.player.openVipBooster();
+        setPlayer(opening.player);
+        return { cards: opening.cards, special: opening.special };
+      },
       buyCosmetic: async (cosmeticId) =>
         setPlayer(await repositories.player.buyCosmetic(cosmeticId)),
       equipCosmetic: async (cosmeticId) =>

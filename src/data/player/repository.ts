@@ -15,8 +15,8 @@ import {
   claimMission,
   claimSeasonTier,
   claimStreak,
-  claimVipBooster,
   drawBooster,
+  drawVipBooster,
   EMPTY_STREAK,
   EMPTY_WALLET,
   gainSeasonXp,
@@ -35,6 +35,7 @@ import {
   spendBooster,
   streakProgress,
   usernameSchema,
+  takeVipBooster,
   VIP_MAX_FREE_BOOSTERS,
   vipStatus,
   vipUntil,
@@ -83,8 +84,8 @@ export interface PlayerRecord {
   readonly equippedCosmetics: EquippedCosmetics;
   /** Périodes de pass VIP, passées comprises. */
   readonly vipMemberships: readonly VipMembership[];
-  /** Dernier jour où le booster VIP du jour a été pris. */
-  readonly vipBoosterDay: string | null;
+  /** Dernier booster VIP ouvert (ms Unix) : le suivant 48 h plus tard. */
+  readonly vipBoosterAt: number | null;
 }
 
 /**
@@ -116,7 +117,7 @@ export const EMPTY_PLAYER_RECORD: PlayerRecord = {
   season: null,
   seasonPasses: [],
   vipMemberships: [],
-  vipBoosterDay: null,
+  vipBoosterAt: null,
 };
 
 /** Le joueur est-il VIP à cet instant ? */
@@ -133,7 +134,7 @@ function hasSeasonPass(record: PlayerRecord, season: Season | null): boolean {
 export type PlayerEvent =
   | {
       readonly type: "booster-opened";
-      readonly source: "free" | "bonus";
+      readonly source: "free" | "bonus" | "vip";
       readonly cards: readonly Card[];
     }
   | {
@@ -280,12 +281,7 @@ export function createPlayerRepository({
       hasSeasonPass(record, currentSeason),
       at.getTime(),
     ),
-    vip: vipStatus(
-      record.vipMemberships,
-      record.vipBoosterDay,
-      toDayKey(at),
-      at.getTime(),
-    ),
+    vip: vipStatus(record.vipMemberships, record.vipBoosterAt, at.getTime()),
     promotion: currentPromotion,
   });
 
@@ -304,6 +300,69 @@ export function createPlayerRepository({
     });
   };
 
+  /**
+   * Ouvre un booster : `take` dépense le booster (gratuit, bonus ou VIP) et
+   * tire ses cartes ; le reste (collection, missions, saison, carte
+   * spéciale) est commun à tous les boosters.
+   */
+  const openWith = async (
+    take: (
+      record: PlayerRecord,
+      at: Date,
+    ) => {
+      readonly record: PlayerRecord;
+      readonly source: "free" | "bonus" | "vip";
+      readonly cards: Card[];
+    },
+  ): Promise<BoosterOpening> => {
+    const context = await loadContext();
+    const openedAt = context.at;
+    return store.update<BoosterOpening>((stored) => {
+      // Comme les autres actions : un cosmétique gagné est enregistré.
+      const taken = take(grantEarnedCosmetics(stored), openedAt);
+      const record = taken.record;
+      const { collection, pulled } = addCards(
+        record.collection,
+        taken.cards,
+        openedAt.toISOString(),
+      );
+      const missions = recordOpening(
+        missionLogFor(record.missions, toDayKey(openedAt)),
+        pulled,
+        clubsById,
+        isVipAt(record, openedAt),
+      );
+      // Tirée après les clubs, en plus d'eux : le booster garde ses cartes.
+      const specialId = rollSpecialCard(rng);
+      const special = specialId
+        ? addSpecialCard(record.specialCards, specialId, openedAt.toISOString())
+        : null;
+      const next: PlayerRecord = {
+        ...record,
+        collection,
+        specialCards: special?.collection ?? record.specialCards,
+        missions,
+        season: gainSeasonXp(
+          record.season,
+          context.season,
+          SEASON_XP_PER_BOOSTER,
+          openedAt.getTime(),
+        ),
+      };
+      return {
+        record: next,
+        result: {
+          cards: pulled,
+          special: special?.pulled ?? null,
+          player: toSnapshot(next, context),
+        },
+        events: [
+          { type: "booster-opened", source: taken.source, cards: taken.cards },
+        ],
+      };
+    });
+  };
+
   return {
     get: async () => {
       const [record, context] = await Promise.all([
@@ -313,66 +372,38 @@ export function createPlayerRepository({
       return toSnapshot(record, context);
     },
 
-    openBooster: async () => {
-      const context = await loadContext();
-      const openedAt = context.at;
-      return store.update<BoosterOpening>((stored) => {
-        // Comme les autres actions : un cosmétique gagné est enregistré.
-        const record = grantEarnedCosmetics(stored);
+    openBooster: () =>
+      openWith((record, at) => {
         const spending = spendBooster(
           record.reserve,
           record.wallet,
-          openedAt.getTime(),
-          reserveSize(record, openedAt),
+          at.getTime(),
+          reserveSize(record, at),
         );
-        const drawn = drawBooster(clubs, rng);
-        const { collection, pulled } = addCards(
-          record.collection,
-          drawn,
-          openedAt.toISOString(),
-        );
-        const missions = recordOpening(
-          missionLogFor(record.missions, toDayKey(openedAt)),
-          pulled,
-          clubsById,
-          isVipAt(record, openedAt),
-        );
-        // Tirée après les clubs, en plus d'eux : le booster garde ses cartes.
-        const specialId = rollSpecialCard(rng);
-        const special = specialId
-          ? addSpecialCard(
-              record.specialCards,
-              specialId,
-              openedAt.toISOString(),
-            )
-          : null;
-        const next: PlayerRecord = {
-          ...record,
-          reserve: spending.reserve,
-          wallet: spending.wallet,
-          collection,
-          specialCards: special?.collection ?? record.specialCards,
-          missions,
-          season: gainSeasonXp(
-            record.season,
-            context.season,
-            SEASON_XP_PER_BOOSTER,
-            openedAt.getTime(),
-          ),
-        };
         return {
-          record: next,
-          result: {
-            cards: pulled,
-            special: special?.pulled ?? null,
-            player: toSnapshot(next, context),
+          record: {
+            ...record,
+            reserve: spending.reserve,
+            wallet: spending.wallet,
           },
-          events: [
-            { type: "booster-opened", source: spending.source, cards: drawn },
-          ],
+          source: spending.source,
+          cards: drawBooster(clubs, rng),
         };
-      });
-    },
+      }),
+
+    openVipBooster: () =>
+      openWith((record, at) => ({
+        record: {
+          ...record,
+          vipBoosterAt: takeVipBooster(
+            record.vipMemberships,
+            record.vipBoosterAt,
+            at.getTime(),
+          ),
+        },
+        source: "vip",
+        cards: drawVipBooster(clubs, rng),
+      })),
 
     buyBoosters: (offerId) =>
       update((record) => ({
@@ -460,21 +491,6 @@ export function createPlayerRepository({
         return {
           ...record,
           streak: claimed.streak,
-          wallet: grantReward(record.wallet, claimed.reward),
-        };
-      }),
-
-    claimVipBooster: () =>
-      update((record, { at }) => {
-        const claimed = claimVipBooster(
-          record.vipMemberships,
-          record.vipBoosterDay,
-          toDayKey(at),
-          at.getTime(),
-        );
-        return {
-          ...record,
-          vipBoosterDay: claimed.day,
           wallet: grantReward(record.wallet, claimed.reward),
         };
       }),

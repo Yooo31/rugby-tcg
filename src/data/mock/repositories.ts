@@ -46,7 +46,7 @@ const KEYS = {
   season: "rugby-tcg:season",
   seasonPasses: "rugby-tcg:season-passes",
   vipMemberships: "rugby-tcg:vip-memberships",
-  vipBoosterDay: "rugby-tcg:vip-booster-day",
+  vipBoosterAt: "rugby-tcg:vip-booster-at",
 } as const;
 
 /** Équipement tel que stocké : un identifiant par sorte, validé à la lecture. */
@@ -105,10 +105,10 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
       z.array(vipMembershipSchema),
       [],
     ),
-    vipBoosterDay: readJson(
+    vipBoosterAt: readJson(
       store,
-      KEYS.vipBoosterDay,
-      z.string().nullable(),
+      KEYS.vipBoosterAt,
+      z.number().nullable(),
       null,
     ),
   });
@@ -128,7 +128,7 @@ function createKeyValuePlayerStore(store: KeyValueStore): PlayerStore {
     writeJson(store, KEYS.season, record.season);
     writeJson(store, KEYS.seasonPasses, record.seasonPasses);
     writeJson(store, KEYS.vipMemberships, record.vipMemberships);
-    writeJson(store, KEYS.vipBoosterDay, record.vipBoosterDay);
+    writeJson(store, KEYS.vipBoosterAt, record.vipBoosterAt);
   };
 
   return {
