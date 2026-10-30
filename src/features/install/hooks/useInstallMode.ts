@@ -21,7 +21,16 @@ const notify = () => {
   listeners.forEach((listener) => listener());
 };
 
-if (typeof window !== "undefined") {
+let isListening = false;
+
+/**
+ * Écoute l'invite d'installation, une seule fois par page. Appelée par la
+ * coquille du jeu sur toutes les pages : l'invite peut arriver n'importe où,
+ * avant même l'affichage de la carte d'installation.
+ */
+export function listenForInstallPrompt(): void {
+  if (isListening || typeof window === "undefined") return;
+  isListening = true;
   window.addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
     deferredPrompt = event as BeforeInstallPromptEvent;
@@ -33,6 +42,8 @@ if (typeof window !== "undefined") {
     notify();
   });
 }
+
+listenForInstallPrompt();
 
 function subscribe(listener: () => void) {
   listeners.add(listener);
@@ -69,12 +80,18 @@ export function useInstallMode(): {
     : null;
 
   const install = async () => {
-    if (!deferredPrompt) return;
-    await deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    // Une invite ne sert qu'une fois.
-    deferredPrompt = null;
-    notify();
+    const pending = deferredPrompt;
+    if (!pending) return;
+    try {
+      await pending.prompt();
+      await pending.userChoice;
+    } catch {
+      // Invite refusée par le navigateur : le joueur pourra installer par le menu.
+    } finally {
+      // Une invite ne sert qu'une fois, qu'elle aboutisse ou non.
+      deferredPrompt = null;
+      notify();
+    }
   };
 
   return { mode, install };

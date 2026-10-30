@@ -62,6 +62,24 @@ describe("InstallAppCard", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("oublie une invite qui échoue", async () => {
+    const user = userEvent.setup();
+    render(<InstallAppCard />);
+    const event = Object.assign(new Event("beforeinstallprompt"), {
+      prompt: vi.fn(async () => {
+        throw new Error("refusée");
+      }),
+      userChoice: Promise.resolve({ outcome: "dismissed" as const }),
+    });
+    act(() => {
+      window.dispatchEvent(event);
+    });
+    await user.click(screen.getByRole("button", { name: "Installer" }));
+    expect(
+      screen.queryByRole("button", { name: "Installer" }),
+    ).not.toBeInTheDocument();
+  });
+
   it("ne propose rien une fois installée", () => {
     setUserAgent(IPHONE);
     render(<InstallAppCard />);
