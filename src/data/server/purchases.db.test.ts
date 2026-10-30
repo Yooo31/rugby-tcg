@@ -19,7 +19,7 @@ describe("achat de lingots", () => {
     expect(
       await creditIngotPurchase(prisma, playerId, { packId: "bag", reference }),
     ).toBe(true);
-    expect(await ingotsOf(playerId)).toBe(650);
+    expect(await ingotsOf(playerId)).toBe(700);
     expect(
       await prisma.ingotPurchase.findMany({
         where: { playerId },
@@ -30,7 +30,7 @@ describe("achat de lingots", () => {
           reference: true,
         },
       }),
-    ).toEqual([{ packId: "bag", ingots: 650, priceCents: 599, reference }]);
+    ).toEqual([{ packId: "bag", ingots: 700, priceCents: 599, reference }]);
   });
 
   it("ne crédite qu'une fois un même paiement, même en rafale", async () => {
@@ -58,6 +58,6 @@ describe("achat de lingots", () => {
       packId: "trunk",
       reference: `cumul-${playerId}`,
     });
-    expect(await ingotsOf(playerId)).toBe(3_120);
+    expect(await ingotsOf(playerId)).toBe(3_720);
   });
 });

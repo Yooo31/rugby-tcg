@@ -10,7 +10,7 @@ export function TermsOfSale() {
   return (
     <LegalPage
       title="Conditions générales de vente"
-      updatedOn="29 octobre 2026"
+      updatedOn="30 octobre 2026"
     >
       <section>
         <h2>Le vendeur</h2>
@@ -61,10 +61,12 @@ export function TermsOfSale() {
       <section>
         <h2>Prix et paiement</h2>
         <p>
-          Les prix sont indiqués en euros, toutes taxes comprises. TVA non
-          applicable, article 293 B du Code général des impôts. Le paiement se
-          fait par carte bancaire chez notre prestataire Stripe ; il est débité
-          au moment de la commande.
+          Les prix sont indiqués en euros, toutes taxes comprises. Pendant une
+          promotion, le prix réduit s&apos;applique à tous les achats en euros ;
+          le prix barré est le prix normal, le plus bas pratiqué dans les 30
+          jours précédents. TVA non applicable, article 293 B du Code général
+          des impôts. Le paiement se fait par carte bancaire chez notre
+          prestataire Stripe ; il est débité au moment de la commande.
         </p>
         <p>
           Un mineur doit avoir l&apos;accord de ses parents avant tout achat.

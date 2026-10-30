@@ -6,6 +6,7 @@ import { createPlayerRepository } from "../player/repository";
 import type { PlayerRepository } from "../repositories";
 import { activeGiveaways } from "./giveaways";
 import { createPrismaPlayerStore } from "./prisma-store";
+import { currentPromotion } from "./promotions";
 import { activeSeason } from "./seasons";
 
 /**
@@ -25,5 +26,6 @@ export function postgresPlayerRepository(
     now: () => new Date(),
     giveaways: () => activeGiveaways(prisma, new Date()),
     season: () => activeSeason(prisma, new Date()),
+    promotion: () => currentPromotion(prisma, new Date()),
   });
 }

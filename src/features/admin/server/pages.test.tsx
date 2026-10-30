@@ -6,6 +6,7 @@ import { createSeededRng } from "@/lib/rng";
 import {
   AdminGiveawaysPage,
   AdminPlayerPage,
+  AdminPromotionsPage,
   AdminRevenuePage,
   AdminSeasonsPage,
 } from "./pages";
@@ -28,6 +29,8 @@ vi.mock("./actions", () => ({
   endSeasonAction: vi.fn(),
   grantSeasonPassAction: vi.fn(),
   grantVipAction: vi.fn(),
+  createPromotionAction: vi.fn(),
+  endPromotionAction: vi.fn(),
 }));
 vi.mock("@/data/server", () => ({
   adminData: {
@@ -35,6 +38,7 @@ vi.mock("@/data/server", () => ({
     listGiveaways: vi.fn(),
     listSeasons: vi.fn(),
     revenueData: vi.fn(),
+    listPromotions: vi.fn(),
     activityData: vi.fn(),
   },
 }));
@@ -218,12 +222,34 @@ describe("indicateurs de revenu", () => {
     expect(
       screen.getByText(/le plus proche du scénario « Prudent »/),
     ).toBeInTheDocument();
-    expect(screen.getByText("Sac (650 lingots)")).toBeInTheDocument();
+    expect(screen.getByText("Sac (700 lingots)")).toBeInTheDocument();
     const retention = screen.getByRole("row", { name: /Payeurs \(1\)/ });
     expect(within(retention).getAllByText("100,0 %")).toHaveLength(3);
     expect(
       screen.getByRole("row", { name: /Gratuits \(1\)/ }),
     ).toHaveTextContent("0,0 %");
     expect(screen.getByText("10,0")).toBeInTheDocument();
+  });
+});
+
+describe("promotions", () => {
+  it("liste les promotions avec leur état, et propose de les arrêter", async () => {
+    const now = Date.now();
+    vi.mocked(adminData.listPromotions).mockResolvedValueOnce([
+      {
+        promotion: {
+          id: "00000000-0000-4000-8000-000000000002",
+          title: "Week-end du Top 14",
+          percentOff: 30,
+          startsAt: now - HOUR_MS,
+          endsAt: now + HOUR_MS,
+        },
+        createdBy: "admin@rugby-tcg.test",
+      },
+    ]);
+    render(await AdminPromotionsPage());
+    expect(screen.getByText(/Week-end du Top 14 · −30 %/)).toBeInTheDocument();
+    expect(screen.getByText("· En cours")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Arrêter" })).toBeInTheDocument();
   });
 });

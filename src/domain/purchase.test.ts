@@ -1,5 +1,6 @@
 import {
   productLabel,
+  productPrice,
   productPriceCents,
   purchaseProductSchema,
 } from "./purchase";
@@ -9,7 +10,7 @@ const SEASON_ID = "6f1c2a3b-4d5e-4f60-8a7b-9c0d1e2f3a4b";
 describe("produits payants", () => {
   it("donne le prix et le libellé de chaque produit", () => {
     expect(productPriceCents({ kind: "ingots", id: "bag" })).toBe(599);
-    expect(productLabel({ kind: "ingots", id: "bag" })).toBe("650 lingots");
+    expect(productLabel({ kind: "ingots", id: "bag" })).toBe("700 lingots");
     expect(productPriceCents({ kind: "vip", id: "vip-year" })).toBe(4_999);
     expect(productLabel({ kind: "vip", id: "vip-month" })).toBe(
       "Pass VIP, un mois",
@@ -33,5 +34,15 @@ describe("produits payants", () => {
       purchaseProductSchema.safeParse({ kind: "season-pass", id: "s1" })
         .success,
     ).toBe(false);
+  });
+
+  it("réduit le prix pendant une promotion et garde le prix normal à barrer", () => {
+    expect(productPrice({ kind: "vip", id: "vip-month" }, null)).toEqual({
+      priceCents: 599,
+      regularCents: 599,
+    });
+    expect(
+      productPrice({ kind: "vip", id: "vip-year" }, { percentOff: 20 }),
+    ).toEqual({ priceCents: 3_999, regularCents: 4_999 });
   });
 });

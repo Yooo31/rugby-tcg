@@ -7,8 +7,6 @@ import { RewardLabel } from "@/components/ui/reward";
 import { adminData, type AdminSeason } from "@/data/server";
 import {
   isGiveawayActive,
-  isSeasonActive,
-  type Season,
   ownedClubIds,
   RARITIES,
   RARITY_ODDS,
@@ -23,6 +21,7 @@ import { formatEuros } from "@/lib/money";
 import { cn } from "@/lib/utils";
 import { AdjustmentForm } from "../components/AdjustmentForm";
 import { GiveawayForm } from "../components/GiveawayForm";
+import { PromotionForm } from "../components/PromotionForm";
 import { SeasonForm } from "../components/SeasonForm";
 import { SentryTestButton } from "../components/SentryTestButton";
 import { formatDateTime, formatDay, formatPercent } from "../lib/format";
@@ -35,6 +34,7 @@ import {
 } from "../lib/revenue";
 import {
   endGiveawayAction,
+  endPromotionAction,
   endSeasonAction,
   grantSeasonPassAction,
   grantVipAction,
@@ -606,24 +606,33 @@ export async function AdminSeasonsPage() {
 
 type PeriodStatus = "En cours" | "À venir" | "Terminée";
 
-function seasonStatus(season: Season, now: number): PeriodStatus {
-  if (isSeasonActive(season, now)) return "En cours";
-  return season.startsAt > now ? "À venir" : "Terminée";
+function periodStatus(
+  period: { readonly startsAt: number; readonly endsAt: number },
+  now: number,
+): PeriodStatus {
+  if (period.startsAt <= now && now < period.endsAt) return "En cours";
+  return period.startsAt > now ? "À venir" : "Terminée";
 }
 
-function SeasonRow({
-  entry: { season, passes, createdBy },
-  now,
+/** Une période programmée (saison, promotion), qu'on peut arrêter ou annuler. */
+function PeriodRow({
+  title,
+  details,
+  status,
+  action,
+  field,
 }: {
-  readonly entry: AdminSeason;
-  readonly now: number;
+  readonly title: string;
+  readonly details: string;
+  readonly status: PeriodStatus;
+  readonly action: (formData: FormData) => Promise<void>;
+  readonly field: { readonly name: string; readonly value: string };
 }) {
-  const status = seasonStatus(season, now);
   return (
     <li className="border-line flex flex-wrap items-center gap-3 border-t pt-3">
       <div className="min-w-0 flex-1">
         <p className="font-medium">
-          {season.title}{" "}
+          {title}{" "}
           <span
             className={cn(
               "text-sm",
@@ -633,15 +642,11 @@ function SeasonRow({
             · {status}
           </span>
         </p>
-        <p className="text-chalk-muted text-sm">
-          Du {formatDateTime(season.startsAt)} au{" "}
-          {formatDateTime(season.endsAt)} · {passes} voie(s) payante(s) ·{" "}
-          {createdBy}
-        </p>
+        <p className="text-chalk-muted text-sm">{details}</p>
       </div>
       {status !== "Terminée" ? (
-        <form action={endSeasonAction}>
-          <input type="hidden" name="seasonId" value={season.id} />
+        <form action={action}>
+          <input type="hidden" name={field.name} value={field.value} />
           <button
             type="submit"
             className="border-line-strong rounded-control min-h-11 border px-4 text-sm font-medium"
@@ -651,6 +656,60 @@ function SeasonRow({
         </form>
       ) : null}
     </li>
+  );
+}
+
+function SeasonRow({
+  entry: { season, passes, createdBy },
+  now,
+}: {
+  readonly entry: AdminSeason;
+  readonly now: number;
+}) {
+  return (
+    <PeriodRow
+      title={season.title}
+      details={`Du ${formatDateTime(season.startsAt)} au ${formatDateTime(season.endsAt)} · ${passes} voie(s) payante(s) · ${createdBy}`}
+      status={periodStatus(season, now)}
+      action={endSeasonAction}
+      field={{ name: "seasonId", value: season.id }}
+    />
+  );
+}
+
+/** Promotions, et l'heure de la requête (lue hors du rendu). */
+async function loadPromotions() {
+  const promotions = await adminData.listPromotions();
+  return { promotions, now: Date.now() };
+}
+
+export async function AdminPromotionsPage() {
+  await requireAdmin();
+  const { promotions, now } = await loadPromotions();
+  return (
+    <div className="flex flex-col gap-6">
+      <Section title="Nouvelle promotion">
+        <PromotionForm today={toDayKey(new Date(now))} />
+      </Section>
+      <Section title="Promotions">
+        {promotions.length === 0 ? (
+          <p className="text-chalk-muted text-sm">Aucune promotion.</p>
+        ) : (
+          <ul className="flex flex-col gap-3">
+            {promotions.map(({ promotion, createdBy }) => (
+              <PeriodRow
+                key={promotion.id}
+                title={`${promotion.title} · −${promotion.percentOff} %`}
+                details={`Du ${formatDateTime(promotion.startsAt)} au ${formatDateTime(promotion.endsAt)} · ${createdBy}`}
+                status={periodStatus(promotion, now)}
+                action={endPromotionAction}
+                field={{ name: "promotionId", value: promotion.id }}
+              />
+            ))}
+          </ul>
+        )}
+      </Section>
+    </div>
   );
 }
 

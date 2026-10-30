@@ -3,12 +3,17 @@
 import * as Sentry from "@sentry/nextjs";
 import { refresh } from "next/cache";
 import { z } from "zod";
-import { adminData, SeasonOverlapError } from "@/data/server";
+import {
+  adminData,
+  PromotionTooCloseError,
+  SeasonOverlapError,
+} from "@/data/server";
 import { NegativeBalanceError } from "@/domain";
 import {
   adjustmentFormSchema,
   fieldErrors,
   giveawayFormSchema,
+  promotionFormSchema,
   seasonFormSchema,
   type AdminFormState,
 } from "../lib/schemas";
@@ -115,6 +120,35 @@ export async function createSeasonAction(
   }
   refresh();
   return { success: "Saison programmée." };
+}
+
+export async function createPromotionAction(
+  _previous: AdminFormState,
+  formData: FormData,
+): Promise<AdminFormState> {
+  const admin = await requireAdmin();
+  const parsed = promotionFormSchema.safeParse(formValues(formData));
+  if (!parsed.success) return { fieldErrors: fieldErrors(parsed.error) };
+  try {
+    await adminData.createPromotion(parsed.data, admin.email);
+  } catch (error) {
+    if (error instanceof PromotionTooCloseError)
+      return {
+        error:
+          "Il faut 30 jours sans promotion avant et après chacune, et une fin dans le futur.",
+      };
+    throw error;
+  }
+  refresh();
+  return { success: "Promotion programmée." };
+}
+
+export async function endPromotionAction(formData: FormData): Promise<void> {
+  await requireAdmin();
+  const promotionId = z.uuid().safeParse(formData.get("promotionId"));
+  if (!promotionId.success) return;
+  await adminData.endPromotion(promotionId.data);
+  refresh();
 }
 
 export async function endSeasonAction(formData: FormData): Promise<void> {

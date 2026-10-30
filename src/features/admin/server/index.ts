@@ -7,4 +7,5 @@ export {
   AdminGiveawaysPage,
   AdminSeasonsPage,
   AdminRevenuePage,
+  AdminPromotionsPage,
 } from "./pages";

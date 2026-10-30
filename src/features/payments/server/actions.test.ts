@@ -23,19 +23,31 @@ const create = vi.fn(async () => ({
 
 beforeEach(() => {
   vi.stubEnv("NEXT_PUBLIC_SITE_URL", "https://rugby.test");
+  withState();
   vi.mocked(stripeClient).mockReturnValue({
     checkout: { sessions: { create } },
   } as unknown as ReturnType<typeof stripeClient>);
 });
 
-function withSeason(hasPremium: boolean) {
+function withState(
+  state: {
+    hasPremium?: boolean;
+    promotion?: { percentOff: number } | null;
+  } = {},
+) {
   vi.mocked(createServerPlayerRepository).mockReturnValue({
     get: async () =>
       ({
-        season: { season: { id: SEASON }, hasPremium },
+        season:
+          state.hasPremium === undefined
+            ? null
+            : { season: { id: SEASON }, hasPremium: state.hasPremium },
+        promotion: state.promotion ?? null,
       }) as unknown as PlayerSnapshot,
   } as unknown as ReturnType<typeof createServerPlayerRepository>);
 }
+
+const withSeason = (hasPremium: boolean) => withState({ hasPremium });
 
 describe("ouverture d'un paiement", () => {
   it("ouvre la page Stripe pour le joueur de la session", async () => {
@@ -95,5 +107,20 @@ describe("ouverture d'un paiement", () => {
     ).toMatchObject({
       ok: true,
     });
+  });
+
+  it("applique la promotion en cours au prix envoyé à Stripe", async () => {
+    withState({ promotion: { percentOff: 30 } });
+    await startCheckout({ kind: "ingots", id: "bag" }, true);
+    expect(create).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        line_items: [
+          expect.objectContaining({
+            price_data: expect.objectContaining({ unit_amount: 419 }),
+          }),
+        ],
+        metadata: expect.objectContaining({ priceCents: "419" }),
+      }),
+    );
   });
 });

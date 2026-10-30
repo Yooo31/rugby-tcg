@@ -26,3 +26,4 @@ export * from "./referral";
 export * from "./notification";
 export * from "./account";
 export * from "./purchase";
+export * from "./promotion";

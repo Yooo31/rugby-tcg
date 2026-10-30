@@ -48,7 +48,12 @@ const completed = {
       id: "cs_test_1",
       object: "checkout.session",
       client_reference_id: PLAYER,
-      metadata: { playerId: PLAYER, kind: "ingots", productId: "bag" },
+      metadata: {
+        playerId: PLAYER,
+        kind: "ingots",
+        productId: "bag",
+        priceCents: "599",
+      },
       amount_total: 599,
       currency: "eur",
       payment_status: "paid",
@@ -75,6 +80,7 @@ describe("webhook Stripe", () => {
       PLAYER,
       { kind: "ingots", id: "bag" },
       "cs_test_1",
+      599,
     );
   });
 

@@ -80,7 +80,7 @@ export const seasonLogSchema = z.object({
 
 export type SeasonLog = z.infer<typeof seasonLogSchema>;
 
-export function isSeasonActive(season: Season, now: number): boolean {
+function isSeasonActive(season: Season, now: number): boolean {
   return season.startsAt <= now && now < season.endsAt;
 }
 

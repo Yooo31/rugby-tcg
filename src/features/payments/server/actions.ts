@@ -4,7 +4,7 @@ import {
   createServerPlayerRepository,
   createServerRateLimiter,
 } from "@/data/server";
-import { purchaseProductSchema } from "@/domain";
+import { productPrice, purchaseProductSchema } from "@/domain";
 import { requireAuthUser } from "@/features/auth/server";
 import { checkoutSessionParams } from "../lib/checkout";
 import { stripeClient } from "./config";
@@ -51,9 +51,12 @@ export async function startCheckout(
   if (!(await limiter.take(`checkout:${user.id}`)))
     return { ok: false, error: "rate-limited" };
 
+  // Saison et promotion en cours, lues côté serveur.
+  const { season, promotion } = await createServerPlayerRepository(
+    user.id,
+  ).get();
   if (parsed.data.kind === "season-pass") {
     // Seule la saison en cours se vend, et une seule fois.
-    const { season } = await createServerPlayerRepository(user.id).get();
     if (!season || season.season.id !== parsed.data.id)
       return { ok: false, error: "invalid" };
     if (season.hasPremium) return { ok: false, error: "already-owned" };
@@ -64,6 +67,7 @@ export async function startCheckout(
       playerId: user.id,
       email: user.email ?? null,
       product: parsed.data,
+      priceCents: productPrice(parsed.data, promotion).priceCents,
       siteUrl,
     }),
   );

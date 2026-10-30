@@ -5,7 +5,12 @@ const PLAYER = "0b6c1f0e-8a3c-4f1d-9a52-2e7d3c4b5a69";
 const paid = {
   id: "cs_test_1",
   client_reference_id: PLAYER,
-  metadata: { playerId: PLAYER, kind: "vip", productId: "vip-month" },
+  metadata: {
+    playerId: PLAYER,
+    kind: "vip",
+    productId: "vip-month",
+    priceCents: "599",
+  },
   amount_total: 599,
   currency: "eur",
   payment_status: "paid" as const,
@@ -18,6 +23,7 @@ describe("page de paiement", () => {
       playerId: PLAYER,
       email: "joueur@club.fr",
       product: { kind: "ingots", id: "chest" },
+      priceCents: 1_199,
       siteUrl: "https://rugby.test",
     });
     expect(params).toMatchObject({
@@ -30,11 +36,16 @@ describe("page de paiement", () => {
           price_data: {
             currency: "eur",
             unit_amount: 1_199,
-            product_data: { name: "1400 lingots" },
+            product_data: { name: "1500 lingots" },
           },
         },
       ],
-      metadata: { playerId: PLAYER, kind: "ingots", productId: "chest" },
+      metadata: {
+        playerId: PLAYER,
+        kind: "ingots",
+        productId: "chest",
+        priceCents: "1199",
+      },
       payment_intent_data: { metadata: { productId: "chest" } },
       success_url: "https://rugby.test/paiement/merci",
       cancel_url: "https://rugby.test/boutique",
@@ -44,6 +55,7 @@ describe("page de paiement", () => {
         playerId: PLAYER,
         email: null,
         product: { kind: "ingots", id: "chest" },
+        priceCents: 1_199,
         siteUrl: "https://rugby.test",
       }),
     ).not.toHaveProperty("customer_email");
@@ -56,6 +68,7 @@ describe("paiement reçu", () => {
       playerId: PLAYER,
       product: { kind: "vip", id: "vip-month" },
       reference: "cs_test_1",
+      priceCents: 599,
     });
   });
 
@@ -76,6 +89,32 @@ describe("paiement reçu", () => {
   ])("refuse %o", (change, reason) => {
     expect(paidPurchase({ ...paid, ...change }, false)).toEqual({
       rejected: reason,
+    });
+  });
+
+  it("accepte un prix réduit fixé par le serveur, jamais un prix plus haut", () => {
+    const promo = {
+      ...paid,
+      amount_total: 419,
+      metadata: { ...paid.metadata, priceCents: "419" },
+    };
+    expect(paidPurchase(promo, false)).toMatchObject({ priceCents: 419 });
+    const tooHigh = {
+      ...paid,
+      amount_total: 999,
+      metadata: { ...paid.metadata, priceCents: "999" },
+    };
+    expect(paidPurchase(tooHigh, false)).toEqual({ rejected: "wrong-amount" });
+  });
+
+  it("crédite au prix normal un paiement ouvert avant l'arrivée des promotions", () => {
+    const older = {
+      playerId: PLAYER,
+      kind: "vip",
+      productId: "vip-month",
+    };
+    expect(paidPurchase({ ...paid, metadata: older }, false)).toMatchObject({
+      priceCents: 599,
     });
   });
 });

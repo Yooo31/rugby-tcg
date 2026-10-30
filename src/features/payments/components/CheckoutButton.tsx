@@ -7,13 +7,15 @@ import { useEffect, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   productLabel,
-  productPriceCents,
+  productPrice,
+  type Promotion,
   type PurchaseProduct,
 } from "@/domain";
 import { formatEuros } from "@/lib/money";
 import { TERMS_OF_SALE_PATH } from "@/lib/supabase/routes";
 import { cn } from "@/lib/utils";
 import { startCheckout, type CheckoutResult } from "../server/actions";
+import { PriceTag } from "./PriceTag";
 
 type CheckoutError = Extract<CheckoutResult, { ok: false }>["error"];
 
@@ -27,6 +29,8 @@ const ERROR_MESSAGES: Record<CheckoutError, string> = {
 
 interface CheckoutButtonProps {
   readonly product: PurchaseProduct;
+  /** Promotion en cours : le prix réduit est affiché, le prix normal barré. */
+  readonly promotion?: Pick<Promotion, "percentOff"> | null;
   readonly className?: string;
   readonly variant?: "primary" | "secondary";
 }
@@ -37,11 +41,12 @@ interface CheckoutButtonProps {
  */
 export function CheckoutButton({
   product,
+  promotion = null,
   className,
   variant = "secondary",
 }: CheckoutButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const price = formatEuros(productPriceCents(product));
+  const price = formatEuros(productPrice(product, promotion).priceCents);
   return (
     <>
       <Button
@@ -51,10 +56,11 @@ export function CheckoutButton({
         aria-label={`Acheter ${productLabel(product)} pour ${price}`}
         className={className}
       >
-        {price}
+        <PriceTag product={product} promotion={promotion} />
       </Button>
       <CheckoutDialog
         product={product}
+        promotion={promotion}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       />
@@ -64,10 +70,12 @@ export function CheckoutButton({
 
 function CheckoutDialog({
   product,
+  promotion,
   isOpen,
   onClose,
 }: {
   readonly product: PurchaseProduct;
+  readonly promotion: Pick<Promotion, "percentOff"> | null;
   readonly isOpen: boolean;
   readonly onClose: () => void;
 }) {
@@ -77,7 +85,7 @@ function CheckoutDialog({
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const label = productLabel(product);
-  const price = formatEuros(productPriceCents(product));
+  const price = formatEuros(productPrice(product, promotion).priceCents);
 
   // Retour depuis Stripe par « Précédent » : la page restaurée doit pouvoir
   // relancer un paiement.
@@ -119,7 +127,7 @@ function CheckoutDialog({
               <p className="eyebrow">Paiement sécurisé par Stripe</p>
               <h2 className="text-2xl font-bold">{label}</h2>
               <p className="font-display text-3xl font-bold tabular-nums">
-                {price}
+                <PriceTag product={product} promotion={promotion} />
               </p>
             </div>
             <button

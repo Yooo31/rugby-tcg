@@ -5,11 +5,19 @@ import { ODDS_PATH, TERMS_OF_SALE_PATH } from "@/lib/supabase/routes";
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { ButtonLink } from "@/components/ui/button";
 import { IngotAmount } from "@/components/ui/reward";
-import { INGOT_PACKS, type IngotPack } from "@/domain";
+import {
+  bestPack,
+  INGOT_PACKS,
+  packBonusPercent,
+  productPrice,
+  type IngotPack,
+  type Promotion,
+} from "@/domain";
 import { BoosterOffers } from "@/features/boosters";
 import { GameGate, type ReadyGame } from "@/features/game";
 import { CheckoutButton } from "@/features/payments";
 import { formatEuros } from "@/lib/money";
+import { cn } from "@/lib/utils";
 import { CosmeticShop } from "./CosmeticShop";
 
 export function ShopScreen() {
@@ -23,6 +31,8 @@ function Shop({ game }: { readonly game: ReadyGame }) {
         eyebrow="Boutique"
         title="Lingots, boosters et cosmétiques"
       />
+
+      {game.promotion ? <PromotionBanner promotion={game.promotion} /> : null}
 
       <section
         aria-labelledby="solde"
@@ -44,7 +54,7 @@ function Shop({ game }: { readonly game: ReadyGame }) {
             {game.vip.isActive ? "Vous êtes VIP" : "5 boosters en réserve"}
           </h2>
           <p className="text-chalk-muted mt-1 text-sm text-pretty">
-            Un booster de plus par jour et deux missions VIP.
+            Un booster sans commune toutes les 48 h et deux missions VIP.
           </p>
         </div>
         <ButtonLink href="/vip" variant="secondary">
@@ -76,7 +86,7 @@ function Shop({ game }: { readonly game: ReadyGame }) {
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {INGOT_PACKS.map((pack) => (
             <li key={pack.id}>
-              <IngotPackCard pack={pack} />
+              <IngotPackCard pack={pack} promotion={game.promotion} />
             </li>
           ))}
         </ul>
@@ -94,18 +104,71 @@ function Shop({ game }: { readonly game: ReadyGame }) {
   );
 }
 
-function IngotPackCard({ pack }: { readonly pack: IngotPack }) {
+/** Paquet au meilleur bonus, mis en avant. */
+const BEST_PACK_ID = bestPack().id;
+
+function IngotPackCard({
+  pack,
+  promotion,
+}: {
+  readonly pack: IngotPack;
+  readonly promotion: Promotion | null;
+}) {
+  const bonus = packBonusPercent(pack);
+  const isBest = pack.id === BEST_PACK_ID;
   return (
     <article
-      aria-label={`${pack.label} : ${pack.ingots} lingots pour ${formatEuros(pack.priceCents)}`}
-      className="panel flex h-full flex-col gap-3 p-4"
+      aria-label={`${pack.label} : ${pack.ingots} lingots pour ${formatEuros(productPrice({ kind: "ingots", id: pack.id }, promotion).priceCents)}`}
+      className={cn(
+        "panel relative flex h-full flex-col gap-3 p-4",
+        isBest && "border-gold/60",
+      )}
     >
+      {isBest ? (
+        <p className="bg-gold text-night absolute -top-2.5 right-3 rounded-full px-2 py-0.5 text-xs font-bold">
+          Meilleure offre
+        </p>
+      ) : null}
       <p className="eyebrow">{pack.label}</p>
       <IngotAmount amount={pack.ingots} className="text-2xl" />
+      {bonus > 0 ? (
+        <p className="text-pitch text-sm font-bold">+{bonus} % de lingots</p>
+      ) : null}
       <CheckoutButton
         product={{ kind: "ingots", id: pack.id }}
+        promotion={promotion}
         className="mt-auto"
       />
     </article>
+  );
+}
+
+const PROMOTION_END = new Intl.DateTimeFormat("fr-FR", {
+  day: "numeric",
+  month: "long",
+  timeZone: "Europe/Paris",
+});
+
+/** Promotion en cours : vraie baisse de prix, jusqu'à sa date de fin. */
+function PromotionBanner({ promotion }: { readonly promotion: Promotion }) {
+  // La fin est exclue : le dernier jour est la veille de `endsAt`.
+  // « 1er novembre », comme on l'écrit en français.
+  const lastDay = PROMOTION_END.format(promotion.endsAt - 1).replace(
+    /^1 /,
+    "1er ",
+  );
+  return (
+    <section
+      aria-labelledby="promotion"
+      className="panel border-gold/60 flex flex-col gap-1 p-5"
+    >
+      <p className="eyebrow text-gold">Promotion</p>
+      <h2 id="promotion" className="text-2xl font-extrabold">
+        {promotion.title} : −{promotion.percentOff} %
+      </h2>
+      <p className="text-chalk-muted text-sm text-pretty">
+        Sur tous les achats en euros, jusqu&apos;au {lastDay} inclus.
+      </p>
+    </section>
   );
 }
