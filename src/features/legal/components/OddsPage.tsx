@@ -20,7 +20,7 @@ const PERCENT = new Intl.NumberFormat("fr-FR", {
  */
 export function OddsPage() {
   return (
-    <LegalPage title="Probabilités" updatedOn="29 octobre 2026">
+    <LegalPage title="Probabilités" updatedOn="30 octobre 2026">
       <section>
         <h2>Ce que contient un booster</h2>
         <p>

@@ -123,12 +123,12 @@ affichées dès le départ.
 
 ### 3.5 Rythme d'un joueur VIP
 
-| Source                         | Par semaine, en plus du gratuit |
-| ------------------------------ | ------------------------------- |
-| Booster VIP (toutes les 48 h)  | +3 à 4 boosters premium         |
-| Missions VIP (2 × ~40 lingots) | +560 lingots, soit ~5 boosters  |
-| Réserve de 5                   | moins de boosters perdus        |
-| **Total**                      | **~+12 boosters (+30 %)**       |
+| Source                         | Par semaine, en plus du gratuit                   |
+| ------------------------------ | ------------------------------------------------- |
+| Booster VIP (toutes les 48 h)  | +3 à 4 boosters premium                           |
+| Missions VIP (2 × ~40 lingots) | +560 lingots, soit ~5 boosters                    |
+| Réserve de 5                   | moins de boosters perdus                          |
+| **Total**                      | **~+9 boosters (+20 %), dont 3 à 4 sans commune** |
 
 Un VIP régulier ouvre ~52 boosters par semaine, contre ~40 pour un gratuit.
 L'écart se voit sans écraser le joueur gratuit.
