@@ -1,5 +1,5 @@
 import "server-only";
-import { UsernameTakenError } from "@/domain";
+import { UsernameTakenError, WELCOME_OFFER } from "@/domain";
 import { Prisma, type PrismaClient } from "@/generated/prisma/client";
 import type {
   PlayerEvent,
@@ -73,6 +73,9 @@ async function loadRecord(db: Db, playerId: string): Promise<PlayerRecord> {
     where: { playerId, refundedAt: null },
     select: { seasonId: true },
   });
+  const welcomeOffers = await db.ingotPurchase.count({
+    where: { playerId, packId: WELCOME_OFFER.id },
+  });
   const vipMemberships = await db.vipMembership.findMany({
     where: { playerId, refundedAt: null },
     select: { startsAt: true, endsAt: true },
@@ -89,6 +92,7 @@ async function loadRecord(db: Db, playerId: string): Promise<PlayerRecord> {
     seasonLog,
     seasonPassIds: seasonPasses.map(({ seasonId }) => seasonId),
     vipMemberships,
+    welcomeOfferTaken: welcomeOffers > 0,
   });
 }
 

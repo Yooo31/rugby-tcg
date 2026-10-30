@@ -5,6 +5,7 @@ import {
   getIngotPack,
   getVipOffer,
   SEASON_PASS_PRICE_CENTS,
+  WELCOME_OFFER,
   type IngotPackId,
   type PurchaseProduct,
   type VipOffer,
@@ -144,6 +145,80 @@ async function creditSeasonPassPurchase(
   return false;
 }
 
+/** L'offre de bienvenue a déjà été prise : une seule fois par compte. */
+class WelcomeOfferTakenError extends Error {}
+
+/**
+ * Crédite l'offre de bienvenue : ses lingots et ses jours de VIP, dans la
+ * même transaction. Une seule fois par compte (vérifié sous verrou, et par un
+ * index unique en base) ; un second paiement est signalé pour remboursement.
+ */
+async function creditWelcomePurchase(
+  prisma: PrismaClient,
+  playerId: string,
+  purchase: { readonly reference: string; readonly priceCents?: number },
+  now: Date,
+): Promise<boolean> {
+  // Même paiement renvoyé par Stripe : déjà crédité, rien à signaler.
+  const replayed = await prisma.ingotPurchase.findUnique({
+    where: { reference: purchase.reference },
+    select: { id: true },
+  });
+  if (replayed) return false;
+  try {
+    await createPrismaPlayerStore(prisma, playerId).update((record) => {
+      if (record.welcomeOfferTaken) throw new WelcomeOfferTakenError();
+      const membership = extendVip(
+        record.vipMemberships,
+        now.getTime(),
+        WELCOME_OFFER.vipDays,
+      );
+      return {
+        record: {
+          ...record,
+          wallet: {
+            ...record.wallet,
+            ingots: record.wallet.ingots + WELCOME_OFFER.ingots,
+          },
+          vipMemberships: [...record.vipMemberships, membership],
+          welcomeOfferTaken: true,
+        },
+        result: undefined,
+        events: [
+          {
+            type: "ingots-purchased",
+            packId: WELCOME_OFFER.id,
+            ingots: WELCOME_OFFER.ingots,
+            priceCents: purchase.priceCents ?? WELCOME_OFFER.priceCents,
+            reference: purchase.reference,
+          },
+          // Les jours de VIP sont compris dans le prix : ils ne comptent pas
+          // une seconde fois dans le revenu.
+          {
+            type: "vip-granted",
+            membership,
+            purchase: {
+              offerId: WELCOME_OFFER.id,
+              priceCents: 0,
+              reference: purchase.reference,
+            },
+          },
+        ],
+      };
+    });
+    return true;
+  } catch (error) {
+    if (isUniqueViolation(error)) return false;
+    if (error instanceof WelcomeOfferTakenError) {
+      console.error(
+        `Offre de bienvenue déjà prise, paiement à rembourser : ${purchase.reference}`,
+      );
+      return false;
+    }
+    throw error;
+  }
+}
+
 /** Ce qu'un remboursement a retiré, pour le journal. */
 export type RevokedPurchase = "ingots" | "vip" | "season-pass";
 
@@ -167,6 +242,9 @@ export async function revokePurchase(
       await tx.$executeRaw`UPDATE players
         SET ingots = greatest(0, ingots - ${ingots.ingots}), updated_at = now()
         WHERE id = ${ingots.playerId}::uuid`;
+      // L'offre de bienvenue a aussi des jours de VIP, au même paiement.
+      await tx.$executeRaw`UPDATE vip_memberships SET refunded_at = now()
+        WHERE reference = ${reference} AND refunded_at IS NULL`;
       return "ingots";
     }
     const vip =
@@ -209,5 +287,12 @@ export function creditPurchase(
         reference,
         priceCents,
       });
+    case "welcome":
+      return creditWelcomePurchase(
+        prisma,
+        playerId,
+        { reference, priceCents },
+        now,
+      );
   }
 }

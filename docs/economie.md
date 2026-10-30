@@ -110,6 +110,14 @@ font baisser le prix du booster :
   boosters, donc grimpe plus vite. C'est assumé : le classement récompense la
   collection. Le badge VIP rend visible qui paie.
 
+### 3.2 bis Offre de bienvenue
+
+- **2,99 €, une seule fois par compte** : 500 lingots et 7 jours de pass VIP.
+- Le premier achat est le plus dur à obtenir ; un joueur qui a payé une fois
+  rachète beaucoup plus facilement. Pas de promotion en plus.
+- Proposée sur l'accueil et en tête de la boutique, tant qu'elle n'est pas
+  prise.
+
 ### 3.3 Cosmétiques
 
 - **Dos de carte** (révélation des boosters) : 150 à 250 lingots.

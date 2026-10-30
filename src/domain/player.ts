@@ -33,4 +33,6 @@ export interface PlayerSnapshot {
   readonly vip: VipStatus;
   /** Promotion en cours sur les achats en euros, s'il y en a une. */
   readonly promotion: Promotion | null;
+  /** L'offre de bienvenue est encore disponible (une seule fois par compte). */
+  readonly welcomeOffer: boolean;
 }

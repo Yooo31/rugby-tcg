@@ -52,9 +52,11 @@ export async function startCheckout(
     return { ok: false, error: "rate-limited" };
 
   // Saison et promotion en cours, lues côté serveur.
-  const { season, promotion } = await createServerPlayerRepository(
-    user.id,
-  ).get();
+  const { season, promotion, welcomeOffer } =
+    await createServerPlayerRepository(user.id).get();
+  // L'offre de bienvenue ne se vend qu'une fois.
+  if (parsed.data.kind === "welcome" && !welcomeOffer)
+    return { ok: false, error: "already-owned" };
   if (parsed.data.kind === "season-pass") {
     // Seule la saison en cours se vend, et une seule fois.
     if (!season || season.season.id !== parsed.data.id)
