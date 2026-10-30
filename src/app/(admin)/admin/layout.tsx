@@ -14,6 +14,7 @@ const ADMIN_LINKS = [
   { href: "/admin/joueurs", label: "Joueurs" },
   { href: "/admin/cadeaux", label: "Cadeaux" },
   { href: "/admin/saisons", label: "Saisons" },
+  { href: "/admin/promotions", label: "Promotions" },
 ] as const;
 
 export default function AdminLayout({ children }: LayoutProps<"/admin">) {

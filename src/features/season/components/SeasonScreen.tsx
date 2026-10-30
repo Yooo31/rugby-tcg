@@ -14,6 +14,7 @@ import {
   SEASON_XP_PER_TIER,
   type Reward,
   type RewardStatus,
+  type Promotion,
   type SeasonProgress,
 } from "@/domain";
 import { GameGate, type ReadyGame } from "@/features/game";
@@ -47,7 +48,7 @@ function Season({ game }: { readonly game: ReadyGame }) {
   return (
     <div className="flex flex-col gap-6">
       <ScreenHeader eyebrow="Passe de saison" title={progress.season.title} />
-      <SeasonSummary progress={progress} />
+      <SeasonSummary progress={progress} promotion={game.promotion} />
       <ol aria-label="Paliers de la saison" className="flex flex-col gap-2">
         {progress.tiers.map((entry) => (
           <li
@@ -80,7 +81,13 @@ function Season({ game }: { readonly game: ReadyGame }) {
   );
 }
 
-function SeasonSummary({ progress }: { readonly progress: SeasonProgress }) {
+function SeasonSummary({
+  progress,
+  promotion,
+}: {
+  readonly progress: SeasonProgress;
+  readonly promotion: Promotion | null;
+}) {
   const isMaxed = progress.tier >= SEASON_TIERS;
   const intoTier = progress.xp - progress.tier * SEASON_XP_PER_TIER;
   return (
@@ -117,6 +124,7 @@ function SeasonSummary({ progress }: { readonly progress: SeasonProgress }) {
           </p>
           <CheckoutButton
             product={{ kind: "season-pass", id: progress.season.id }}
+            promotion={promotion}
             variant="primary"
             className="sm:w-auto sm:self-start"
           />

@@ -18,6 +18,8 @@ const metadataSchema = z.object({
   playerId: z.uuid(),
   kind: z.string(),
   productId: z.string(),
+  /** Prix fixé par le serveur à l'ouverture (promotion comprise). */
+  priceCents: z.coerce.number().int().min(1),
 });
 
 /**
@@ -29,14 +31,22 @@ export function checkoutSessionParams({
   playerId,
   email,
   product,
+  priceCents,
   siteUrl,
 }: {
   readonly playerId: string;
   readonly email: string | null;
   readonly product: PurchaseProduct;
+  /** Prix à payer, calculé par le serveur (promotion comprise). */
+  readonly priceCents: number;
   readonly siteUrl: string;
 }): Stripe.Checkout.SessionCreateParams {
-  const metadata = { playerId, kind: product.kind, productId: product.id };
+  const metadata = {
+    playerId,
+    kind: product.kind,
+    productId: product.id,
+    priceCents: String(priceCents),
+  };
   return {
     mode: "payment",
     locale: "fr",
@@ -47,7 +57,7 @@ export function checkoutSessionParams({
         quantity: 1,
         price_data: {
           currency: CURRENCY,
-          unit_amount: productPriceCents(product),
+          unit_amount: priceCents,
           product_data: { name: productLabel(product) },
         },
       },
@@ -66,6 +76,8 @@ export interface PaidPurchase {
   readonly product: PurchaseProduct;
   /** Identifiant de la session Stripe : un paiement, un crédit. */
   readonly reference: string;
+  /** Prix payé (promotion comprise). */
+  readonly priceCents: number;
 }
 
 /** Ce qui fait refuser un paiement annoncé par Stripe. */
@@ -109,11 +121,18 @@ export function paidPurchase(
     return { rejected: "unknown-product" };
   if (session.client_reference_id !== metadata.data.playerId)
     return { rejected: "wrong-player" };
-  if (session.amount_total !== productPriceCents(product.data))
+  // Le prix fixé par le serveur ne dépasse jamais le prix normal (une
+  // promotion ne fait que baisser), et c'est bien ce qui a été payé.
+  const { priceCents } = metadata.data;
+  if (
+    priceCents > productPriceCents(product.data) ||
+    session.amount_total !== priceCents
+  )
     return { rejected: "wrong-amount" };
   return {
     playerId: metadata.data.playerId,
     product: product.data,
     reference: session.id,
+    priceCents,
   };
 }

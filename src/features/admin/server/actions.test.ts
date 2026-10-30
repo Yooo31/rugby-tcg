@@ -1,6 +1,11 @@
 import { adminData } from "@/data/server";
 import { NegativeBalanceError } from "@/domain";
-import { adjustPlayerAction } from "./actions";
+import { PromotionTooCloseError } from "@/data/server";
+import {
+  adjustPlayerAction,
+  createPromotionAction,
+  endPromotionAction,
+} from "./actions";
 import { requireAdmin } from "./guard";
 
 vi.mock("server-only", () => ({}));
@@ -10,7 +15,12 @@ vi.mock("./guard", () => ({
   requireAdmin: vi.fn(async () => ({ email: "admin@rugby-tcg.test" })),
 }));
 vi.mock("@/data/server", () => ({
-  adminData: { adjustPlayer: vi.fn(async () => undefined) },
+  adminData: {
+    adjustPlayer: vi.fn(async () => undefined),
+    createPromotion: vi.fn(async () => undefined),
+    endPromotion: vi.fn(async () => undefined),
+  },
+  PromotionTooCloseError: class PromotionTooCloseError extends Error {},
 }));
 
 const PLAYER_ID = "00000000-0000-4000-8000-000000000001";
@@ -68,5 +78,44 @@ describe("correction d'un joueur", () => {
     );
     vi.mocked(adminData.adjustPlayer).mockRejectedValueOnce(new Error("base"));
     await expect(adjustPlayerAction({}, form(VALID))).rejects.toThrow("base");
+  });
+});
+
+describe("promotions", () => {
+  const PROMO = {
+    title: "Week-end du Top 14",
+    percentOff: "30",
+    startDay: "2027-03-06",
+    endDay: "2027-03-07",
+  };
+
+  it("programme une promotion sur des jours entiers", async () => {
+    const state = await createPromotionAction({}, form(PROMO));
+    expect(adminData.createPromotion).toHaveBeenCalledWith(
+      expect.objectContaining({ title: "Week-end du Top 14", percentOff: 30 }),
+      "admin@rugby-tcg.test",
+    );
+    expect(state.success).toBe("Promotion programmée.");
+  });
+
+  it("refuse une réduction hors bornes, ou trop proche d'une autre", async () => {
+    const state = await createPromotionAction(
+      {},
+      form({ ...PROMO, percentOff: "80" }),
+    );
+    expect(state.fieldErrors?.["percentOff"]).toBeDefined();
+    vi.mocked(adminData.createPromotion).mockRejectedValueOnce(
+      new PromotionTooCloseError(),
+    );
+    expect((await createPromotionAction({}, form(PROMO))).error).toMatch(
+      /30 jours/,
+    );
+  });
+
+  it("arrête une promotion", async () => {
+    await endPromotionAction(form({ promotionId: "pas-un-id" }));
+    expect(adminData.endPromotion).not.toHaveBeenCalled();
+    await endPromotionAction(form({ promotionId: PLAYER_ID }));
+    expect(adminData.endPromotion).toHaveBeenCalledWith(PLAYER_ID);
   });
 });

@@ -42,10 +42,10 @@ describe("CheckoutButton", () => {
     });
     render(<CheckoutButton product={{ kind: "ingots", id: "bag" }} />);
     await user.click(
-      screen.getByRole("button", { name: /Acheter 650 lingots/ }),
+      screen.getByRole("button", { name: /Acheter 700 lingots/ }),
     );
     const dialog = screen.getByRole("dialog", {
-      name: "Acheter : 650 lingots",
+      name: "Acheter : 700 lingots",
     });
     await user.click(
       within(dialog).getByLabelText(/je renonce à mon droit de rétractation/),

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { getIngotPack, INGOT_PACKS, type IngotPackId } from "./shop";
+import { discountedCents, type Promotion } from "./promotion";
 import { SEASON_PASS_PRICE_CENTS } from "./season";
 import { getVipOffer, VIP_OFFERS, type VipOffer } from "./vip";
 
@@ -49,4 +50,24 @@ export function productLabel(product: PurchaseProduct): string {
     case "season-pass":
       return "Passe de saison, voie payante";
   }
+}
+
+/** Prix à payer pendant une éventuelle promotion, et prix normal à barrer. */
+export interface ProductPrice {
+  readonly priceCents: number;
+  /** Prix normal ; différent de `priceCents` seulement pendant une promotion. */
+  readonly regularCents: number;
+}
+
+export function productPrice(
+  product: PurchaseProduct,
+  promotion: Pick<Promotion, "percentOff"> | null,
+): ProductPrice {
+  const regularCents = productPriceCents(product);
+  return {
+    priceCents: promotion
+      ? discountedCents(regularCents, promotion.percentOff)
+      : regularCents,
+    regularCents,
+  };
 }

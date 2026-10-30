@@ -10,10 +10,11 @@ import {
   VIP_MAX_FREE_BOOSTERS,
   VIP_MISSION_COUNT,
   VIP_OFFERS,
+  type Promotion,
   type VipOffer,
 } from "@/domain";
 import { GameGate, type ReadyGame } from "@/features/game";
-import { CheckoutButton } from "@/features/payments";
+import { CheckoutButton, PriceTag } from "@/features/payments";
 import { formatEuros } from "@/lib/money";
 import { VIP_DATE_FORMAT } from "../lib/format";
 
@@ -132,7 +133,7 @@ function Vip({ game }: { readonly game: ReadyGame }) {
         <ul className="grid gap-3 sm:grid-cols-2">
           {VIP_OFFERS.map((offer) => (
             <li key={offer.id}>
-              <VipOfferCard offer={offer} />
+              <VipOfferCard offer={offer} promotion={game.promotion} />
             </li>
           ))}
         </ul>
@@ -141,7 +142,13 @@ function Vip({ game }: { readonly game: ReadyGame }) {
   );
 }
 
-function VipOfferCard({ offer }: { readonly offer: VipOffer }) {
+function VipOfferCard({
+  offer,
+  promotion,
+}: {
+  readonly offer: VipOffer;
+  readonly promotion: Promotion | null;
+}) {
   const isYearly = offer.id === "vip-year";
   return (
     <article
@@ -158,10 +165,14 @@ function VipOfferCard({ offer }: { readonly offer: VipOffer }) {
         ) : null}
       </div>
       <p className="font-display text-3xl font-bold tabular-nums">
-        {formatEuros(offer.priceCents)}
+        <PriceTag
+          product={{ kind: "vip", id: offer.id }}
+          promotion={promotion}
+        />
       </p>
       <CheckoutButton
         product={{ kind: "vip", id: offer.id }}
+        promotion={promotion}
         variant={isYearly ? "primary" : "secondary"}
         className="mt-auto"
       />

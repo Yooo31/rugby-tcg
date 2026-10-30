@@ -89,13 +89,21 @@ font baisser le prix du booster :
 | Paquet  | Lingots | Prix    | Soit le booster |
 | ------- | ------- | ------- | --------------- |
 | Poignée | 200     | 1,99 €  | 1,00 €          |
-| Sac     | 650     | 5,99 €  | 0,92 €          |
-| Coffre  | 1 400   | 11,99 € | 0,86 €          |
-| Malle   | 3 000   | 24,99 € | 0,83 €          |
+| Sac     | 700     | 5,99 €  | 0,86 €          |
+| Coffre  | 1 500   | 11,99 € | 0,80 €          |
+| Malle   | 3 600   | 24,99 € | 0,69 €          |
 
 - La boutique n'affiche que les lingots et leur prix en euros, sans
   conversion en boosters : mélanger lingots et euros dans un même calcul
   brouille la lecture. Le prix du booster ci-dessus sert à l'équilibrage.
+- Bonus affiché sur chaque paquet, vrai et vérifiable : lingots en plus par
+  rapport au tarif de la Poignée, arrondis vers le bas (+16 %, +24 %, +43 %).
+  Badge « Meilleure offre » sur la Malle.
+- **Promotions** programmées dans l'admin : une vraie baisse (1 à 50 %) sur
+  tous les achats en euros, pendant des jours entiers. Le prix normal est
+  barré : la loi (art. L112-1-1) veut que ce soit le plus bas des 30 jours
+  précédents, d'où 30 jours sans promotion avant et après chacune. **Jamais
+  de fausse réduction** (pratique commerciale trompeuse, art. L121-2).
 - Les lingots achetés et gagnés se confondent dans le même solde.
 - **Effet sur le classement** : un joueur qui achète des lingots ouvre plus de
   boosters, donc grimpe plus vite. C'est assumé : le classement récompense la

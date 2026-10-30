@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { adjustmentSchema, MAX_ADJUSTMENT } from "@/domain";
+import {
+  adjustmentSchema,
+  MAX_ADJUSTMENT,
+  MAX_PROMOTION_PERCENT,
+} from "@/domain";
 import { nextDayKey, parisMidnight } from "@/lib/dates";
 
 /** Un nombre saisi dans un formulaire ; vide vaut 0. */
@@ -113,6 +117,22 @@ export const seasonFormSchema = z
     const dates = parisPeriod(form, context);
     if (!dates) return z.NEVER;
     return { title: form.title, ...dates };
+  });
+
+/** Formulaire de promotion : un titre, une réduction et des jours entiers. */
+export const promotionFormSchema = z
+  .object({
+    title: titleField("Donnez un titre à la promotion."),
+    percentOff: formInteger(MAX_PROMOTION_PERCENT).pipe(
+      z.number().min(1, "Au moins 1 %."),
+    ),
+    ...period,
+  })
+  .refine(endsAfterStart, ENDS_AFTER_START)
+  .transform((form, context) => {
+    const dates = parisPeriod(form, context);
+    if (!dates) return z.NEVER;
+    return { title: form.title, percentOff: form.percentOff, ...dates };
   });
 
 /** État d'un formulaire d'administration, renvoyé par son action serveur. */

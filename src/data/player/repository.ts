@@ -51,6 +51,7 @@ import {
   type IngotPackId,
   type MissionLog,
   type PlayerSnapshot,
+  type Promotion,
   type Season,
   type SeasonLog,
   type SpecialCollection,
@@ -192,6 +193,8 @@ interface PlayerRepositoryDependencies {
   readonly giveaways?: () => Promise<readonly Giveaway[]>;
   /** Saison en cours, s'il y en a une (programmée dans l'administration). */
   readonly season?: () => Promise<Season | null>;
+  /** Promotion en cours sur les achats en euros, s'il y en a une. */
+  readonly promotion?: () => Promise<Promotion | null>;
 }
 
 /** Ce qu'une action lit une fois au départ : l'heure, les cadeaux, la saison. */
@@ -199,6 +202,7 @@ interface ActionContext {
   readonly at: Date;
   readonly giveaways: readonly Giveaway[];
   readonly season: Season | null;
+  readonly promotion: Promotion | null;
 }
 
 /**
@@ -214,6 +218,7 @@ export function createPlayerRepository({
   maxFreeBoosters = MAX_FREE_BOOSTERS,
   giveaways = async () => [],
   season = async () => null,
+  promotion = async () => null,
 }: PlayerRepositoryDependencies): PlayerRepository {
   const clubsById = new Map(clubs.map((club) => [club.id, club]));
 
@@ -224,16 +229,24 @@ export function createPlayerRepository({
       : maxFreeBoosters;
 
   const loadContext = async (): Promise<ActionContext> => {
-    const [currentGiveaways, currentSeason] = await Promise.all([
-      giveaways(),
-      season(),
-    ]);
-    return { at: now(), giveaways: currentGiveaways, season: currentSeason };
+    const [currentGiveaways, currentSeason, currentPromotion] =
+      await Promise.all([giveaways(), season(), promotion()]);
+    return {
+      at: now(),
+      giveaways: currentGiveaways,
+      season: currentSeason,
+      promotion: currentPromotion,
+    };
   };
 
   const toSnapshot = (
     record: PlayerRecord,
-    { at, giveaways: currentGiveaways, season: currentSeason }: ActionContext,
+    {
+      at,
+      giveaways: currentGiveaways,
+      season: currentSeason,
+      promotion: currentPromotion,
+    }: ActionContext,
   ): PlayerSnapshot => ({
     username: record.username,
     // Une carte d'une division masquée reste en base, mais hors du jeu.
@@ -273,6 +286,7 @@ export function createPlayerRepository({
       toDayKey(at),
       at.getTime(),
     ),
+    promotion: currentPromotion,
   });
 
   /** Applique `change` à l'état du joueur, l'enregistre et renvoie le nouvel état. */

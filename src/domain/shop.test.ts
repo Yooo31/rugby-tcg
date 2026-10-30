@@ -1,5 +1,7 @@
 import {
+  bestPack,
   creditIngotPack,
+  packBonusPercent,
   getIngotPack,
   ingotPackIdSchema,
   INGOT_PACKS,
@@ -11,9 +13,9 @@ describe("boutique de lingots", () => {
       INGOT_PACKS.map(({ ingots, priceCents }) => [ingots, priceCents]),
     ).toEqual([
       [200, 199],
-      [650, 599],
-      [1_400, 1_199],
-      [3_000, 2_499],
+      [700, 599],
+      [1_500, 1_199],
+      [3_600, 2_499],
     ]);
   });
 
@@ -28,9 +30,14 @@ describe("boutique de lingots", () => {
       );
   });
 
+  it("affiche un bonus réel, arrondi vers le bas, et la meilleure offre", () => {
+    expect(INGOT_PACKS.map(packBonusPercent)).toEqual([0, 16, 24, 43]);
+    expect(bestPack().id).toBe("trunk");
+  });
+
   it("crédite les lingots d'un paquet, sans toucher aux boosters", () => {
     expect(creditIngotPack({ ingots: 30, bonusBoosters: 2 }, "bag")).toEqual({
-      ingots: 680,
+      ingots: 730,
       bonusBoosters: 2,
     });
   });

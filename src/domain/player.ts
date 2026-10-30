@@ -1,3 +1,4 @@
+import type { Promotion } from "./promotion";
 import type { VipStatus } from "./vip";
 import type { Collection } from "./collection";
 import type { CosmeticState } from "./cosmetic";
@@ -28,6 +29,8 @@ export interface PlayerSnapshot {
   readonly cosmetics: CosmeticState;
   /** Saison en cours et avancement du joueur ; `null` hors saison. */
   readonly season: SeasonProgress | null;
-  /** Pass VIP : statut et booster VIP du jour. */
+  /** Pass VIP : statut et booster VIP. */
   readonly vip: VipStatus;
+  /** Promotion en cours sur les achats en euros, s'il y en a une. */
+  readonly promotion: Promotion | null;
 }

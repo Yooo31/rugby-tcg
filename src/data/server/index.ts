@@ -6,6 +6,7 @@ import type { LeaderboardRepository, PlayerRepository } from "../repositories";
 import { postgresPlayerRepository } from "./player-repository";
 
 export { SeasonOverlapError, type AdminSeason } from "./admin";
+export { PromotionTooCloseError } from "./promotions";
 import { createPrismaLeaderboard } from "./leaderboard";
 import { createPostgresRateLimiter } from "./rate-limit";
 import {
@@ -126,6 +127,11 @@ export const adminData = {
     );
     return revenue.revenueData(prisma, months, now);
   },
+  listPromotions: () => promotions.listPromotions(prisma),
+  createPromotion: (promotion: promotions.NewPromotion, adminEmail: string) =>
+    promotions.createPromotion(prisma, promotion, adminEmail, new Date()),
+  endPromotion: (promotionId: string) =>
+    promotions.endPromotion(prisma, promotionId, new Date()),
   grantVip: (playerId: string, adminEmail: string) =>
     admin.grantVip(prisma, playerId, adminEmail, new Date()),
 };
@@ -135,12 +141,25 @@ export const adminData = {
  * vient du paiement créé côté serveur pour la session, jamais du navigateur.
  */
 export const paymentData = {
-  credit: (playerId: string, product: PurchaseProduct, reference: string) =>
-    purchases.creditPurchase(prisma, playerId, product, reference, new Date()),
+  credit: (
+    playerId: string,
+    product: PurchaseProduct,
+    reference: string,
+    priceCents: number,
+  ) =>
+    purchases.creditPurchase(
+      prisma,
+      playerId,
+      product,
+      reference,
+      new Date(),
+      priceCents,
+    ),
   revoke: (reference: string) => purchases.revokePurchase(prisma, reference),
 };
 import * as purchases from "./purchases";
 import * as revenue from "./revenue";
+import * as promotions from "./promotions";
 import { parisMonth, toDayKey } from "@/lib/dates";
 
 /** Suppression et export d'un compte (RGPD) : `userId` vient de la session vérifiée. */

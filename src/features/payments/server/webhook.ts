@@ -11,6 +11,7 @@ export interface WebhookDependencies {
     playerId: string,
     product: PurchaseProduct,
     reference: string,
+    priceCents: number,
   ) => Promise<boolean>;
   readonly revoke: (reference: string) => Promise<unknown>;
   /** Session de paiement d'un paiement Stripe (pour retrouver un remboursement). */
@@ -56,6 +57,7 @@ async function handleEvent(
         purchase.playerId,
         purchase.product,
         purchase.reference,
+        purchase.priceCents,
       );
       return credited ? "crédité" : "déjà crédité";
     }

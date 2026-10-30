@@ -24,7 +24,12 @@ import { createPrismaPlayerStore, isUniqueViolation } from "./prisma-store";
 export async function creditIngotPurchase(
   prisma: PrismaClient,
   playerId: string,
-  purchase: { readonly packId: IngotPackId; readonly reference: string },
+  purchase: {
+    readonly packId: IngotPackId;
+    readonly reference: string;
+    /** Prix payé ; par défaut le prix normal (hors promotion). */
+    readonly priceCents?: number;
+  },
 ): Promise<boolean> {
   const pack = getIngotPack(purchase.packId);
   try {
@@ -36,7 +41,7 @@ export async function creditIngotPurchase(
           type: "ingots-purchased",
           packId: pack.id,
           ingots: pack.ingots,
-          priceCents: pack.priceCents,
+          priceCents: purchase.priceCents ?? pack.priceCents,
           reference: purchase.reference,
         },
       ],
@@ -57,7 +62,11 @@ export async function creditIngotPurchase(
 export async function creditVipPurchase(
   prisma: PrismaClient,
   playerId: string,
-  purchase: { readonly offerId: VipOffer["id"]; readonly reference: string },
+  purchase: {
+    readonly offerId: VipOffer["id"];
+    readonly reference: string;
+    readonly priceCents?: number;
+  },
   now: Date,
 ): Promise<boolean> {
   const offer = getVipOffer(purchase.offerId);
@@ -80,7 +89,7 @@ export async function creditVipPurchase(
             membership,
             purchase: {
               offerId: offer.id,
-              priceCents: offer.priceCents,
+              priceCents: purchase.priceCents ?? offer.priceCents,
               reference: purchase.reference,
             },
           },
@@ -103,7 +112,11 @@ export async function creditVipPurchase(
 async function creditSeasonPassPurchase(
   prisma: PrismaClient,
   playerId: string,
-  purchase: { readonly seasonId: string; readonly reference: string },
+  purchase: {
+    readonly seasonId: string;
+    readonly reference: string;
+    readonly priceCents?: number;
+  },
 ): Promise<boolean> {
   try {
     await prisma.seasonPass.create({
@@ -111,7 +124,7 @@ async function creditSeasonPassPurchase(
         playerId,
         seasonId: purchase.seasonId,
         reference: purchase.reference,
-        priceCents: SEASON_PASS_PRICE_CENTS,
+        priceCents: purchase.priceCents ?? SEASON_PASS_PRICE_CENTS,
       },
     });
     return true;
@@ -174,24 +187,27 @@ export function creditPurchase(
   product: PurchaseProduct,
   reference: string,
   now: Date,
+  priceCents?: number,
 ): Promise<boolean> {
   switch (product.kind) {
     case "ingots":
       return creditIngotPurchase(prisma, playerId, {
         packId: product.id,
         reference,
+        priceCents,
       });
     case "vip":
       return creditVipPurchase(
         prisma,
         playerId,
-        { offerId: product.id, reference },
+        { offerId: product.id, reference, priceCents },
         now,
       );
     case "season-pass":
       return creditSeasonPassPurchase(prisma, playerId, {
         seasonId: product.id,
         reference,
+        priceCents,
       });
   }
 }
