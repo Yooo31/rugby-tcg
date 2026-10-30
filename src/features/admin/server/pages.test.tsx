@@ -3,7 +3,12 @@ import { notFound } from "next/navigation";
 import { adminData } from "@/data/server";
 import { createInMemoryRepositories } from "@/data";
 import { createSeededRng } from "@/lib/rng";
-import { AdminGiveawaysPage, AdminPlayerPage, AdminSeasonsPage } from "./pages";
+import {
+  AdminGiveawaysPage,
+  AdminPlayerPage,
+  AdminRevenuePage,
+  AdminSeasonsPage,
+} from "./pages";
 
 vi.mock("server-only", () => ({}));
 // Comme dans Next.js, une page introuvable interrompt le rendu.
@@ -29,6 +34,8 @@ vi.mock("@/data/server", () => ({
     getPlayerDetail: vi.fn(),
     listGiveaways: vi.fn(),
     listSeasons: vi.fn(),
+    revenueData: vi.fn(),
+    activityData: vi.fn(),
   },
 }));
 
@@ -166,5 +173,57 @@ describe("saisons", () => {
     vi.mocked(adminData.listSeasons).mockResolvedValueOnce([]);
     render(await AdminSeasonsPage());
     expect(screen.getByText("Aucune saison programmée.")).toBeInTheDocument();
+  });
+});
+
+describe("indicateurs de revenu", () => {
+  const month = (key: string) => ({
+    key,
+    activePlayers: 200,
+    payers: 5,
+    ingotBuyers: 3,
+    sales: [{ kind: "ingots", item: "bag", count: 3, cents: 1_797 }],
+    refunds: { count: 1, cents: 199 },
+    newVip: 2,
+    vipAtStart: 4,
+    vipLost: 1,
+    ingotsEarned: 12_000,
+    ingotsSpent: 9_000,
+    ingotsBought: 1_950,
+  });
+
+  it("présente revenu, scénario le plus proche, VIP, ventes et rétention", async () => {
+    vi.mocked(adminData.revenueData).mockResolvedValueOnce({
+      months: [month("2026-10"), month("2026-09")],
+      mrrCents: 1_198,
+      activeVip: 2,
+      payerIds: new Set(["payeur"]),
+      freeRhythm: { days: 28, openings: 400, players: 10 },
+    });
+    vi.mocked(adminData.activityData).mockResolvedValueOnce({
+      players: [
+        {
+          id: "payeur",
+          signupDay: "2026-01-01",
+          activeDays: new Set(["2026-02-01"]),
+        },
+        { id: "gratuit", signupDay: "2026-01-01", activeDays: new Set() },
+      ],
+      daily: [],
+    });
+    render(await AdminRevenuePage());
+    expect(
+      screen.getByRole("heading", { name: "Revenu du mois (2026-10)" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/le plus proche du scénario « Prudent »/),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Sac (650 lingots)")).toBeInTheDocument();
+    const retention = screen.getByRole("row", { name: /Payeurs \(1\)/ });
+    expect(within(retention).getAllByText("100,0 %")).toHaveLength(3);
+    expect(
+      screen.getByRole("row", { name: /Gratuits \(1\)/ }),
+    ).toHaveTextContent("0,0 %");
+    expect(screen.getByText("10,0")).toBeInTheDocument();
   });
 });

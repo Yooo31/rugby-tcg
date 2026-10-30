@@ -13,9 +13,13 @@ import {
   RARITIES,
   RARITY_ODDS,
   totalCards,
+  BOOSTER_REFILL_MS,
+  INGOT_PACKS,
   VIP_GRANT_DAYS,
+  VIP_OFFERS,
 } from "@/domain";
 import { toDayKey } from "@/lib/dates";
+import { formatEuros } from "@/lib/money";
 import { cn } from "@/lib/utils";
 import { AdjustmentForm } from "../components/AdjustmentForm";
 import { GiveawayForm } from "../components/GiveawayForm";
@@ -23,6 +27,12 @@ import { SeasonForm } from "../components/SeasonForm";
 import { SentryTestButton } from "../components/SentryTestButton";
 import { formatDateTime, formatDay, formatPercent } from "../lib/format";
 import { lastDays, retention, RETENTION_DAYS } from "../lib/retention";
+import {
+  boostersPerWeek,
+  closestScenario,
+  monthIndicators,
+  SCENARIOS,
+} from "../lib/revenue";
 import {
   endGiveawayAction,
   endSeasonAction,
@@ -641,5 +651,230 @@ function SeasonRow({
         </form>
       ) : null}
     </li>
+  );
+}
+
+/** Libellés des produits vendus, dans le tableau des ventes. */
+const SALE_LABELS: Record<string, string> = {
+  ...Object.fromEntries(
+    INGOT_PACKS.map((pack) => [
+      `ingots:${pack.id}`,
+      `${pack.label} (${pack.ingots} lingots)`,
+    ]),
+  ),
+  ...Object.fromEntries(
+    VIP_OFFERS.map((offer) => [
+      `vip:${offer.id}`,
+      `VIP, ${offer.label.toLowerCase()}`,
+    ]),
+  ),
+  "season-pass:season-pass": "Voie payante de saison",
+};
+
+/** Boosters gratuits au plus par semaine : un toutes les `BOOSTER_REFILL_MS`. */
+const MAX_FREE_BOOSTERS_PER_WEEK = Math.floor(
+  (7 * 24 * 60 * 60 * 1000) / BOOSTER_REFILL_MS,
+);
+
+const percent = (value: number | null) =>
+  value === null ? "–" : formatPercent(value, 1);
+const euros = (cents: number | null) =>
+  cents === null ? "–" : formatEuros(cents);
+
+/** Indicateurs de revenu (docs/economie.md, sections 6 bis et 7). */
+export async function AdminRevenuePage() {
+  await requireAdmin();
+  const [data, activity] = await Promise.all([
+    adminData.revenueData(),
+    adminData.activityData(),
+  ]);
+  const [current, previous] = data.months;
+  if (!current || !previous) notFound();
+  const now = monthIndicators(current);
+  const before = monthIndicators(previous);
+  const scenario = closestScenario(now.arpuCents);
+  const vipShare =
+    current.activePlayers === 0 ? null : data.activeVip / current.activePlayers;
+  const today = toDayKey(new Date());
+  const payers = activity.players.filter(({ id }) => data.payerIds.has(id));
+  const free = activity.players.filter(({ id }) => !data.payerIds.has(id));
+  const perWeek = boostersPerWeek(data.freeRhythm);
+
+  return (
+    <div className="flex flex-col gap-6">
+      <Section title={`Revenu du mois (${current.key})`}>
+        <p className="text-chalk-muted text-sm text-pretty">
+          Achats non remboursés. Net : moins les frais Stripe estimés (1,5 % +
+          0,25 € par paiement) ; TVA non applicable en micro-entreprise. Mois
+          précédent ({previous.key}) entre parenthèses.
+        </p>
+        <dl className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <Stat
+            label={`Brut (${euros(before.grossCents)})`}
+            value={euros(now.grossCents)}
+          />
+          <Stat
+            label={`Net (${euros(before.netCents)})`}
+            value={euros(now.netCents)}
+          />
+          <Stat label={`Achats (${before.purchases})`} value={now.purchases} />
+          <Stat
+            label={`Joueurs actifs (${previous.activePlayers})`}
+            value={current.activePlayers}
+          />
+          <Stat label={`Payeurs (${previous.payers})`} value={current.payers} />
+          <Stat
+            label={`Conversion (${percent(before.conversion)})`}
+            value={percent(now.conversion)}
+          />
+          <Stat
+            label={`Net par joueur actif (${euros(before.arpuCents)})`}
+            value={euros(now.arpuCents)}
+          />
+          <Stat
+            label={`Net par payeur (${euros(before.arppuCents)})`}
+            value={euros(now.arppuCents)}
+          />
+          <Stat
+            label={`Remboursements et litiges (${previous.refunds.count})`}
+            value={`${current.refunds.count} · ${euros(current.refunds.cents)}`}
+          />
+        </dl>
+      </Section>
+
+      <Section title="Scénarios de economie.md">
+        <p className="text-chalk-muted text-sm text-pretty">
+          Comparés aux chiffres du mois en cours.{" "}
+          {scenario
+            ? `Le revenu par joueur actif est le plus proche du scénario « ${scenario.label} ».`
+            : "Pas encore de joueur actif ce mois-ci."}
+        </p>
+        <DataTable
+          columns={["", "VIP", "Acheteurs de lingots", "Net par joueur actif"]}
+          rows={[
+            ...SCENARIOS.map((entry) => ({
+              key: entry.id,
+              cells: [
+                entry.label,
+                percent(entry.vipShare),
+                percent(entry.ingotBuyersShare),
+                euros(entry.arpuCents),
+              ],
+            })),
+            {
+              key: "reel",
+              cells: [
+                <strong key="label">Réel</strong>,
+                percent(vipShare),
+                percent(now.ingotBuyersShare),
+                euros(now.arpuCents),
+              ],
+            },
+          ]}
+        />
+      </Section>
+
+      <Section title="Pass VIP">
+        <dl className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <Stat label="VIP payants en ce moment" value={data.activeVip} />
+          <Stat label="Revenu récurrent mensuel" value={euros(data.mrrCents)} />
+          <Stat
+            label={`Nouveaux (${previous.newVip})`}
+            value={current.newVip}
+          />
+          <Stat
+            label={`Non renouvelés (sur ${current.vipAtStart} au 1er)`}
+            value={current.vipLost}
+          />
+          <Stat
+            label={`Taux de départ (${percent(before.vipChurn)})`}
+            value={percent(now.vipChurn)}
+          />
+        </dl>
+      </Section>
+
+      <Section title="Ventes du mois">
+        {current.sales.length === 0 ? (
+          <p className="text-chalk-muted text-sm">Aucune vente ce mois-ci.</p>
+        ) : (
+          <DataTable
+            columns={["Produit", "Ventes", "Brut"]}
+            rows={current.sales.map((line) => ({
+              key: `${line.kind}:${line.item}`,
+              cells: [
+                SALE_LABELS[`${line.kind}:${line.item}`] ?? line.item,
+                line.count,
+                euros(line.cents),
+              ],
+            }))}
+          />
+        )}
+      </Section>
+
+      <Section title="Lingots du mois">
+        <p className="text-chalk-muted text-sm text-pretty">
+          Gagnés : missions, albums, série, saison et cadeaux. Dépensés :
+          boosters et cosmétiques. Compteur tenu depuis l&apos;arrivée de cet
+          écran.
+        </p>
+        <dl className="grid grid-cols-3 gap-3">
+          <Stat label="Achetés" value={current.ingotsBought} />
+          <Stat label="Gagnés" value={current.ingotsEarned} />
+          <Stat label="Dépensés" value={current.ingotsSpent} />
+        </dl>
+      </Section>
+
+      <Section title="Rétention : payeurs et gratuits">
+        <DataTable
+          columns={["", ...RETENTION_DAYS.map((day) => `J+${day}`)]}
+          rows={[
+            {
+              key: "payeurs",
+              label: `Payeurs (${payers.length})`,
+              players: payers,
+            },
+            {
+              key: "gratuits",
+              label: `Gratuits (${free.length})`,
+              players: free,
+            },
+          ].map(({ key, label, players }) => ({
+            key,
+            cells: [
+              label,
+              ...RETENTION_DAYS.map((day) => {
+                const rate = retention(players, today, day);
+                return formatPercent(rate.retained, rate.eligible);
+              }),
+            ],
+          }))}
+        />
+      </Section>
+
+      <Section title="Rythme des joueurs gratuits">
+        <p className="text-chalk-muted text-sm text-pretty">
+          Boosters ouverts par joueur gratuit actif et par semaine, sur les{" "}
+          {data.freeRhythm.days} derniers jours ({data.freeRhythm.players}{" "}
+          joueurs). Le jeu gratuit en permet {MAX_FREE_BOOSTERS_PER_WEEK} au
+          plus, hors récompenses.
+        </p>
+        <dl className="grid grid-cols-2 gap-3">
+          <Stat
+            label="Boosters par semaine"
+            value={
+              perWeek === null ? "–" : perWeek.toFixed(1).replace(".", ",")
+            }
+          />
+          <Stat
+            label="Part du maximum gratuit"
+            value={
+              perWeek === null
+                ? "–"
+                : formatPercent(perWeek, MAX_FREE_BOOSTERS_PER_WEEK)
+            }
+          />
+        </dl>
+      </Section>
+    </div>
   );
 }
