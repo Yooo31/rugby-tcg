@@ -3,7 +3,7 @@
 import { useModalDialog } from "@/components/ui/use-modal-dialog";
 import Link from "next/link";
 import { X } from "lucide-react";
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   productLabel,
@@ -78,6 +78,16 @@ function CheckoutDialog({
   const [error, setError] = useState<string | null>(null);
   const label = productLabel(product);
   const price = formatEuros(productPriceCents(product));
+
+  // Retour depuis Stripe par « Précédent » : la page restaurée doit pouvoir
+  // relancer un paiement.
+  useEffect(() => {
+    const reset = (event: PageTransitionEvent) => {
+      if (event.persisted) setIsPending(false);
+    };
+    window.addEventListener("pageshow", reset);
+    return () => window.removeEventListener("pageshow", reset);
+  }, []);
 
   const pay = async () => {
     setIsPending(true);

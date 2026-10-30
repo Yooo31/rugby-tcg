@@ -115,9 +115,30 @@ async function creditSeasonPassPurchase(
     });
     return true;
   } catch (error) {
-    if (isUniqueViolation(error)) return false;
-    throw error;
+    if (!isUniqueViolation(error)) throw error;
   }
+  // Même paiement rejoué : rien à faire.
+  const replayed = await prisma.seasonPass.findUnique({
+    where: { reference: purchase.reference },
+  });
+  if (replayed) return false;
+  // Voie payante remboursée, puis rachetée : on la réactive avec ce paiement.
+  const { count } = await prisma.seasonPass.updateMany({
+    where: { playerId, seasonId: purchase.seasonId, refundedAt: { not: null } },
+    data: {
+      reference: purchase.reference,
+      priceCents: SEASON_PASS_PRICE_CENTS,
+      grantedBy: null,
+      refundedAt: null,
+    },
+  });
+  if (count > 0) return true;
+  // Déjà possédée (offerte ou payée deux fois en parallèle) : paiement à
+  // rembourser à la main.
+  console.error(
+    `Voie payante déjà possédée, paiement à rembourser : ${purchase.reference}`,
+  );
+  return false;
 }
 
 /** Ce qu'un remboursement a retiré, pour le journal. */

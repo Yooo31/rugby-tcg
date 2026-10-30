@@ -81,6 +81,41 @@ describe("paiements en base", () => {
     expect(
       await prisma.seasonPass.count({ where: { playerId, refundedAt: null } }),
     ).toBe(0);
+
+    // Rachetée après le remboursement : réactivée avec le nouveau paiement.
+    expect(
+      await creditPurchase(
+        prisma,
+        playerId,
+        product,
+        `${reference}-2`,
+        new Date(),
+      ),
+    ).toBe(true);
+    expect(
+      await prisma.seasonPass.findMany({
+        where: { playerId },
+        select: { reference: true, refundedAt: true },
+      }),
+    ).toEqual([{ reference: `${reference}-2`, refundedAt: null }]);
+
+    // Payée une seconde fois alors qu'elle est active : signalée, pas créditée.
+    const error = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+    expect(
+      await creditPurchase(
+        prisma,
+        playerId,
+        product,
+        `${reference}-3`,
+        new Date(),
+      ),
+    ).toBe(false);
+    expect(error).toHaveBeenCalledWith(
+      expect.stringContaining(`${reference}-3`),
+    );
+    error.mockRestore();
     await prisma.season.delete({ where: { id: season.id } });
   });
 });
