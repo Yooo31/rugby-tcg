@@ -17,7 +17,7 @@ vi.mock("@/features/game/server/actions", () => {
     claimGiveaway: vi.fn(unavailable),
     claimSeasonTier: vi.fn(unavailable),
     claimStreak: vi.fn(unavailable),
-    claimVipBooster: vi.fn(unavailable),
+    openVipBooster: vi.fn(unavailable),
     buyCosmetic: vi.fn(unavailable),
     equipCosmetic: vi.fn(unavailable),
     setUsername: vi.fn(unavailable),

@@ -1,5 +1,4 @@
 import { render, screen, within } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { createInMemoryRepositories } from "@/data";
 import { GameProvider } from "@/features/game";
 import { formatEuros } from "@/lib/money";
@@ -70,30 +69,45 @@ describe("VipBoosterCard", () => {
   it("ne montre rien hors VIP", () => {
     const { container } = render(
       <VipBoosterCard
-        vip={{ isActive: false, until: null, dailyBooster: "locked" }}
-        onClaim={vi.fn()}
+        vip={{
+          isActive: false,
+          until: null,
+          booster: { status: "locked", readyAt: null },
+        }}
+        onReady={vi.fn()}
       />,
     );
     expect(container).toBeEmptyDOMElement();
   });
 
-  it("propose le booster du jour, puis l'annonce pour demain", async () => {
-    const user = userEvent.setup();
-    const onClaim = vi.fn(async () => undefined);
+  it("mène au booster VIP quand il est prêt, sinon compte les heures", () => {
     const { rerender } = render(
       <VipBoosterCard
-        vip={{ isActive: true, until: 1, dailyBooster: "claimable" }}
-        onClaim={onClaim}
+        vip={{
+          isActive: true,
+          until: 1,
+          booster: { status: "ready", readyAt: null },
+        }}
+        onReady={vi.fn()}
       />,
     );
-    await user.click(screen.getByRole("button", { name: "Récupérer" }));
-    expect(onClaim).toHaveBeenCalled();
+    expect(screen.getByRole("link", { name: "Ouvrir" })).toHaveAttribute(
+      "href",
+      "/boosters",
+    );
     rerender(
       <VipBoosterCard
-        vip={{ isActive: true, until: 1, dailyBooster: "claimed" }}
-        onClaim={onClaim}
+        vip={{
+          isActive: true,
+          until: 1,
+          booster: { status: "waiting", readyAt: Date.now() + 3_600_000 },
+        }}
+        onReady={vi.fn()}
       />,
     );
-    expect(screen.getByText("Récupéré")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: "Ouvrir" }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole("timer")).toBeInTheDocument();
   });
 });

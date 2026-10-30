@@ -63,17 +63,18 @@ Conséquences :
 
 ### 3.1 Pass VIP
 
-| Avantage                                           | Gratuit          | VIP               |
-| -------------------------------------------------- | ---------------- | ----------------- |
-| Réserve de boosters gratuits                       | 3                | **5**             |
-| Recharge                                           | 1 toutes les 4 h | 1 toutes les 4 h  |
-| **Booster VIP du jour**, à récupérer sur l'accueil | —                | **+1 par jour**   |
-| **Missions du jour**                               | 2                | **4, dont 2 VIP** |
-| Badge VIP au classement et sur le profil           | —                | ✅                |
+| Avantage                                          | Gratuit          | VIP                   |
+| ------------------------------------------------- | ---------------- | --------------------- |
+| Réserve de boosters gratuits                      | 3                | **5**                 |
+| Recharge                                          | 1 toutes les 4 h | 1 toutes les 4 h      |
+| **Booster VIP** sans commune, une épique au moins | —                | **1 toutes les 48 h** |
+| **Missions du jour**                              | 2                | **4, dont 2 VIP**     |
+| Badge VIP au classement et sur le profil          | —                | ✅                    |
 
-- **Booster VIP du jour** : un booster bonus par jour (heure de Paris), à
-  récupérer d'un geste, comme la série de connexion. Non récupéré, il est
-  perdu le lendemain : il récompense la visite quotidienne.
+- **Booster VIP** : un toutes les 48 heures, ouvert sur l'écran Boosters.
+  Aucune carte commune ; la première est épique (95 %) ou légendaire (5 %),
+  les quatre autres rares (75 %), épiques (20 %) ou légendaires (5 %).
+  Probabilités publiées sur `/probabilites`.
 - **Missions VIP** : deux missions de plus chaque jour, tirées du même
   `MISSION_POOL`, différentes des deux missions communes, avec les mêmes
   récompenses en lingots (30 à 50).
@@ -124,7 +125,7 @@ affichées dès le départ.
 
 | Source                         | Par semaine, en plus du gratuit |
 | ------------------------------ | ------------------------------- |
-| Booster VIP du jour            | +7 boosters                     |
+| Booster VIP (toutes les 48 h)  | +3 à 4 boosters premium         |
 | Missions VIP (2 × ~40 lingots) | +560 lingots, soit ~5 boosters  |
 | Réserve de 5                   | moins de boosters perdus        |
 | **Total**                      | **~+12 boosters (+30 %)**       |
