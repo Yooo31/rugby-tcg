@@ -30,6 +30,7 @@ const NEW_PLAYER: PlayerRows = {
   seasonLog: null,
   seasonPassIds: [],
   vipMemberships: [],
+  welcomeOfferTaken: false,
 };
 
 const since = new Date("2026-10-22T08:00:00Z");
@@ -67,6 +68,7 @@ const PLAYING: PlayerRows = {
   vipMemberships: [
     { startsAt: since, endsAt: new Date("2026-11-21T08:00:00Z") },
   ],
+  welcomeOfferTaken: true,
 };
 
 describe("recordFromRows", () => {
@@ -122,6 +124,7 @@ describe("recordFromRows", () => {
         },
       ],
       vipBoosterAt: since.getTime(),
+      welcomeOfferTaken: true,
     });
   });
 
@@ -211,6 +214,7 @@ describe("recordChanges", () => {
       seasonPasses: ["s1"],
       vipMemberships: before.vipMemberships,
       vipBoosterAt: since.getTime() + 1,
+      welcomeOfferTaken: true,
     };
 
     expect(recordChanges(before, after)).toEqual({

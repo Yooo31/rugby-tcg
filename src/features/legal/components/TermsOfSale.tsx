@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { INGOT_PACKS, VIP_OFFERS } from "@/domain";
+import { INGOT_PACKS, VIP_OFFERS, WELCOME_OFFER } from "@/domain";
 import { formatEuros } from "@/lib/money";
 import { ODDS_PATH, TERMS_OF_USE_PATH } from "@/lib/supabase/routes";
 import { EDITOR } from "../lib/editor";
@@ -49,6 +49,11 @@ export function TermsOfSale() {
             ).join(", ")}
             . Les lingots s&apos;échangent dans le jeu contre des boosters et
             des cosmétiques.
+          </li>
+          <li>
+            <strong>L&apos;offre de bienvenue</strong> : {WELCOME_OFFER.ingots}{" "}
+            lingots et {WELCOME_OFFER.vipDays} jours de pass VIP pour{" "}
+            {formatEuros(WELCOME_OFFER.priceCents)}, une seule fois par compte.
           </li>
         </ul>
         <p>

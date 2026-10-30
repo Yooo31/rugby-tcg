@@ -36,6 +36,7 @@ import {
   streakProgress,
   usernameSchema,
   takeVipBooster,
+  WELCOME_OFFER,
   VIP_MAX_FREE_BOOSTERS,
   vipStatus,
   vipUntil,
@@ -86,6 +87,8 @@ export interface PlayerRecord {
   readonly vipMemberships: readonly VipMembership[];
   /** Dernier booster VIP ouvert (ms Unix) : le suivant 48 h plus tard. */
   readonly vipBoosterAt: number | null;
+  /** L'offre de bienvenue a déjà été achetée (une seule fois par compte). */
+  readonly welcomeOfferTaken: boolean;
 }
 
 /**
@@ -118,6 +121,7 @@ export const EMPTY_PLAYER_RECORD: PlayerRecord = {
   seasonPasses: [],
   vipMemberships: [],
   vipBoosterAt: null,
+  welcomeOfferTaken: false,
 };
 
 /** Le joueur est-il VIP à cet instant ? */
@@ -140,7 +144,7 @@ export type PlayerEvent =
   | {
       /** Paquet de lingots payé (crédité par le serveur de paiement). */
       readonly type: "ingots-purchased";
-      readonly packId: IngotPackId;
+      readonly packId: IngotPackId | typeof WELCOME_OFFER.id;
       readonly ingots: number;
       readonly priceCents: number;
       /** Identifiant du paiement chez le prestataire : un paiement, un crédit. */
@@ -283,6 +287,7 @@ export function createPlayerRepository({
     ),
     vip: vipStatus(record.vipMemberships, record.vipBoosterAt, at.getTime()),
     promotion: currentPromotion,
+    welcomeOffer: !record.welcomeOfferTaken,
   });
 
   /** Applique `change` à l'état du joueur, l'enregistre et renvoie le nouvel état. */

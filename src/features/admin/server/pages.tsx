@@ -728,6 +728,7 @@ const SALE_LABELS: Record<string, string> = {
     ]),
   ),
   "season-pass:season-pass": "Voie payante de saison",
+  "ingots:welcome": "Offre de bienvenue",
 };
 
 /** Boosters gratuits au plus par semaine : un toutes les `BOOSTER_REFILL_MS`. */
