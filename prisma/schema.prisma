@@ -59,7 +59,8 @@ model Player {
   /// Moment où le parrain a été récompensé pour ce filleul (une seule fois).
   referralRewardedAt DateTime? @map("referral_rewarded_at") @db.Timestamptz
   /// Dernières notifications envoyées, pour ne pas les répéter.
-  notifiedFullAt     DateTime? @map("notified_full_at") @db.Timestamptz
+  notifiedBoosterAt  DateTime? @map("notified_booster_at") @db.Timestamptz
+  notifiedEveningDay String?   @map("notified_evening_day")
   notifiedStreakDay  String?   @map("notified_streak_day")
   /// Cosmétiques équipés (identifiants du catalogue). Nuls : ceux de départ.
   cardBack           String?   @map("card_back")

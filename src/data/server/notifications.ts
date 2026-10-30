@@ -70,7 +70,7 @@ async function deliver(
 }
 
 /**
- * Envoie les notifications dues à tous les joueurs abonnés et note ce qui a
+ * Envoie les notifications dues (booster regagné, rappel du soir, série) à tous les joueurs abonnés et note ce qui a
  * été envoyé. À lancer régulièrement (tâche planifiée, toutes les 15 minutes).
  */
 export async function sendDueNotifications(
@@ -80,13 +80,19 @@ export async function sendDueNotifications(
 ): Promise<NotificationRun> {
   const players = await prisma.player.findMany({
     where: { pushSubscriptions: { some: {} } },
-    include: { pushSubscriptions: true },
+    include: {
+      pushSubscriptions: true,
+      vipMemberships: {
+        where: { refundedAt: null },
+        select: { startsAt: true, endsAt: true },
+      },
+    },
   });
 
   let sent = 0;
   let removed = 0;
   for (const player of players) {
-    const state = notificationStateOf(player);
+    const state = notificationStateOf(player, now);
     const due = dueNotifications(state, now);
     if (due.length === 0) continue;
 
@@ -95,7 +101,7 @@ export async function sendDueNotifications(
         prisma,
         send,
         player.pushSubscriptions,
-        notificationMessage(kind, state),
+        notificationMessage(kind, state, now),
       );
       sent += run.sent;
       removed += run.removed;
