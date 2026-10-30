@@ -15,7 +15,7 @@ import { CLUB_CATALOG } from "../catalog";
 import { toGiveaway } from "./giveaways";
 import { postgresPlayerRepository } from "./player-repository";
 import { toSeason } from "./seasons";
-import { createPrismaPlayerStore } from "./prisma-store";
+import { createPrismaPlayerStore, isUniqueViolation } from "./prisma-store";
 
 /**
  * Lectures et corrections de l'administration. Aucune de ces fonctions ne
@@ -382,11 +382,14 @@ export async function grantSeasonPass(
   seasonId: string,
   adminEmail: string,
 ): Promise<void> {
-  await prisma.seasonPass.upsert({
-    where: { playerId_seasonId: { playerId, seasonId } },
-    create: { playerId, seasonId, grantedBy: adminEmail },
-    update: {},
-  });
+  try {
+    await prisma.seasonPass.create({
+      data: { playerId, seasonId, grantedBy: adminEmail },
+    });
+  } catch (error) {
+    // Déjà active : rien à offrir (index unique partiel).
+    if (!isUniqueViolation(error)) throw error;
+  }
 }
 
 /**
@@ -421,7 +424,11 @@ const ACTIVITY_WINDOW_DAYS = 60;
 
 export interface ActivityData {
   /** Par joueur : jour d'inscription et jours de jeu (heure de Paris). */
-  readonly players: readonly { signupDay: string; activeDays: Set<string> }[];
+  readonly players: readonly {
+    id: string;
+    signupDay: string;
+    activeDays: Set<string>;
+  }[];
   /** Par jour : joueurs actifs et boosters ouverts. */
   readonly daily: readonly { day: string; players: number; openings: number }[];
 }
@@ -465,6 +472,7 @@ export async function activityData(
   }
   return {
     players: signups.map((row) => ({
+      id: row.id,
       signupDay: row.day,
       activeDays: daysByPlayer.get(row.id) ?? new Set<string>(),
     })),

@@ -12,7 +12,7 @@ import {
   type OwnedCard,
   type SeasonLog,
 } from "@/domain";
-import type { PlayerRecord } from "../player/repository";
+import type { PlayerEvent, PlayerRecord } from "../player/repository";
 
 /**
  * Passage entre les lignes de la base et l'état du joueur du domaine.
@@ -262,4 +262,22 @@ export function recordChanges(
       (cosmeticId) => !cosmeticsBefore.has(cosmeticId),
     ),
   };
+}
+
+/**
+ * Lingots gagnés ou dépensés par une action, pour les indicateurs de l'admin.
+ * Une action fait l'un ou l'autre, jamais les deux. Un achat et une
+ * correction de l'admin ne comptent pas : ils ont leur propre journal.
+ */
+export function ingotFlow(
+  before: PlayerRecord,
+  after: PlayerRecord,
+  events: readonly PlayerEvent[],
+): { readonly earned: number; readonly spent: number } {
+  const delta = after.wallet.ingots - before.wallet.ingots;
+  const isExternal = events.some(
+    ({ type }) => type === "ingots-purchased" || type === "admin-adjusted",
+  );
+  if (isExternal || delta === 0) return { earned: 0, spent: 0 };
+  return delta > 0 ? { earned: delta, spent: 0 } : { earned: 0, spent: -delta };
 }

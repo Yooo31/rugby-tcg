@@ -1,7 +1,8 @@
 "use client";
 
+import { useModalDialog } from "@/components/ui/use-modal-dialog";
 import { X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import {
   clubRegion,
   computePower,
@@ -32,23 +33,11 @@ interface CardDialogProps {
 
 /** Carte en grand, manipulable, avec la fiche du club. */
 export function CardDialog({ selection, onClose }: CardDialogProps) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    if (selection && !dialog.open) dialog.showModal();
-    if (!selection && dialog.open) dialog.close();
-  }, [selection]);
+  const dialogProps = useModalDialog(selection !== null, onClose);
 
   return (
     <dialog
-      ref={dialogRef}
-      onClose={onClose}
-      onClick={(event) => {
-        // Un clic sur le fond (le <dialog> lui-même) ferme la fenêtre.
-        if (event.target === event.currentTarget) onClose();
-      }}
+      {...dialogProps}
       aria-label={selection ? `Carte ${selection.club.name}` : undefined}
       className="text-chalk m-auto w-full max-w-sm bg-transparent p-4 backdrop:bg-black/80 backdrop:backdrop-blur-sm"
     >

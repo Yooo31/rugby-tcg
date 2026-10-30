@@ -38,8 +38,10 @@ export function isPublicPath(pathname: string): boolean {
     isGuestOnlyPath(pathname) ||
     OPEN_PATHS.includes(pathname) ||
     pathname.startsWith("/auth/") ||
-    // Tâches planifiées : sans session, protégées par leur propre secret.
-    pathname.startsWith("/api/cron/")
+    // Tâches planifiées et webhook Stripe : sans session, protégés par leur
+    // propre secret (en-tête ou signature).
+    pathname.startsWith("/api/cron/") ||
+    pathname.startsWith("/api/stripe/")
   );
 }
 

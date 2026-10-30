@@ -1,6 +1,11 @@
 import { ZodError } from "zod";
 import { EMPTY_PLAYER_RECORD, type PlayerRecord } from "../player/repository";
-import { recordChanges, recordFromRows, type PlayerRows } from "./rows";
+import {
+  ingotFlow,
+  recordChanges,
+  recordFromRows,
+  type PlayerRows,
+} from "./rows";
 
 const NEW_PLAYER: PlayerRows = {
   player: {
@@ -260,5 +265,50 @@ describe("recordChanges", () => {
       albumTheme: "theme-night",
       vipBoosterDay: null,
     });
+  });
+});
+
+describe("ingotFlow", () => {
+  const withIngots = (ingots: number) => ({
+    ...EMPTY_PLAYER_RECORD,
+    wallet: { ingots, bonusBoosters: 0 },
+  });
+
+  it("compte les lingots gagnés et dépensés par le jeu", () => {
+    expect(ingotFlow(withIngots(10), withIngots(50), [])).toEqual({
+      earned: 40,
+      spent: 0,
+    });
+    expect(ingotFlow(withIngots(150), withIngots(50), [])).toEqual({
+      earned: 0,
+      spent: 100,
+    });
+    expect(ingotFlow(withIngots(50), withIngots(50), [])).toEqual({
+      earned: 0,
+      spent: 0,
+    });
+  });
+
+  it("ignore les achats et les corrections de l'admin", () => {
+    expect(
+      ingotFlow(withIngots(0), withIngots(650), [
+        {
+          type: "ingots-purchased",
+          packId: "bag",
+          ingots: 650,
+          priceCents: 599,
+          reference: "cs_1",
+        },
+      ]),
+    ).toEqual({ earned: 0, spent: 0 });
+    expect(
+      ingotFlow(withIngots(100), withIngots(0), [
+        {
+          type: "admin-adjusted",
+          adminEmail: "admin@example.com",
+          adjustment: { ingotsDelta: -100, boostersDelta: 0, reason: "bug" },
+        },
+      ]),
+    ).toEqual({ earned: 0, spent: 0 });
   });
 });

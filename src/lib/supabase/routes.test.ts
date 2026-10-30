@@ -14,6 +14,7 @@ describe("routes d'authentification", () => {
     expect(isPublicPath("/mentions-legales")).toBe(true);
     expect(isGuestOnlyPath("/confidentialite")).toBe(false);
     expect(isPublicPath("/api/cron/notifications")).toBe(true);
+    expect(isPublicPath("/api/stripe/webhook")).toBe(true);
   });
 
   it("protège le jeu et le compte", () => {

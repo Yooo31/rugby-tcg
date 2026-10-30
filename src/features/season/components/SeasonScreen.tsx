@@ -17,6 +17,7 @@ import {
   type SeasonProgress,
 } from "@/domain";
 import { GameGate, type ReadyGame } from "@/features/game";
+import { CheckoutButton } from "@/features/payments";
 import { cn } from "@/lib/utils";
 
 export function SeasonScreen() {
@@ -109,10 +110,17 @@ function SeasonSummary({ progress }: { readonly progress: SeasonProgress }) {
         récupérée {SEASON_XP_PER_MISSION}.
       </p>
       {progress.hasPremium ? null : (
-        <p className="text-chalk-muted text-sm text-pretty">
-          La voie payante ajoute ses récompenses à chaque palier. Elle sera
-          bientôt en vente dans la boutique.
-        </p>
+        <div className="flex flex-col gap-2">
+          <p className="text-chalk-muted text-sm text-pretty">
+            La voie payante ajoute ses récompenses à chaque palier, y compris
+            ceux déjà atteints. Achat unique, pour toute la saison.
+          </p>
+          <CheckoutButton
+            product={{ kind: "season-pass", id: progress.season.id }}
+            variant="primary"
+            className="sm:w-auto sm:self-start"
+          />
+        </div>
       )}
     </section>
   );

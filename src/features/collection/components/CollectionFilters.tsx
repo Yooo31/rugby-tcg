@@ -1,7 +1,8 @@
 "use client";
 
+import { useModalDialog } from "@/components/ui/use-modal-dialog";
 import { ArrowUpDown, SlidersHorizontal, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
 import {
@@ -161,23 +162,11 @@ function FilterSheet({
   onChange,
   resultCount,
 }: FilterSheetProps) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    if (isOpen && !dialog.open) dialog.showModal();
-    if (!isOpen && dialog.open) dialog.close();
-  }, [isOpen]);
+  const dialogProps = useModalDialog(isOpen, onClose);
 
   return (
     <dialog
-      ref={dialogRef}
-      onClose={onClose}
-      onClick={(event) => {
-        // Un clic sur le fond (le <dialog> lui-même) ferme le panneau.
-        if (event.target === event.currentTarget) onClose();
-      }}
+      {...dialogProps}
       aria-label="Filtrer la collection"
       className="border-line-strong bg-surface text-chalk mx-auto mt-auto mb-0 w-full max-w-full rounded-t-3xl border p-0 backdrop:bg-black/70 backdrop:backdrop-blur-sm sm:mb-auto sm:max-w-md sm:rounded-3xl"
     >

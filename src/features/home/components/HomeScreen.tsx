@@ -12,6 +12,7 @@ import {
 } from "@/features/boosters";
 import { ClubCard } from "@/features/cards";
 import { GameGate, type ReadyGame } from "@/features/game";
+import { InstallAppCard } from "@/features/install";
 import { featuredAlbums } from "../lib/featuredAlbums";
 import { SeasonTeaser } from "@/features/season";
 import { VipBoosterCard } from "@/features/vip";
@@ -46,6 +47,8 @@ function Home({ game }: { readonly game: ReadyGame }) {
   return (
     <div className="flex flex-col gap-6 sm:gap-8">
       <ScreenHeader eyebrow="Club-house" title="Jour de match" />
+
+      <InstallAppCard dismissible />
 
       <StreakCard streak={game.streak} onClaim={game.claimStreak} />
       <VipBoosterCard vip={game.vip} onClaim={game.claimVipBooster} />

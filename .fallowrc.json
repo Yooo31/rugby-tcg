@@ -2,6 +2,14 @@
   "$schema": "./node_modules/fallow/schema.json",
   "dynamicallyLoaded": ["public/sw.js"],
   "ignorePatterns": ["src/generated/**", ".claude/**"],
+  "duplicates": {
+    "ignore": [
+      "src/features/legal/components/LegalNotice.tsx",
+      "src/features/legal/components/PrivacyPolicy.tsx",
+      "src/features/legal/components/TermsOfSale.tsx",
+      "src/features/legal/components/TermsOfUse.tsx"
+    ]
+  },
   "ignoreDependencies": [
     "@tailwindcss/turbopack",
     "fallow",
@@ -19,7 +27,9 @@
         "src/data/server/referral.ts",
         "src/data/server/notifications.ts",
         "src/data/server/index.ts",
-        "src/data/server/web-push.ts"
+        "src/data/server/web-push.ts",
+        "src/data/server/purchases.ts",
+        "src/data/server/revenue.ts"
       ],
       "rules": {
         "complexity-crap": "off"

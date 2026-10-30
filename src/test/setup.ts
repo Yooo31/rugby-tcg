@@ -25,6 +25,11 @@ vi.mock("@/features/game/server/actions", () => {
   };
 });
 
+// Paiement : sans Stripe en test, l'ouverture d'un paiement est refusée.
+vi.mock("@/features/payments/server/actions", () => ({
+  startCheckout: vi.fn(async () => ({ ok: false, error: "unavailable" })),
+}));
+
 vi.mock("@/features/notifications/server/actions", () => ({
   subscribePush: vi.fn(async () => false),
   unsubscribePush: vi.fn(async () => undefined),

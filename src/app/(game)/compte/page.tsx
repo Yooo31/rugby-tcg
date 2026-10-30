@@ -8,6 +8,7 @@ import { AdminLink } from "@/features/admin/server";
 import { DeleteAccountForm, SignOutButton } from "@/features/auth";
 import { requireAuthUser } from "@/features/auth/server";
 import { UsernameSettings } from "@/features/game";
+import { InstallAppCard } from "@/features/install";
 import { LegalLinks } from "@/features/legal";
 import { NotificationsToggle } from "@/features/notifications";
 import { CosmeticSettings } from "@/features/shop";
@@ -65,6 +66,8 @@ export default function AccountPage() {
         <p className="eyebrow">Cosmétiques équipés</p>
         <CosmeticSettings />
       </section>
+
+      <InstallAppCard />
 
       <section className="panel flex flex-col gap-3 p-5">
         <p className="eyebrow">Notifications</p>
