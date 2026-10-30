@@ -162,6 +162,22 @@ describe("offre de bienvenue en base", () => {
     expect(snapshot.vip.isActive).toBe(true);
     expect(snapshot.welcomeOffer).toBe(false);
 
+    // Le même paiement renvoyé par Stripe : rien, et pas d'alerte.
+    const replay = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+    expect(
+      await creditPurchase(
+        prisma,
+        playerId,
+        welcome,
+        `bienvenue-${playerId}`,
+        now,
+      ),
+    ).toBe(false);
+    expect(replay).not.toHaveBeenCalled();
+    replay.mockRestore();
+
     // Un second paiement de l'offre : signalé, rien de plus.
     const error = vi
       .spyOn(console, "error")

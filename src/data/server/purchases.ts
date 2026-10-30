@@ -159,6 +159,12 @@ async function creditWelcomePurchase(
   purchase: { readonly reference: string; readonly priceCents?: number },
   now: Date,
 ): Promise<boolean> {
+  // Même paiement renvoyé par Stripe : déjà crédité, rien à signaler.
+  const replayed = await prisma.ingotPurchase.findUnique({
+    where: { reference: purchase.reference },
+    select: { id: true },
+  });
+  if (replayed) return false;
   try {
     await createPrismaPlayerStore(prisma, playerId).update((record) => {
       if (record.welcomeOfferTaken) throw new WelcomeOfferTakenError();
