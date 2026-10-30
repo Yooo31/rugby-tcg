@@ -2,10 +2,11 @@
 
 import { ShoppingCart, UserRound } from "lucide-react";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { AppShell } from "@/components/layout/AppShell";
 import { IngotAmount } from "@/components/ui/reward";
 import { albumProgress, albumRewardStatus, ownedClubIds } from "@/domain";
+import { listenForInstallPrompt } from "@/features/install";
 import { useGame, type ReadyGame } from "./GameProvider";
 
 /** Nombre de récompenses d'album terminées mais pas encore récupérées. */
@@ -25,6 +26,8 @@ function claimableAlbumCount(game: ReadyGame): number {
 export function GameShell({ children }: { readonly children: ReactNode }) {
   const game = useGame();
   const isReady = game.status === "ready";
+  // L'invite d'installation peut arriver sur n'importe quelle page du jeu.
+  useEffect(listenForInstallPrompt, []);
 
   return (
     <AppShell
