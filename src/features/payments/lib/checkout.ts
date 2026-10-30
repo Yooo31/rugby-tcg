@@ -18,8 +18,11 @@ const metadataSchema = z.object({
   playerId: z.uuid(),
   kind: z.string(),
   productId: z.string(),
-  /** Prix fixé par le serveur à l'ouverture (promotion comprise). */
-  priceCents: z.coerce.number().int().min(1),
+  /**
+   * Prix fixé par le serveur à l'ouverture (promotion comprise). Absent d'un
+   * paiement ouvert avant son arrivée : c'était alors le prix normal.
+   */
+  priceCents: z.coerce.number().int().min(1).optional(),
 });
 
 /**
@@ -123,7 +126,8 @@ export function paidPurchase(
     return { rejected: "wrong-player" };
   // Le prix fixé par le serveur ne dépasse jamais le prix normal (une
   // promotion ne fait que baisser), et c'est bien ce qui a été payé.
-  const { priceCents } = metadata.data;
+  const priceCents =
+    metadata.data.priceCents ?? productPriceCents(product.data);
   if (
     priceCents > productPriceCents(product.data) ||
     session.amount_total !== priceCents

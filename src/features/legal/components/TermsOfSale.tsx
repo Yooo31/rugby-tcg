@@ -10,7 +10,7 @@ export function TermsOfSale() {
   return (
     <LegalPage
       title="Conditions générales de vente"
-      updatedOn="29 octobre 2026"
+      updatedOn="30 octobre 2026"
     >
       <section>
         <h2>Le vendeur</h2>
