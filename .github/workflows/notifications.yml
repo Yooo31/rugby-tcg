@@ -1,7 +1,8 @@
-# Notifications : toutes les 15 minutes, GitHub appelle la tâche planifiée du
-# site, qui envoie les notifications dues (réserve pleine, rappel de série).
-# Gratuit pour un dépôt public. Cet appel régulier garde aussi la base
-# Supabase active (pas de mise en pause pour inactivité).
+# Notifications : lancement à la main seulement, en secours. La tâche est
+# déclenchée toutes les 15 minutes par Supabase (pg_cron, voir
+# supabase/cron/notifications.sql) : GitHub ne tenait pas ce rythme (un
+# passage toutes les 5 heures environ), et deux déclencheurs en même temps
+# pourraient envoyer deux fois la même notification.
 #
 # Secret du dépôt requis : CRON_SECRET, identique à celui de Vercel (production).
 # Bon à savoir : GitHub peut retarder une tâche planifiée de quelques minutes, et
@@ -9,8 +10,6 @@
 name: Notifications
 
 on:
-  schedule:
-    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 permissions:

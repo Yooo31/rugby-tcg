@@ -25,8 +25,9 @@ async function subscribedPlayer(endpointSuffix: string) {
 describe("notifications en base", () => {
   beforeEach(() => prisma.pushSubscription.deleteMany());
 
-  it("prévient la réserve pleine une seule fois et oublie les appareils désabonnés", async () => {
-    const since = new Date("2026-10-23T06:00:00Z");
+  it("annonce les boosters regagnés une seule fois et oublie les appareils désabonnés", async () => {
+    // 6 h à Paris : le message part à 18 h, avant le rappel du soir.
+    const since = new Date("2026-10-23T04:00:00Z");
     const id = await subscribedPlayer("plein");
     await prisma.player.update({
       where: { id },
@@ -35,7 +36,7 @@ describe("notifications en base", () => {
     const gone = await subscribedPlayer("parti");
     await prisma.player.update({
       where: { id: gone },
-      data: { reserveCount: 3, reserveSince: since },
+      data: { reserveCount: 2, reserveSince: since },
     });
 
     const sent: string[] = [];
@@ -60,6 +61,39 @@ describe("notifications en base", () => {
     expect(sent).toEqual([]);
   });
 
+  it("compte la réserve d'un VIP, puis rappelle le soir les boosters non ouverts", async () => {
+    const since = new Date("2026-10-23T04:00:00Z");
+    const id = await subscribedPlayer("vip");
+    await prisma.player.update({
+      where: { id },
+      data: { reserveCount: 0, reserveSince: since, bonusBoosters: 1 },
+    });
+    await prisma.vipMembership.create({
+      data: {
+        playerId: id,
+        startsAt: new Date("2026-10-01T00:00:00Z"),
+        endsAt: new Date("2026-11-01T00:00:00Z"),
+        grantedBy: "admin@example.com",
+      },
+    });
+    const sent: string[] = [];
+    const send: PushSender = async (_target, message) => {
+      sent.push(message.title);
+      return "sent";
+    };
+
+    // 18 h à Paris : 3 boosters regagnés sur une réserve VIP de 5.
+    await sendDueNotifications(prisma, send, new Date("2026-10-23T16:00:00Z"));
+    // 20 h à Paris : 3 gratuits et 1 bonus attendent.
+    await sendDueNotifications(prisma, send, new Date("2026-10-23T18:00:00Z"));
+    // Plus tard le même soir : rien de neuf.
+    await sendDueNotifications(prisma, send, new Date("2026-10-23T19:00:00Z"));
+    expect(sent).toEqual([
+      "3 boosters sont prêts",
+      "Il vous reste 4 boosters à ouvrir",
+    ]);
+  });
+
   it("enregistre et retire l'abonnement d'un appareil", async () => {
     const id = await createAuthUser(prisma);
     await ensurePlayerRow(prisma, id);
@@ -77,5 +111,25 @@ describe("notifications en base", () => {
     expect(
       await prisma.pushSubscription.count({ where: { playerId: id } }),
     ).toBe(0);
+  });
+
+  it("n'envoie qu'une fois le même rappel, même lancé deux fois en même temps", async () => {
+    const id = await subscribedPlayer("double");
+    await prisma.player.update({
+      where: { id },
+      data: { reserveCount: 1, reserveSince: new Date("2026-10-23T17:00:00Z") },
+    });
+    const sent: string[] = [];
+    const send: PushSender = async (_target, message) => {
+      sent.push(message.title);
+      return "sent";
+    };
+    // 20 h 30 à Paris : rappel du soir.
+    const evening = new Date("2026-10-23T18:30:00Z");
+    await Promise.all([
+      sendDueNotifications(prisma, send, evening),
+      sendDueNotifications(prisma, send, evening),
+    ]);
+    expect(sent).toEqual(["Il vous reste 1 booster à ouvrir"]);
   });
 });
