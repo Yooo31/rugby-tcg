@@ -286,7 +286,11 @@ model SeasonLog {
 }
 
 /// Voie payante d'une saison pour un joueur (achetée, ou donnée par l'admin).
+/// Voie payante d'une saison : une ligne par don ou par achat, jamais
+/// réécrite. Une seule voie payante active (non remboursée) par joueur et par
+/// saison : index unique partiel, en SQL (migration 20261029000400).
 model SeasonPass {
+  id         String    @id @default(uuid()) @db.Uuid
   playerId   String    @map("player_id") @db.Uuid
   seasonId   String    @map("season_id") @db.Uuid
   /// Adresse de l'administrateur qui l'a offerte ; nulle pour un achat.
@@ -301,7 +305,7 @@ model SeasonPass {
   player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
   season Season @relation(fields: [seasonId], references: [id], onDelete: Cascade)
 
-  @@id([playerId, seasonId])
+  @@index([playerId])
   @@map("season_passes")
 }
 

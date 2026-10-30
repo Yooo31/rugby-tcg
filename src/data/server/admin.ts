@@ -15,7 +15,7 @@ import { CLUB_CATALOG } from "../catalog";
 import { toGiveaway } from "./giveaways";
 import { postgresPlayerRepository } from "./player-repository";
 import { toSeason } from "./seasons";
-import { createPrismaPlayerStore } from "./prisma-store";
+import { createPrismaPlayerStore, isUniqueViolation } from "./prisma-store";
 
 /**
  * Lectures et corrections de l'administration. Aucune de ces fonctions ne
@@ -382,12 +382,14 @@ export async function grantSeasonPass(
   seasonId: string,
   adminEmail: string,
 ): Promise<void> {
-  await prisma.seasonPass.upsert({
-    where: { playerId_seasonId: { playerId, seasonId } },
-    create: { playerId, seasonId, grantedBy: adminEmail },
-    // Une voie payante remboursée puis offerte redevient valable.
-    update: { refundedAt: null, grantedBy: adminEmail },
-  });
+  try {
+    await prisma.seasonPass.create({
+      data: { playerId, seasonId, grantedBy: adminEmail },
+    });
+  } catch (error) {
+    // Déjà active : rien à offrir (index unique partiel).
+    if (!isUniqueViolation(error)) throw error;
+  }
 }
 
 /**

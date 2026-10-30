@@ -95,9 +95,10 @@ export async function creditVipPurchase(
 }
 
 /**
- * Crédite la voie payante d'une saison payée. Mêmes garanties que
- * `creditIngotPurchase`. Renvoie `false` si ce paiement est déjà crédité, ou
- * si le joueur avait déjà la voie payante (à rembourser à la main).
+ * Crédite la voie payante d'une saison payée : une nouvelle ligne par achat,
+ * l'index unique partiel refuse une seconde voie payante active. Renvoie
+ * `false` si ce paiement est déjà crédité, ou si le joueur avait déjà la voie
+ * payante (à rembourser à la main).
  */
 async function creditSeasonPassPurchase(
   prisma: PrismaClient,
@@ -117,24 +118,13 @@ async function creditSeasonPassPurchase(
   } catch (error) {
     if (!isUniqueViolation(error)) throw error;
   }
-  // Même paiement rejoué : rien à faire.
+  // Même paiement rejoué (même s'il a été remboursé depuis) : rien à faire.
   const replayed = await prisma.seasonPass.findUnique({
     where: { reference: purchase.reference },
   });
   if (replayed) return false;
-  // Voie payante remboursée, puis rachetée : on la réactive avec ce paiement.
-  const { count } = await prisma.seasonPass.updateMany({
-    where: { playerId, seasonId: purchase.seasonId, refundedAt: { not: null } },
-    data: {
-      reference: purchase.reference,
-      priceCents: SEASON_PASS_PRICE_CENTS,
-      grantedBy: null,
-      refundedAt: null,
-    },
-  });
-  if (count > 0) return true;
-  // Déjà possédée (offerte ou payée deux fois en parallèle) : paiement à
-  // rembourser à la main.
+  // Voie payante déjà active (offerte, ou payée deux fois en parallèle) :
+  // paiement à rembourser à la main.
   console.error(
     `Voie payante déjà possédée, paiement à rembourser : ${purchase.reference}`,
   );

@@ -82,7 +82,7 @@ describe("paiements en base", () => {
       await prisma.seasonPass.count({ where: { playerId, refundedAt: null } }),
     ).toBe(0);
 
-    // Rachetée après le remboursement : réactivée avec le nouveau paiement.
+    // Rachetée après le remboursement : une nouvelle ligne, l'ancienne reste.
     expect(
       await creditPurchase(
         prisma,
@@ -96,8 +96,30 @@ describe("paiements en base", () => {
       await prisma.seasonPass.findMany({
         where: { playerId },
         select: { reference: true, refundedAt: true },
+        orderBy: { createdAt: "asc" },
       }),
-    ).toEqual([{ reference: `${reference}-2`, refundedAt: null }]);
+    ).toMatchObject([
+      { reference, refundedAt: expect.any(Date) },
+      { reference: `${reference}-2`, refundedAt: null },
+    ]);
+
+    // Le premier paiement (remboursé) renvoyé par Stripe ne réactive rien.
+    await revokePurchase(prisma, `${reference}-2`);
+    expect(
+      await creditPurchase(prisma, playerId, product, reference, new Date()),
+    ).toBe(false);
+    expect(
+      await prisma.seasonPass.count({ where: { playerId, refundedAt: null } }),
+    ).toBe(0);
+    expect(
+      await creditPurchase(
+        prisma,
+        playerId,
+        product,
+        `${reference}-4`,
+        new Date(),
+      ),
+    ).toBe(true);
 
     // Payée une seconde fois alors qu'elle est active : signalée, pas créditée.
     const error = vi
