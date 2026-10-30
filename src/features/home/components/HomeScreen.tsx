@@ -51,7 +51,7 @@ function Home({ game }: { readonly game: ReadyGame }) {
       <InstallAppCard dismissible />
 
       <StreakCard streak={game.streak} onClaim={game.claimStreak} />
-      <VipBoosterCard vip={game.vip} onClaim={game.claimVipBooster} />
+      <VipBoosterCard vip={game.vip} onReady={game.refresh} />
 
       <GiveawayBanner giveaways={game.giveaways} onClaim={game.claimGiveaway} />
       <SeasonTeaser progress={game.season} />

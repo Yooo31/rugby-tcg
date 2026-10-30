@@ -1,10 +1,11 @@
-import { createAuthUser, createTestPrisma } from "@/test/db";
+import { createAuthUser, createTestPrisma, seedClubs } from "@/test/db";
 import { grantVip } from "./admin";
 import { postgresPlayerRepository } from "./player-repository";
 import { ensurePlayerRow } from "./prisma-store";
 import { creditVipPurchase } from "./purchases";
 
 const prisma = createTestPrisma();
+beforeAll(() => seedClubs(prisma));
 afterAll(() => prisma.$disconnect());
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -65,12 +66,16 @@ describe("pass VIP en base", () => {
     );
     expect(snapshot.boosters.max).toBe(5);
 
-    const claimed = await player.claimVipBooster();
-    expect(claimed.boosters.bonus).toBe(1);
+    const opening = await player.openVipBooster();
+    expect(opening.cards.some(({ rarity }) => rarity === "common")).toBe(false);
+    expect(opening.player.vip.booster.status).toBe("waiting");
     expect(
       (await prisma.player.findUniqueOrThrow({ where: { id: playerId } }))
-        .vipBoosterDay,
+        .vipBoosterAt,
     ).not.toBeNull();
+    expect(
+      await prisma.boosterOpening.count({ where: { playerId, source: "vip" } }),
+    ).toBe(1);
   });
 
   it("refuse une période sans origine", async () => {

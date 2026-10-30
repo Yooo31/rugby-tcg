@@ -1,5 +1,6 @@
 "use client";
 
+import { Crown } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { useState } from "react";
@@ -32,14 +33,13 @@ function BoosterFlow({ game }: { readonly game: ReadyGame }) {
   const [hasFailed, setHasFailed] = useState(false);
   const available = game.boosters.free + game.boosters.bonus;
 
-  const open = async () => {
+  const open = async (
+    openWith: () => Promise<OpenedBooster> = game.openBooster,
+  ) => {
     setHasFailed(false);
     setPhase({ step: "opening" });
     try {
-      const [opened] = await Promise.all([
-        game.openBooster(),
-        wait(TEAR_DURATION_MS),
-      ]);
+      const [opened] = await Promise.all([openWith(), wait(TEAR_DURATION_MS)]);
       setPhase({ step: "reveal", opened });
     } catch {
       setHasFailed(true);
@@ -65,7 +65,7 @@ function BoosterFlow({ game }: { readonly game: ReadyGame }) {
         special={phase.opened.special}
         clubsById={game.clubsById}
         remaining={available}
-        onOpenAnother={open}
+        onOpenAnother={() => open()}
         onBack={() => setPhase({ step: "idle" })}
       />
     );
@@ -104,10 +104,24 @@ function BoosterFlow({ game }: { readonly game: ReadyGame }) {
           {isSpent ? (
             <h2 className="text-2xl font-bold">Réserve vide</h2>
           ) : (
-            <Button size="lg" block onClick={open} disabled={isOpening}>
+            <Button size="lg" block onClick={() => open()} disabled={isOpening}>
               {isOpening ? "Ouverture…" : "Ouvrir le booster"}
             </Button>
           )}
+
+          {game.vip.booster.status === "ready" ? (
+            <Button
+              size="lg"
+              block
+              variant="secondary"
+              onClick={() => open(game.openVipBooster)}
+              disabled={isOpening}
+              className="border-gold/60 text-gold"
+            >
+              <Crown aria-hidden className="size-5" />
+              Ouvrir le booster VIP
+            </Button>
+          ) : null}
 
           <NextBoosterCountdown
             nextFreeAt={game.boosters.nextFreeAt}

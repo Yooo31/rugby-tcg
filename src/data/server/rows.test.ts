@@ -19,7 +19,7 @@ const NEW_PLAYER: PlayerRows = {
     cardBack: null,
     cardFrame: null,
     albumTheme: null,
-    vipBoosterDay: null,
+    vipBoosterAt: null,
   },
   ownedCards: [],
   ownedSpecialCards: [],
@@ -46,7 +46,7 @@ const PLAYING: PlayerRows = {
     cardBack: "back-night",
     cardFrame: null,
     albumTheme: "theme-pitch",
-    vipBoosterDay: "2026-10-21",
+    vipBoosterAt: since,
   },
   ownedCards: [
     { clubId: "castres", rarity: "rare", count: 2, firstObtainedAt: since },
@@ -121,7 +121,7 @@ describe("recordFromRows", () => {
           endsAt: Date.parse("2026-11-21T08:00:00Z"),
         },
       ],
-      vipBoosterDay: "2026-10-21",
+      vipBoosterAt: since.getTime(),
     });
   });
 
@@ -210,7 +210,7 @@ describe("recordChanges", () => {
       season: { ...before.season!, xp: 70, claimedFree: [1] },
       seasonPasses: ["s1"],
       vipMemberships: before.vipMemberships,
-      vipBoosterDay: "2026-10-22",
+      vipBoosterAt: since.getTime() + 1,
     };
 
     expect(recordChanges(before, after)).toEqual({
@@ -225,7 +225,7 @@ describe("recordChanges", () => {
         cardBack: "back-night",
         cardFrame: "frame-stitch",
         albumTheme: "theme-pitch",
-        vipBoosterDay: "2026-10-22",
+        vipBoosterAt: new Date(since.getTime() + 1),
       },
       cards: [
         { clubId: "castres", rarity: "rare", count: 3, firstObtainedAt: since },
@@ -263,7 +263,7 @@ describe("recordChanges", () => {
       cardBack: "back-pitch",
       cardFrame: "frame-plain",
       albumTheme: "theme-night",
-      vipBoosterDay: null,
+      vipBoosterAt: null,
     });
   });
 });

@@ -1,14 +1,12 @@
 import { z } from "zod";
-import { PREMIUM_MAX_FREE_BOOSTERS } from "./booster";
 import {
-  RewardNotClaimableError,
-  type Reward,
-  type RewardStatus,
-} from "./reward";
+  BoosterQuotaExceededError,
+  PREMIUM_MAX_FREE_BOOSTERS,
+} from "./booster";
 
 /**
  * Pass VIP (voir docs/economie.md, section 3.1) : une réserve de boosters
- * gratuits plus grande, un booster VIP par jour, deux missions de plus, un
+ * gratuits plus grande, un booster VIP sans commune toutes les 48 heures, deux missions de plus, un
  * badge. Le statut se vérifie côté serveur, d'après des périodes d'adhésion
  * (achat, ou don de l'administration pour les tests).
  */
@@ -21,9 +19,6 @@ export type VipOffer = (typeof VIP_OFFERS)[number];
 
 /** Réserve de boosters gratuits d'un VIP. */
 export const VIP_MAX_FREE_BOOSTERS = PREMIUM_MAX_FREE_BOOSTERS;
-
-/** Booster VIP du jour. */
-const VIP_DAILY_REWARD: Reward = { ingots: 0, boosters: 1 };
 
 /** Jours offerts par l'administration (tests, geste commercial). */
 export const VIP_GRANT_DAYS = 30;
@@ -75,42 +70,49 @@ export function extendVip(
   return { startsAt, endsAt: startsAt + days * DAY_MS };
 }
 
+/** Un booster VIP toutes les 48 heures. */
+export const VIP_BOOSTER_INTERVAL_MS = 48 * 60 * 60 * 1000;
+
+/** Booster VIP : verrouillé sans pass, prêt, ou en attente jusqu'à `readyAt`. */
+export type VipBoosterState =
+  | { readonly status: "locked"; readonly readyAt: null }
+  | { readonly status: "ready"; readonly readyAt: null }
+  | { readonly status: "waiting"; readonly readyAt: number };
+
 /** Statut VIP du joueur, vu par lui. */
 export interface VipStatus {
   readonly isActive: boolean;
   /** Fin de l'adhésion en cours. */
   readonly until: number | null;
-  /** Booster VIP du jour : verrouillé sans VIP, puis à prendre ou pris. */
-  readonly dailyBooster: RewardStatus;
+  readonly booster: VipBoosterState;
 }
 
 export function vipStatus(
   memberships: readonly VipMembership[],
-  lastBoosterDay: string | null,
-  today: string,
+  lastVipBoosterAt: number | null,
   now: number,
 ): VipStatus {
   const until = vipUntil(memberships, now);
   const isActive = until !== null;
-  return {
-    isActive,
-    until,
-    dailyBooster: !isActive
-      ? "locked"
-      : lastBoosterDay === today
-        ? "claimed"
-        : "claimable",
-  };
+  const readyAt =
+    lastVipBoosterAt === null
+      ? null
+      : lastVipBoosterAt + VIP_BOOSTER_INTERVAL_MS;
+  const booster: VipBoosterState = !isActive
+    ? { status: "locked", readyAt: null }
+    : readyAt === null || readyAt <= now
+      ? { status: "ready", readyAt: null }
+      : { status: "waiting", readyAt };
+  return { isActive, until, booster };
 }
 
-/** Récupère le booster VIP du jour ; erreur hors VIP ou s'il est déjà pris. */
-export function claimVipBooster(
+/** Prend le booster VIP : renvoie l'instant à retenir pour les 48 h suivantes. */
+export function takeVipBooster(
   memberships: readonly VipMembership[],
-  lastBoosterDay: string | null,
-  today: string,
+  lastVipBoosterAt: number | null,
   now: number,
-): { readonly day: string; readonly reward: Reward } {
-  const status = vipStatus(memberships, lastBoosterDay, today, now);
-  if (status.dailyBooster !== "claimable") throw new RewardNotClaimableError();
-  return { day: today, reward: VIP_DAILY_REWARD };
+): number {
+  if (vipStatus(memberships, lastVipBoosterAt, now).booster.status !== "ready")
+    throw new BoosterQuotaExceededError();
+  return now;
 }

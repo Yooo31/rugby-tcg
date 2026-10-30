@@ -34,7 +34,7 @@ function Thanks({ game }: { readonly game: ReadyGame }) {
         <CheckCircle2 aria-hidden className="text-pitch size-10" />
         <p className="text-pretty">
           Paiement reçu. Votre achat arrive sur votre compte dans quelques
-          secondes ; Stripe vous envoie le reçu par e-mail.
+          secondes.
         </p>
         <dl className="grid grid-cols-2 gap-3">
           <div>

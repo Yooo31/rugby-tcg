@@ -1,8 +1,9 @@
-import { RewardNotClaimableError } from "./reward";
+import { BoosterQuotaExceededError } from "./booster";
 import {
-  claimVipBooster,
   extendVip,
   getVipOffer,
+  takeVipBooster,
+  VIP_BOOSTER_INTERVAL_MS,
   VIP_MAX_FREE_BOOSTERS,
   VIP_OFFERS,
   vipStatus,
@@ -44,31 +45,30 @@ describe("pass VIP", () => {
     });
   });
 
-  it("offre un booster par jour à un VIP, à prendre le jour même", () => {
-    expect(vipStatus([], null, "2026-11-15", now).dailyBooster).toBe("locked");
-    expect(vipStatus([membership], null, "2026-11-15", now)).toEqual({
+  it("ouvre un booster VIP toutes les 48 heures, jamais sans pass", () => {
+    expect(vipStatus([], null, now).booster).toEqual({
+      status: "locked",
+      readyAt: null,
+    });
+    expect(vipStatus([membership], null, now)).toEqual({
       isActive: true,
       until: membership.endsAt,
-      dailyBooster: "claimable",
+      booster: { status: "ready", readyAt: null },
     });
-    expect(
-      vipStatus([membership], "2026-11-15", "2026-11-15", now).dailyBooster,
-    ).toBe("claimed");
-    expect(
-      vipStatus([membership], "2026-11-14", "2026-11-15", now).dailyBooster,
-    ).toBe("claimable");
-  });
-
-  it("récupère le booster une fois, et jamais sans VIP", () => {
-    expect(claimVipBooster([membership], null, "2026-11-15", now)).toEqual({
-      day: "2026-11-15",
-      reward: { ingots: 0, boosters: 1 },
+    const opened = takeVipBooster([membership], null, now);
+    expect(vipStatus([membership], opened, now + DAY_MS).booster).toEqual({
+      status: "waiting",
+      readyAt: now + VIP_BOOSTER_INTERVAL_MS,
     });
-    expect(() =>
-      claimVipBooster([membership], "2026-11-15", "2026-11-15", now),
-    ).toThrow(RewardNotClaimableError);
-    expect(() => claimVipBooster([], null, "2026-11-15", now)).toThrow(
-      RewardNotClaimableError,
+    expect(() => takeVipBooster([membership], opened, now + DAY_MS)).toThrow(
+      BoosterQuotaExceededError,
+    );
+    expect(
+      vipStatus([membership], opened, now + VIP_BOOSTER_INTERVAL_MS).booster
+        .status,
+    ).toBe("ready");
+    expect(() => takeVipBooster([], null, now)).toThrow(
+      BoosterQuotaExceededError,
     );
   });
 });

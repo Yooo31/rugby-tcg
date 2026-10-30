@@ -405,20 +405,23 @@ describe("pass VIP (mock)", () => {
     );
     expect(snapshot.vip).toMatchObject({
       isActive: true,
-      dailyBooster: "claimable",
+      booster: { status: "ready" },
     });
   });
 
-  it("donne un booster VIP par jour, perdu s'il n'est pas pris", async () => {
+  it("ouvre un booster VIP sans commune, puis attend 48 heures", async () => {
     const { player, setNow } = setup({ vipMemberships });
-    const claimed = await player.claimVipBooster();
-    expect(claimed.boosters.bonus).toBe(1);
-    expect(claimed.vip.dailyBooster).toBe("claimed");
-    await expect(player.claimVipBooster()).rejects.toBeInstanceOf(
-      RewardNotClaimableError,
+    const opening = await player.openVipBooster();
+    expect(opening.cards).toHaveLength(BOOSTER_SIZE);
+    expect(opening.cards.some(({ rarity }) => rarity === "common")).toBe(false);
+    // Les boosters gratuits ne sont pas touchés.
+    expect(opening.player.boosters.free).toBe(VIP_MAX_FREE_BOOSTERS);
+    expect(opening.player.vip.booster.status).toBe("waiting");
+    await expect(player.openVipBooster()).rejects.toBeInstanceOf(
+      BoosterQuotaExceededError,
     );
-    setNow("2026-10-14T09:00:00");
-    expect((await player.get()).vip.dailyBooster).toBe("claimable");
+    setNow("2026-10-15T09:00:00");
+    expect((await player.get()).vip.booster.status).toBe("ready");
   });
 
   it("revient à la réserve de 3 et refuse le booster VIP à la fin", async () => {
@@ -428,8 +431,8 @@ describe("pass VIP (mock)", () => {
     expect(snapshot.vip.isActive).toBe(false);
     expect(snapshot.boosters.free).toBe(MAX_FREE_BOOSTERS);
     expect(snapshot.missions).toHaveLength(DAILY_MISSION_COUNT);
-    await expect(player.claimVipBooster()).rejects.toBeInstanceOf(
-      RewardNotClaimableError,
+    await expect(player.openVipBooster()).rejects.toBeInstanceOf(
+      BoosterQuotaExceededError,
     );
   });
 });

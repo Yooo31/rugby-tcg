@@ -21,15 +21,22 @@ export function atLeastOnePerBooster(odds: number): number {
   return 1 - (1 - odds) ** BOOSTER_SIZE;
 }
 
-export function rollRarity(rng: Rng): Rarity {
+/** Probabilités d'une carte : une part par rareté possible, de somme 1. */
+export type RarityOdds = Partial<Record<Rarity, number>>;
+
+export function rollRarity(rng: Rng, odds: RarityOdds = RARITY_ODDS): Rarity {
   const roll = rng();
   let cumulated = 0;
+  let fallback: Rarity | null = null;
   for (const { id } of RARITIES) {
-    cumulated += RARITY_ODDS[id];
+    const part = odds[id] ?? 0;
+    if (part <= 0) continue;
+    fallback ??= id;
+    cumulated += part;
     if (roll < cumulated) return id;
   }
-  // Garde-fou contre les erreurs d'arrondi sur la somme des probabilités.
-  return "common";
+  // Garde-fou contre les erreurs d'arrondi : la plus courante des raretés possibles.
+  return fallback ?? "common";
 }
 
 /**
@@ -40,6 +47,7 @@ export function drawBooster(
   clubs: readonly Club[],
   rng: Rng,
   size = BOOSTER_SIZE,
+  oddsOfSlot: (slot: number) => RarityOdds = () => RARITY_ODDS,
 ): Card[] {
   if (clubs.length < size) {
     throw new Error(`Il faut au moins ${size} clubs pour composer un booster.`);
@@ -49,9 +57,28 @@ export function drawBooster(
   for (let slot = 0; slot < size; slot += 1) {
     const index = Math.floor(rng() * pool.length);
     const [club] = pool.splice(index, 1);
-    cards.push({ clubId: club.id, rarity: rollRarity(rng) });
+    cards.push({ clubId: club.id, rarity: rollRarity(rng, oddsOfSlot(slot)) });
   }
   return cards;
+}
+
+/**
+ * Booster VIP : aucune carte commune. La première carte est au moins
+ * épique ; les autres sont rares, avec plus de chances d'épique et de
+ * légendaire qu'un booster normal (docs/economie.md, section 3.1).
+ */
+export const VIP_GUARANTEED_ODDS: RarityOdds = { epic: 0.95, legendary: 0.05 };
+export const VIP_SLOT_ODDS: RarityOdds = {
+  rare: 0.75,
+  epic: 0.2,
+  legendary: 0.05,
+};
+
+/** Tire un booster VIP : mêmes clubs tous différents, autres probabilités. */
+export function drawVipBooster(clubs: readonly Club[], rng: Rng): Card[] {
+  return drawBooster(clubs, rng, BOOSTER_SIZE, (slot) =>
+    slot === 0 ? VIP_GUARANTEED_ODDS : VIP_SLOT_ODDS,
+  );
 }
 
 /** Nombre de boosters gratuits que la réserve d'un joueur peut contenir. */
