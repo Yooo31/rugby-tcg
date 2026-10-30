@@ -4,7 +4,9 @@ CREATE TABLE "ingot_flows" (
     "earned" INTEGER NOT NULL DEFAULT 0,
     "spent" INTEGER NOT NULL DEFAULT 0,
 
-    CONSTRAINT "ingot_flows_pkey" PRIMARY KEY ("day")
+    CONSTRAINT "ingot_flows_pkey" PRIMARY KEY ("day"),
+    CONSTRAINT "ingot_flows_earned_check" CHECK ("earned" >= 0),
+    CONSTRAINT "ingot_flows_spent_check" CHECK ("spent" >= 0)
 );
 
 -- Sécurité au niveau des lignes : activée, sans règle (voir CLAUDE.md).

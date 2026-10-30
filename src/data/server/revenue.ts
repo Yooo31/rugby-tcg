@@ -56,7 +56,7 @@ export interface RevenueData {
   readonly activeVip: number;
   /** Joueurs ayant payé au moins une fois (pour la rétention). */
   readonly payerIds: ReadonlySet<string>;
-  /** Boosters ouverts par les joueurs gratuits sur la fenêtre, et combien d'entre eux. */
+  /** Boosters gratuits ouverts par les joueurs gratuits sur la fenêtre, et combien d'entre eux. */
   readonly freeRhythm: {
     readonly days: number;
     readonly openings: number;
@@ -196,7 +196,7 @@ export async function revenueData(
       { openings: number; players: number }[]
     >`SELECT count(*)::int AS openings, count(DISTINCT player_id)::int AS players
      FROM booster_openings b
-     WHERE opened_at >= ${since}
+     WHERE opened_at >= ${since} AND opened_at < ${now} AND source = 'free'
        AND NOT EXISTS (
          SELECT 1 FROM (${PURCHASES}) p
          WHERE p.player_id = b.player_id AND p.refunded_at IS NULL

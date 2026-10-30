@@ -676,6 +676,9 @@ const MAX_FREE_BOOSTERS_PER_WEEK = Math.floor(
   (7 * 24 * 60 * 60 * 1000) / BOOSTER_REFILL_MS,
 );
 
+const COUNT = new Intl.NumberFormat("fr-FR");
+const formatCount = (value: number) => COUNT.format(value);
+
 const percent = (value: number | null) =>
   value === null ? "–" : formatPercent(value, 1);
 const euros = (cents: number | null) =>
@@ -817,10 +820,10 @@ export async function AdminRevenuePage() {
           boosters et cosmétiques. Compteur tenu depuis l&apos;arrivée de cet
           écran.
         </p>
-        <dl className="grid grid-cols-3 gap-3">
-          <Stat label="Achetés" value={current.ingotsBought} />
-          <Stat label="Gagnés" value={current.ingotsEarned} />
-          <Stat label="Dépensés" value={current.ingotsSpent} />
+        <dl className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <Stat label="Achetés" value={formatCount(current.ingotsBought)} />
+          <Stat label="Gagnés" value={formatCount(current.ingotsEarned)} />
+          <Stat label="Dépensés" value={formatCount(current.ingotsSpent)} />
         </dl>
       </Section>
 
@@ -853,8 +856,8 @@ export async function AdminRevenuePage() {
 
       <Section title="Rythme des joueurs gratuits">
         <p className="text-chalk-muted text-sm text-pretty">
-          Boosters ouverts par joueur gratuit actif et par semaine, sur les{" "}
-          {data.freeRhythm.days} derniers jours ({data.freeRhythm.players}{" "}
+          Boosters gratuits ouverts par joueur gratuit actif et par semaine, sur
+          les {data.freeRhythm.days} derniers jours ({data.freeRhythm.players}{" "}
           joueurs). Le jeu gratuit en permet {MAX_FREE_BOOSTERS_PER_WEEK} au
           plus, hors récompenses.
         </p>

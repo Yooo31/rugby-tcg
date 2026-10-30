@@ -123,4 +123,20 @@ describe("indicateurs de revenu", () => {
     expect(data.mrrCents).toBe(Math.round((4_999 * 30) / 365));
     expect(data.activeVip).toBe(1);
   });
+
+  it("ne compte que les boosters gratuits des joueurs gratuits dans leur rythme", async () => {
+    const playerId = await newPlayer();
+    const now = new Date("2003-06-15T00:00:00Z");
+    for (const source of ["free", "free", "bonus"])
+      await prisma.boosterOpening.create({
+        data: {
+          playerId,
+          source,
+          cards: [],
+          openedAt: new Date("2003-06-10T12:00:00Z"),
+        },
+      });
+    const data = await revenueData(prisma, [], now);
+    expect(data.freeRhythm).toEqual({ days: 28, openings: 2, players: 1 });
+  });
 });
