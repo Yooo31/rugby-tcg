@@ -127,4 +127,12 @@ describe("notifications", () => {
     ).toEqual([]);
     expect(BOOSTER_REFILL_MS).toBe(4 * 3_600_000);
   });
+
+  it("plafonne les boosters gratuits à la réserve, après un pass VIP", () => {
+    const formerVip = {
+      ...base,
+      reserve: { count: 5, since: at("09:00").getTime() },
+    };
+    expect(boostersToOpen(formerVip, at("20:00"))).toBe(3);
+  });
 });

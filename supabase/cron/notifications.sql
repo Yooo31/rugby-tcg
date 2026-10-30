@@ -12,9 +12,9 @@
 
 CREATE EXTENSION IF NOT EXISTS pg_cron;
 -- Hors du schéma public (alerte de sécurité Supabase) ; ses fonctions restent
--- dans le schéma `net`.
-DROP EXTENSION IF EXISTS pg_net;
-CREATE EXTENSION pg_net WITH SCHEMA extensions;
+-- dans le schéma `net`. Jamais supprimée au rejeu : les appels en attente
+-- seraient perdus.
+CREATE EXTENSION IF NOT EXISTS pg_net WITH SCHEMA extensions;
 
 SELECT cron.unschedule('notifications')
 WHERE EXISTS (SELECT 1 FROM cron.job WHERE jobname = 'notifications');

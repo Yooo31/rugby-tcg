@@ -112,4 +112,24 @@ describe("notifications en base", () => {
       await prisma.pushSubscription.count({ where: { playerId: id } }),
     ).toBe(0);
   });
+
+  it("n'envoie qu'une fois le même rappel, même lancé deux fois en même temps", async () => {
+    const id = await subscribedPlayer("double");
+    await prisma.player.update({
+      where: { id },
+      data: { reserveCount: 1, reserveSince: new Date("2026-10-23T17:00:00Z") },
+    });
+    const sent: string[] = [];
+    const send: PushSender = async (_target, message) => {
+      sent.push(message.title);
+      return "sent";
+    };
+    // 20 h 30 à Paris : rappel du soir.
+    const evening = new Date("2026-10-23T18:30:00Z");
+    await Promise.all([
+      sendDueNotifications(prisma, send, evening),
+      sendDueNotifications(prisma, send, evening),
+    ]);
+    expect(sent).toEqual(["Il vous reste 1 booster à ouvrir"]);
+  });
 });

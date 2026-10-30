@@ -54,7 +54,8 @@ function refills(
     Math.max(0, Math.floor((now - reserve.since) / BOOSTER_REFILL_MS)),
   );
   return {
-    free: reserve.count + count,
+    // Une réserve gardée d'un ancien pass VIP ne compte que jusqu'au plafond.
+    free: Math.min(max, reserve.count + count),
     lastAt: count > 0 ? reserve.since + count * BOOSTER_REFILL_MS : null,
   };
 }

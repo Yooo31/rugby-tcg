@@ -67,7 +67,11 @@ export function notifiedFields(
   const announcesBoosters =
     due.includes("booster-ready") || due.includes("evening-boosters");
   return {
-    ...(announcesBoosters && refilledAt !== null
+    // Le marqueur n'avance que : il ne recule pas quand la réserve rétrécit
+    // (fin d'un pass VIP).
+    ...(announcesBoosters &&
+    refilledAt !== null &&
+    (state.notifiedBoosterAt === null || refilledAt > state.notifiedBoosterAt)
       ? { notifiedBoosterAt: new Date(refilledAt) }
       : {}),
     ...(due.includes("evening-boosters")

@@ -69,4 +69,15 @@ describe("état de notification d'un joueur", () => {
     });
     expect(notifiedFields([], state, now)).toEqual({});
   });
+
+  it("ne fait jamais reculer le dernier booster annoncé", () => {
+    const later = new Date(now.getTime() + BOOSTER_REFILL_MS);
+    const state = notificationStateOf(
+      { ...row, notifiedBoosterAt: later },
+      now,
+    );
+    expect(notifiedFields(["evening-boosters"], state, now)).toEqual({
+      notifiedEveningDay: "2026-10-23",
+    });
+  });
 });
