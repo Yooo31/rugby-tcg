@@ -94,3 +94,27 @@ export function parisHour(date: Date): number {
   );
   return Number(hour?.value ?? 0);
 }
+
+/**
+ * Mois (heure de Paris) contenant le jour `dayKey`, décalé de `offset` mois :
+ * sa clé AAAA-MM et ses bornes (début inclus, fin exclue, ms Unix).
+ */
+export function parisMonth(
+  dayKey: string,
+  offset = 0,
+): { readonly key: string; readonly start: number; readonly end: number } {
+  const match = DAY_KEY_PATTERN.exec(dayKey);
+  if (!match) throw new Error(`Jour invalide : ${dayKey}`);
+  const first = new Date(
+    Date.UTC(Number(match[1]), Number(match[2]) - 1 + offset, 1),
+  );
+  const next = new Date(
+    Date.UTC(first.getUTCFullYear(), first.getUTCMonth() + 1, 1),
+  );
+  const key = first.toISOString().slice(0, 7);
+  return {
+    key,
+    start: parisMidnight(`${key}-01`)!,
+    end: parisMidnight(toUtcDayKey(next.getTime()))!,
+  };
+}

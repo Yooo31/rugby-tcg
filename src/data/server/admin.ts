@@ -424,7 +424,11 @@ const ACTIVITY_WINDOW_DAYS = 60;
 
 export interface ActivityData {
   /** Par joueur : jour d'inscription et jours de jeu (heure de Paris). */
-  readonly players: readonly { signupDay: string; activeDays: Set<string> }[];
+  readonly players: readonly {
+    id: string;
+    signupDay: string;
+    activeDays: Set<string>;
+  }[];
   /** Par jour : joueurs actifs et boosters ouverts. */
   readonly daily: readonly { day: string; players: number; openings: number }[];
 }
@@ -468,6 +472,7 @@ export async function activityData(
   }
   return {
     players: signups.map((row) => ({
+      id: row.id,
       signupDay: row.day,
       activeDays: daysByPlayer.get(row.id) ?? new Set<string>(),
     })),

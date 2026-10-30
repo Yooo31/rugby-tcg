@@ -90,7 +90,7 @@ describe("mise en forme", () => {
     expect(formatDateTime(Date.UTC(2026, 9, 22, 22))).toMatch(
       /23 oct\. 2026.*00:00/,
     );
-    expect(formatPercent(1, 3)).toBe("33,3 %");
+    expect(formatPercent(1, 3)).toBe("33,3\u00a0%");
     expect(formatPercent(1, 0)).toBe("–");
     expect(formatDay("2026-10-22")).toBe("jeu. 22 oct.");
   });

@@ -14,7 +14,8 @@ export function formatDateTime(instant: Date | number): string {
 /** Part en pourcentage, une décimale ; « – » sans dénominateur. */
 export function formatPercent(part: number, total: number): string {
   if (total === 0) return "–";
-  return `${((part / total) * 100).toFixed(1).replace(".", ",")} %`;
+  // Espace insécable : « % » ne passe jamais seul à la ligne.
+  return `${((part / total) * 100).toFixed(1).replace(".", ",")}\u00a0%`;
 }
 
 const DAY = new Intl.DateTimeFormat("fr-FR", {

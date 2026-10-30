@@ -113,6 +113,19 @@ export const adminData = {
     admin.endSeason(prisma, seasonId, new Date()),
   grantSeasonPass: (playerId: string, seasonId: string, adminEmail: string) =>
     admin.grantSeasonPass(prisma, playerId, seasonId, adminEmail),
+  /** Indicateurs de revenu du mois en cours et du précédent (heure de Paris). */
+  revenueData: () => {
+    const now = new Date();
+    const today = toDayKey(now);
+    const months = [parisMonth(today), parisMonth(today, -1)].map(
+      ({ key, start, end }) => ({
+        key,
+        start: new Date(start),
+        end: new Date(end),
+      }),
+    );
+    return revenue.revenueData(prisma, months, now);
+  },
   grantVip: (playerId: string, adminEmail: string) =>
     admin.grantVip(prisma, playerId, adminEmail, new Date()),
 };
@@ -127,6 +140,8 @@ export const paymentData = {
   revoke: (reference: string) => purchases.revokePurchase(prisma, reference),
 };
 import * as purchases from "./purchases";
+import * as revenue from "./revenue";
+import { parisMonth, toDayKey } from "@/lib/dates";
 
 /** Suppression et export d'un compte (RGPD) : `userId` vient de la session vérifiée. */
 export const accountData = {

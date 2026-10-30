@@ -4,6 +4,7 @@ import {
   parisHour,
   parisMidnight,
   toDayKey,
+  parisMonth,
 } from "./dates";
 import { formatCountdown } from "./duration";
 import { createSeededRng, hashString, secureRng } from "./rng";
@@ -128,5 +129,18 @@ describe("formatCountdown", () => {
   it("omet les heures sous une heure et ne descend jamais sous zéro", () => {
     expect(formatCountdown(14 * 60_000 + 5_999)).toBe("14:05");
     expect(formatCountdown(-500)).toBe("00:00");
+  });
+});
+
+describe("parisMonth", () => {
+  it("donne le mois de Paris et ses bornes, changement d'heure compris", () => {
+    expect(parisMonth("2026-10-30")).toEqual({
+      key: "2026-10",
+      start: Date.parse("2026-09-30T22:00:00Z"),
+      end: Date.parse("2026-10-31T23:00:00Z"),
+    });
+    expect(parisMonth("2026-01-15", -1).key).toBe("2025-12");
+    expect(parisMonth("2026-12-01", 1).key).toBe("2027-01");
+    expect(() => parisMonth("pas-une-date")).toThrow();
   });
 });

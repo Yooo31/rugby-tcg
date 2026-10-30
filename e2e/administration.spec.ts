@@ -23,4 +23,12 @@ test("un administrateur voit le tableau de bord", async ({
   await page.goto("/admin");
   await expect(page.getByText("Joueurs et ouvertures")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Rétention" })).toBeVisible();
+
+  await page.getByRole("link", { name: "Revenus" }).click();
+  await expect(
+    page.getByRole("heading", { name: /^Revenu du mois/ }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Scénarios de economie.md" }),
+  ).toBeVisible();
 });

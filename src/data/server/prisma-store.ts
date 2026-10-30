@@ -6,7 +6,13 @@ import type {
   PlayerRecord,
   PlayerStore,
 } from "../player/repository";
-import { recordChanges, recordFromRows, type PlayerWrites } from "./rows";
+import { toDayKey } from "@/lib/dates";
+import {
+  ingotFlow,
+  recordChanges,
+  recordFromRows,
+  type PlayerWrites,
+} from "./rows";
 
 type Db = PrismaClient | Prisma.TransactionClient;
 
@@ -231,6 +237,20 @@ async function saveEvents(
   }
 }
 
+/** Ajoute les lingots gagnés ou dépensés au total du jour (heure de Paris). */
+async function saveIngotFlow(
+  db: Prisma.TransactionClient,
+  flow: { readonly earned: number; readonly spent: number },
+): Promise<void> {
+  if (flow.earned === 0 && flow.spent === 0) return;
+  const day = toDayKey(new Date());
+  await db.$executeRaw`INSERT INTO ingot_flows (day, earned, spent)
+    VALUES (${day}, ${flow.earned}, ${flow.spent})
+    ON CONFLICT (day) DO UPDATE SET
+      earned = ingot_flows.earned + EXCLUDED.earned,
+      spent = ingot_flows.spent + EXCLUDED.spent`;
+}
+
 /**
  * État d'un joueur dans Postgres. Chaque action tourne dans une transaction
  * qui verrouille la ligne du joueur (`FOR UPDATE`) : deux requêtes simultanées
@@ -256,6 +276,7 @@ export function createPrismaPlayerStore(
           const { record, result, events = [] } = change(before);
           await saveWrites(tx, playerId, recordChanges(before, record));
           await saveEvents(tx, playerId, events);
+          await saveIngotFlow(tx, ingotFlow(before, record, events));
           return result;
         },
         { timeout: TRANSACTION_TIMEOUT_MS },

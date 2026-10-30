@@ -350,3 +350,15 @@ model VipMembership {
   @@index([playerId])
   @@map("vip_memberships")
 }
+
+/// Lingots gagnés (missions, albums, série, saison, cadeaux) et dépensés
+/// (boosters, cosmétiques) par jour, à l'heure de Paris : agrégats anonymes
+/// pour les indicateurs de l'admin. Les achats et les corrections de l'admin
+/// n'y figurent pas.
+model IngotFlow {
+  day    String @id
+  earned Int    @default(0)
+  spent  Int    @default(0)
+
+  @@map("ingot_flows")
+}
