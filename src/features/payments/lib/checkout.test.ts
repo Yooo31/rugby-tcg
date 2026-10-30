@@ -106,4 +106,15 @@ describe("paiement reçu", () => {
     };
     expect(paidPurchase(tooHigh, false)).toEqual({ rejected: "wrong-amount" });
   });
+
+  it("crédite au prix normal un paiement ouvert avant l'arrivée des promotions", () => {
+    const older = {
+      playerId: PLAYER,
+      kind: "vip",
+      productId: "vip-month",
+    };
+    expect(paidPurchase({ ...paid, metadata: older }, false)).toMatchObject({
+      priceCents: 599,
+    });
+  });
 });
