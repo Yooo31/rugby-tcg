@@ -80,6 +80,7 @@ src/
     notifications/ abonnement Web Push, tâche planifiée d'envoi
     legal/        confidentialité et mentions légales (pages publiques)
     home/         accueil (cadeaux du moment, accès au classement)
+    install/      « Installer l'application » : invite native (Android, Chrome) ou marche à suivre (iPhone)
   lib/            utilitaires transverses purs (rng, dates, duration, cn)
   test/           setup et fabriques de test
 ```
@@ -155,6 +156,7 @@ Sens des dépendances : `app → features → (domain, data, components, lib)` ;
 
 - Mobile d'abord, cibles tactiles ≥ 44 px, pas de défilement horizontal de page, encoches respectées (`pb-safe-nav`).
 - Tout effet animé respecte `prefers-reduced-motion`.
+- **Installer l'application** (`InstallAppCard`) : sur l'accueil (masquable, choix gardé sur l'appareil) et dans Compte. Invite native quand le navigateur en fournit une (`beforeinstallprompt`, gardée dès le chargement), marche à suivre sur iPhone et iPad (Partager → Sur l'écran d'accueil, condition des notifications), rien une fois le jeu ouvert en mode application.
 - Chaque carte porte un nom accessible complet (club, division, puissance, rareté).
 
 ## Économie
