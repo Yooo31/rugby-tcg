@@ -32,8 +32,8 @@
     "clubs:ffr": "tsx scripts/import-clubs/ffr-import.ts"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.10.0",
-    "@prisma/client": "^7.10.0",
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
     "@sentry/nextjs": "11.9.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.117.3",
@@ -77,7 +77,7 @@
     "lint-staged": "^17.6.0",
     "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.8.1",
-    "prisma": "7.10.0",
+    "prisma": "7.10.1",
     "semantic-release": "^25.0.9",
     "supabase": "2.122.0",
     "tailwindcss": "^4",
