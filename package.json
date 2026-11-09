@@ -79,7 +79,7 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "prisma": "7.10.1",
     "semantic-release": "^25.0.9",
-    "supabase": "2.122.0",
+    "supabase": "3.0.0",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
     "typescript": "^5",
